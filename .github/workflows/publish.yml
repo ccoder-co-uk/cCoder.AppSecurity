@@ -43,7 +43,7 @@ jobs:
         run: dotnet build cCoder.AppSecurity.sln -c Release --no-restore /p:Version="${{ steps.version.outputs.value }}"
 
       - name: Test
-        run: dotnet test cCoder.AppSecurity.sln -c Release --no-build
+        run: dotnet test src/cCoder.AppSecurity.Tests/cCoder.AppSecurity.Tests.csproj -c Release --no-build
 
       - name: Pack
         run: |
