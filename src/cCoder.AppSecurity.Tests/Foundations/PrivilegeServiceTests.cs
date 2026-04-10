@@ -1,0 +1,69 @@
+using cCoder.AppSecurity.Models;
+using cCoder.Data.Models.CMS;
+using cCoder.Data.Models.Security;
+using cCoder.AppSecurity.Services.Foundations;
+using FizzWare.NBuilder;
+using Moq;
+using DataPrivilege = cCoder.Data.Models.Security.Privilege;
+using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
+using IPrivilegeBroker = cCoder.AppSecurity.Brokers.IPrivilegeBroker;
+
+
+namespace cCoder.Core.Services.Tests.Security.Foundations;
+
+public partial class PrivilegeServiceTests
+{
+    private readonly Mock<IPrivilegeBroker> privilegeBrokerMock;
+    private readonly Mock<IAuthorizationBroker> authorizationBrokerMock;
+    private readonly PrivilegeService privilegeService;
+
+    public PrivilegeServiceTests()
+    {
+        privilegeBrokerMock = new Mock<IPrivilegeBroker>(MockBehavior.Strict);
+        authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
+        privilegeService = new PrivilegeService(
+            privilegeBrokerMock.Object,
+            authorizationBrokerMock.Object
+        );
+    }
+
+    private static Privilege CreateRandomPrivilege(string id = null)
+    {
+        Privilege privilege = Builder<Privilege>
+            .CreateNew()
+            .With(x => x.Id = id ?? $"privilege-{Guid.NewGuid():N}")
+            .With(x => x.Type = "page")
+            .With(x => x.Operation = "read")
+            .With(x => x.Description = $"Description-{Guid.NewGuid():N}")
+            .With(x => x.PortalAdminsOnly = false)
+            .Build();
+
+        return privilege;
+    }
+
+    private static DataPrivilege ToExternalPrivilege(Privilege item) =>
+        item == null
+            ? null
+            : new DataPrivilege
+            {
+                Id = item.Id,
+                Type = item.Type,
+                Operation = item.Operation,
+                Description = item.Description,
+                PortalAdminsOnly = item.PortalAdminsOnly,
+            };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

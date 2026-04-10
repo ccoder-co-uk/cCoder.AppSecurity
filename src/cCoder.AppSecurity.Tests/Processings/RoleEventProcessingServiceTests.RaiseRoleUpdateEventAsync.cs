@@ -1,0 +1,36 @@
+using cCoder.AppSecurity.Models;
+using cCoder.Data.Models.CMS;
+using cCoder.Data.Models.Security;
+using Moq;
+using Xunit;
+
+
+namespace cCoder.Core.Services.Tests.Security.Processings;
+
+public partial class RoleEventProcessingServiceTests
+{
+    [Fact]
+    public async Task ShouldPassThroughCallWhenRaiseRoleUpdateEventAsync()
+    {
+        // Given
+        Role entity = CreateRandomRole();
+        roleEventServiceMock
+            .Setup(x => x.RaiseRoleUpdateEventAsync(entity))
+            .Returns(ValueTask.CompletedTask);
+
+        // When
+        await service.RaiseRoleUpdateEventAsync(entity);
+
+        // Then
+        roleEventServiceMock.Verify(x => x.RaiseRoleUpdateEventAsync(entity), Times.Once);
+        roleEventServiceMock.VerifyNoOtherCalls();
+    }
+
+}
+
+
+
+
+
+
+

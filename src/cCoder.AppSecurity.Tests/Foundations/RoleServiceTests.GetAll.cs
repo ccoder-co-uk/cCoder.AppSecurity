@@ -1,0 +1,49 @@
+using cCoder.AppSecurity.Models;
+using cCoder.Data.Models.CMS;
+using cCoder.Data.Models.Security;
+using FluentAssertions;
+using Moq;
+using Xunit;
+using DataRole = cCoder.Data.Models.Security.Role;
+
+
+namespace cCoder.Core.Services.Tests.Security.Foundations;
+
+public partial class RoleServiceTests
+{
+    [Fact]
+    public void ShouldDelegateToBrokerWhenGetAll()
+    {
+        // Given
+        Role role = CreateRandomRole();
+        IQueryable<DataRole> roles = new[] { ToExternalRole(role) }.AsQueryable();
+
+        roleBrokerMock.Setup(x => x.GetAllRoles(false)).Returns(roles);
+
+        // When
+        IQueryable<Role> result = roleService.GetAll();
+
+        // Then
+        result.Should().ContainSingle().Which.Should().BeEquivalentTo(
+            role,
+            options => options
+                .Excluding(candidate => candidate.App)
+                .Excluding(candidate => candidate.Pages)
+                .Excluding(candidate => candidate.Folders)
+                .Excluding(candidate => candidate.Users)
+        );
+        roleBrokerMock.Verify(x => x.GetAllRoles(false), Times.Once);
+        roleBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>()), Times.AtMostOnce());
+        roleBrokerMock.VerifyNoOtherCalls();
+        authorizationBrokerMock.VerifyNoOtherCalls();
+    }
+
+}
+
+
+
+
+
+
+
+

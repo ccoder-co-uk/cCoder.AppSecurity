@@ -1,0 +1,72 @@
+using cCoder.AppSecurity.Models;
+using cCoder.Data.Models.CMS;
+using cCoder.Data.Models.Security;
+using cCoder.Data;
+using EventLibrary.Models;
+using DataRole = cCoder.Data.Models.Security.Role;
+using DataUser = cCoder.Data.Models.Security.User;
+using DataUserRole = cCoder.Data.Models.Security.UserRole;
+using IUserRoleEventBroker = cCoder.AppSecurity.Brokers.Events.IUserRoleEventBroker;
+
+
+namespace cCoder.AppSecurity.Services.Foundations.Events;
+
+internal class UserRoleEventService(IUserRoleEventBroker userRoleEventBroker, ICoreAuthInfo authInfo)
+    : IUserRoleEventService
+{
+    public async ValueTask RaiseUserRoleAddEventAsync(UserRole entity)
+    {
+        EventMessage<DataUserRole> message = new()
+        {
+            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+            Data = ToExternalUserRole(entity),
+        };
+
+        await userRoleEventBroker.RaiseUserRoleAddEventAsync(message);
+    }
+
+    public async ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity)
+    {
+        EventMessage<DataUserRole> message = new()
+        {
+            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+            Data = ToExternalUserRole(entity),
+        };
+
+        await userRoleEventBroker.RaiseUserRoleDeleteEventAsync(message);
+    }
+
+    static DataUserRole ToExternalUserRole(UserRole item) =>
+        new()
+        {
+            RoleId = item.RoleId,
+            UserId = item.UserId,
+            User = item.User == null ? null : new DataUser
+            {
+                Id = item.User.Id,
+                DefaultCultureId = item.User.DefaultCultureId,
+                DisplayName = item.User.DisplayName,
+                Email = item.User.Email,
+                IsActive = item.User.IsActive,
+                DefaultCulture = item.User.DefaultCulture as cCoder.Data.Models.CMS.Culture,
+            },
+            Role = item.Role == null ? null : new DataRole
+            {
+                Id = item.Role.Id,
+                AppId = item.Role.AppId,
+                Name = item.Role.Name,
+                Description = item.Role.Description,
+                Privs = item.Role.Privs,
+            },
+        };
+}
+
+
+
+
+
+
+
+
+
+

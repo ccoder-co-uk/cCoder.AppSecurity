@@ -1,0 +1,52 @@
+using cCoder.AppSecurity.Models;
+using cCoder.Data.Models.CMS;
+using cCoder.Data.Models.Security;
+using EventLibrary.Models;
+using FluentAssertions;
+using Moq;
+using Xunit;
+
+
+namespace cCoder.Core.Services.Tests.Security.Foundations.Events;
+
+public partial class RoleEventServiceTests
+{
+    [Fact]
+    public async Task ShouldMapAndCallBrokerWhenRaiseRoleAddEventAsync()
+    {
+        // Given
+        Role entity = new();
+        EventMessage<cCoder.Data.Models.Security.Role> actualMessage = null;
+
+        roleEventBrokerMock
+            .Setup(x => x.RaiseRoleAddEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.Role>>()))
+            .Callback<EventMessage<cCoder.Data.Models.Security.Role>>(message => actualMessage = message)
+            .Returns(ValueTask.CompletedTask);
+
+        // When
+        await service.RaiseRoleAddEventAsync(entity);
+
+        // Then
+        actualMessage.Should().NotBeNull();
+        actualMessage!.Data.Should().BeEquivalentTo(
+            entity,
+            options => options.Excluding(candidate => candidate.Privileges)
+        );
+        actualMessage.AuthInfo.Should().NotBeNull();
+        actualMessage.AuthInfo.SSOUserId.Should().Be(CurrentUserId);
+        roleEventBrokerMock.Verify(
+            x => x.RaiseRoleAddEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.Role>>()),
+            Times.Once
+        );
+        roleEventBrokerMock.VerifyNoOtherCalls();
+    }
+
+}
+
+
+
+
+
+
+
+

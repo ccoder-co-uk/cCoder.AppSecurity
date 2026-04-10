@@ -1,0 +1,76 @@
+using cCoder.AppSecurity.Models;
+using cCoder.Data.Models.CMS;
+using cCoder.Data.Models.Security;
+using cCoder.AppSecurity.Services.Foundations;
+
+
+namespace cCoder.AppSecurity.Services.Processings;
+
+internal class RoleProcessingService(IRoleService service) : IRoleProcessingService
+{
+    public Role Get(Guid id) => service.Get(id);
+
+    public IQueryable<Role> GetAll(bool ignoreFilters = false) => service.GetAll(ignoreFilters);
+
+    public ValueTask<Role> AddAsync(Role entity) => service.AddAsync(entity);
+
+    public ValueTask<Role> AddValidatedAsync(Role entity) => service.AddValidatedAsync(entity);
+
+    public ValueTask<Role> UpdateAsync(Role entity) => service.UpdateAsync(entity);
+
+    public ValueTask<Role> UpdateValidatedAsync(Role entity) => service.UpdateValidatedAsync(entity);
+
+    public ValueTask DeleteAsync(Guid id) => service.DeleteAsync(id);
+
+    public async ValueTask<IEnumerable<Result<Role>>> AddOrUpdate(
+        IEnumerable<Role> items
+    )
+    {
+        List<Result<Role>> results = [];
+
+        foreach (Role item in items)
+        {
+            try
+            {
+                bool isAdd = item.Id == Guid.Empty;
+
+                results.Add(
+                    new Result<Role>
+                    {
+                        Success = true,
+                        Item = isAdd ? await AddAsync(item) : await UpdateAsync(item),
+                        Message = isAdd ? "Added Successfully" : "Updated Successfully",
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                results.Add(
+                    new Result<Role>
+                    {
+                        Success = false,
+                        Item = item,
+                        Message = ex.Message,
+                    }
+                );
+            }
+        }
+
+        return results;
+    }
+    public async ValueTask DeleteAllAsync(IEnumerable<Role> items)
+    {
+        foreach (Role item in items)
+            await DeleteAsync(item.Id);
+    }
+}
+
+
+
+
+
+
+
+
+
+
