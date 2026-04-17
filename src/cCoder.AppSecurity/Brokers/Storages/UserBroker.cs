@@ -75,9 +75,10 @@ public class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         return coreDataContext.UserRoles
+            .IgnoreQueryFilters()
 
             .Where(userRole => userRole.UserId == entity.Id)
-            .Join(coreDataContext.Roles,
+            .Join(coreDataContext.Roles.IgnoreQueryFilters(),
                 userRole => userRole.RoleId,
                 role => role.Id,
                 (userRole, role) => (int?)role.AppId)

@@ -19,14 +19,32 @@
     <Authors>cCoder</Authors>
     <Copyright>2026 Paul Ward</Copyright>
   </PropertyGroup>
+  <PropertyGroup>
+    <LocalDataProject>..\..\..\cCoder.Data\src\cCoder.Data\cCoder.Data.csproj</LocalDataProject>
+    <LocalSecurityProject>..\..\..\cCoder.Security\src\cCoder.Security\cCoder.Security.csproj</LocalSecurityProject>
+    <LocalSecurityEfMssqlProject>..\..\..\cCoder.Security\src\cCoder.Security.Data.EF.MSSQL\cCoder.Security.Data.EF.MSSQL.csproj</LocalSecurityEfMssqlProject>
+    <UseLocalData Condition="'$(UseLocalData)' == ''">false</UseLocalData>
+    <UseLocalSecurity Condition="'$(UseLocalSecurity)' == ''">true</UseLocalSecurity>
+    <UseLocalData Condition="'$(UseLocalData)' == 'true' and !Exists('$(LocalDataProject)')">false</UseLocalData>
+    <UseLocalSecurity Condition="'$(UseLocalSecurity)' == 'true' and !(Exists('$(LocalSecurityProject)') and Exists('$(LocalSecurityEfMssqlProject)'))">false</UseLocalSecurity>
+    <UseLocalData Condition="'$(UseLocalSecurity)' == 'true' and Exists('$(LocalDataProject)')">true</UseLocalData>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
+  <ItemGroup Condition="'$(UseLocalData)' == 'true'">
+    <ProjectReference Include="$(LocalDataProject)" AdditionalProperties="UseLocalSecurity=$(UseLocalSecurity);UseLocalSecurityData=$(UseLocalSecurity)" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(UseLocalSecurity)' == 'true'">
+    <ProjectReference Include="$(LocalSecurityProject)" />
+    <ProjectReference Include="$(LocalSecurityEfMssqlProject)" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="cCoder.Eventing.EventLibrary" Version="2026.4.15.1800" />
-    <PackageReference Include="cCoder.Data" Version="2026.4.10.1156" />
-    <PackageReference Include="cCoder.Security.Data.EF" Version="2026.2.10.1440" />
+    <PackageReference Include="cCoder.Data" Version="2026.4.10.1156" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Security" Version="2026.4.17.1141" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security.Data.EF.MSSQL" Version="2026.4.17.1141" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.4.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.5" />

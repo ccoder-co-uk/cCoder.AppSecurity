@@ -5,8 +5,16 @@
     <Nullable>disable</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+  <PropertyGroup>
+    <LocalSecurityProject>..\..\..\cCoder.Security\src\cCoder.Security\cCoder.Security.csproj</LocalSecurityProject>
+    <LocalSecurityEfMssqlProject>..\..\..\cCoder.Security\src\cCoder.Security.Data.EF.MSSQL\cCoder.Security.Data.EF.MSSQL.csproj</LocalSecurityEfMssqlProject>
+    <LocalSecurityDataProject>..\..\..\cCoder.Security\src\cCoder.Security.Data\cCoder.Security.Data.csproj</LocalSecurityDataProject>
+    <UseLocalSecurity Condition="'$(UseLocalSecurity)' == ''">true</UseLocalSecurity>
+    <UseLocalSecurityData Condition="'$(UseLocalSecurityData)' == ''">true</UseLocalSecurityData>
+    <UseLocalSecurity Condition="'$(UseLocalSecurity)' == 'true' and !(Exists('$(LocalSecurityProject)') and Exists('$(LocalSecurityEfMssqlProject)'))">false</UseLocalSecurity>
+    <UseLocalSecurityData Condition="'$(UseLocalSecurityData)' == 'true' and !Exists('$(LocalSecurityDataProject)')">false</UseLocalSecurityData>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.Data" Version="2026.4.10.1156" />
     <PackageReference Include="cCoder.Eventing.EventLibrary" Version="2026.4.15.1800" />
     <PackageReference Include="FluentAssertions" Version="8.9.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
@@ -25,7 +33,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cCoder.AppSecurity\cCoder.AppSecurity.csproj" />
+    <ProjectReference Include="..\cCoder.AppSecurity\cCoder.AppSecurity.csproj" AdditionalProperties="UseLocalData=true;UseLocalSecurity=$(UseLocalSecurity)" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

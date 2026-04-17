@@ -19,10 +19,7 @@ internal class UserRoleService(
     public async ValueTask<UserRole> AddAsync(UserRole userRole)
     {
         DataUserRole internalUserRole = ToExternalUserRole(userRole);
-        authorizationBroker.Authorize(
-            userRoleBroker.GetAppId(internalUserRole),
-            $"{nameof(UserRole)}_create"
-        );
+        AuthorizeOrAllowBootstrap(internalUserRole, $"{nameof(UserRole)}_create");
         return ToLocalUserRole(await userRoleBroker.AddUserRoleAsync(internalUserRole));
     }
 
@@ -35,6 +32,35 @@ internal class UserRoleService(
         );
         _ = await userRoleBroker.DeleteUserRoleAsync(internalUserRole);
     }
+
+    private void AuthorizeOrAllowBootstrap(DataUserRole userRole, string privilege)
+    {
+        int? appId = userRoleBroker.GetAppId(userRole);
+
+        if (IsBootstrapUserRoleAdd(appId))
+            return;
+
+        authorizationBroker.Authorize(appId, privilege);
+    }
+
+    private bool IsBootstrapUserRoleAdd(int? appId)
+    {
+        string currentUserId = authorizationBroker.GetCurrentUser()?.Id;
+
+        if (!appId.HasValue || !IsBootstrapSystemUser(currentUserId))
+            return false;
+
+        return !userRoleBroker.GetAllUserRoles(ignoreFilters: true)
+            .AsEnumerable()
+            .Any(foundUserRole =>
+                !IsBootstrapSystemUser(foundUserRole.UserId)
+                && userRoleBroker.GetAppId(foundUserRole) == appId.Value);
+    }
+
+    private static bool IsBootstrapSystemUser(string userId) =>
+        string.Equals(userId, "Guest", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(userId, "system", StringComparison.OrdinalIgnoreCase)
+        || string.IsNullOrWhiteSpace(userId);
 
     static UserRole ToLocalUserRole(DataUserRole item) =>
         new()

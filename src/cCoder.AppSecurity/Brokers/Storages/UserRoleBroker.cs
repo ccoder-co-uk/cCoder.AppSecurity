@@ -54,6 +54,7 @@ public class UserRoleBroker(ICoreContextFactory coreContextFactory) : IUserRoleB
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         return coreDataContext.Roles
+            .IgnoreQueryFilters()
 
             .Where(role => role.Id == entity.RoleId)
             .Select(role => (int?)role.AppId)

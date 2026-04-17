@@ -9,14 +9,17 @@ namespace cCoder.AppSecurity.Services.Orchestrations;
 internal class AppOrchestrationService(
     IAuthorizationBroker authorizationBroker,
     IPrivilegeService privilegeService,
-    IRoleOrchestrationService roleOrchestrationService
+    IRoleOrchestrationService roleOrchestrationService,
+    IUserRoleOrchestrationService userRoleOrchestrationService
 ) : IAppOrchestrationService
 {
     public async ValueTask AddAsync(App app)
     {
-        EnsureDefaultRoles(app);
+        bool isFirstApp = IsBootstrapProvisioning(app.Id);
+
+        EnsureDefaultRoles(app, isFirstApp);
         StampRoles(app);
-        await UpsertRolesAsync(app.Roles ?? []);
+        await UpsertRolesAsync(app.Roles ?? [], useValidatedWrites: isFirstApp);
     }
 
     public async ValueTask UpdateAsync(App app)
@@ -47,7 +50,7 @@ internal class AppOrchestrationService(
         }
     }
 
-    private async ValueTask UpsertRolesAsync(IEnumerable<Role> roles)
+    private async ValueTask UpsertRolesAsync(IEnumerable<Role> roles, bool useValidatedWrites = false)
     {
         Role[] roleArray =
             [.. roles.OrderBy(GetBootstrapOrder)
@@ -62,11 +65,15 @@ internal class AppOrchestrationService(
         {
             if (existingRoleIds.Contains(role.Id))
             {
-                _ = await roleOrchestrationService.UpdateAsync(role);
+                _ = useValidatedWrites
+                    ? await roleOrchestrationService.UpdateValidatedAsync(role)
+                    : await roleOrchestrationService.UpdateAsync(role);
             }
             else
             {
-                _ = await roleOrchestrationService.AddAsync(role);
+                _ = useValidatedWrites
+                    ? await roleOrchestrationService.AddValidatedAsync(role)
+                    : await roleOrchestrationService.AddAsync(role);
             }
         }
     }
@@ -80,16 +87,42 @@ internal class AppOrchestrationService(
             _ => 3,
         };
 
-    private void EnsureDefaultRoles(App app)
+    private bool IsBootstrapProvisioning(int appId)
+    {
+        if (!IsBootstrapSystemUser(authorizationBroker.GetCurrentUser()?.Id))
+            return false;
+
+        Guid[] appRoleIds =
+        [
+            .. roleOrchestrationService.GetAll(true)
+                .Where(role => role.AppId == appId)
+                .Select(role => role.Id)
+        ];
+
+        if (appRoleIds.Length == 0)
+            return true;
+
+        return !userRoleOrchestrationService.GetAll(true)
+            .AsEnumerable()
+            .Any(userRole =>
+                !IsBootstrapSystemUser(userRole.UserId)
+                && appRoleIds.Contains(userRole.RoleId));
+    }
+
+    private void EnsureDefaultRoles(App app, bool isFirstApp)
     {
         app.Roles ??= [];
 
         string currentUserId = authorizationBroker.GetCurrentUser()?.Id;
+        string defaultUserId = string.IsNullOrWhiteSpace(currentUserId) ? "Guest" : currentUserId;
+        string bootstrapUserId = isFirstApp
+            ? NormalizeBootstrapUserId(currentUserId)
+            : defaultUserId;
         Privilege[] privileges = [.. privilegeService.GetAll(true)];
 
         string[] administratorPrivileges =
             [.. privileges
-                .Where(privilege => privilege.Id != "app_create")
+                .Where(privilege => isFirstApp || privilege.Id != "app_create")
                 .Select(privilege => privilege.Id)];
 
         string[] userPrivileges =
@@ -99,8 +132,8 @@ internal class AppOrchestrationService(
                     && !IsWorkflowType(privilege.Type))
                 .Select(privilege => privilege.Id)];
 
-        EnsureRole(app, "Administrators", administratorPrivileges, currentUserId);
-        EnsureRole(app, "Users", userPrivileges, currentUserId);
+        EnsureRole(app, "Administrators", administratorPrivileges, bootstrapUserId);
+        EnsureRole(app, "Users", userPrivileges, bootstrapUserId);
         EnsureRole(app, "Guests", userPrivileges, "Guest");
     }
 
@@ -150,5 +183,15 @@ internal class AppOrchestrationService(
             role.Users.Add(new UserRole { RoleId = role.Id, UserId = userId, Role = role });
         }
     }
+
+    private static string NormalizeBootstrapUserId(string userId) =>
+        string.IsNullOrWhiteSpace(userId) || string.Equals(userId, "Guest", StringComparison.OrdinalIgnoreCase)
+            ? null
+            : userId;
+
+    private static bool IsBootstrapSystemUser(string userId) =>
+        string.IsNullOrWhiteSpace(userId)
+        || string.Equals(userId, "Guest", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(userId, "system", StringComparison.OrdinalIgnoreCase);
 }
 

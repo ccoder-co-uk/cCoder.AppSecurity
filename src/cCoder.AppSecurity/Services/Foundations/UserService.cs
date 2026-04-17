@@ -36,7 +36,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
     public async ValueTask<User> AddAsync(User user)
     {
         DataUser internalUser = ToExternalUser(user);
-        authorizationBroker.Authorize(userBroker.GetAppId(internalUser), $"{nameof(User)}_create");
+        AuthorizeOrAllowBootstrap(internalUser, $"{nameof(User)}_create");
         return ToLocalUser(await userBroker.AddUserAsync(internalUser));
     }
 
@@ -54,6 +54,31 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
         authorizationBroker.Authorize(userBroker.GetAppId(internalUser), $"{nameof(User)}_delete");
         _ = await userBroker.DeleteUserAsync(internalUser);
     }
+
+    private void AuthorizeOrAllowBootstrap(DataUser user, string privilege)
+    {
+        if (IsBootstrapUserAdd())
+            return;
+
+        authorizationBroker.Authorize(userBroker.GetAppId(user), privilege);
+    }
+
+    private bool IsBootstrapUserAdd()
+    {
+        string currentUserId = authorizationBroker.GetCurrentUser()?.Id;
+
+        if (!IsBootstrapSystemUser(currentUserId))
+            return false;
+
+        return !userBroker.GetAllUsers(ignoreFilters: true)
+            .AsEnumerable()
+            .Any(foundUser => !IsBootstrapSystemUser(foundUser.Id));
+    }
+
+    private static bool IsBootstrapSystemUser(string userId) =>
+        string.Equals(userId, "Guest", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(userId, "system", StringComparison.OrdinalIgnoreCase)
+        || string.IsNullOrWhiteSpace(userId);
 
     static User ToLocalUser(DataUser item) =>
         new()

@@ -7,7 +7,7 @@ using Xunit;
 
 namespace cCoder.Core.Services.Tests.Security.Orchestrations;
 
-public class AppOrchestrationServiceTests
+public partial class AppOrchestrationServiceTests
 {
     [Fact]
     public async Task ShouldDeleteUserRolesBeforeRolesWhenDeleteAsync()
@@ -15,11 +15,13 @@ public class AppOrchestrationServiceTests
         Mock<IAuthorizationBroker> authorizationBrokerMock = new(MockBehavior.Strict);
         Mock<IPrivilegeService> privilegeServiceMock = new(MockBehavior.Strict);
         Mock<IRoleOrchestrationService> roleOrchestrationServiceMock = new(MockBehavior.Strict);
+        Mock<IUserRoleOrchestrationService> userRoleOrchestrationServiceMock = new(MockBehavior.Strict);
 
         AppOrchestrationService orchestrationService = new(
             authorizationBrokerMock.Object,
             privilegeServiceMock.Object,
-            roleOrchestrationServiceMock.Object);
+            roleOrchestrationServiceMock.Object,
+            userRoleOrchestrationServiceMock.Object);
 
         Role role = new()
         {
@@ -41,6 +43,7 @@ public class AppOrchestrationServiceTests
 
         roleOrchestrationServiceMock.Verify(x => x.GetAll(true), Times.Once);
         roleOrchestrationServiceMock.Verify(x => x.DeleteAsync(role.Id), Times.Once);
+        userRoleOrchestrationServiceMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
         privilegeServiceMock.VerifyNoOtherCalls();
     }

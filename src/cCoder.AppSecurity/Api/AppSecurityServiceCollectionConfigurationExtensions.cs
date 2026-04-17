@@ -46,7 +46,7 @@ public static class AppSecurityServiceCollectionConfigurationExtensions
         return configuration;
     }
 
-    internal static void ConfigureAppSecurityApiModel(this ODataConventionModelBuilder builder) =>
+    public static void ConfigureAppSecurityApiModel(this ODataConventionModelBuilder builder) =>
         new AppSecurityModelBuilder(builder).Configure();
 
     private static AppSecurityConfiguration CreateConfiguration(
