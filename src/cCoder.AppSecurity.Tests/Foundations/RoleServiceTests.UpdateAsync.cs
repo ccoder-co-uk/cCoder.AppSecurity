@@ -33,8 +33,10 @@ public partial class RoleServiceTests
         Role result = await roleService.UpdateAsync(role);
 
         // Then
-        result.Should().NotBeSameAs(role);
+        result.Should().BeSameAs(role);
         submitted.Should().NotBeNull();
+        submitted.Should().NotBeSameAs(role);
+        result.Should().NotBeSameAs(submitted);
         submitted.Should().BeEquivalentTo(
             role,
             options => options
@@ -101,8 +103,10 @@ public partial class RoleServiceTests
         Role result = await roleService.UpdateAsync(role);
 
         // Then
-        result.Should().NotBeSameAs(role);
+        result.Should().BeSameAs(role);
         submitted.Should().NotBeNull();
+        submitted.Should().NotBeSameAs(role);
+        result.Should().NotBeSameAs(submitted);
         submitted.Should().BeEquivalentTo(
             role,
             options => options

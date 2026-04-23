@@ -22,6 +22,8 @@ internal class RoleProcessingService(IRoleService service) : IRoleProcessingServ
 
     public ValueTask DeleteAsync(Guid id) => service.DeleteAsync(id);
 
+    public ValueTask DeleteValidatedAsync(Guid id) => service.DeleteValidatedAsync(id);
+
     public async ValueTask<IEnumerable<Result<Role>>> AddOrUpdate(
         IEnumerable<Role> items
     )

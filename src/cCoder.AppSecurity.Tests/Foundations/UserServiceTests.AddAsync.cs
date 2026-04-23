@@ -31,12 +31,18 @@ public partial class UserServiceTests
         User result = await userService.AddAsync(user);
 
         // Then
-        result.Should().NotBeSameAs(user);
+        result.Should().BeSameAs(user);
         submitted.Should().NotBeNull();
+        submitted.Should().NotBeSameAs(user);
+        result.Should().NotBeSameAs(submitted);
 
         submitted
             .Should()
-            .BeEquivalentTo(user);
+            .BeEquivalentTo(
+                user,
+                options => options
+                    .Excluding(candidate => candidate.DefaultCulture)
+                    .Excluding(candidate => candidate.Roles));
 
         result
             .Should()

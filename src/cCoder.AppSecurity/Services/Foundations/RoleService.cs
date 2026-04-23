@@ -39,28 +39,80 @@ internal class RoleService(
 
     public async ValueTask<Role> AddAsync(Role role)
     {
-        DataRole internalRole = ToExternalRole(role);
+        DataRole internalRole = new()
+        {
+            Id = role.Id,
+            AppId = role.AppId,
+            Name = role.Name,
+            Description = role.Description,
+            Privs = role.Privs
+        };
         AuthorizeOrAllowBootstrap(role.AppId, $"{nameof(Role)}_create");
-        return ToLocalRole(await roleBroker.AddRoleAsync(internalRole));
+        DataRole result = await roleBroker.AddRoleAsync(internalRole);
+        role.Id = result.Id;
+        role.AppId = result.AppId;
+        role.Name = result.Name;
+        role.Description = result.Description;
+        role.Privs = result.Privs;
+        return role;
     }
 
     public async ValueTask<Role> AddValidatedAsync(Role role)
     {
-        DataRole internalRole = ToExternalRole(role);
-        return ToLocalRole(await roleBroker.AddRoleAsync(internalRole));
+        DataRole internalRole = new()
+        {
+            Id = role.Id,
+            AppId = role.AppId,
+            Name = role.Name,
+            Description = role.Description,
+            Privs = role.Privs
+        };
+        DataRole result = await roleBroker.AddRoleAsync(internalRole);
+        role.Id = result.Id;
+        role.AppId = result.AppId;
+        role.Name = result.Name;
+        role.Description = result.Description;
+        role.Privs = result.Privs;
+        return role;
     }
 
     public async ValueTask<Role> UpdateAsync(Role role)
     {
-        DataRole internalRole = ToExternalRole(role);
+        DataRole internalRole = new()
+        {
+            Id = role.Id,
+            AppId = role.AppId,
+            Name = role.Name,
+            Description = role.Description,
+            Privs = role.Privs
+        };
         AuthorizeOrAllowBootstrap(role.AppId, $"{nameof(Role)}_update");
-        return ToLocalRole(await roleBroker.UpdateRoleAsync(internalRole));
+        DataRole result = await roleBroker.UpdateRoleAsync(internalRole);
+        role.Id = result.Id;
+        role.AppId = result.AppId;
+        role.Name = result.Name;
+        role.Description = result.Description;
+        role.Privs = result.Privs;
+        return role;
     }
 
     public async ValueTask<Role> UpdateValidatedAsync(Role role)
     {
-        DataRole internalRole = ToExternalRole(role);
-        return ToLocalRole(await roleBroker.UpdateRoleAsync(internalRole));
+        DataRole internalRole = new()
+        {
+            Id = role.Id,
+            AppId = role.AppId,
+            Name = role.Name,
+            Description = role.Description,
+            Privs = role.Privs
+        };
+        DataRole result = await roleBroker.UpdateRoleAsync(internalRole);
+        role.Id = result.Id;
+        role.AppId = result.AppId;
+        role.Name = result.Name;
+        role.Description = result.Description;
+        role.Privs = result.Privs;
+        return role;
     }
 
     public async ValueTask DeleteAsync(Guid id)
@@ -71,7 +123,22 @@ internal class RoleService(
             return;
 
         authorizationBroker.Authorize(role.AppId, $"{nameof(Role)}_delete");
-        DataUserRole[] userRoles = [.. userRoleBroker.GetAllUserRoles(true).Where(userRole => userRole.RoleId == id)];
+        await DeleteRoleAsync(role);
+    }
+
+    public async ValueTask DeleteValidatedAsync(Guid id)
+    {
+        Role role = GetAll(true).FirstOrDefault(foundRole => foundRole.Id == id);
+
+        if (role is null)
+            return;
+
+        await DeleteRoleAsync(role);
+    }
+
+    private async ValueTask DeleteRoleAsync(Role role)
+    {
+        DataUserRole[] userRoles = [.. userRoleBroker.GetAllUserRoles(true).Where(userRole => userRole.RoleId == role.Id)];
 
         if (userRoles.Length > 0)
             await userRoleBroker.DeleteAllUserRolesAsync(userRoles);

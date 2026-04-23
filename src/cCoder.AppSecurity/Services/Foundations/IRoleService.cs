@@ -14,6 +14,7 @@ public interface IRoleService
     ValueTask<Role> UpdateAsync(Role role);
     ValueTask<Role> UpdateValidatedAsync(Role role);
     ValueTask DeleteAsync(Guid id);
+    ValueTask DeleteValidatedAsync(Guid id);
 }
 
 

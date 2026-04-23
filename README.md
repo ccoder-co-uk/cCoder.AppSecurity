@@ -16,13 +16,13 @@
 ## Build
 
 ```powershell
-dotnet build cCoder.AppSecurity.sln -v minimal
+dotnet build src/cCoder.AppSecurity.sln -v minimal
 ```
 
 ## Test
 
 ```powershell
-dotnet test cCoder.AppSecurity.sln -v minimal --no-build
+dotnet test src/cCoder.AppSecurity.sln -v minimal --no-build
 ```
 
 ## Package

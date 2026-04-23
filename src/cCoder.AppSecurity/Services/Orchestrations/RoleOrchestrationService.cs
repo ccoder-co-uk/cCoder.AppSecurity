@@ -55,6 +55,17 @@ internal class RoleOrchestrationService(
         await processingService.DeleteAsync(id);
     }
 
+    public async ValueTask DeleteValidatedAsync(Guid id)
+    {
+        var entity = processingService.GetAll(true).FirstOrDefault(item => item.Id == id);
+
+        if (entity is null)
+            return;
+
+        await eventService.RaiseRoleDeleteEventAsync(entity);
+        await processingService.DeleteValidatedAsync(id);
+    }
+
     public ValueTask<IEnumerable<Result<Role>>> AddOrUpdate(
         IEnumerable<Role> items
     ) => processingService.AddOrUpdate(items);
