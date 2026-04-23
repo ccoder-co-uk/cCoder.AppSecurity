@@ -2,7 +2,7 @@ using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data;
-using EventLibrary.Models;
+using cCoder.Eventing.Models;
 using DataApp = cCoder.Data.Models.CMS.App;
 using DataFolderRole = cCoder.Data.Models.Security.FolderRole;
 using DataPageRole = cCoder.Data.Models.Security.PageRole;

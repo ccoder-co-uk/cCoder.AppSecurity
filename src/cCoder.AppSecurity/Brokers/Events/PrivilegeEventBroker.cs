@@ -1,5 +1,5 @@
-using EventLibrary;
-using EventLibrary.Models;
+using cCoder.Eventing;
+using cCoder.Eventing.Models;
 using DataPrivilege = cCoder.Data.Models.Security.Privilege;
 
 namespace cCoder.AppSecurity.Brokers.Events;
