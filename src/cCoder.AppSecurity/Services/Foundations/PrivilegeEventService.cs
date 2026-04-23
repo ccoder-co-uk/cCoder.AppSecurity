@@ -2,7 +2,7 @@ using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.Data;
-using EventLibrary.Models;
+using cCoder.Eventing.Models;
 using DataPrivilege = cCoder.Data.Models.Security.Privilege;
 using IPrivilegeEventBroker = cCoder.AppSecurity.Brokers.Events.IPrivilegeEventBroker;
 

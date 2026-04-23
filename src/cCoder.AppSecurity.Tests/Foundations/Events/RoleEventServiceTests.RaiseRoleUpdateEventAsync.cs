@@ -1,7 +1,7 @@
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
-using EventLibrary.Models;
+using cCoder.Eventing.Models;
 using FluentAssertions;
 using Moq;
 using Xunit;

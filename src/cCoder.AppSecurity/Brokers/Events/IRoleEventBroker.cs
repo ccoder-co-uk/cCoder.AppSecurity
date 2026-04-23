@@ -1,4 +1,4 @@
-using EventLibrary.Models;
+using cCoder.Eventing.Models;
 using DataRole = cCoder.Data.Models.Security.Role;
 
 namespace cCoder.AppSecurity.Brokers.Events;

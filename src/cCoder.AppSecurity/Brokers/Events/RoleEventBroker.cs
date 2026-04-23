@@ -1,5 +1,5 @@
-using EventLibrary;
-using EventLibrary.Models;
+using cCoder.Eventing;
+using cCoder.Eventing.Models;
 using DataRole = cCoder.Data.Models.Security.Role;
 
 
