@@ -31,9 +31,15 @@ public partial class UserServiceTests
         User result = await userService.UpdateAsync(user);
 
         // Then
-        result.Should().NotBeSameAs(user);
+        result.Should().BeSameAs(user);
         submitted.Should().NotBeNull();
-        submitted.Should().BeEquivalentTo(user);
+        submitted.Should().NotBeSameAs(user);
+        result.Should().NotBeSameAs(submitted);
+        submitted.Should().BeEquivalentTo(
+            user,
+            options => options
+                .Excluding(candidate => candidate.DefaultCulture)
+                .Excluding(candidate => candidate.Roles));
         result.Should().BeEquivalentTo(user);
         userBrokerMock.Verify(x => x.UpdateUserAsync(It.IsAny<cCoder.Data.Models.Security.User>()), Times.Once);
         userBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.User>()), Times.AtMostOnce());

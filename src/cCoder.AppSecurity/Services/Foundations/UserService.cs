@@ -35,16 +35,42 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
 
     public async ValueTask<User> AddAsync(User user)
     {
-        DataUser internalUser = ToExternalUser(user);
+        DataUser internalUser = new()
+        {
+            Id = user.Id,
+            DefaultCultureId = user.DefaultCultureId,
+            DisplayName = user.DisplayName,
+            Email = user.Email,
+            IsActive = user.IsActive
+        };
         authorizationBroker.Authorize(userBroker.GetAppId(internalUser), $"{nameof(User)}_create");
-        return ToLocalUser(await userBroker.AddUserAsync(internalUser));
+        DataUser result = await userBroker.AddUserAsync(internalUser);
+        user.Id = result.Id;
+        user.DefaultCultureId = result.DefaultCultureId;
+        user.DisplayName = result.DisplayName;
+        user.Email = result.Email;
+        user.IsActive = result.IsActive;
+        return user;
     }
 
     public async ValueTask<User> UpdateAsync(User user)
     {
-        DataUser internalUser = ToExternalUser(user);
+        DataUser internalUser = new()
+        {
+            Id = user.Id,
+            DefaultCultureId = user.DefaultCultureId,
+            DisplayName = user.DisplayName,
+            Email = user.Email,
+            IsActive = user.IsActive
+        };
         authorizationBroker.Authorize(userBroker.GetAppId(internalUser), $"{nameof(User)}_update");
-        return ToLocalUser(await userBroker.UpdateUserAsync(internalUser));
+        DataUser result = await userBroker.UpdateUserAsync(internalUser);
+        user.Id = result.Id;
+        user.DefaultCultureId = result.DefaultCultureId;
+        user.DisplayName = result.DisplayName;
+        user.Email = result.Email;
+        user.IsActive = result.IsActive;
+        return user;
     }
 
     public async ValueTask DeleteAsync(string id)

@@ -34,13 +34,13 @@ public class AppOrchestrationServiceTests
             .Returns(new[] { role }.AsQueryable());
 
         roleOrchestrationServiceMock
-            .Setup(x => x.DeleteAsync(role.Id))
+            .Setup(x => x.DeleteValidatedAsync(role.Id))
             .Returns(ValueTask.CompletedTask);
 
         await orchestrationService.DeleteAsync(5);
 
         roleOrchestrationServiceMock.Verify(x => x.GetAll(true), Times.Once);
-        roleOrchestrationServiceMock.Verify(x => x.DeleteAsync(role.Id), Times.Once);
+        roleOrchestrationServiceMock.Verify(x => x.DeleteValidatedAsync(role.Id), Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
         privilegeServiceMock.VerifyNoOtherCalls();
     }

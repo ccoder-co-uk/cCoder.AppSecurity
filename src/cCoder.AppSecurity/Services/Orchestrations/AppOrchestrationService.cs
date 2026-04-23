@@ -35,7 +35,7 @@ internal class AppOrchestrationService(
         Role[] rolesToDelete = [.. roleOrchestrationService.GetAll(true).Where(role => role.AppId == appId)];
 
         foreach (Role role in rolesToDelete)
-            await roleOrchestrationService.DeleteAsync(role.Id);
+            await roleOrchestrationService.DeleteValidatedAsync(role.Id);
     }
 
     private static void StampRoles(App app)
@@ -62,11 +62,11 @@ internal class AppOrchestrationService(
         {
             if (existingRoleIds.Contains(role.Id))
             {
-                _ = await roleOrchestrationService.UpdateAsync(role);
+                _ = await roleOrchestrationService.UpdateValidatedAsync(role);
             }
             else
             {
-                _ = await roleOrchestrationService.AddAsync(role);
+                _ = await roleOrchestrationService.AddValidatedAsync(role);
             }
         }
     }

@@ -34,22 +34,48 @@ internal class PrivilegeService(
 
     public async ValueTask<Privilege> AddAsync(Privilege privilege)
     {
-        DataPrivilege internalPrivilege = ToExternalPrivilege(privilege);
+        DataPrivilege internalPrivilege = new()
+        {
+            Id = privilege.Id,
+            Type = privilege.Type,
+            Operation = privilege.Operation,
+            Description = privilege.Description,
+            PortalAdminsOnly = privilege.PortalAdminsOnly
+        };
         authorizationBroker.Authorize(
             privilegeBroker.GetAppId(internalPrivilege),
             $"{nameof(Privilege)}_create"
         );
-        return ToLocalPrivilege(await privilegeBroker.AddPrivilegeAsync(internalPrivilege));
+        DataPrivilege result = await privilegeBroker.AddPrivilegeAsync(internalPrivilege);
+        privilege.Id = result.Id;
+        privilege.Type = result.Type;
+        privilege.Operation = result.Operation;
+        privilege.Description = result.Description;
+        privilege.PortalAdminsOnly = result.PortalAdminsOnly;
+        return privilege;
     }
 
     public async ValueTask<Privilege> UpdateAsync(Privilege privilege)
     {
-        DataPrivilege internalPrivilege = ToExternalPrivilege(privilege);
+        DataPrivilege internalPrivilege = new()
+        {
+            Id = privilege.Id,
+            Type = privilege.Type,
+            Operation = privilege.Operation,
+            Description = privilege.Description,
+            PortalAdminsOnly = privilege.PortalAdminsOnly
+        };
         authorizationBroker.Authorize(
             privilegeBroker.GetAppId(internalPrivilege),
             $"{nameof(Privilege)}_update"
         );
-        return ToLocalPrivilege(await privilegeBroker.UpdatePrivilegeAsync(internalPrivilege));
+        DataPrivilege result = await privilegeBroker.UpdatePrivilegeAsync(internalPrivilege);
+        privilege.Id = result.Id;
+        privilege.Type = result.Type;
+        privilege.Operation = result.Operation;
+        privilege.Description = result.Description;
+        privilege.PortalAdminsOnly = result.PortalAdminsOnly;
+        return privilege;
     }
 
     public async ValueTask DeleteAsync(string id)

@@ -31,8 +31,10 @@ public partial class PrivilegeServiceTests
         Privilege result = await privilegeService.AddAsync(privilege);
 
         // Then
-        result.Should().NotBeSameAs(privilege);
+        result.Should().BeSameAs(privilege);
         submitted.Should().NotBeNull();
+        submitted.Should().NotBeSameAs(privilege);
+        result.Should().NotBeSameAs(submitted);
 
         submitted
             .Should()

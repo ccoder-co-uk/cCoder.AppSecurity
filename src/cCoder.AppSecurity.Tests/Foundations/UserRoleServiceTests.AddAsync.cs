@@ -31,8 +31,10 @@ public partial class UserRoleServiceTests
         UserRole result = await userRoleService.AddAsync(userRole);
 
         // Then
-        result.Should().NotBeSameAs(userRole);
+        result.Should().BeSameAs(userRole);
         submitted.Should().NotBeNull();
+        submitted.Should().NotBeSameAs(userRole);
+        result.Should().NotBeSameAs(submitted);
         submitted.Should().BeEquivalentTo(userRole);
         result.Should().BeEquivalentTo(userRole);
         userRoleBrokerMock.Verify(

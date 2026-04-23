@@ -18,12 +18,19 @@ internal class UserRoleService(
 
     public async ValueTask<UserRole> AddAsync(UserRole userRole)
     {
-        DataUserRole internalUserRole = ToExternalUserRole(userRole);
+        DataUserRole internalUserRole = new()
+        {
+            RoleId = userRole.RoleId,
+            UserId = userRole.UserId
+        };
         authorizationBroker.Authorize(
             userRoleBroker.GetAppId(internalUserRole),
             $"{nameof(UserRole)}_create"
         );
-        return ToLocalUserRole(await userRoleBroker.AddUserRoleAsync(internalUserRole));
+        DataUserRole result = await userRoleBroker.AddUserRoleAsync(internalUserRole);
+        userRole.RoleId = result.RoleId;
+        userRole.UserId = result.UserId;
+        return userRole;
     }
 
     public async ValueTask DeleteAsync(UserRole userRole)
