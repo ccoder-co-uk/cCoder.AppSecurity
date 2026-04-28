@@ -41,7 +41,7 @@ internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
                 _ => new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
             );
 
-            services.AddAppSecurity();
+            services.AddAppSecurityWeb();
             services.AddCoreData(settings.CoreConnectionString);
         });
     }

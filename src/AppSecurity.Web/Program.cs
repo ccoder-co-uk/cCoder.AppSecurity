@@ -45,7 +45,7 @@ public class Program
             builder.Services,
             coreConnection);
 
-        builder.Services.AddAppSecurityApi();
+        builder.Services.AddAppSecurityWeb();
         builder.Services.AddAppSecurityHostedServices();
 
         WebApplication app = builder.Build();
@@ -67,7 +67,7 @@ public class Program
         app.UseDomainApiShell();
         app.UseDomainDefaultCors();
         app.UseDomainExceptionHandling(HandleUnhandledException);
-        app.UseAppSecurityEventHandlers();
+        app.StartAppSecurityWeb(log);
         app.Run();
     }
 

@@ -7,18 +7,29 @@ using cCoder.Data.Exposures;
 
 namespace cCoder.AppSecurity;
 
-public static class WebApplicationExtensions
+public static partial class WebApplicationExtensions
 {
     private const string MetadataScope = "AppSecurity";
 
-    public static WebApplication UseAppSecurityExposure(this WebApplication app, ILogger log = null)
+    public static WebApplication StartAppSecurityWeb(
+        this WebApplication app,
+        ILogger log = null) =>
+        app.UseAppSecurityExposure(log)
+            .UseAppSecurityEventHandlers()
+            .UseAppSecurityDeleteEventHandlers();
+
+    public static WebApplication StartAppSecurityHostedServices(this WebApplication app) =>
+        app.UseAppSecurityEventHandlers()
+            .UseAppSecurityDeleteEventHandlers();
+
+    private static WebApplication UseAppSecurityExposure(this WebApplication app, ILogger log = null)
     {
         log?.LogInformation("Initialising App Security");
         PopulateMetadataTypeCache(app);
         return app;
     }
 
-    public static WebApplication UseAppSecurityEventHandlers(this WebApplication app)
+    private static WebApplication UseAppSecurityEventHandlers(this WebApplication app)
     {
         using IServiceScope scope = app.Services.CreateScope();
         IServiceProvider services = scope.ServiceProvider;
@@ -29,7 +40,7 @@ public static class WebApplicationExtensions
         return app;
     }
 
-    public static WebApplication UseAppSecurityDeleteEventHandlers(this WebApplication app)
+    private static WebApplication UseAppSecurityDeleteEventHandlers(this WebApplication app)
     {
         using IServiceScope scope = app.Services.CreateScope();
         IServiceProvider services = scope.ServiceProvider;

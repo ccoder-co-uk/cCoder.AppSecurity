@@ -10,9 +10,9 @@ using Microsoft.OpenApi;
 
 namespace cCoder.AppSecurity;
 
-public static class AppSecurityServiceCollectionConfigurationExtensions
+public static partial class IServiceCollectionExtensions
 {
-    public static AppSecurityConfiguration AddAppSecurity(
+    private static AppSecurityConfiguration AddConfiguredAppSecurity(
         this IServiceCollection services,
         Action<IServiceCollection, AppSecurityConfiguration> configure)
     {
@@ -21,13 +21,13 @@ public static class AppSecurityServiceCollectionConfigurationExtensions
         return configuration;
     }
 
-    public static AppSecurityConfiguration AddAppSecurityApi(
+    private static AppSecurityConfiguration AddConfiguredAppSecurityWeb(
         this IServiceCollection services,
         Action<IServiceCollection, AppSecurityConfiguration> configure,
         ODataConventionModelBuilder builder = null)
     {
         AppSecurityConfiguration configuration = CreateConfiguration(services, configure);
-        IServiceCollectionExtensions.AddAppSecurity(services);
+        services.AddAppSecurityWeb(builder);
         services.AddConfiguredApi(
             configuration,
             "AppSecurity",
@@ -37,12 +37,12 @@ public static class AppSecurityServiceCollectionConfigurationExtensions
         return configuration;
     }
 
-    public static AppSecurityConfiguration AddAppSecurityHostedServices(
+    private static AppSecurityConfiguration AddConfiguredAppSecurityHostedServices(
         this IServiceCollection services,
         Action<IServiceCollection, AppSecurityConfiguration> configure)
     {
         AppSecurityConfiguration configuration = CreateConfiguration(services, configure);
-        IServiceCollectionExtensions.AddAppSecurityHostedServices(services);
+        services.AddAppSecurityHostedServices();
         return configuration;
     }
 
