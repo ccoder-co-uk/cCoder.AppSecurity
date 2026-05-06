@@ -55,6 +55,18 @@ public partial class UserRoleController : ODataController
         await Service.DeleteAllAsync(items.Value);
         return Ok();
     }
+
+    [HttpDelete]
+    public async Task<IActionResult> Delete([FromRoute] Guid keyRoleId, [FromRoute] string keyUserId)
+    {
+        await Service.DeleteAsync(new UserRole
+        {
+            RoleId = keyRoleId,
+            UserId = keyUserId,
+        });
+
+        return Ok();
+    }
 }
 
 

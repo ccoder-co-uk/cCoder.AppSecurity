@@ -85,6 +85,17 @@ public sealed partial class UserRoleControllerTests(WebAcceptanceFixture fixture
         return JsonSerializer.Deserialize<UserRole>(content, JsonOptions)!;
     }
 
+    private async Task<int> DeleteUserRoleAsync(Guid roleId, string userId)
+    {
+        using HttpResponseMessage response = await Client.DeleteAsync(
+            $"{BaseUrl}(RoleId={roleId},UserId='{Uri.EscapeDataString(userId)}')"
+        );
+
+        string content = await response.Content.ReadAsStringAsync();
+        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+        return (int)response.StatusCode;
+    }
+
     private async Task Teardown(SeededUserRoleContext seededContext)
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
