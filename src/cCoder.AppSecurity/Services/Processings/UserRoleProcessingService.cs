@@ -33,6 +33,10 @@ internal class UserRoleProcessingService(
             throw new SecurityException("Access Denied!");
 
         authorizationBroker.Authorize(role.AppId, "userrole_create");
+
+        if (role.Privileges.Contains("app_admin") && !authorizationBroker.IsAdminOfApp(role.AppId))
+            throw new SecurityException("Access Denied!");
+
         return await service.AddAsync(entity);
     }
 

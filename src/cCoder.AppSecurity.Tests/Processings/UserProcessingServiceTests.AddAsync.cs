@@ -40,6 +40,21 @@ public partial class UserProcessingServiceTests
         Assert.Same(existingUser, result);
     }
 
+    [Fact]
+    public async Task ShouldReturnExistingUserWhenEmailAlreadyExistsForAddAsync()
+    {
+        // Given
+        User existingUser = CreateRandomUser(id: "existing-user", email: "existing@example.com");
+        User newUser = CreateRandomUser(id: "new-user", email: "existing@example.com");
+        userServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { existingUser }.AsQueryable());
+
+        // When
+        User result = await userProcessingService.AddAsync(newUser);
+
+        // Then
+        Assert.Same(existingUser, result);
+    }
+
 }
 
 
