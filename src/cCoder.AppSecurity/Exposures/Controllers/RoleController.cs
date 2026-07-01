@@ -18,7 +18,7 @@ public partial class RoleController : ODataController
 {
     protected IRoleOrchestrationService Service { get; }
 
-    public RoleController(IRoleOrchestrationService service, ILogger<RoleController> log)
+    public RoleController(IRoleOrchestrationService service)
     {
         Service = service;
     }

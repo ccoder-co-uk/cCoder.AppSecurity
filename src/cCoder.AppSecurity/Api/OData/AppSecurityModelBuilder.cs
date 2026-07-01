@@ -31,6 +31,8 @@ internal class AppSecurityModelBuilder : ODataModelBuilder
     {
         AddCommonComplextypes();
 
+        Builder.EntityType<App>().Ignore(app => app.Config);
+        _ = AddSet<App, int>();
         _ = AddSet<User, string>();
         _ = AddSet<Role, Guid>();
         _ = AddSet<Privilege, string>();
