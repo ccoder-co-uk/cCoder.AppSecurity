@@ -14,11 +14,6 @@
     <UseLocalSecurity Condition="'$(UseLocalSecurity)' == 'true' and !Exists('$(LocalSecurityProject)')">false</UseLocalSecurity>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.7" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.7" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.7" />
     <PackageReference Include="cCoder.Data" Version="2026.5.*" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="cCoder.Eventing" Version="2026.4.*" />
     <PackageReference Include="cCoder.Security" Version="2026.7.1.1302" Condition="'$(UseLocalSecurity)' != 'true'" />
@@ -35,4 +30,3 @@
     <ProjectReference Include="..\cCoder.AppSecurity\cCoder.AppSecurity.csproj" AdditionalProperties="UseLocalData=$(UseLocalData);UseLocalSecurity=$(UseLocalSecurity);UseLocalSecurityData=$(UseLocalSecurity)" />
   </ItemGroup>
 </Project>
-

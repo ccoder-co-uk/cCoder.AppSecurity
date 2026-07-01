@@ -3,7 +3,9 @@ using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Services.Aggregations;
+using cCoder.AppSecurity.Services.Processings.Events;
 using cCoder.Data.Models.Packaging;
+using cCoder.Security.Objects.Events;
 using DataPackageItem = cCoder.Data.Models.Packaging.PackageItem;
 
 
@@ -17,6 +19,7 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker)
         ListenToAppCreateAndUpdateEvents();
         ListenToAppDeleteEvents();
         ListenToPackageEvents();
+        ListenToSecurityAccountEvents();
     }
 
     public void ListenToAppCreateAndUpdateEvents()
@@ -29,6 +32,15 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker)
         ListenToAppDeleteEvent();
 
     void ListenToPackageEvents() => ListenToPackageImportEvents();
+
+    public void ListenToSecurityAccountEvents()
+    {
+        ListenToSecurityRegistrationCreatedEvent();
+        ListenToSecurityRegistrationConfirmedEvent();
+        ListenToSecurityInvitationCreatedEvent();
+        ListenToSecurityInvitationAcceptedEvent();
+        ListenToSecurityPasswordResetRequestedEvent();
+    }
 
     void ListenToAppAddEvents() =>
         eventHubBroker.ListenToEvent<App, Services.Orchestrations.IAppOrchestrationService>(
@@ -49,6 +61,26 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker)
         eventHubBroker.ListenToEvent<(int appId, Package package), IAppSecurityMigrationAggregationService>(
             "package_import",
             (service, args) => service.ImportPackageAsync(args.appId, ToLocalPackage(args.package)));
+
+    void ListenToSecurityRegistrationCreatedEvent() =>
+        ListenToSecurityAccountEvent(SecurityAccountEventNames.RegistrationCreated);
+
+    void ListenToSecurityRegistrationConfirmedEvent() =>
+        ListenToSecurityAccountEvent(SecurityAccountEventNames.RegistrationConfirmed);
+
+    void ListenToSecurityInvitationCreatedEvent() =>
+        ListenToSecurityAccountEvent(SecurityAccountEventNames.InvitationCreated);
+
+    void ListenToSecurityInvitationAcceptedEvent() =>
+        ListenToSecurityAccountEvent(SecurityAccountEventNames.InvitationAccepted);
+
+    void ListenToSecurityPasswordResetRequestedEvent() =>
+        ListenToSecurityAccountEvent(SecurityAccountEventNames.PasswordResetRequested);
+
+    void ListenToSecurityAccountEvent(string eventName) =>
+        eventHubBroker.ListenToEvent<SecurityAccountEvent, IAccountEventProcessingService>(
+            eventName,
+            (service, accountEvent) => service.ProcessAsync(accountEvent));
 
     static AppSecurityPackage ToLocalPackage(Package package) =>
         package == null ? null : new AppSecurityPackage(package.Name)

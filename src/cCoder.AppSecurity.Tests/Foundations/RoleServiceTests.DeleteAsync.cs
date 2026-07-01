@@ -23,6 +23,8 @@ public partial class RoleServiceTests
 
         roleBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>())).Returns((int?)7);
         authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "Role_delete"));
+        roleBrokerMock.Setup(x => x.DeletePageRolesByRoleIdAsync(roleId)).Returns(ValueTask.CompletedTask);
+        roleBrokerMock.Setup(x => x.DeleteFolderRolesByRoleIdAsync(roleId)).Returns(ValueTask.CompletedTask);
         roleBrokerMock.Setup(x => x.DeleteRoleAsync(It.IsAny<cCoder.Data.Models.Security.Role>())).ReturnsAsync(1);
 
         // When
@@ -30,6 +32,8 @@ public partial class RoleServiceTests
 
         // Then
         roleBrokerMock.Verify(x => x.GetAllRoles(true), Times.Once);
+        roleBrokerMock.Verify(x => x.DeletePageRolesByRoleIdAsync(roleId), Times.Once);
+        roleBrokerMock.Verify(x => x.DeleteFolderRolesByRoleIdAsync(roleId), Times.Once);
         roleBrokerMock.Verify(x => x.DeleteRoleAsync(It.IsAny<cCoder.Data.Models.Security.Role>()), Times.Once);
         roleBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>()), Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();

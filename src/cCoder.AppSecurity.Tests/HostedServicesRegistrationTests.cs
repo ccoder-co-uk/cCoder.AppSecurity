@@ -18,12 +18,16 @@ public class HostedServicesRegistrationTests
 
         Assert.Contains(
             services,
-            descriptor => descriptor.ServiceType == typeof(IHostedService)
+            descriptor => descriptor.ServiceType == typeof(ITokenCleanerHostedService)
                 && descriptor.ImplementationType == typeof(TokenCleanerHostedService));
         Assert.Contains(
             services,
-            descriptor => descriptor.ServiceType == typeof(IHostedService)
+            descriptor => descriptor.ServiceType == typeof(IAnalysePlatformUsageHostedService)
                 && descriptor.ImplementationType == typeof(AnalysePlatformUsageHostedService));
+        Assert.Equal(
+            2,
+            services.Count(descriptor => descriptor.ServiceType == typeof(IHostedService)
+                && descriptor.ImplementationFactory is not null));
         Assert.Contains(
             services,
             descriptor => descriptor.ServiceType == typeof(ITokenCleanerOrchestrationService)

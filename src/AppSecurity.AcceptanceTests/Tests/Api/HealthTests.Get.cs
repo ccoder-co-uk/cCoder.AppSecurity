@@ -1,0 +1,19 @@
+using FluentAssertions;
+using Xunit;
+
+namespace Web.AcceptanceTests.Tests.Api;
+
+public sealed partial class HealthTests
+{
+    [Fact]
+    public async Task Get_ReturnsOk()
+    {
+        // Given
+
+        // When
+        string actualHealth = await GetHealthAsync();
+
+        // Then
+        actualHealth.Should().Be("OK");
+    }
+}

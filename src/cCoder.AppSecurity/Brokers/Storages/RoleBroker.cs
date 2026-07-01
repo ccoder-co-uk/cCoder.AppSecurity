@@ -9,6 +9,8 @@ public interface IRoleBroker
     IQueryable<Role> GetAllRoles(bool ignoreFilters);
     ValueTask<Role> AddRoleAsync(Role entity);
     ValueTask<Role> UpdateRoleAsync(Role entity);
+    ValueTask DeleteFolderRolesByRoleIdAsync(Guid roleId);
+    ValueTask DeletePageRolesByRoleIdAsync(Guid roleId);
     ValueTask<int> DeleteRoleAsync(Role entity);
     ValueTask DeleteAllRolesAsync(IEnumerable<Role> items);
     int? GetAppId(Role entity);
@@ -39,6 +41,34 @@ public class RoleBroker(ICoreContextFactory coreContextFactory) : IRoleBroker
         Role result = coreDataContext.Roles.Update(entity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
+    }
+
+    public async ValueTask DeleteFolderRolesByRoleIdAsync(Guid roleId)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+        FolderRole[] folderRoles = [.. coreDataContext.FolderRoles
+            .IgnoreQueryFilters()
+            .Where(folderRole => folderRole.RoleId == roleId)];
+
+        if (folderRoles.Length == 0)
+            return;
+
+        coreDataContext.FolderRoles.RemoveRange(folderRoles);
+        await coreDataContext.SaveChangesAsync();
+    }
+
+    public async ValueTask DeletePageRolesByRoleIdAsync(Guid roleId)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+        PageRole[] pageRoles = [.. coreDataContext.PageRoles
+            .IgnoreQueryFilters()
+            .Where(pageRole => pageRole.RoleId == roleId)];
+
+        if (pageRoles.Length == 0)
+            return;
+
+        coreDataContext.PageRoles.RemoveRange(pageRoles);
+        await coreDataContext.SaveChangesAsync();
     }
 
     public async ValueTask<int> DeleteRoleAsync(Role entity)

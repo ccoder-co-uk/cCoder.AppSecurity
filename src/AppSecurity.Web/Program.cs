@@ -3,8 +3,7 @@ using Apps.Shared;
 using Apps.Shared.Models;
 using cCoder.AppSecurity;
 using cCoder.Security;
-using cCoder.Security.Api;
-using cCoder.Security.Data.EF.MSSQL;
+using cCoder.Security.Data.EF;
 using cCoder.Security.Objects;
 using cCoder.Eventing;
 using Microsoft.AspNetCore.Diagnostics;
@@ -46,7 +45,6 @@ public class Program
             coreConnection);
 
         builder.Services.AddAppSecurityWeb();
-        builder.Services.AddAppSecurityHostedServices();
 
         WebApplication app = builder.Build();
         log = app.Services.GetRequiredService<ILogger<Program>>();
@@ -65,6 +63,7 @@ public class Program
             .UseODataRouteDebug();
 
         app.UseDomainApiShell();
+        app.MapGet("/Health", () => Results.Text("OK"));
         app.UseDomainDefaultCors();
         app.UseDomainExceptionHandling(HandleUnhandledException);
         app.StartAppSecurityWeb(log);

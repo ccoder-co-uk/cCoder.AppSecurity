@@ -143,6 +143,8 @@ internal class RoleService(
         if (userRoles.Length > 0)
             await userRoleBroker.DeleteAllUserRolesAsync(userRoles);
 
+        await roleBroker.DeletePageRolesByRoleIdAsync(role.Id);
+        await roleBroker.DeleteFolderRolesByRoleIdAsync(role.Id);
         _ = await roleBroker.DeleteRoleAsync(ToExternalRole(role));
     }
 

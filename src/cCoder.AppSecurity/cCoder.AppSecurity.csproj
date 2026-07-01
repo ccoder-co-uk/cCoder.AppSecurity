@@ -22,12 +22,11 @@
   <PropertyGroup>
     <LocalDataProject>..\..\..\cCoder.Data\src\cCoder.Data\cCoder.Data.csproj</LocalDataProject>
     <LocalSecurityProject>..\..\..\cCoder.Security\src\cCoder.Security\cCoder.Security.csproj</LocalSecurityProject>
-    <LocalSecurityEfMssqlProject>..\..\..\cCoder.Security\src\cCoder.Security.Data.EF.MSSQL\cCoder.Security.Data.EF.MSSQL.csproj</LocalSecurityEfMssqlProject>
+    <LocalSecurityDataProject>..\..\..\cCoder.Security\src\cCoder.Security.Data\cCoder.Security.Data.csproj</LocalSecurityDataProject>
     <UseLocalData Condition="'$(UseLocalData)' == ''">false</UseLocalData>
     <UseLocalData Condition="'$(UseLocalData)' == 'true' and !Exists('$(LocalDataProject)')">false</UseLocalData>
     <UseLocalSecurity Condition="'$(UseLocalSecurity)' == ''">false</UseLocalSecurity>
     <UseLocalSecurity Condition="'$(UseLocalSecurity)' == 'true' and !Exists('$(LocalSecurityProject)')">false</UseLocalSecurity>
-    <UseLocalData Condition="'$(UseLocalSecurity)' == 'true' and Exists('$(LocalDataProject)')">true</UseLocalData>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
@@ -38,13 +37,13 @@
   </ItemGroup>
   <ItemGroup Condition="'$(UseLocalSecurity)' == 'true'">
     <ProjectReference Include="$(LocalSecurityProject)" />
-    <ProjectReference Include="$(LocalSecurityEfMssqlProject)" />
+    <ProjectReference Include="$(LocalSecurityDataProject)" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="cCoder.Eventing" Version="2026.4.*" />
     <PackageReference Include="cCoder.Data" Version="2026.5.*" Condition="'$(UseLocalData)' != 'true'" />
-    <PackageReference Include="cCoder.Security" Version="2026.4.*" Condition="'$(UseLocalSecurity)' != 'true'" />
-    <PackageReference Include="cCoder.Security.Data.EF.MSSQL" Version="2026.4.*" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security" Version="2026.7.1.1302" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security.Data" Version="2026.7.1.1302" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.4.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.5" />
