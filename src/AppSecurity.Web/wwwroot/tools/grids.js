@@ -9,6 +9,7 @@ window.AppSecurityGrids = {
     roleRows: [],
     userRows: [],
     privilegeRows: [],
+    privilegesLoaded: false,
     loadedWorkspaces: {},
 
     workspaces: [
@@ -42,7 +43,7 @@ window.AppSecurityGrids = {
                 Description: { type: "string" },
                 Privs: { type: "string" }
             },
-            columns: ["Id", "AppId", "Name", "Description", "Privs"]
+            columns: ["Id", "AppId", "Name", "Description"]
         },
         {
             name: "User",
@@ -71,34 +72,11 @@ window.AppSecurityGrids = {
             },
             columns: ["RoleId", "UserId"]
         },
-        {
-            name: "Privilege",
-            title: "Privileges",
-            description: "Available privilege catalogue",
-            key: "Id",
-            keyType: "string",
-            readOnly: true,
-            fields: {
-                Id: { type: "string" },
-                Type: { type: "string" },
-                Operation: { type: "string" },
-                Description: { type: "string" },
-                PortalAdminsOnly: { type: "boolean" }
-            },
-            columns: ["Id", "Type", "Operation", "PortalAdminsOnly", "Description"]
-        },
-        {
-            name: "RolePrivilege",
-            title: "Role Privileges",
-            description: "Privilege links on the selected Role",
-            custom: true
-        }
     ],
 
     init: function () {
         this.buildWorkspaces();
         this.workspaces
-            .filter(config => !config.custom)
             .forEach(config => this.createGrid(config));
         this.bindRolePrivilegeEditor();
     },
@@ -119,10 +97,9 @@ window.AppSecurityGrids = {
 
             const section = document.createElement("section");
             section.id = surfaceId;
-            section.className = `as-surface${index === 0 ? " active" : ""}`;
-            section.innerHTML = config.custom
-                ? this.rolePrivilegeHtml(config)
-                : this.gridHtml(config);
+            section.className =
+                `as-surface${config.name === "Role" ? " as-role-surface" : ""}${index === 0 ? " active" : ""}`;
+            section.innerHTML = this.gridHtml(config);
             surfaces.appendChild(section);
         });
 
@@ -140,27 +117,35 @@ window.AppSecurityGrids = {
     },
 
     gridHtml: function (config) {
+        const childHtml = config.name === "Role"
+            ? this.rolePrivilegesHtml()
+            : "";
+
         return `<div class="as-toolbar">` +
             `<div><h2>${config.title}</h2><span>${config.description}</span></div>` +
             this.contextHtml(config) +
             `</div>` +
-            `<div id="${this.gridId(config)}" class="as-grid"></div>`;
+            `<div id="${this.gridId(config)}" class="as-grid"></div>` +
+            childHtml;
     },
 
-    rolePrivilegeHtml: function (config) {
-        return `<div class="as-toolbar">` +
-            `<div><h2>${config.title}</h2><span>${config.description}</span></div>` +
-            this.contextHtml({ context: { type: "role" } }) +
+    rolePrivilegesHtml: function () {
+        return `<div class="as-child-panel">` +
+            `<div class="as-child-header">` +
+            `<div><h3>Privilege assignment</h3><span id="selected-role-label">Select a role to manage its privileges.</span></div>` +
+            `<button id="refresh-role-privileges" class="k-button k-button-sm k-rounded-md k-button-solid k-button-solid-base" type="button">` +
+            `<span class="k-icon k-i-refresh"></span>Refresh</button>` +
             `</div>` +
             `<div class="as-role-privileges">` +
             `<section>` +
-            `<h3>Assigned Privileges</h3>` +
-            `<div id="assigned-privileges-grid" class="as-grid"></div>` +
+            `<h4>Assigned privileges</h4>` +
+            `<div id="role-assigned-privileges-grid" class="as-grid"></div>` +
             `</section>` +
             `<section>` +
-            `<h3>Available Privileges</h3>` +
-            `<div id="available-privileges-grid" class="as-grid"></div>` +
+            `<h4>Available privileges</h4>` +
+            `<div id="role-available-privileges-grid" class="as-grid"></div>` +
             `</section>` +
+            `</div>` +
             `</div>`;
     },
 
@@ -207,23 +192,8 @@ window.AppSecurityGrids = {
     },
 
     loadWorkspace: function (config) {
-        if (config.custom) {
-            this.loadWorkspaceByName("Role");
-            this.loadWorkspaceByName("Privilege");
-            this.refreshRolePrivilegeEditor();
-            return;
-        }
-
         this.loadedWorkspaces[config.name] = true;
         this.refreshGrid(config.name);
-    },
-
-    loadWorkspaceByName: function (name) {
-        const config = this.workspaces.find(workspace => workspace.name === name);
-
-        if (config) {
-            this.loadWorkspace(config);
-        }
     },
 
     createGrid: function (config) {
@@ -476,20 +446,12 @@ window.AppSecurityGrids = {
         if (config.name === "Role") {
             this.roleRows = this.gridRows(config);
             this.refreshRoleSelectors();
-
-            if (!this.context.roleId && this.roleRows.length > 0) {
-                this.setRoleContext(this.roleRows[0].Id);
-            }
+            this.refreshRolePrivilegeEditor();
         }
 
         if (config.name === "User") {
             this.userRows = this.gridRows(config);
             this.refreshUserSelectors();
-        }
-
-        if (config.name === "Privilege") {
-            this.privilegeRows = this.gridRows(config);
-            this.refreshRolePrivilegeEditor();
         }
 
         this.updateCreateButtons();
@@ -615,7 +577,7 @@ window.AppSecurityGrids = {
     },
 
     bindRolePrivilegeEditor: function () {
-        $("#assigned-privileges-grid").kendoGrid({
+        $("#role-assigned-privileges-grid").kendoGrid({
             dataSource: { data: [], pageSize: 20 },
             pageable: true,
             sortable: true,
@@ -628,7 +590,7 @@ window.AppSecurityGrids = {
             ]
         });
 
-        $("#available-privileges-grid").kendoGrid({
+        $("#role-available-privileges-grid").kendoGrid({
             dataSource: { data: [], pageSize: 20 },
             pageable: true,
             sortable: true,
@@ -640,16 +602,71 @@ window.AppSecurityGrids = {
                 { command: [{ text: "Add", click: event => this.addPrivilege(event) }], width: 110 }
             ]
         });
+
+        document
+            .getElementById("refresh-role-privileges")
+            ?.addEventListener("click", () => this.reloadRolePrivileges());
     },
 
-    refreshRolePrivilegeEditor: function () {
+    reloadRolePrivileges: async function () {
+        this.privilegesLoaded = false;
+        await this.refreshRolePrivilegeEditor();
+    },
+
+    ensurePrivilegesLoaded: async function () {
+        if (this.privilegesLoaded) {
+            return true;
+        }
+
+        try {
+            const body = await AppSecurityApi.get(`${this.apiRoot}/Privilege?$top=500`);
+            this.privilegeRows = AppSecurityApi.unwrapCollection(body);
+            this.privilegesLoaded = true;
+            return true;
+        } catch {
+            this.privilegeRows = [];
+            this.privilegesLoaded = false;
+            return false;
+        }
+    },
+
+    refreshRolePrivilegeEditor: async function () {
         const role = this.selectedRole();
+
+        this.setSelectedRoleLabel(role);
+
+        if (!role) {
+            this.setGridData("#role-assigned-privileges-grid", []);
+            this.setGridData("#role-available-privileges-grid", []);
+            return;
+        }
+
+        const loaded = await this.ensurePrivilegesLoaded();
+
+        if (!loaded) {
+            this.setGridData("#role-assigned-privileges-grid", []);
+            this.setGridData("#role-available-privileges-grid", []);
+            return;
+        }
+
         const assignedPrivilegeIds = this.rolePrivilegeIds(role);
         const assigned = this.privilegeRows.filter(privilege => assignedPrivilegeIds.includes(privilege.Id));
         const available = this.privilegeRows.filter(privilege => !assignedPrivilegeIds.includes(privilege.Id));
 
-        this.setGridData("#assigned-privileges-grid", assigned);
-        this.setGridData("#available-privileges-grid", available);
+        this.setGridData("#role-assigned-privileges-grid", assigned);
+        this.setGridData("#role-available-privileges-grid", available);
+    },
+
+    setSelectedRoleLabel: function (role) {
+        const label = document.getElementById("selected-role-label");
+
+        if (!label) {
+            return;
+        }
+
+        label.textContent = role
+            ? `${role.Name ?? "Role"} (${role.Id})`
+            : "Select a role to manage its privileges.";
     },
 
     addPrivilege: async function (event) {

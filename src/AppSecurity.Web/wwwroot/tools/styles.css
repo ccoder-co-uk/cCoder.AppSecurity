@@ -141,6 +141,10 @@ body.as-shell {
     grid-template-rows: auto minmax(0, 1fr);
 }
 
+.as-role-surface.active {
+    grid-template-rows: auto minmax(300px, 1fr) auto;
+}
+
 .as-toolbar {
     min-height: 54px;
     display: flex;
@@ -174,6 +178,41 @@ body.as-shell {
     min-height: 450px;
 }
 
+.as-role-surface > .as-grid {
+    min-height: 320px;
+}
+
+.as-role-surface > .as-grid .k-grid-content {
+    min-height: 220px;
+}
+
+.as-child-panel {
+    border-top: 1px solid #d6dee8;
+    background: #fff;
+}
+
+.as-child-header {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 10px;
+    background: #fbfcfe;
+}
+
+.as-child-header h3 {
+    margin: 0;
+    color: #26384c;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.as-child-header span {
+    color: #607085;
+    font-size: 12px;
+}
+
 .as-role-privileges {
     display: grid;
     grid-template-columns: repeat(2, minmax(320px, 1fr));
@@ -181,11 +220,19 @@ body.as-shell {
     padding: 12px;
 }
 
-.as-role-privileges h3 {
+.as-role-privileges h4 {
     margin: 0 0 8px;
     color: #26384c;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
+}
+
+.as-role-privileges .as-grid {
+    min-height: 300px;
+}
+
+.as-role-privileges .as-grid .k-grid-content {
+    min-height: 180px;
 }
 
 .k-grid .k-toolbar {
