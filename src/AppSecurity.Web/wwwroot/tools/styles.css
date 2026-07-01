@@ -141,10 +141,6 @@ body.as-shell {
     grid-template-rows: auto minmax(0, 1fr);
 }
 
-.as-role-surface.active {
-    grid-template-rows: auto minmax(300px, 1fr) auto;
-}
-
 .as-toolbar {
     min-height: 54px;
     display: flex;
@@ -178,61 +174,43 @@ body.as-shell {
     min-height: 450px;
 }
 
-.as-role-surface > .as-grid {
-    min-height: 320px;
-}
-
-.as-role-surface > .as-grid .k-grid-content {
-    min-height: 220px;
-}
-
-.as-child-panel {
-    border-top: 1px solid #d6dee8;
+.as-role-detail {
+    padding: 10px;
     background: #fff;
 }
 
-.as-child-header {
-    min-height: 48px;
+.as-role-tabs > .k-content {
+    padding: 8px;
+}
+
+.as-detail-toolbar {
+    min-height: 42px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 8px 10px;
-    background: #fbfcfe;
+    gap: 8px;
+    padding-bottom: 8px;
 }
 
-.as-child-header h3 {
-    margin: 0;
-    color: #26384c;
-    font-size: 15px;
-    font-weight: 600;
+.as-detail-toolbar .role-user-id {
+    max-width: 280px;
 }
 
-.as-child-header span {
+.as-detail-note {
     color: #607085;
     font-size: 12px;
 }
 
-.as-role-privileges {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(320px, 1fr));
-    gap: 12px;
-    padding: 12px;
+.as-child-grid {
+    min-height: 360px;
 }
 
-.as-role-privileges h4 {
-    margin: 0 0 8px;
-    color: #26384c;
-    font-size: 14px;
-    font-weight: 600;
+.as-child-grid .k-grid-content {
+    min-height: 240px;
 }
 
-.as-role-privileges .as-grid {
-    min-height: 300px;
-}
-
-.as-role-privileges .as-grid .k-grid-content {
-    min-height: 180px;
+.role-privilege-toggle {
+    width: 16px;
+    height: 16px;
 }
 
 .k-grid .k-toolbar {
@@ -297,9 +275,6 @@ a > span.k-icon {
         flex-direction: column;
     }
 
-    .as-role-privileges {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 760px) {

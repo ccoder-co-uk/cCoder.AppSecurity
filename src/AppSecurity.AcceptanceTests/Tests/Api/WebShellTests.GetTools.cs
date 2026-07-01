@@ -32,9 +32,11 @@ public sealed partial class WebShellTests
         // Then
         actualApiScript.Should().Contain("window.AppSecurityApi");
         actualGridScript.Should().Contain("window.AppSecurityGrids");
-        actualGridScript.Should().Contain("Privilege assignment");
+        actualGridScript.Should().Contain("Add user");
+        actualGridScript.Should().Contain("Save privileges");
         actualGridScript.Should().Contain("/Privilege?$top=500");
         actualGridScript.Should().NotContain("title: \"Privileges\"");
         actualGridScript.Should().NotContain("title: \"Role Privileges\"");
+        actualGridScript.Should().NotContain("title: \"User Roles\"");
     }
 }

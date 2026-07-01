@@ -60,25 +60,12 @@ window.AppSecurityGrids = {
             },
             columns: ["Id", "DisplayName", "Email", "DefaultCultureId", "IsActive"]
         },
-        {
-            name: "UserRole",
-            title: "User Roles",
-            description: "User-role links inside the selected App and Role",
-            composite: true,
-            context: { type: "role", field: "RoleId" },
-            fields: {
-                RoleId: { type: "string" },
-                UserId: { type: "string" }
-            },
-            columns: ["RoleId", "UserId"]
-        },
     ],
 
     init: function () {
         this.buildWorkspaces();
         this.workspaces
             .forEach(config => this.createGrid(config));
-        this.bindRolePrivilegeEditor();
     },
 
     buildWorkspaces: function () {
@@ -117,36 +104,11 @@ window.AppSecurityGrids = {
     },
 
     gridHtml: function (config) {
-        const childHtml = config.name === "Role"
-            ? this.rolePrivilegesHtml()
-            : "";
-
         return `<div class="as-toolbar">` +
             `<div><h2>${config.title}</h2><span>${config.description}</span></div>` +
             this.contextHtml(config) +
             `</div>` +
-            `<div id="${this.gridId(config)}" class="as-grid"></div>` +
-            childHtml;
-    },
-
-    rolePrivilegesHtml: function () {
-        return `<div class="as-child-panel">` +
-            `<div class="as-child-header">` +
-            `<div><h3>Privilege assignment</h3><span id="selected-role-label">Select a role to manage its privileges.</span></div>` +
-            `<button id="refresh-role-privileges" class="k-button k-button-sm k-rounded-md k-button-solid k-button-solid-base" type="button">` +
-            `<span class="k-icon k-i-refresh"></span>Refresh</button>` +
-            `</div>` +
-            `<div class="as-role-privileges">` +
-            `<section>` +
-            `<h4>Assigned privileges</h4>` +
-            `<div id="role-assigned-privileges-grid" class="as-grid"></div>` +
-            `</section>` +
-            `<section>` +
-            `<h4>Available privileges</h4>` +
-            `<div id="role-available-privileges-grid" class="as-grid"></div>` +
-            `</section>` +
-            `</div>` +
-            `</div>`;
+            `<div id="${this.gridId(config)}" class="as-grid"></div>`;
     },
 
     contextHtml: function (config) {
@@ -207,7 +169,7 @@ window.AppSecurityGrids = {
                 },
                 schema: {
                     model: {
-                        id: config.composite ? "_rowKey" : config.key,
+                        id: config.key,
                         fields: this.modelFields(config)
                     }
                 },
@@ -230,6 +192,8 @@ window.AppSecurityGrids = {
             selectable: "row",
             autoBind: config.name === "App",
             columns: this.columns(config),
+            detailTemplate: config.name === "Role" ? this.roleDetailTemplate() : undefined,
+            detailInit: config.name === "Role" ? event => this.onRoleDetailInit(event) : undefined,
             noRecords: true,
             messages: {
                 noRecords: this.noRecordsMessage(config)
@@ -243,9 +207,7 @@ window.AppSecurityGrids = {
     },
 
     modelFields: function (config) {
-        const fields = Object.assign(
-            config.composite ? { _rowKey: { editable: false } } : {},
-            config.fields);
+        const fields = Object.assign({}, config.fields);
 
         if (config.key && config.keyType === "guid") {
             fields[config.key] = Object.assign({}, fields[config.key], { editable: false });
@@ -301,10 +263,6 @@ window.AppSecurityGrids = {
             url += `&$filter=${encodeURIComponent(`AppId eq ${this.context.appId}`)}`;
         }
 
-        if (config.name === "UserRole" && this.context.roleId) {
-            url += `&$filter=${encodeURIComponent(`RoleId eq ${this.context.roleId}`)}`;
-        }
-
         return url;
     },
 
@@ -328,14 +286,9 @@ window.AppSecurityGrids = {
             const payload = this.preparePayload(config, options.data, false);
             let result;
 
-            if (config.composite) {
-                await this.deleteComposite(config, options.data._original ?? options.data);
-                result = await AppSecurityApi.post(`${this.apiRoot}/${config.name}`, payload);
-            } else {
-                result = await AppSecurityApi.put(
-                    `${this.apiRoot}/${config.name}(${this.formatKey(config, options.data[config.key])})`,
-                    payload);
-            }
+            result = await AppSecurityApi.put(
+                `${this.apiRoot}/${config.name}(${this.formatKey(config, options.data[config.key])})`,
+                payload);
 
             options.success(this.withRowState(config, result ?? payload));
             AppSecurityApi.notify(`${config.title} updated`);
@@ -346,25 +299,14 @@ window.AppSecurityGrids = {
 
     destroy: async function (config, options) {
         try {
-            if (config.composite) {
-                await this.deleteComposite(config, options.data._original ?? options.data);
-            } else {
-                await AppSecurityApi.delete(
-                    `${this.apiRoot}/${config.name}(${this.formatKey(config, options.data[config.key])})`);
-            }
+            await AppSecurityApi.delete(
+                `${this.apiRoot}/${config.name}(${this.formatKey(config, options.data[config.key])})`);
 
             options.success(options.data);
             AppSecurityApi.notify(`${config.title} deleted`);
         } catch (error) {
             options.error(error);
         }
-    },
-
-    deleteComposite: function (config, data) {
-        const payload = this.preparePayload(config, data, false);
-
-        return AppSecurityApi.delete(
-            `${this.apiRoot}/${config.name}(RoleId=${payload.RoleId},UserId='${this.escapeKey(payload.UserId)}')`);
     },
 
     preparePayload: function (config, data, isCreate) {
@@ -391,11 +333,6 @@ window.AppSecurityGrids = {
             payload.IsActive = Boolean(payload.IsActive);
         }
 
-        if (config.name === "UserRole") {
-            payload.RoleId = this.context.roleId;
-            payload.UserId = payload.UserId || this.context.userId;
-        }
-
         return payload;
     },
 
@@ -404,10 +341,6 @@ window.AppSecurityGrids = {
             event.model.set("AppId", Number(this.context.appId));
         }
 
-        if (config.name === "UserRole") {
-            event.model.set("RoleId", this.context.roleId);
-            event.model.set("UserId", event.model.UserId || this.context.userId || "");
-        }
     },
 
     onSelectionChanged: function (config) {
@@ -424,6 +357,7 @@ window.AppSecurityGrids = {
 
         if (config.name === "Role") {
             this.setRoleContext(row.Id);
+            grid.expandRow(grid.select());
         }
 
         if (config.name === "User") {
@@ -446,7 +380,6 @@ window.AppSecurityGrids = {
         if (config.name === "Role") {
             this.roleRows = this.gridRows(config);
             this.refreshRoleSelectors();
-            this.refreshRolePrivilegeEditor();
         }
 
         if (config.name === "User") {
@@ -478,8 +411,6 @@ window.AppSecurityGrids = {
 
         if (refresh) {
             this.refreshLoadedGrid("Role");
-            this.refreshLoadedGrid("UserRole");
-            this.refreshRolePrivilegeEditor();
         }
     },
 
@@ -492,11 +423,6 @@ window.AppSecurityGrids = {
 
         this.context.roleId = roleId;
         this.refreshRoleSelectors();
-
-        if (refresh) {
-            this.refreshLoadedGrid("UserRole");
-            this.refreshRolePrivilegeEditor();
-        }
     },
 
     setUserContext: function (value) {
@@ -576,43 +502,6 @@ window.AppSecurityGrids = {
             });
     },
 
-    bindRolePrivilegeEditor: function () {
-        $("#role-assigned-privileges-grid").kendoGrid({
-            dataSource: { data: [], pageSize: 20 },
-            pageable: true,
-            sortable: true,
-            filterable: true,
-            columns: [
-                { field: "Id", title: "Privilege", width: 240 },
-                { field: "Type", title: "Type", width: 160 },
-                { field: "Operation", title: "Operation", width: 140 },
-                { command: [{ text: "Remove", click: event => this.removePrivilege(event) }], width: 130 }
-            ]
-        });
-
-        $("#role-available-privileges-grid").kendoGrid({
-            dataSource: { data: [], pageSize: 20 },
-            pageable: true,
-            sortable: true,
-            filterable: true,
-            columns: [
-                { field: "Id", title: "Privilege", width: 240 },
-                { field: "Type", title: "Type", width: 160 },
-                { field: "Operation", title: "Operation", width: 140 },
-                { command: [{ text: "Add", click: event => this.addPrivilege(event) }], width: 110 }
-            ]
-        });
-
-        document
-            .getElementById("refresh-role-privileges")
-            ?.addEventListener("click", () => this.reloadRolePrivileges());
-    },
-
-    reloadRolePrivileges: async function () {
-        this.privilegesLoaded = false;
-        await this.refreshRolePrivilegeEditor();
-    },
-
     ensurePrivilegesLoaded: async function () {
         if (this.privilegesLoaded) {
             return true;
@@ -630,87 +519,230 @@ window.AppSecurityGrids = {
         }
     },
 
-    refreshRolePrivilegeEditor: async function () {
-        const role = this.selectedRole();
-
-        this.setSelectedRoleLabel(role);
-
-        if (!role) {
-            this.setGridData("#role-assigned-privileges-grid", []);
-            this.setGridData("#role-available-privileges-grid", []);
-            return;
-        }
-
-        const loaded = await this.ensurePrivilegesLoaded();
-
-        if (!loaded) {
-            this.setGridData("#role-assigned-privileges-grid", []);
-            this.setGridData("#role-available-privileges-grid", []);
-            return;
-        }
-
-        const assignedPrivilegeIds = this.rolePrivilegeIds(role);
-        const assigned = this.privilegeRows.filter(privilege => assignedPrivilegeIds.includes(privilege.Id));
-        const available = this.privilegeRows.filter(privilege => !assignedPrivilegeIds.includes(privilege.Id));
-
-        this.setGridData("#role-assigned-privileges-grid", assigned);
-        this.setGridData("#role-available-privileges-grid", available);
+    roleDetailTemplate: function () {
+        return `<div class="as-role-detail">` +
+            `<div class="as-role-tabs">` +
+            `<ul>` +
+            `<li class="k-active"><span class="k-icon k-i-user"></span> Users</li>` +
+            `<li><span class="k-icon k-i-check"></span> Privileges</li>` +
+            `</ul>` +
+            `<div>` +
+            `<div class="as-detail-toolbar">` +
+            `<input class="form-control form-control-sm role-user-id" placeholder="User Id">` +
+            `<button class="k-button k-button-sm k-rounded-md k-button-solid k-button-solid-primary add-role-user" type="button">` +
+            `<span class="k-icon k-i-plus"></span>Add user</button>` +
+            `</div>` +
+            `<div class="role-users-grid as-child-grid"></div>` +
+            `</div>` +
+            `<div>` +
+            `<div class="as-detail-toolbar">` +
+            `<button class="k-button k-button-sm k-rounded-md k-button-solid k-button-solid-primary save-role-privileges" type="button">` +
+            `<span class="k-icon k-i-save"></span>Save privileges</button>` +
+            `<span class="as-detail-note">Tick the privileges that belong to this role.</span>` +
+            `</div>` +
+            `<div class="role-privileges-grid as-child-grid"></div>` +
+            `</div>` +
+            `</div>` +
+            `</div>`;
     },
 
-    setSelectedRoleLabel: function (role) {
-        const label = document.getElementById("selected-role-label");
+    onRoleDetailInit: function (event) {
+        const role = event.data;
+        const detail = event.detailRow;
 
-        if (!label) {
-            return;
-        }
-
-        label.textContent = role
-            ? `${role.Name ?? "Role"} (${role.Id})`
-            : "Select a role to manage its privileges.";
+        detail.find(".as-role-tabs").kendoTabStrip({
+            activate: tabEvent => {
+                if ($(tabEvent.item).index() === 1) {
+                    detail.find(".role-privileges-grid").data("kendoGrid").dataSource.read();
+                }
+            }
+        });
+        this.createRoleUsersGrid(detail, role);
+        this.createRolePrivilegesGrid(detail, role);
     },
 
-    addPrivilege: async function (event) {
+    createRoleUsersGrid: function (detail, role) {
+        const gridElement = detail.find(".role-users-grid");
+
+        gridElement.kendoGrid({
+            dataSource: {
+                transport: {
+                    read: options => this.readRoleUsers(role, options)
+                },
+                pageSize: 10
+            },
+            pageable: true,
+            sortable: true,
+            filterable: true,
+            columns: [
+                { field: "UserId", title: "User Id", width: 220 },
+                { field: "DisplayName", title: "Display Name", width: 220 },
+                { field: "Email", title: "Email", width: 260 },
+                { command: [{ text: "Delete", click: event => this.removeRoleUser(event, role) }], width: 130 }
+            ]
+        });
+
+        detail.find(".add-role-user").on("click", async () => {
+            const input = detail.find(".role-user-id");
+            const userId = input.val()?.trim();
+
+            if (!userId) {
+                AppSecurityApi.notify("Enter a user id.", true);
+                return;
+            }
+
+            await AppSecurityApi.post(`${this.apiRoot}/UserRole`, { roleId: role.Id, userId });
+            input.val("");
+            gridElement.data("kendoGrid").dataSource.read();
+            AppSecurityApi.notify("User added to role");
+        });
+    },
+
+    readRoleUsers: async function (role, options) {
+        try {
+            const roleUsers = await this.getRoleUsers(role.Id);
+            const usersById = await this.getUsersById();
+            const rows = roleUsers.map(userRole => {
+                const user = usersById[userRole.UserId] ?? {};
+
+                return {
+                    RoleId: userRole.RoleId,
+                    UserId: userRole.UserId,
+                    DisplayName: user.DisplayName ?? "",
+                    Email: user.Email ?? ""
+                };
+            });
+
+            options.success(rows);
+        } catch (error) {
+            options.error(error);
+        }
+    },
+
+    getRoleUsers: async function (roleId) {
+        const filter = encodeURIComponent(`RoleId eq ${roleId}`);
+        const body = await AppSecurityApi.get(`${this.apiRoot}/UserRole?$top=500&$filter=${filter}`);
+
+        return AppSecurityApi.unwrapCollection(body);
+    },
+
+    getUsersById: async function () {
+        const body = await AppSecurityApi.get(`${this.apiRoot}/User?$top=500`);
+        const users = AppSecurityApi.unwrapCollection(body);
+
+        return users.reduce((map, user) => {
+            map[user.Id] = user;
+            return map;
+        }, {});
+    },
+
+    removeRoleUser: async function (event, role) {
         event.preventDefault();
-        const privilege = this.gridDataItem(event);
-
-        await this.saveRolePrivileges([
-            ...this.rolePrivilegeIds(this.selectedRole()),
-            privilege.Id
-        ]);
-    },
-
-    removePrivilege: async function (event) {
-        event.preventDefault();
-        const privilege = this.gridDataItem(event);
-
-        await this.saveRolePrivileges(
-            this.rolePrivilegeIds(this.selectedRole())
-                .filter(privilegeId => privilegeId !== privilege.Id));
-    },
-
-    gridDataItem: function (event) {
         const grid = $(event.currentTarget).closest(".k-grid").data("kendoGrid");
-        const row = $(event.currentTarget).closest("tr");
+        const userRole = grid.dataItem($(event.currentTarget).closest("tr"));
 
-        return grid.dataItem(row);
+        await AppSecurityApi.delete(
+            `${this.apiRoot}/UserRole(RoleId=${role.Id},UserId='${this.escapeKey(userRole.UserId)}')`);
+
+        grid.dataSource.read();
+        AppSecurityApi.notify("User removed from role");
     },
 
-    saveRolePrivileges: async function (privilegeIds) {
-        const role = this.selectedRole();
+    createRolePrivilegesGrid: function (detail, role) {
+        const gridElement = detail.find(".role-privileges-grid");
 
-        if (!role) {
-            AppSecurityApi.notify("Select a role first.", true);
-            return;
+        gridElement.kendoGrid({
+            dataSource: {
+                transport: {
+                    read: options => this.readRolePrivileges(role, options)
+                },
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Assigned: { type: "boolean" },
+                            Id: { type: "string", editable: false },
+                            Type: { type: "string", editable: false },
+                            Operation: { type: "string", editable: false },
+                            Description: { type: "string", editable: false }
+                        }
+                    }
+                },
+                pageSize: 20
+            },
+            autoBind: false,
+            pageable: true,
+            sortable: true,
+            filterable: true,
+            columns: [
+                {
+                    field: "Assigned",
+                    title: " ",
+                    width: 64,
+                    template: "<input class='role-privilege-toggle' type='checkbox' #= Assigned ? 'checked' : '' #>"
+                },
+                { field: "Type", title: "Type", width: 180 },
+                { field: "Operation", title: "Operation", width: 160 },
+                { field: "Description", title: "Description" }
+            ]
+        });
+
+        gridElement.on("change", ".role-privilege-toggle", event => {
+            const grid = gridElement.data("kendoGrid");
+            const row = $(event.currentTarget).closest("tr");
+            const privilege = grid.dataItem(row);
+            privilege.set("Assigned", event.currentTarget.checked);
+        });
+
+        detail.find(".save-role-privileges").on("click", async () => {
+            const grid = gridElement.data("kendoGrid");
+            const privileges = grid.dataSource.data().toJSON();
+            const privilegeIds = privileges
+                .filter(privilege => privilege.Assigned)
+                .map(privilege => privilege.Id);
+
+            await this.saveRolePrivileges(role, privilegeIds);
+        });
+    },
+
+    readRolePrivileges: async function (role, options) {
+        try {
+            const loaded = await this.ensurePrivilegesLoaded();
+
+            if (!loaded) {
+                options.success([]);
+                return;
+            }
+
+            const assignedPrivilegeIds = this.rolePrivilegeIds(role);
+            const rows = this.privilegeRows.map(privilege => ({
+                Assigned: assignedPrivilegeIds.includes(privilege.Id),
+                Id: privilege.Id,
+                Type: privilege.Type,
+                Operation: privilege.Operation,
+                Description: privilege.Description
+            }));
+
+            options.success(rows);
+        } catch (error) {
+            options.error(error);
+        }
+    },
+
+    saveRolePrivileges: async function (role, privilegeIds) {
+        const privilegeList = [...new Set(privilegeIds)].join(",");
+        const roleJson = role.toJSON ? role.toJSON() : Object.assign({}, role);
+
+        roleJson.Privs = privilegeList;
+        await AppSecurityApi.put(`${this.apiRoot}/Role(${role.Id})`, roleJson);
+
+        if (role.set) {
+            role.set("Privs", privilegeList);
+        } else {
+            role.Privs = privilegeList;
         }
 
-        role.Privs = [...new Set(privilegeIds)].join(",");
-        await AppSecurityApi.put(`${this.apiRoot}/Role(${role.Id})`, role);
-        this.refreshGrid("Role");
         AppSecurityApi.notify("Role privileges updated");
-    },
-
-    selectedRole: function () {
-        return this.roleRows.find(role => role.Id === this.context.roleId) ?? null;
     },
 
     rolePrivilegeIds: function (role) {
@@ -718,14 +750,6 @@ window.AppSecurityGrids = {
             .split(",")
             .map(privilegeId => privilegeId.trim())
             .filter(Boolean);
-    },
-
-    setGridData: function (selector, rows) {
-        const grid = $(selector).data("kendoGrid");
-
-        if (grid) {
-            grid.dataSource.data(rows);
-        }
     },
 
     contextValue: function (contextType) {
@@ -752,16 +776,7 @@ window.AppSecurityGrids = {
     withRowState: function (config, row) {
         const copy = Object.assign({}, row);
 
-        if (config.composite) {
-            copy._rowKey = this.compositeKey(copy);
-            copy._original = this.preparePayload(config, copy, false);
-        }
-
         return copy;
-    },
-
-    compositeKey: function (row) {
-        return `${row.RoleId}|${row.UserId}`;
     },
 
     formatKey: function (config, value) {
