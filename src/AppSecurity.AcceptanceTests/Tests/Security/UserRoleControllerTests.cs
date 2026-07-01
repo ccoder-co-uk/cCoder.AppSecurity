@@ -55,7 +55,7 @@ public sealed partial class UserRoleControllerTests(WebAcceptanceFixture fixture
             AppId = app.Id,
             Name = Unique("Role"),
             Description = "Acceptance role",
-            Privs = "app_admin,userrole_create,userrole_delete,userrole_read",
+            Privs = "app_admin,userrole_create,userrole_delete,userrole_read,page_read",
         });
 
         await core.AddUserRoleAsync(new UserRole { RoleId = guestRole.Id, UserId = "Guest" });

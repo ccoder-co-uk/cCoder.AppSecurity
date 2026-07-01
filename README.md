@@ -64,7 +64,7 @@ Before running `src/AppSecurity.Web` or `src/AppSecurity.HostedServices`, set:
 
 The committed `appsettings.json` keeps these values blank so user or machine environment variables can supply them during local development.
 
-`AppSecurity.Web` exposes `/Health` and the App Security API endpoints.
+`AppSecurity.Web` exposes `/Health`, the App Security API endpoints, and a small manual test UI at `/`.
 
 `AppSecurity.HostedServices` exposes `/Health` plus `/`, which returns a plain-text report of hosted background services and event listeners.
 

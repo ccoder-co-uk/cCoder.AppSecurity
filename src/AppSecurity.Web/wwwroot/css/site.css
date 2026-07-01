@@ -1,0 +1,65 @@
+body {
+  background: #f5f7fb;
+}
+
+.app-shell {
+  max-width: 1440px;
+}
+
+.section-panel {
+  background: #fff;
+  border: 1px solid #d8dee8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.section-panel > header {
+  align-items: center;
+  border-bottom: 1px solid #e5e9f0;
+  display: flex;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 10px 14px;
+}
+
+.section-panel h2 {
+  font-size: 1rem;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.panel-body {
+  padding: 14px;
+}
+
+.actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.result-box {
+  background: #101820;
+  border-radius: 4px;
+  color: #d8f3dc;
+  font-size: .85rem;
+  margin: 12px 0 0;
+  min-height: 76px;
+  overflow: auto;
+  padding: 10px;
+  white-space: pre-wrap;
+}
+
+.table {
+  table-layout: fixed;
+}
+
+.table td,
+.table th {
+  overflow-wrap: anywhere;
+  vertical-align: middle;
+}
+
+.table tbody tr {
+  cursor: pointer;
+}

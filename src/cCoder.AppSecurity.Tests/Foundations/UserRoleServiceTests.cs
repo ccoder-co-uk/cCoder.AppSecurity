@@ -7,6 +7,7 @@ using DataRole = cCoder.Data.Models.Security.Role;
 using DataUser = cCoder.Data.Models.Security.User;
 using DataUserRole = cCoder.Data.Models.Security.UserRole;
 using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
+using IRoleBroker = cCoder.AppSecurity.Brokers.IRoleBroker;
 using IUserRoleBroker = cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker;
 
 
@@ -15,15 +16,18 @@ namespace cCoder.Core.Services.Tests.Security.Foundations;
 public partial class UserRoleServiceTests
 {
     private readonly Mock<IUserRoleBroker> userRoleBrokerMock;
+    private readonly Mock<IRoleBroker> roleBrokerMock;
     private readonly Mock<IAuthorizationBroker> authorizationBrokerMock;
     private readonly UserRoleService userRoleService;
 
     public UserRoleServiceTests()
     {
         userRoleBrokerMock = new Mock<IUserRoleBroker>(MockBehavior.Strict);
+        roleBrokerMock = new Mock<IRoleBroker>(MockBehavior.Strict);
         authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
         userRoleService = new UserRoleService(
             userRoleBrokerMock.Object,
+            roleBrokerMock.Object,
             authorizationBrokerMock.Object
         );
     }
@@ -66,6 +70,34 @@ public partial class UserRoleServiceTests
                     Privs = item.Role.Privs,
                 },
             };
+
+    private static DataRole CreateRole(Guid roleId, int appId, params string[] privileges) =>
+        new()
+        {
+            Id = roleId,
+            AppId = appId,
+            Name = $"Role-{Guid.NewGuid():N}",
+            Privs = string.Join(',', privileges),
+        };
+
+    private static DataUser CreateCurrentUser(int appId, params string[] privileges)
+    {
+        DataRole role = CreateRole(Guid.NewGuid(), appId, privileges);
+
+        return new DataUser
+        {
+            Id = "current-user",
+            Roles =
+            [
+                new DataUserRole
+                {
+                    UserId = "current-user",
+                    RoleId = role.Id,
+                    Role = role,
+                }
+            ],
+        };
+    }
 }
 
 

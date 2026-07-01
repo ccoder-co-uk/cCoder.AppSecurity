@@ -47,7 +47,7 @@ internal class RoleService(
             Description = role.Description,
             Privs = role.Privs
         };
-        AuthorizeOrAllowBootstrap(role.AppId, $"{nameof(Role)}_create");
+        AuthorizeMutationOrAllowBootstrap(role.AppId, $"{nameof(Role)}_create", role.Privs);
         DataRole result = await roleBroker.AddRoleAsync(internalRole);
         role.Id = result.Id;
         role.AppId = result.AppId;
@@ -86,7 +86,7 @@ internal class RoleService(
             Description = role.Description,
             Privs = role.Privs
         };
-        AuthorizeOrAllowBootstrap(role.AppId, $"{nameof(Role)}_update");
+        AuthorizeMutationOrAllowBootstrap(role.AppId, $"{nameof(Role)}_update", role.Privs);
         DataRole result = await roleBroker.UpdateRoleAsync(internalRole);
         role.Id = result.Id;
         role.AppId = result.AppId;
@@ -148,7 +148,7 @@ internal class RoleService(
         _ = await roleBroker.DeleteRoleAsync(ToExternalRole(role));
     }
 
-    private void AuthorizeOrAllowBootstrap(int? appId, string privilege)
+    private void AuthorizeMutationOrAllowBootstrap(int? appId, string privilege, string assignedPrivileges)
     {
         if (!HasAnyRoles(appId))
         {
@@ -156,12 +156,42 @@ internal class RoleService(
         }
 
         authorizationBroker.Authorize(appId, privilege);
+        AuthorizeAssignedPrivileges(appId, assignedPrivileges);
+    }
+
+    private void AuthorizeAssignedPrivileges(int? appId, string assignedPrivileges)
+    {
+        if (!appId.HasValue)
+            return;
+
+        string[] assignedPrivilegeSet = ToPrivilegeSet(assignedPrivileges);
+
+        if (assignedPrivilegeSet.Length == 0)
+            return;
+
+        User currentUser = authorizationBroker.GetCurrentUser();
+        HashSet<string> grantedPrivileges = currentUser?.Roles?
+            .Where(userRole => userRole.Role?.AppId == appId.Value)
+            .SelectMany(userRole => ToPrivilegeSet(userRole.Role.Privs))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase)
+            ?? [];
+
+        if (assignedPrivilegeSet.Any(assignedPrivilege => !grantedPrivileges.Contains(assignedPrivilege)))
+            throw new SecurityException("Access Denied!");
     }
 
     private bool HasAnyRoles(int? appId) =>
         appId.HasValue
         && roleBroker.GetAllRoles(ignoreFilters: true)
             .Any(foundRole => foundRole.AppId == appId.Value);
+
+    private static string[] ToPrivilegeSet(string privileges) =>
+        string.IsNullOrWhiteSpace(privileges)
+            ? []
+            : [.. privileges
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(privilege => privilege.ToLowerInvariant())
+                .Distinct()];
 
     static Role ToLocalRole(DataRole item) =>
         new()

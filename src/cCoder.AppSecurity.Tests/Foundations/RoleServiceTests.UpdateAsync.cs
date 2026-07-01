@@ -23,6 +23,9 @@ public partial class RoleServiceTests
         roleBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>())).Returns((int?)7);
 
         authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "Role_update"));
+        authorizationBrokerMock
+            .Setup(x => x.GetCurrentUser())
+            .Returns(CreateCurrentUser(7, "page_read", "page_write"));
 
         roleBrokerMock
             .Setup(x => x.UpdateRoleAsync(It.IsAny<cCoder.Data.Models.Security.Role>()))
@@ -58,6 +61,33 @@ public partial class RoleServiceTests
         roleBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>()), Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "Role_update"), Times.Once);
+        authorizationBrokerMock.Verify(x => x.GetCurrentUser(), Times.Once);
+        authorizationBrokerMock.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public async Task ShouldThrowSecurityExceptionWhenUserAssignsUnownedPrivilegeForUpdateAsync()
+    {
+        // Given
+        Role role = CreateRandomRole(appId: 7);
+        role.Privs = "page_read,page_delete";
+
+        roleBrokerMock.Setup(x => x.GetAllRoles(true)).Returns(new[] { ToExternalRole(role) }.AsQueryable());
+        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "Role_update"));
+        authorizationBrokerMock
+            .Setup(x => x.GetCurrentUser())
+            .Returns(CreateCurrentUser(7, "page_read", "role_update"));
+
+        // When
+        Func<Task> action = async () => await roleService.UpdateAsync(role);
+
+        // Then
+        await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
+        roleBrokerMock.Verify(x => x.GetAllRoles(true), Times.Once);
+        roleBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>()), Times.AtMostOnce());
+        roleBrokerMock.VerifyNoOtherCalls();
+        authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "Role_update"), Times.Once);
+        authorizationBrokerMock.Verify(x => x.GetCurrentUser(), Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 

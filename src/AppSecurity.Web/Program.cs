@@ -51,6 +51,8 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseSession();
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
 
         app.UseSwagger()
             .UseSwaggerUI(options =>
