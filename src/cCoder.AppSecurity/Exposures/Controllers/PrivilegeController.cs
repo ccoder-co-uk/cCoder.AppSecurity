@@ -18,10 +18,7 @@ public partial class PrivilegeController : ODataController
 {
     protected IPrivilegeOrchestrationService Service { get; }
 
-    public PrivilegeController(
-        IPrivilegeOrchestrationService service,
-        ILogger<PrivilegeController> log
-    )
+    public PrivilegeController(IPrivilegeOrchestrationService service)
     {
         Service = service;
     }

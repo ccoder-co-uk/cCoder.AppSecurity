@@ -51,7 +51,6 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseSession();
-        app.UseDefaultFiles();
         app.UseStaticFiles();
 
         app.UseSwagger()
@@ -66,6 +65,7 @@ public class Program
 
         app.UseDomainApiShell();
         app.MapGet("/Health", () => Results.Text("OK"));
+        app.MapGet("/", () => Results.Redirect("/tools/index.html"));
         app.UseDomainDefaultCors();
         app.UseDomainExceptionHandling(HandleUnhandledException);
         app.StartAppSecurityWeb(log);

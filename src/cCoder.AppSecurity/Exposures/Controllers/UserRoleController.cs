@@ -14,10 +14,7 @@ public partial class UserRoleController : ODataController
 {
     protected IUserRoleOrchestrationService Service { get; }
 
-    public UserRoleController(
-        IUserRoleOrchestrationService service,
-        ILogger<UserRoleController> log
-    )
+    public UserRoleController(IUserRoleOrchestrationService service)
     {
         Service = service;
     }
