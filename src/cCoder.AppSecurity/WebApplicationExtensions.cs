@@ -35,7 +35,10 @@ public static partial class WebApplicationExtensions
         IServiceProvider services = scope.ServiceProvider;
 
         foreach (IAppSecurityEventHandlers handlers in services.GetServices<IAppSecurityEventHandlers>())
+        {
             handlers.ListenToAppCreateAndUpdateEvents();
+            handlers.ListenToSecurityAccountEvents();
+        }
 
         return app;
     }

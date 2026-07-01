@@ -68,10 +68,16 @@ public sealed partial class RoleControllerTests(WebAcceptanceFixture fixture)
 
     private async Task<int> UpdateRoleAsync(Guid id, object payload)
     {
+        (int statusCode, string content) = await PutRoleAsync(id, payload);
+        statusCode.Should().Be((int)HttpStatusCode.OK, content);
+        return statusCode;
+    }
+
+    private async Task<(int StatusCode, string Content)> PutRoleAsync(Guid id, object payload)
+    {
         using HttpResponseMessage response = await Client.PutAsJsonAsync($"{BaseUrl}({id})", payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return (int)response.StatusCode;
+        return ((int)response.StatusCode, content);
     }
 
     private async Task<int> PatchRoleAsync(Guid id, object payload)

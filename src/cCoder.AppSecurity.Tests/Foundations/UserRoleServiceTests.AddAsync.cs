@@ -20,7 +20,14 @@ public partial class UserRoleServiceTests
         cCoder.Data.Models.Security.UserRole submitted = null;
 
         userRoleBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.UserRole>())).Returns((int?)7);
+        roleBrokerMock.Setup(x => x.GetAllRoles(true)).Returns(new[]
+        {
+            CreateRole(userRole.RoleId, 7, "user_read", "page_read")
+        }.AsQueryable());
         authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "UserRole_create"));
+        authorizationBrokerMock
+            .Setup(x => x.GetCurrentUser())
+            .Returns(CreateCurrentUser(7, "user_read", "page_read", "userrole_create"));
 
         userRoleBrokerMock
             .Setup(x => x.AddUserRoleAsync(It.IsAny<cCoder.Data.Models.Security.UserRole>()))
@@ -43,7 +50,40 @@ public partial class UserRoleServiceTests
         );
         userRoleBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.UserRole>()), Times.AtMostOnce());
         userRoleBrokerMock.VerifyNoOtherCalls();
+        roleBrokerMock.Verify(x => x.GetAllRoles(true), Times.Once);
+        roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "UserRole_create"), Times.Once);
+        authorizationBrokerMock.Verify(x => x.GetCurrentUser(), Times.Once);
+        authorizationBrokerMock.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public async Task ShouldThrowSecurityExceptionWhenUserAssignsRoleWithUnownedPrivilegeForAddAsync()
+    {
+        // Given
+        UserRole userRole = CreateRandomUserRole();
+
+        userRoleBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.UserRole>())).Returns((int?)7);
+        roleBrokerMock.Setup(x => x.GetAllRoles(true)).Returns(new[]
+        {
+            CreateRole(userRole.RoleId, 7, "app_admin", "page_read")
+        }.AsQueryable());
+        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "UserRole_create"));
+        authorizationBrokerMock
+            .Setup(x => x.GetCurrentUser())
+            .Returns(CreateCurrentUser(7, "userrole_create", "page_read"));
+
+        // When
+        Func<Task> action = async () => await userRoleService.AddAsync(userRole);
+
+        // Then
+        await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
+        userRoleBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.UserRole>()), Times.AtMostOnce());
+        userRoleBrokerMock.VerifyNoOtherCalls();
+        roleBrokerMock.Verify(x => x.GetAllRoles(true), Times.Once);
+        roleBrokerMock.VerifyNoOtherCalls();
+        authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "UserRole_create"), Times.Once);
+        authorizationBrokerMock.Verify(x => x.GetCurrentUser(), Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -65,6 +105,7 @@ public partial class UserRoleServiceTests
         await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
         userRoleBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.UserRole>()), Times.AtMostOnce());
         userRoleBrokerMock.VerifyNoOtherCalls();
+        roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "UserRole_create"), Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

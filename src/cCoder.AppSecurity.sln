@@ -1,9 +1,9 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.8.11925.187 insiders
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", ".", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cCoder.AppSecurity", "cCoder.AppSecurity\cCoder.AppSecurity.csproj", "{75CE52BB-59FA-4C84-A764-6BF9F360031E}"
 EndProject
@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cCoder.AppSecurity.Tests", "cCoder.AppSecurity.Tests\cCoder.AppSecurity.Tests.csproj", "{89DD516B-6D96-4E2E-B98C-47EE91DCD43E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppSecurity.AcceptanceTests", "AppSecurity.AcceptanceTests\AppSecurity.AcceptanceTests.csproj", "{9D29DE55-7324-45C8-A3F3-707ABB623518}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppSecurity.HostedServices", "AppSecurity.HostedServices\AppSecurity.HostedServices.csproj", "{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppSecurity.HostedServices.AcceptanceTests", "AppSecurity.HostedServices.AcceptanceTests\AppSecurity.HostedServices.AcceptanceTests.csproj", "{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,14 +75,38 @@ Global
 		{9D29DE55-7324-45C8-A3F3-707ABB623518}.Release|x64.Build.0 = Release|Any CPU
 		{9D29DE55-7324-45C8-A3F3-707ABB623518}.Release|x86.ActiveCfg = Release|Any CPU
 		{9D29DE55-7324-45C8-A3F3-707ABB623518}.Release|x86.Build.0 = Release|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Debug|x64.Build.0 = Debug|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Debug|x86.Build.0 = Debug|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Release|x64.ActiveCfg = Release|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Release|x64.Build.0 = Release|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Release|x86.ActiveCfg = Release|Any CPU
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84}.Release|x86.Build.0 = Release|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Debug|x64.Build.0 = Debug|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Debug|x86.Build.0 = Debug|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Release|x64.ActiveCfg = Release|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Release|x64.Build.0 = Release|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Release|x86.ActiveCfg = Release|Any CPU
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{75CE52BB-59FA-4C84-A764-6BF9F360031E} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{7F94FED2-1E99-4D25-968B-932EF2D0BA51} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
-		{89DD516B-6D96-4E2E-B98C-47EE91DCD43E} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{9D29DE55-7324-45C8-A3F3-707ABB623518} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{3B7D2C68-FBEB-4C83-B825-16EE1ABB4C84} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{23CFF7A6-F930-42A6-B91C-C2C85BAD10A0} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal

@@ -56,7 +56,7 @@ public sealed class WebAcceptanceFixture : IAsyncLifetime
             ?? ReadConfiguredConnectionString(variableName);
 
         if (string.IsNullOrWhiteSpace(connectionString))
-            return string.Empty;
+            connectionString = CreateDefaultAcceptanceConnectionString(variableName);
 
         SqlConnectionStringBuilder builder = new(connectionString)
         {
@@ -88,6 +88,15 @@ public sealed class WebAcceptanceFixture : IAsyncLifetime
             .Build();
 
         return configuration.GetConnectionString(connectionName) ?? string.Empty;
+    }
+
+    private static string CreateDefaultAcceptanceConnectionString(string variableName)
+    {
+        string databaseName = variableName.Contains("CORE", StringComparison.OrdinalIgnoreCase)
+            ? "AppSecurityAcceptanceCore"
+            : "AppSecurityAcceptanceSSO";
+
+        return $"Data Source=.;Initial Catalog={databaseName};MultipleActiveResultSets=True;Trusted_Connection=True;Trust Server Certificate=true";
     }
 }
 

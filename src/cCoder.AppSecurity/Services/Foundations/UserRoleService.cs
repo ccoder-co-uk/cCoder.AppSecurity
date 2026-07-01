@@ -3,6 +3,7 @@ using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using DataUserRole = cCoder.Data.Models.Security.UserRole;
 using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
+using IRoleBroker = cCoder.AppSecurity.Brokers.IRoleBroker;
 using IUserRoleBroker = cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker;
 
 
@@ -10,6 +11,7 @@ namespace cCoder.AppSecurity.Services.Foundations;
 
 internal class UserRoleService(
     IUserRoleBroker userRoleBroker,
+    IRoleBroker roleBroker,
     IAuthorizationBroker authorizationBroker
 ) : IUserRoleService
 {
@@ -23,10 +25,9 @@ internal class UserRoleService(
             RoleId = userRole.RoleId,
             UserId = userRole.UserId
         };
-        authorizationBroker.Authorize(
-            userRoleBroker.GetAppId(internalUserRole),
-            $"{nameof(UserRole)}_create"
-        );
+        int? appId = userRoleBroker.GetAppId(internalUserRole);
+        authorizationBroker.Authorize(appId, $"{nameof(UserRole)}_create");
+        AuthorizeAssignedRolePrivileges(appId, userRole.RoleId);
         DataUserRole result = await userRoleBroker.AddUserRoleAsync(internalUserRole);
         userRole.RoleId = result.RoleId;
         userRole.UserId = result.UserId;
@@ -42,6 +43,40 @@ internal class UserRoleService(
         );
         _ = await userRoleBroker.DeleteUserRoleAsync(internalUserRole);
     }
+
+    private void AuthorizeAssignedRolePrivileges(int? appId, Guid roleId)
+    {
+        if (!appId.HasValue)
+            return;
+
+        Role role = roleBroker.GetAllRoles(true).FirstOrDefault(foundRole => foundRole.Id == roleId);
+
+        if (role is null)
+            return;
+
+        string[] assignedPrivilegeSet = ToPrivilegeSet(role.Privs);
+
+        if (assignedPrivilegeSet.Length == 0)
+            return;
+
+        User currentUser = authorizationBroker.GetCurrentUser();
+        HashSet<string> grantedPrivileges = currentUser?.Roles?
+            .Where(userRole => userRole.Role?.AppId == appId.Value)
+            .SelectMany(userRole => ToPrivilegeSet(userRole.Role.Privs))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase)
+            ?? [];
+
+        if (assignedPrivilegeSet.Any(assignedPrivilege => !grantedPrivileges.Contains(assignedPrivilege)))
+            throw new System.Security.SecurityException("Access Denied!");
+    }
+
+    private static string[] ToPrivilegeSet(string privileges) =>
+        string.IsNullOrWhiteSpace(privileges)
+            ? []
+            : [.. privileges
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(privilege => privilege.ToLowerInvariant())
+                .Distinct()];
 
     static UserRole ToLocalUserRole(DataUserRole item) =>
         new()

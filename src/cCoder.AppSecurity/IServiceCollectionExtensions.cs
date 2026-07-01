@@ -8,10 +8,12 @@ using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Services.Foundations.Events;
 using cCoder.AppSecurity.Services.Orchestrations;
 using cCoder.AppSecurity.Services.Processings;
+using cCoder.AppSecurity.Services.Processings.Events;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Packaging;
 using cCoder.Data.Models.Security;
 using cCoder.Eventing;
+using cCoder.Security.Objects.Events;
 using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.OData.Batch;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -19,8 +21,10 @@ using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi;
 using AuthorizationBroker = cCoder.AppSecurity.Brokers.AuthorizationBroker;
+using AppBroker = cCoder.AppSecurity.Brokers.Storages.AppBroker;
 using EventHubBroker = cCoder.AppSecurity.Brokers.Events.EventHubBroker;
 using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
+using IAppBroker = cCoder.AppSecurity.Brokers.Storages.IAppBroker;
 using IEventHubBroker = cCoder.AppSecurity.Brokers.Events.IEventHubBroker;
 using IJsonBroker = cCoder.AppSecurity.Brokers.IJsonBroker;
 using IPrivilegeBroker = cCoder.AppSecurity.Brokers.IPrivilegeBroker;
@@ -76,16 +80,13 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddAppSecurityHostedServices(this IServiceCollection services)
     {
-        services.AddEventingTypes();
-        services.AddBrokers();
-        services.AddFoundations();
-        services.AddProcessings();
-        services.AddOrchestrations();
-        services.AddAggregations();
-        services.AddTransient<IAnalysePlatformUsageOrchestrationService, AnalysePlatformUsageOrchestrationService>();
-        services.AddTransient<ITokenCleanerOrchestrationService, TokenCleanerOrchestrationService>();
-        services.AddHostedService<AnalysePlatformUsageHostedService>();
-        services.AddHostedService<TokenCleanerHostedService>();
+        services.AddAppSecurity();
+        services.AddSingleton<IAnalysePlatformUsageHostedService, AnalysePlatformUsageHostedService>();
+        services.AddSingleton<IHostedService>(serviceProvider =>
+            serviceProvider.GetRequiredService<IAnalysePlatformUsageHostedService>());
+        services.AddSingleton<ITokenCleanerHostedService, TokenCleanerHostedService>();
+        services.AddSingleton<IHostedService>(serviceProvider =>
+            serviceProvider.GetRequiredService<ITokenCleanerHostedService>());
     }
 
     private static void AddEventingTypes(this IServiceCollection services)
@@ -98,6 +99,7 @@ public static partial class IServiceCollectionExtensions
         services.AddEventingForType<Role>();
         services.AddEventingForType<User>();
         services.AddEventingForType<UserRole>();
+        services.AddEventingForType<SecurityAccountEvent>();
     }
 
     private static void AddBrokers(this IServiceCollection services)
@@ -113,6 +115,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IPrivilegeBroker, PrivilegeBroker>();
         services.AddTransient<IUserBroker, UserBroker>();
         services.AddTransient<IUserRoleBroker, UserRoleBroker>();
+        services.AddTransient<IAppBroker, AppBroker>();
     }
 
     private static void AddFoundations(this IServiceCollection services)
@@ -123,6 +126,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IPrivilegeEventService, PrivilegeEventService>();
         services.AddTransient<IPrivilegeService, PrivilegeService>();
         services.AddTransient<IAppSecurityMetadataTypeService, AppSecurityMetadataTypeService>();
+        services.AddTransient<IAppService, AppService>();
         services.AddTransient<IRoleEventService, RoleEventService>();
         services.AddTransient<IRoleService, RoleService>();
         services.AddTransient<IUserEventService, UserEventService>();
@@ -159,6 +163,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IRoleEventProcessingService, RoleEventProcessingService>();
         services.AddTransient<IRoleProcessingService, RoleProcessingService>();
         services.AddTransient<IUserEventProcessingService, UserEventProcessingService>();
+        services.AddTransient<IAccountEventProcessingService, AccountEventProcessingService>();
         services.AddTransient<IUserProcessingService, UserProcessingService>();
         services.AddTransient<IUserRoleEventProcessingService, UserRoleEventProcessingService>();
         services.AddTransient<IUserRoleProcessingService, UserRoleProcessingService>();

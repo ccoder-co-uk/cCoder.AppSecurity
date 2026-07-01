@@ -23,6 +23,9 @@ public partial class RoleServiceTests
         roleBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>())).Returns((int?)7);
 
         authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "Role_create"));
+        authorizationBrokerMock
+            .Setup(x => x.GetCurrentUser())
+            .Returns(CreateCurrentUser(7, "page_read", "page_write"));
 
         roleBrokerMock
             .Setup(x => x.AddRoleAsync(It.IsAny<cCoder.Data.Models.Security.Role>()))
@@ -68,6 +71,7 @@ public partial class RoleServiceTests
         roleBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>()), Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "Role_create"), Times.Once);
+        authorizationBrokerMock.Verify(x => x.GetCurrentUser(), Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 

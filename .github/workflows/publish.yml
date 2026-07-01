@@ -21,16 +21,11 @@ defaults:
 
 jobs:
   build-test-pack:
-    runs-on: windows-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 10.x
 
       - name: Create version number
         id: version
@@ -44,7 +39,7 @@ jobs:
         run: dotnet build src/cCoder.AppSecurity.sln -c Release --no-restore -m:1 /p:BuildInParallel=false /p:UseSharedCompilation=false /p:Version="${{ steps.version.outputs.value }}"
 
       - name: Test
-        run: dotnet test src/cCoder.AppSecurity.Tests/cCoder.AppSecurity.Tests.csproj -c Release --no-build -m:1 /p:BuildInParallel=false /p:UseSharedCompilation=false
+        run: dotnet test src/cCoder.AppSecurity.sln -c Release --no-build -m:1 /p:BuildInParallel=false /p:UseSharedCompilation=false
 
       - name: Pack
         run: |

@@ -49,6 +49,31 @@ public partial class RoleServiceTests
         return role;
     }
 
+    private static DataUser CreateCurrentUser(int appId, params string[] privileges)
+    {
+        DataRole role = new()
+        {
+            Id = Guid.NewGuid(),
+            AppId = appId,
+            Name = $"CurrentUserRole-{Guid.NewGuid():N}",
+            Privs = string.Join(',', privileges),
+        };
+
+        return new DataUser
+        {
+            Id = "current-user",
+            Roles =
+            [
+                new DataUserRole
+                {
+                    UserId = "current-user",
+                    RoleId = role.Id,
+                    Role = role,
+                }
+            ],
+        };
+    }
+
     private static DataRole ToExternalRole(Role item) =>
         item == null
             ? null
