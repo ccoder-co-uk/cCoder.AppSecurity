@@ -87,6 +87,14 @@ window.AppSecurityApi = {
         document.getElementById("auth-logout").hidden = !isAuthenticated;
         document.getElementById("auth-username").hidden = isAuthenticated;
         document.getElementById("auth-password").hidden = isAuthenticated;
+        document.body.classList.toggle("is-authenticated", isAuthenticated);
+        document.dispatchEvent(new CustomEvent("appsecurity-auth-changed", {
+            detail: { isAuthenticated }
+        }));
+    },
+
+    isAuthenticated: function () {
+        return Boolean(this.currentUser);
     },
 
     currentUserId: function () {

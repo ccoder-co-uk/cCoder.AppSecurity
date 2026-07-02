@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="/dependencies/kendo/kendo.v2024.2.514.bootstrap.css">
     <link rel="stylesheet" href="/bootstrap/css/kendo-font-icons.css">
     <link rel="stylesheet" href="/bootstrap/css/site.css">
-    <link rel="stylesheet" href="/tools/styles.css?v=appsecurity-tools-20260701">
+    <link rel="stylesheet" href="/tools/styles.css?v=appsecurity-tools-20260702-auth">
 </head>
 <body class="as-shell">
     <header class="as-header">
         <div class="as-brand">
-            <span class="as-mark">AS</span>
+            <img class="as-logo" src="/tools/company-logo.png" alt="cCoder">
             <div>
                 <h1>App Security</h1>
                 <span>Application roles, users, and privilege assignments</span>
@@ -47,16 +47,23 @@
         </div>
     </header>
 
+    <section class="as-login-gate">
+        <div>
+            <h2>Sign in required</h2>
+            <p>Use the login controls above to open the App Security tools.</p>
+        </div>
+    </section>
+
     <main class="as-workbench">
-        <nav id="workspace-nav" class="as-nav" aria-label="App Security workspaces"></nav>
+        <nav id="workspace-nav" class="as-nav" aria-label="App Security workspace tabs"></nav>
         <section id="workspace-surfaces" class="as-main"></section>
     </main>
 
     <script src="/dependencies/jquery/jquery-3.7.0.min.js"></script>
     <script src="/dependencies/kendo/kendo.all.v2024.2.514.min.js"></script>
-    <script src="/dependencies/kendo/kendo-ui-license.js?v=appsecurity-tools-20260701"></script>
+    <script src="/dependencies/kendo/kendo-ui-license.js?v=appsecurity-tools-20260702-auth"></script>
     <script src="/dependencies/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="/tools/api.js?v=appsecurity-tools-20260701"></script>
-    <script src="/tools/grids.js?v=appsecurity-tools-20260701"></script>
+    <script src="/tools/api.js?v=appsecurity-tools-20260702-auth"></script>
+    <script src="/tools/grids.js?v=appsecurity-tools-20260702-auth"></script>
 </body>
 </html>

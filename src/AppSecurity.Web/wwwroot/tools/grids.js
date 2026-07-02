@@ -10,6 +10,7 @@ window.AppSecurityGrids = {
     userRows: [],
     privilegeRows: [],
     privilegesLoaded: false,
+    initialized: false,
     loadedWorkspaces: {},
 
     workspaces: [
@@ -63,6 +64,11 @@ window.AppSecurityGrids = {
     ],
 
     init: function () {
+        if (this.initialized || !AppSecurityApi.isAuthenticated()) {
+            return;
+        }
+
+        this.initialized = true;
         this.buildWorkspaces();
         this.workspaces
             .forEach(config => this.createGrid(config));
@@ -78,7 +84,7 @@ window.AppSecurityGrids = {
             button.className = `as-nav-item${index === 0 ? " active" : ""}`;
             button.type = "button";
             button.dataset.workspaceTarget = surfaceId;
-            button.innerHTML = `<span class="k-icon k-i-table"></span>${config.title}`;
+            button.textContent = config.title;
             button.addEventListener("click", () => this.showSurface(button));
             nav.appendChild(button);
 
@@ -819,5 +825,11 @@ window.AppSecurityGrids = {
         return 180;
     }
 };
+
+document.addEventListener("appsecurity-auth-changed", event => {
+    if (event.detail.isAuthenticated) {
+        window.AppSecurityGrids.init();
+    }
+});
 
 document.addEventListener("DOMContentLoaded", () => window.AppSecurityGrids.init());
