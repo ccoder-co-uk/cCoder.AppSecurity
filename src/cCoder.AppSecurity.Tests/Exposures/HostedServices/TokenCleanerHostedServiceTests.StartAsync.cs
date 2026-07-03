@@ -10,8 +10,6 @@ public sealed partial class TokenCleanerHostedServiceTests
     public async Task StartAsync_DelegatesToOrchestrationService()
     {
         // Given
-        string oldMigratingValue = Environment.GetEnvironmentVariable("MIGRATING");
-        Environment.SetEnvironmentVariable("MIGRATING", null);
         TaskCompletionSource runCompleted = new();
 
         tokenCleanerOrchestrationServiceMock
@@ -36,7 +34,6 @@ public sealed partial class TokenCleanerHostedServiceTests
         finally
         {
             await service.StopAsync(CancellationToken.None);
-            Environment.SetEnvironmentVariable("MIGRATING", oldMigratingValue);
         }
     }
 }

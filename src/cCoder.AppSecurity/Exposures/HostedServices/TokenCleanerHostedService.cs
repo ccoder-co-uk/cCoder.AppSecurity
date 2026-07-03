@@ -1,16 +1,18 @@
 using cCoder.AppSecurity.Services.Orchestrations;
+using cCoder.AppSecurity.Models;
 using Microsoft.Extensions.Hosting;
 
 
 namespace cCoder.AppSecurity.Exposures.HostedServices;
 
 public sealed class TokenCleanerHostedService(
-    ITokenCleanerOrchestrationService tokenCleanerOrchestrationService)
+    ITokenCleanerOrchestrationService tokenCleanerOrchestrationService,
+    AppSecurityConfiguration appSecurityConfiguration)
     : BackgroundService, ITokenCleanerHostedService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        if (int.TryParse(Environment.GetEnvironmentVariable("MIGRATING"), out int result) && result == 1)
+        if (appSecurityConfiguration.IsMigrating)
             return;
 
         await tokenCleanerOrchestrationService.RunAsync(stoppingToken);
