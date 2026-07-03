@@ -11,6 +11,7 @@ public class AppSecurityConfiguration
     public bool LogSQL { get; set; }
     public string RootPath { get; set; } = "Api/AppSecurity";
     public bool IncludeLegacyCoreContext { get; set; } = true;
+    public bool IsMigrating { get; set; }
     public EventProvider[] EventProviders { get; private set; } = [];
 
     public AppSecurityConfiguration WithEventProviders(params EventProvider[] eventProviders)

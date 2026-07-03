@@ -31,7 +31,12 @@ public class Program
         });
 
         cCoder.Data.IServiceCollectionExtensions.AddCoreData(builder.Services, coreConnection);
-        builder.Services.AddAppSecurityHostedServices();
+        builder.Services.AddAppSecurityHostedServices(appSecurityConfiguration =>
+        {
+            appSecurityConfiguration.IsMigrating =
+                builder.Configuration.GetValue<int?>("MIGRATING") == 1
+                || builder.Configuration.GetValue<bool?>("AppSecurity:IsMigrating") == true;
+        });
 
         builder.Logging.ClearProviders();
         builder.Logging.AddSimpleConsole();

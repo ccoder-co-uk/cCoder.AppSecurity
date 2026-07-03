@@ -6,17 +6,12 @@ namespace AppSecurity.HostedServices.AcceptanceTests.Infrastructure;
 
 public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
 {
-    private string oldMigratingValue;
-
     public WebApplicationFactory<global::AppSecurity.HostedServices.Program> Factory { get; private set; } = null!;
 
     public HttpClient Client { get; private set; } = null!;
 
     public Task InitializeAsync()
     {
-        oldMigratingValue = Environment.GetEnvironmentVariable("MIGRATING");
-        Environment.SetEnvironmentVariable("MIGRATING", "1");
-
         Factory = new WebApplicationFactory<global::AppSecurity.HostedServices.Program>()
             .WithWebHostBuilder(builder => builder.ConfigureAppConfiguration(
                 (_, configuration) => configuration.AddInMemoryCollection(
@@ -28,6 +23,7 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
                             "Data Source=.;Initial Catalog=AppSecurityHostedAcceptanceSSO;Trusted_Connection=True;Trust Server Certificate=true",
                         ["Settings:DecryptionKey"] = "000000000000000000000000000000000000000000000000",
                         ["Settings:enableExternalEventing"] = "false",
+                        ["AppSecurity:IsMigrating"] = "true",
                     })));
         Client = Factory.CreateClient(new WebApplicationFactoryClientOptions
         {
@@ -44,8 +40,6 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
 
         if (Factory is not null)
             await Factory.DisposeAsync();
-
-        Environment.SetEnvironmentVariable("MIGRATING", oldMigratingValue);
     }
 }
 
