@@ -3,12 +3,12 @@ using cCoder.AppSecurity.Models;
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
-using cCoder.AppSecurity.Services.Orchestrations;
+using cCoder.AppSecurity.Services.Processings;
 
 namespace cCoder.AppSecurity.Services.Aggregations;
 
 internal class AppSecurityMigrationAggregationService(
-    IRoleOrchestrationService roleOrchestrationService,
+    IRoleProcessingService roleProcessingService,
     IJsonBroker jsonBroker
 ) : IAppSecurityMigrationAggregationService
 {
@@ -23,22 +23,22 @@ internal class AppSecurityMigrationAggregationService(
                 ? [jsonBroker.ParseJson<Role>(item.Data)]
                 : jsonBroker.ParseJson<Role[]>(item.Data);
 
-            var dbVersions = roleOrchestrationService
+            var dbVersions = roleProcessingService
                 .GetAll(false)
                 .Where(role => role.AppId == appId)
                 .Select(role => new { role.Id, role.Name })
                 .ToArray();
 
-            Array.ForEach(
-                items,
-                role =>
-                {
-                    role.AppId = appId;
-                    role.Id = dbVersions.FirstOrDefault(existing => existing.Name == role.Name)?.Id ?? Guid.Empty;
-                }
-            );
+            foreach (Role role in items)
+            {
+                role.AppId = appId;
+                role.Id = dbVersions.FirstOrDefault(existing => existing.Name == role.Name)?.Id ?? Guid.Empty;
 
-            _ = await roleOrchestrationService.AddOrUpdate(items);
+                if (role.Id == Guid.Empty)
+                    await roleProcessingService.AddValidatedAsync(role);
+                else
+                    await roleProcessingService.UpdateValidatedAsync(role);
+            }
         }
     }
 
@@ -51,7 +51,7 @@ internal class AppSecurityMigrationAggregationService(
                     new AppSecurityPackageItem
                     {
                         Type = "Core/Role",
-                        Data = roleOrchestrationService
+                        Data = roleProcessingService
                             .GetAll(false)
                             .Where(role => role.AppId == appId)
                             .Select(role => new { role.Name, role.Privs })
