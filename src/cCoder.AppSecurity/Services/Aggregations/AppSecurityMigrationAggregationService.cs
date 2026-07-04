@@ -23,22 +23,7 @@ internal class AppSecurityMigrationAggregationService(
                 ? [jsonBroker.ParseJson<Role>(item.Data)]
                 : jsonBroker.ParseJson<Role[]>(item.Data);
 
-            var dbVersions = roleOrchestrationService
-                .GetAll(false)
-                .Where(role => role.AppId == appId)
-                .Select(role => new { role.Id, role.Name })
-                .ToArray();
-
-            Array.ForEach(
-                items,
-                role =>
-                {
-                    role.AppId = appId;
-                    role.Id = dbVersions.FirstOrDefault(existing => existing.Name == role.Name)?.Id ?? Guid.Empty;
-                }
-            );
-
-            _ = await roleOrchestrationService.AddOrUpdate(items);
+            await roleOrchestrationService.ImportAsync(appId, items);
         }
     }
 

@@ -70,6 +70,26 @@ internal class RoleOrchestrationService(
         IEnumerable<Role> items
     ) => processingService.AddOrUpdate(items);
 
+    public async ValueTask ImportAsync(int appId, IEnumerable<Role> roles)
+    {
+        var dbVersions = processingService
+            .GetAll(false)
+            .Where(role => role.AppId == appId)
+            .Select(role => new { role.Id, role.Name })
+            .ToArray();
+
+        foreach (Role role in roles)
+        {
+            role.AppId = appId;
+            role.Id = dbVersions.FirstOrDefault(existing => existing.Name == role.Name)?.Id ?? Guid.Empty;
+
+            if (role.Id == Guid.Empty)
+                await processingService.AddValidatedAsync(role);
+            else
+                await processingService.UpdateValidatedAsync(role);
+        }
+    }
+
     public ValueTask DeleteAllAsync(IEnumerable<Role> items) =>
         processingService.DeleteAllAsync(items);
 }
