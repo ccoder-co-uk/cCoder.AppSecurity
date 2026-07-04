@@ -9,7 +9,6 @@ public interface IUserRoleService
 {
     IQueryable<UserRole> GetAll(bool ignoreFilters = false);
     ValueTask<UserRole> AddAsync(UserRole userRole);
-    ValueTask<UserRole> AddValidatedAsync(UserRole userRole);
     ValueTask DeleteAsync(UserRole userRole);
 }
 

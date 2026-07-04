@@ -34,15 +34,6 @@ internal class UserRoleService(
         return userRole;
     }
 
-    public async ValueTask<UserRole> AddValidatedAsync(UserRole userRole)
-    {
-        DataUserRole result = await userRoleBroker.AddUserRoleAsync(ToExternalUserRole(userRole));
-        userRole.RoleId = result.RoleId;
-        userRole.UserId = result.UserId;
-
-        return userRole;
-    }
-
     public async ValueTask DeleteAsync(UserRole userRole)
     {
         DataUserRole internalUserRole = ToExternalUserRole(userRole);

@@ -138,6 +138,7 @@ public static partial class IServiceCollectionExtensions
     private static void AddOrchestrations(this IServiceCollection services)
     {
         services.AddTransient<IAppOrchestrationService, AppOrchestrationService>();
+        services.AddTransient<IAccountEventOrchestrationService, AccountEventOrchestrationService>();
         services.AddTransient<IAnalysePlatformUsageOrchestrationService, AnalysePlatformUsageOrchestrationService>();
         services.AddTransient<IPrivilegeOrchestrationService, PrivilegeOrchestrationService>();
         services.AddTransient<IRoleOrchestrationService, RoleOrchestrationService>();

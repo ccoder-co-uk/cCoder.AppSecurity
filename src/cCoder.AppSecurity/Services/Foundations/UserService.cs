@@ -45,13 +45,12 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
         };
         authorizationBroker.Authorize(userBroker.GetAppId(internalUser), $"{nameof(User)}_create");
         DataUser result = await userBroker.AddUserAsync(internalUser);
-        return SetFromResult(user, result);
-    }
-
-    public async ValueTask<User> AddValidatedAsync(User user)
-    {
-        DataUser result = await userBroker.AddUserAsync(ToExternalUser(user));
-        return SetFromResult(user, result);
+        user.Id = result.Id;
+        user.DefaultCultureId = result.DefaultCultureId;
+        user.DisplayName = result.DisplayName;
+        user.Email = result.Email;
+        user.IsActive = result.IsActive;
+        return user;
     }
 
     public async ValueTask<User> UpdateAsync(User user)
@@ -66,23 +65,11 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
         };
         authorizationBroker.Authorize(userBroker.GetAppId(internalUser), $"{nameof(User)}_update");
         DataUser result = await userBroker.UpdateUserAsync(internalUser);
-        return SetFromResult(user, result);
-    }
-
-    public async ValueTask<User> UpdateValidatedAsync(User user)
-    {
-        DataUser result = await userBroker.UpdateUserAsync(ToExternalUser(user));
-        return SetFromResult(user, result);
-    }
-
-    private static User SetFromResult(User user, DataUser result)
-    {
         user.Id = result.Id;
         user.DefaultCultureId = result.DefaultCultureId;
         user.DisplayName = result.DisplayName;
         user.Email = result.Email;
         user.IsActive = result.IsActive;
-
         return user;
     }
 

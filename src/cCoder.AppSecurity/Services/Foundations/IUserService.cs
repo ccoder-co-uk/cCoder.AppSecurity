@@ -11,9 +11,7 @@ public interface IUserService
     User GetByEmail(string email, bool ignoreFilters = false);
     IQueryable<User> GetAll(bool ignoreFilters = false);
     ValueTask<User> AddAsync(User user);
-    ValueTask<User> AddValidatedAsync(User user);
     ValueTask<User> UpdateAsync(User user);
-    ValueTask<User> UpdateValidatedAsync(User user);
     ValueTask DeleteAsync(string id);
 }
 
