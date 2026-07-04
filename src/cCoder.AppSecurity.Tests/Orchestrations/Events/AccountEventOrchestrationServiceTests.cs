@@ -1,4 +1,3 @@
-using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Services.Orchestrations;
 using cCoder.AppSecurity.Services.Processings;
 using cCoder.Data.Models.CMS;
@@ -9,7 +8,7 @@ namespace cCoder.AppSecurity.Tests.Orchestrations.Events;
 
 public partial class AccountEventOrchestrationServiceTests
 {
-    private readonly Mock<IAppService> appServiceMock;
+    private readonly Mock<IAppProcessingService> appProcessingServiceMock;
     private readonly Mock<IUserProcessingService> userProcessingServiceMock;
     private readonly Mock<IRoleProcessingService> roleProcessingServiceMock;
     private readonly Mock<IUserRoleProcessingService> userRoleProcessingServiceMock;
@@ -17,13 +16,13 @@ public partial class AccountEventOrchestrationServiceTests
 
     public AccountEventOrchestrationServiceTests()
     {
-        appServiceMock = new Mock<IAppService>(MockBehavior.Strict);
+        appProcessingServiceMock = new Mock<IAppProcessingService>(MockBehavior.Strict);
         userProcessingServiceMock = new Mock<IUserProcessingService>(MockBehavior.Strict);
         roleProcessingServiceMock = new Mock<IRoleProcessingService>(MockBehavior.Strict);
         userRoleProcessingServiceMock = new Mock<IUserRoleProcessingService>(MockBehavior.Strict);
 
         accountEventOrchestrationService = new AccountEventOrchestrationService(
-            appServiceMock.Object,
+            appProcessingServiceMock.Object,
             userProcessingServiceMock.Object,
             roleProcessingServiceMock.Object,
             userRoleProcessingServiceMock.Object);

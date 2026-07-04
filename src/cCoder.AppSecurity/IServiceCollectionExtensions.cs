@@ -159,6 +159,7 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddProcessings(this IServiceCollection services)
     {
+        services.AddTransient<IAppProcessingService, AppProcessingService>();
         services.AddTransient<IPrivilegeEventProcessingService, PrivilegeEventProcessingService>();
         services.AddTransient<IPrivilegeProcessingService, PrivilegeProcessingService>();
         services.AddTransient<IRoleEventProcessingService, RoleEventProcessingService>();

@@ -1,4 +1,3 @@
-using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Services.Processings;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -7,7 +6,7 @@ using cCoder.Security.Objects.Events;
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
 internal class AccountEventOrchestrationService(
-    IAppService appService,
+    IAppProcessingService appProcessingService,
     IUserProcessingService userProcessingService,
     IRoleProcessingService roleProcessingService,
     IUserRoleProcessingService userRoleProcessingService) : IAccountEventOrchestrationService
@@ -33,7 +32,7 @@ internal class AccountEventOrchestrationService(
 
         string normalizedDomain = NormalizeDomain(requestDomain);
 
-        return appService.GetByDomain(normalizedDomain);
+        return appProcessingService.GetByDomain(normalizedDomain);
     }
 
     private async ValueTask<User> AddOrUpdateUserAsync(SecurityAccountEvent accountEvent, App app)

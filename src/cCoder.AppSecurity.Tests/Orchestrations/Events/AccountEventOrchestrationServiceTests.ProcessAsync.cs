@@ -25,7 +25,7 @@ public partial class AccountEventOrchestrationServiceTests
             }
         };
 
-        appServiceMock
+        appProcessingServiceMock
             .Setup(service => service.GetByDomain(app.Domain))
             .Returns(app);
         userProcessingServiceMock
