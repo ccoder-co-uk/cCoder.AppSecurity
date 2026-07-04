@@ -1,5 +1,3 @@
-using cCoder.AppSecurity.Brokers;
-using cCoder.AppSecurity.Brokers.Storages;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -9,9 +7,9 @@ namespace cCoder.AppSecurity.Services.Processings.Events;
 
 internal class AccountEventProcessingService(
     IAppService appService,
-    IUserBroker userBroker,
-    IRoleBroker roleBroker,
-    IUserRoleBroker userRoleBroker) : IAccountEventProcessingService
+    IUserService userService,
+    IRoleService roleService,
+    IUserRoleService userRoleService) : IAccountEventProcessingService
 {
     public async ValueTask ProcessAsync(SecurityAccountEvent accountEvent)
     {
@@ -39,7 +37,7 @@ internal class AccountEventProcessingService(
 
     private async ValueTask<User> AddOrUpdateUserAsync(SecurityAccountEvent accountEvent, App app)
     {
-        User user = userBroker.GetAllUsers(ignoreFilters: true)
+        User user = userService.GetAll(ignoreFilters: true)
             .FirstOrDefault(user =>
                 user.Id == accountEvent.User.Id
                 || user.Email == accountEvent.User.Email);
@@ -57,7 +55,7 @@ internal class AccountEventProcessingService(
                 IsActive = !accountEvent.User.LockoutEnabled
             };
 
-            return await userBroker.AddUserAsync(user);
+            return await userService.AddValidatedAsync(user);
         }
 
         user.DisplayName = accountEvent.User.DisplayName;
@@ -67,18 +65,18 @@ internal class AccountEventProcessingService(
         if (!string.IsNullOrWhiteSpace(accountEvent.Culture))
             user.DefaultCultureId = accountEvent.Culture;
 
-        return await userBroker.UpdateUserAsync(user);
+        return await userService.UpdateValidatedAsync(user);
     }
 
     private async ValueTask AttachUsersRoleAsync(User user, int appId)
     {
-        Role usersRole = roleBroker.GetAllRoles(ignoreFilters: true)
+        Role usersRole = roleService.GetAll(ignoreFilters: true)
             .FirstOrDefault(role => role.AppId == appId && role.Name == "Users");
 
         if (usersRole is null)
             return;
 
-        bool roleAssigned = userRoleBroker.GetAllUserRoles(ignoreFilters: true)
+        bool roleAssigned = userRoleService.GetAll(ignoreFilters: true)
             .Any(userRole =>
                 userRole.UserId == user.Id
                 && userRole.RoleId == usersRole.Id);
@@ -86,7 +84,7 @@ internal class AccountEventProcessingService(
         if (roleAssigned)
             return;
 
-        await userRoleBroker.AddUserRoleAsync(
+        await userRoleService.AddValidatedAsync(
             new UserRole
             {
                 UserId = user.Id,

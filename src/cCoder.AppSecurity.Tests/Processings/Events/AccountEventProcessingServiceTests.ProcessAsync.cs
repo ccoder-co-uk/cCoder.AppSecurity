@@ -29,36 +29,36 @@ public partial class AccountEventProcessingServiceTests
         appServiceMock
             .Setup(service => service.GetByDomain(app.Domain))
             .Returns(app);
-        userBrokerMock
-            .Setup(broker => broker.GetAllUsers(true))
+        userServiceMock
+            .Setup(service => service.GetAll(true))
             .Returns(Array.Empty<User>().AsQueryable());
-        userBrokerMock
-            .Setup(broker => broker.AddUserAsync(It.Is<User>(user =>
+        userServiceMock
+            .Setup(service => service.AddValidatedAsync(It.Is<User>(user =>
                 user.Id == accountEvent.User.Id
                 && user.DefaultCultureId == accountEvent.Culture
                 && user.DisplayName == accountEvent.User.DisplayName
                 && user.Email == accountEvent.User.Email
                 && user.IsActive)))
             .ReturnsAsync((User user) => user);
-        roleBrokerMock
-            .Setup(broker => broker.GetAllRoles(true))
+        roleServiceMock
+            .Setup(service => service.GetAll(true))
             .Returns(new[] { usersRole }.AsQueryable());
-        userRoleBrokerMock
-            .Setup(broker => broker.GetAllUserRoles(true))
+        userRoleServiceMock
+            .Setup(service => service.GetAll(true))
             .Returns(Array.Empty<UserRole>().AsQueryable());
-        userRoleBrokerMock
-            .Setup(broker => broker.AddUserRoleAsync(It.Is<UserRole>(userRole =>
+        userRoleServiceMock
+            .Setup(service => service.AddValidatedAsync(It.Is<UserRole>(userRole =>
                 userRole.UserId == accountEvent.User.Id
                 && userRole.RoleId == usersRole.Id)))
             .ReturnsAsync((UserRole userRole) => userRole);
 
         await accountEventProcessingService.ProcessAsync(accountEvent);
 
-        userBrokerMock.Verify(
-            broker => broker.AddUserAsync(It.IsAny<User>()),
+        userServiceMock.Verify(
+            service => service.AddValidatedAsync(It.IsAny<User>()),
             Times.Once);
-        userRoleBrokerMock.Verify(
-            broker => broker.AddUserRoleAsync(It.IsAny<UserRole>()),
+        userRoleServiceMock.Verify(
+            service => service.AddValidatedAsync(It.IsAny<UserRole>()),
             Times.Once);
     }
 }

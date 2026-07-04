@@ -1,5 +1,3 @@
-using cCoder.AppSecurity.Brokers;
-using cCoder.AppSecurity.Brokers.Storages;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Services.Processings.Events;
 using cCoder.Data.Models.CMS;
@@ -11,23 +9,23 @@ namespace cCoder.AppSecurity.Tests.Processings.Events;
 public partial class AccountEventProcessingServiceTests
 {
     private readonly Mock<IAppService> appServiceMock;
-    private readonly Mock<IUserBroker> userBrokerMock;
-    private readonly Mock<IRoleBroker> roleBrokerMock;
-    private readonly Mock<IUserRoleBroker> userRoleBrokerMock;
+    private readonly Mock<IUserService> userServiceMock;
+    private readonly Mock<IRoleService> roleServiceMock;
+    private readonly Mock<IUserRoleService> userRoleServiceMock;
     private readonly AccountEventProcessingService accountEventProcessingService;
 
     public AccountEventProcessingServiceTests()
     {
         appServiceMock = new Mock<IAppService>(MockBehavior.Strict);
-        userBrokerMock = new Mock<IUserBroker>(MockBehavior.Strict);
-        roleBrokerMock = new Mock<IRoleBroker>(MockBehavior.Strict);
-        userRoleBrokerMock = new Mock<IUserRoleBroker>(MockBehavior.Strict);
+        userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+        roleServiceMock = new Mock<IRoleService>(MockBehavior.Strict);
+        userRoleServiceMock = new Mock<IUserRoleService>(MockBehavior.Strict);
 
         accountEventProcessingService = new AccountEventProcessingService(
             appServiceMock.Object,
-            userBrokerMock.Object,
-            roleBrokerMock.Object,
-            userRoleBrokerMock.Object);
+            userServiceMock.Object,
+            roleServiceMock.Object,
+            userRoleServiceMock.Object);
     }
 
     private static App CreateApp() => new()
