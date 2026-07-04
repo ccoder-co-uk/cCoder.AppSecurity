@@ -18,6 +18,7 @@ public interface IRoleOrchestrationService
     ValueTask<IEnumerable<Result<Role>>> AddOrUpdate(
         IEnumerable<Role> items
     );
+    ValueTask ImportAsync(int appId, IEnumerable<Role> roles);
     ValueTask DeleteAllAsync(IEnumerable<Role> items);
 }
 
