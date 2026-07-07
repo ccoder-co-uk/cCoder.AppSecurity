@@ -1,0 +1,1357 @@
+using cCoder.Data.Models.Packaging;
+
+namespace cCoder.AppSecurity.Exposures.Setup;
+
+public static class UIBaseline
+{
+    public static Package[] Packages => [
+        Components,
+        Pages,
+        Resources,
+        Roles,
+        PageRoles
+    ];
+
+    static Package Components => new()
+    {
+        Name = "App Security Components",
+        Category = "Account",
+        Description = "App Security Components.",
+        SourceApi = "https://ccoder.co.uk/Api/",
+        Items =
+        [
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "CultureFlags",
+  "Key": "Account",
+  "ResourceKey": "Account",
+  "Script": "CultureFlags = {\r\n   init: async function (app, container) {\r\n      app = app || session.app;\r\n      container = container || $(\".component[name=CultureFlags]\");\r\n\r\n      var layout = CultureFlags.getCultureFlagLayout(app);\r\n\r\n      //Retrieve app with culture info since this isn't loaded by default\r\n      var appCultures = (await api.get(\"ContentManagement/AppCulture?$filter=AppId eq \" + app.Id + \" and CultureId ne ''&$expand=Culture($select=Name)&$select=CultureId,Culture\")).value;\r\n\r\n      var cultures = appCultures.map(function (cul) {\r\n         var activeClass = \"\";\r\n         var hasCulture = appCultures.filter(c => c.CultureId == session.culture).length > 0;\r\n         if(!hasCulture && cul == appCultures[0] || cul.CultureId == session.culture) {\r\n            activeClass += \"active\";\r\n         }\r\n         var imagePath = api.apiRoot + \"DMS/Content/Flags/\" + cul.CultureId + \".png\";\r\n         var cultureText = (layout == \"text\") \r\n            ? cul.CultureId.split(\"-\")[0].toUpperCase()\r\n            : \"<img src=\\\"\" + imagePath + \"\\\" class='flag \" + cul.CultureId.split('-')[0] + \" \" + activeClass + \"'>\"\r\n\r\n         return \"<a data-culture='\" + cul.CultureId + \"' title='\" + cul.Culture.Name + \"' class=\\\"culture \" + activeClass + \"\\\">\" + cultureText + \"</a>\";\r\n      });\r\n      $(\"[name=flags]\", container).append(cultures.join(\" \"));\r\n      $(\"a[data-culture]\", container).on(\"click\", function (e) { CultureFlags.setCulture(e, $(this).attr(\"data-culture\")) });\r\n   },\r\n\r\n   setCulture: function(e, culture) {\r\n      e.preventDefault();\r\n      setQueryParameter(\"culture\", culture);\r\n   },\r\n\r\n   getCultureFlagLayout(app) {\r\n      var cultureFlagLayout = \"text\";\r\n      if(app.Config.Themes.hasOwnProperty(session.theme)) \r\n      {\r\n         var themeInfo = app.Config.Themes[session.theme];\r\n         if(themeInfo.cultureFlagLayout && themeInfo.cultureFlagLayout !== \"text\") {\r\n            cultureFlagLayout = themeInfo.cultureFlagLayout;\r\n         }\r\n      }\r\n      return cultureFlagLayout;\r\n   }\r\n}\r\n",
+  "Content": "<div name=\"flags\" class=\"flags\"></div>\r\n<style scoped>\r\n   .component[name=CultureFlags] { border: none; box-shadow: none; margin: 0; min-width: 110px; background: transparent; }\r\n   .flags > a.culture { opacity: 0.2; margin-left: 10px; float: right; text-transform: uppercase; font-weight: bold; font-size: 120%; color: [theme[colours.secondary]]; }\r\n   .flags > a.culture.active { opacity: 1; border-bottom: 3px [theme[colours.primary]] solid; }\r\n   .flags > a { text-decoration: none; cursor: pointer; }\r\n</style>\r\n",
+  "LastUpdated": "2024-06-10T14:56:38.5654581+01:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "Login",
+  "Key": "Account",
+  "ResourceKey": "Account",
+  "Script": "Login = {\n\tinit: async function (app, container) {\n\t\tapp = app || session.app;\n\t\tcontainer = container || $(\"[name=Login]\");\n\n\t\tvar confirmation = {\n\t\t\tSSOUserId: getQueryParameter(\"u\"),\n\t\t\tToken: getQueryParameter(\"t\")\n\t\t};\n\n\t\tif (confirmation.SSOUserId && confirmation.Token) {\n\t\t\tvar r = await api.post(\"Account/ConfirmEmail\", confirmation);\n\t\t\tif (r === true)\n\t\t\t\tnotification.success(\"[resource_description[TokenVerificationSuccess]]\");\n\t\t\telse\n\t\t\t\tnotification.warning(\"[resource_description[TokenVerificationFailed]]\");\n\t\t}\n\n\t\tif (window.location.href.indexOf(\"AccessDenied\") != -1) {\n\t\t\tnotification.error(\"Access Denied!\");\n\t\t}\n\n\t\tif (Login.isAuthenticated()) {\n\t\t\tLogin.redirectIfAuthenticated();\n\t\t\treturn;\n\t\t}\n\n\t\tvar login = async function (e) {\n\t\t\tnotification.info(\"[resource_displayname[loggingin]]\");\n\t\t\tvar result = await api.login(\n\t\t\t\t$(\"[name=user]\").val(),\n\t\t\t\t$(\"[name=pass]\").val(),\n\t\t\t\ttrue\n\t\t\t);\n\n\t\t\tif (result && result.id) {\n\t\t\t\tsession.token = api.token;\n\t\t\t\tawait Login.success(e);\n\t\t\t}\n\t\t};\n\n\t\t$(\"button[name=login]\", container).on(\"click\", login);\n\t\t$(\"[name=pass]\").on(\"keyup\", async function (e) {\n\t\t\tif (e.keyCode === 13)\n\t\t\t\tawait login(e);\n\t\t});\n\n\t\t$(\"[name=forgotPass]\", container)\n\t\t\t.off()\n\t\t\t.on(\"click\", Login.forgotPassword);\n\t\t\n\t\t$(\"[name=register]\", container).on(\"click\", function (e) {\n\t\t\tLogin.register(e, app);\n\t\t});\n\n\t\t$(\"[name=pass] .k-icon.k-i-preview\").on(\"click\", function () {\n\t\t\t$(\"[name=pass] > .value > input\")\n\t\t\t\t.attr(\"type\", ($(\"[name=pass] > .value > input\")\n\t\t\t\t.attr(\"type\") == \"password\" ? \"text\" : \"password\"));\n\t\t});\n\t},\n\n\tisAuthenticated: function () {\n\t\treturn !!(session && session.user && session.user !== \"\" && session.user !== \"Guest\");\n\t},\n\n\tredirectIfAuthenticated: function () {\n\t\tif (window.location.pathname.toLowerCase().indexOf(\"/login\") !== -1) {\n\t\t\twindow.location.replace(\"/\");\n\t\t}\n\t},\n\n\tregister: function(e, app) {\n\t\te.preventDefault();\n\t\tvar d = new Dialog({\n\t\t\ttitle: \"[resource_displayname[register]]\",\n\t\t\twidth: 620,\n\t\t\theight: 550\n\t\t});\n\t\td.template = $(\"[name=registerComponent]\").first().html();\n\t\td.init(() => Register.init(app, $(\".component[name=Register]\", d.element), d));\n\t},\n\n\tforgotPassword: function (e) {\n\t\te.preventDefault();\n\t\tvar d = new Dialog({\n\t\t\ttitle: \"[resource_description[PasswordResetEmailTitle]]\"\n\t\t});\n\t\td.template = $(\"script[name=ForgotPass]\").html();\n\t\td.events.submit = async function (e) {\n\t\t\tif($(\"[name=forgotPasswordForm]\", d.element).getKendoValidator().validate()) {\n\t\t\t\tvar request = {\n\t\t\t\t\tEmail: $(\"input[name=email]\", d.element).val(),\n\t\t\t\t\tAppId: session.app.Id,\n\t\t\t\t\tCulture: session.culture\n\t\t\t\t};\n\t\t\t\tvar e = await api.post(\"Account/ForgotPassword\", request);\n\t\t\t\tnotification.success(\"[resource_description[CheckYourEmail]]\");\n\t\t\t\td.events.close();\n\t\t\t}\n\t\t};\n\t\td.init(() => {\n\t\t\t$(\"[name=forgotPasswordForm]\", d.element).kendoValidator();\n\t\t});\n\t},\n\n\tsuccess: async function (e) {\n\t\tif (window.location.pathname.toLowerCase().indexOf(\"/login\") !== -1) {\n\t\t\twindow.location.replace(\"/\");\n\t\t\treturn;\n\t\t}\n\n\t\twindow.location.reload();\n\t},\n\n\tfailed: function (e) {\n\t\tnotification.error(\"[resource_description[AccessDenied]]\");\n\t}\n};",
+  "Content": "<div class=\"row justify-content-center\">\n\t<div class=\"col-sm-3\">\n\t\t<form class=\"form\">\n\t\t\t<div class=\"input-group input-group-sm mb-3\">\n\t\t\t\t<input type=\"text\" class=\"form-control\" name=\"user\" aria-label=\"Username\" placeholder=\"Username...\" />\n\t\t\t</div>\n\t\t\t<div class=\"input-group input-group-sm mb-3\">\n\t\t\t\t<input type=\"password\" class=\"form-control\" name=\"pass\" aria-label=\"Password\" placeholder=\"Password...\" />\n\t\t\t</div>\n\t\t\t<div class=\"input-group input-group-sm mb-3\">\n\t\t\t\t<div class=\"input-group-prepend btn-group btn-group-sm\">\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-outline-secondary\" name=\"register\">\n\t\t\t\t\t\tRegister\n\t\t\t\t\t</button>\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-outline-secondary\" name=\"forgotPass\">\n\t\t\t\t\t\tForgot Password\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"input-group-append flex-grow-1\"></div>\n\t\t\t\t<div class=\"btn-group btn-group-sm\">\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-outline-secondary\" name=\"login\">\n\t\t\t\t\t\tLogin\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</form>\n\t</div>\n</div>\n\n<script name=\"ForgotPass\" type=\"template\">\n<form class=\"form\" name=\"forgotPasswordForm\">\n  <div class=\"input-group input-group-sm mb-3\">\n    <span class=\"input-group-text\">[resource_displayname[email]]</span>\n    <input type=\"email\" class=\"form-control\" name=\"email\" />\n  </div>\n  <div class=\"text-end mt-2\">\n    <button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" name=\"submit\">\n      <span class=\"k-icon k-i-paper-plane\"></span> [resource_displayname[submit]]\n    </button>\n  </div>\n</form>\n</script>\n\n<div name=\"registerComponent\" style=\"display: none;\">\n\t[component[Register]]\n</div>\n\n<div name=\"forgotPasswordForm\" style=\"display: none\"></div>",
+  "LastUpdated": "2026-05-05T17:23:50.7695787+01:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "Register",
+  "Key": "CMS",
+  "ResourceKey": "CMS",
+  "Script": "Register = {\n\tinit: function (app, container, dialog, callback = null) {\n\t\tapp = app || session.app;\n\t\tcontainer = container || $(\".component[name=Register]\");\n\t\tvar model = new kendo.data.ObservableObject({\n\t\t\tDisplayName: null,\n\t\t\tEmail: null,\n\t\t\tPassword: null,\n\t\t\tConfirmPassword: null,\n\t\t\tAppId: app.Id,\n\t\t\tTenantId: app.TenantId || (app.Config && app.Config.Deployment ? app.Config.Deployment.TenantId : null),\n\t\t\tCulture: session.culture || app.DefaultCultureId,\n\t\t\tPhoneNumber: null,\n\t\t\tDPP: false,\n\t\t\tTAC: false\n\t\t});\n\n\t\tkendo.bind(container, model);\n\t\tcontainer.data(\"model\", model);\n\t\tcontainer.kendoValidator({\n\t\t\trules: {\n\t\t\t\tpasswordsMatch: function(input) {\n\t\t\t\t\tvar ret = true;\n\t\t\t\t\tif(input.is(\"[name=ConfirmPassword]\")) {\n\t\t\t\t\t\tret = input.val() === $(\"input[name=Password]\", container).val();\n\t\t\t\t\t}\n\t\t\t\t\treturn ret;\n\t\t\t\t}\n\t\t\t},\n\t\t\tmessages: {\n\t\t\t\tpasswordsMatch: \"[resource_description[passwordsDontMatch]]\"\n\t\t\t}\n\t\t});\n\n\t\t$(\"button[name=register]\", container).on(\"click\", function (e) {\n\t\t\tRegister.submit(e, container, dialog, callback, app);\n\t\t});\n\t},\n\t\n\tsubmit: function (e, container, d, callback, app) {\n\t\te.preventDefault();\n\t\tvar model = {\n\t\t\tDisplayName: $(\"input[name=DisplayName]\", container).val(),\n\t\t\tEmail: $(\"input[name=Email]\", container).val(),\n\t\t\tPassword: $(\"input[name=Password]\", container).val(),\n\t\t\tConfirmPassword: $(\"input[name=ConfirmPassword]\", container).val(),\n\t\t\tTAC: $(\"input[name=TAC]\").is(\":checked\"),\n\t\t\tDPP: $(\"input[name=DPP]\").is(\":checked\"),\n\t\t\tCulture: session.culture || app.DefaultCultureId,\n\t\t\tTenantId: app.TenantId || (app.Config && app.Config.Deployment ? app.Config.Deployment.TenantId : null),\n\t\t\tAppId: app.Id\n\t\t};\n\t\t\n\t\t$(\"button[name=register]\", container).attr('disabled', true);\n\t\tif (container.getKendoValidator().validate() && model.DPP && model.TAC) {\n\t\t\tnotification.info(\"Submitting, Please Wait ...\");\n\t\t\tapi.post(\"Account/Register\", model).then((registerResult) => {\n\t\t\t\tif (d && d.events && d.events.close) {\n\t\t\t\t\td.events.close();\n\t\t\t\t}\n\t\t\t\tRegister.success(registerResult, container, model, callback);\n\t\t\t}).catch((e) => Register.failed(e, container));\n\t\t}\n\t\telse {\n\t\t\tif(!model.TAC) {\n               var tacField = $(\"input[name=TAC]\", container);\n               tacField.addClass(\"is-invalid\");\n               tacField.attr(\"aria-invalid\", \"true\");\n\t\t\t}\n\t\t\tif(!model.DPP) {\n               var dppField = $(\"input[name=DPP]\", container);\n               dppField.addClass(\"is-invalid\");\n               dppField.attr(\"aria-invalid\", \"true\");\n\t\t\t}\n\t\t\tnotification.error(\"[resource_description[PleaseResolveValidationIssues]]\");\n\t\t\t$(\"button[name=register]\", container).attr('disabled', false);\n\t\t}\n\t},\n\n\tsuccess: function (registerResult, container, loginModel, callback) {\n\t\tif (registerResult && registerResult.user) {\n\t\t\tnotification.info(\"[resource_description[ConfirmationEmailSentTo]]\".replace(\"EMAIL\", loginModel.Email));\n\t\t\tif (callback) {\n\t\t\t\tcallback(registerResult);\n\t\t\t}\n\t\t} else {\n\t\t\tRegister.failed(registerResult, container);\n\t\t}\n\t},\n\t\n\tfailed: function(registerResult, container) {\n\t\t$(\"button[name=register]\", container).attr('disabled', false);\n         var response = registerResult && registerResult.responseJSON ? registerResult.responseJSON : {};\n         for(var i in response) {\n         \t   var field = $(\"input[name=\" + i + \"]\", container);\n               var fieldContainer = field.parent();\n               field.addClass(\"k-invalid\");\n               field.attr(\"aria-invalid\", \"true\");\n               for(var j in response[i]) {\n                   fieldContainer.append(\n                      \"<span class='k-widget k-tooltip k-tooltip-validation k-invalid-msg' data-for='\" + i + \"' role='alert'>\" +\n                                \"<span class='k-icon k-i-warning'></span>\" + response[i][j] + \n                      \"</span>\");\n               }\n         }\n\t\t error(registerResult);\n\t}\n}",
+  "Content": "<form class=\"form\">\n\t<div class=\"input-group input-group-sm mb-3\">\n\t\t<span class=\"input-group-text\">[resource_displayname[DisplayName]]...</span>\n\t\t<input type=\"text\" class=\"form-control\" name=\"DisplayName\" aria-label=\"DisplayName\" />\n\t</div>\n\t<div class=\"input-group input-group-sm mb-3\">\n\t\t<span class=\"input-group-text\">[resource_displayname[Email]]...</span>\n\t\t<input type=\"email\" class=\"form-control\" name=\"Email\" aria-label=\"Email\" />\n\t</div>\n\t<div class=\"input-group input-group-sm mb-3\">\n\t\t<span class=\"input-group-text\">[resource_displayname[Password]]...</span>\n\t\t<input type=\"password\" class=\"form-control\" name=\"Password\" aria-label=\"Password\" />\n\t</div>\n\t<div class=\"input-group input-group-sm mb-3\">\n\t\t<span class=\"input-group-text\">[resource_displayname[ConfirmPassword]]...</span>\n\t\t<input type=\"password\" class=\"form-control\" name=\"ConfirmPassword\" aria-label=\"ConfirmPassword\" />\n\t</div>\n\t<div class=\"input-group input-group-sm mb-3\">\n\t\t<label>[resource_displayname[PasswordRulesHeading]]</label>\n\t\t<div>[resource_description[passwordrulescontent]]</div>\n\t</div>\n\t<div class=\"input-group input-group-sm mb-3\">\n\t\t<div class=\"input-group-text\">\n\t\t\t<input type=\"checkbox\" class=\"form-check-input\" name=\"TAC\" required validationMessage=\"[resource_description[TACMessage]]\" />\n\t\t</div>\n\t\t<span class=\"input-group-text\">[resource_displayname[OurTAC]]</span>\n\t</div>\n\t<div class=\"input-group input-group-sm mb-3\">\n\t\t<div class=\"input-group-text\">\n\t\t\t<input type=\"checkbox\" class=\"form-check-input\" name=\"DPP\" required validationMessage=\"[resource_description[DPPMessage]]\" />\n\t\t</div>\n\t\t<span class=\"input-group-text\">[resource_displayname[OurDPP]]</span>\n\t</div>\n\t<div class=\"input-group input-group-sm mb-3\">\n\t\t<div class=\"input-group-append flex-grow-1\"></div>\n\t\t<div class=\"btn-group btn-group-sm\">\n\t\t\t<button type=\"button\" class=\"btn btn-outline-secondary\" name=\"register\">\n\t\t\t\t<span class=\"k-icon k-i-arrow-end-right\"></span>[resource_displayname[Submit]]\n\t\t\t</button>\n\t\t\t<span name=\"processingRequest\"></span>\n\t\t</div>\n\t</div>\n</form>",
+  "LastUpdated": "2024-11-19T18:18:30.6707401+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "RoleManagement",
+  "Key": "Account Management",
+  "ResourceKey": "Account",
+  "Script": "RoleManagement = {\n\tinit: async function (app, container) {\n\t\tapp = app || session.app;\n\t\tcontainer = container || $(\".component[name=RoleManagement]\");\n\t\tapi.addToMetaCache([\n\t\t\t{\n\t\t\t\t\"Name\": \"AppSecurity\",\n\t\t\t\t\"Types\": [\n\t\t\t\t\t[meta[AppSecurity/Role]]\n\t\t\t\t]\n\t\t\t}\n\t\t]);\n\t\tRoleManagement.setupRoleGrid(app, container);\n\t},\n\n\tsetupRoleGrid: async function (app, container) {\n\t\tvar config = {\n\t\t\tendpoint: \"AppSecurity/Role\",\n\t\t\todataAppend: \"?$filter=AppId eq \" + app.Id,\n\t\t\tsort: {\n\t\t\t\tfield: \"Name\",\n\t\t\t\tdir: \"asc\"\n\t\t\t}\n\t\t};\n\t\tvar ds = await model.getDatasource(config);\n\t\tvar roleGrid = new GridWidget(container, ds);\n\t\troleGrid.groupable = false;\n\t\troleGrid.pageable = false;\n\t\troleGrid.toolbar = [\n\t\t\t{\n\t\t\t\ttemplate: `<div class='btn-group btn-group-sm'>\n\t\t\t\t\t<button class='btn btn-primary' name='createRole'>\n\t\t\t\t\t\t<span class='k-icon k-i-plus'></span>[resource_displayname[NewRole]]\n\t\t\t\t\t</button>\n\t\t\t\t</div>`\n\t\t\t}\n\t\t];\n\t\troleGrid.columns = [{\n\t\t\tfield: \"Name\",\n\t\t\ttitle: \"[resource_shortdisplayname[Name]]\"\n\t\t}];\n\t\troleGrid.commands.push({\n\t\t\tname: \"[resource_displayname[save]]\",\n\t\t\ticon: 'k-i-save',\n\t\t\ttext: \"[resource_displayname[save]]\"\n\t\t});\n\t\troleGrid.commands.push({\n\t\t\tname: \"[resource_displayname[destroy]]\",\n\t\t\ticon: 'k-i-trash',\n\t\t\ttext: \"[resource_displayname[delete]]\"\n\t\t});\n\t\troleGrid.detailTemplate = $(\"[name=roleDetails]\").html();\n\t\troleGrid.detailExpand = function (e) {\n\t\t\tRoleManagement.expandRole(e, app, roleGrid);\n\t\t};\n\t\troleGrid.dataBound = function () {\n\t\t\t$(\"button[name=save]\", roleGrid.gridElement).off(\"click\").on(\"click\", async (e) => await RoleManagement.save(e, roleGrid));\n\t\t\t$(\"button[name=destroy]\", roleGrid.gridElement).off(\"click\").on(\"click\", async (e) => await RoleManagement.destroy(e, roleGrid));\n\t\t};\n\t\tawait roleGrid.init();\n\t\t$(\"button[name=createRole]\", roleGrid.gridElement).off(\"click\").on(\"click\", async (e) => await RoleManagement.createRole(e, app, roleGrid));\n\n\t\tawait loadComponent($('[name=roleUserManagementComponent]', container), 'RoleUserManagement');\n\t\tawait loadComponent($('[name=rolePrivManagementComponent]', container), 'RolePrivManagement');\n\t},\n\n\tsave: async function (e, grid) {\n\t\te.preventDefault();\n\t\tvar role = grid.dataItem($(e.currentTarget).closest(\"tr\"));\n\t\tawait role.save().then(() => { \n\t\t\tnotification.success(\"[resource_displayname[RoleSaved]]\"); \n\t\t}).catch((err) => {\n\t\t\terror(err);\n\t\t});\n\t},\n\n\tdestroy: async function (e, grid) {\n\t\te.preventDefault();\n\t\tvar row = $(e.currentTarget).closest(\"tr\");\n\t\tvar role = grid.dataItem(row);\n\t\tgrid.dataSource().remove(role);\n\t\tawait api.destroy(\"AppSecurity/Role(\" + role.Id + \")\").then(() => { \n\t\t\tnotification.success(\"[resource_displayname[roledeleted]]\"); \n\t\t}).catch((err) => {\n\t\t\terror(err);\n\t\t});\n\t},\n\n\texpandRole: async function (e, app, grid, container) {\n\t\tvar role = grid.dataItem(e.masterRow);\n\t\tvar container = $(e.detailRow);\n\t\tvar replaced = container.html().replaceAll('{ID}', Guid());\n\t\t\n\t\tcontainer.html(replaced);\n\n\t\tif($(container).find(\".component\").length == 0) {\n\t\t\tRoleUserManagement.init(app, $(\"[name=userGrid]\", container), role);\n\t\t\tRolePrivManagement.init(app, $(\"[name=privGrid]\", container), role);\n\t\t}\n\t},\n\n\tcreateRole: function (e, app, grid) {\n        var newRole = {\n            AppId: app.Id,\n            Name: \"[resource_displayname[newrole]]\",\n            Privs: \"\"\n        };\n\t\tvar args = {\n\t\t\tfields: [{\n\t\t\t\tfield: \"Name\",\n\t\t\t\ttitle: \"[resource_displayname[name]]\"\n\t\t\t}],\n\t\t\ttitle: \"[resource_displayname[newRole]]\",\n\t\t\tdata: newRole,\n\t\t\tconfirm: \"<span class='k-icon k-i-plus'></span>[resource_displayname[confirm]]\",\n\t\t\tclose: \"[resource_displayname[close]]\"\n\t\t};\n\t\tvar addRoleDialog = new EditorDialog(args);\n\t\taddRoleDialog.events.confirm = async function () {\n\t\t\tnewRole = addRoleDialog.data;//Remove all the kendo observable properties.\n\t\t\tawait api.add(\"AppSecurity/Role\", newRole).then(() => {\n                notification.success('[resource_displayname[RoleCreated]]');\n\t\t\t    grid.refresh();\n\t\t\t    addRoleDialog.events.close();\n            }).catch((err) => error(err));\n\t\t};\n\t\taddRoleDialog.init();\n\t}\n}\n",
+  "Content": "<script type=\"text/template\" name=\"roleDetails\">\n    <div class=\"tab-control\" name=\"tabs\">\n    <nav>\n        <div class=\"nav nav-tabs\" id=\"app-roles-nav-tab-{ID}\" role=\"tablist\">\n            <button class=\"nav-link bg active\" id=\"app-roles-users-tab-{ID}\" data-bs-toggle=\"tab\" data-bs-target=\"\\#app-roles-users-{ID}\" type=\"button\" role=\"tab\" aria-controls=\"app-roles-users-{ID}\" aria-selected=\"false\" tabindex=\"-1\" name=\"users-tab-button\">\n                <span class=\"k-icon k-i-user\"></span>[resource_displayname[users]]\n            </button>\n            <button class=\"nav-link bg\" id=\"app-roles-privileges-tab-{ID}\" data-bs-toggle=\"tab\" data-bs-target=\"\\#app-roles-privileges-{ID}\" type=\"button\" role=\"tab\" aria-controls=\"app-roles-privileges-{ID}\" aria-selected=\"true\" name=\"privileges-tab-button\">\n                <span class=\"k-icon k-i-check\"></span>[resource_displayname[privileges]]\n            </button>\n        </div>\n    </nav>\n\n    <div class=\"tab-content\" id=\"app-roles-nav-tab-{ID}users\">\n        <div class=\"tab-pane fade active show\" id=\"app-roles-users-{ID}\" role=\"tabpanel\" aria-labelledby=\"app-roles-users-tab-{ID}\" name=\"users\">\n            <div name=\"userGrid\"></div>\n        </div>\n        <div class=\"tab-pane fade\" id=\"app-roles-privileges-{ID}\" role=\"tabpanel\" aria-labelledby=\"app-roles-privileges-tab-{ID}\" name=\"privileges\">\n            <div name=\"privGrid\"></div>\n        </div>\n    </div>\n</script>\n\n<div name=\"roleUserManagementComponent\" style=\"display:none;\"></div>\n<div name=\"rolePrivManagementComponent\" style=\"display:none;\"></div>",
+  "LastUpdated": "2024-11-19T18:18:30.7587126+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "RoleUserManagement",
+  "Key": "Account Management",
+  "ResourceKey": "Account",
+  "Script": "RoleUserManagement = {\n    init: async function (app, container, role) {\n        app = app || session.app;\n        container = container || $(\".component[name=RoleUserManagement]\");\n        if(!role) { return; }\n        api.addToMetaCache([{\n            Name: \"Core\",\n            Types: [\n                [meta[AppSecurity/User]]\n            ]\n        }, {\n            Name: \"AppSecurity\",\n            Types: [\n                [meta[AppSecurity/UserRole]]\n            ]\n        }]);\n        await RoleUserManagement.setupUserGrid(container, role);\n    },\n\n    setupUserGrid: async function(container, role) {\n        var ds = await model.getDatasource({ endpoint: \"AppSecurity/UserRole\", odataAppend: \"?$filter=RoleId eq \" + role.Id + \"&$expand=User\" });\n        var usersGrid = new GridWidget(container, ds);\n        usersGrid.commandWidth = 100;\n        usersGrid.columns = [\n            { field: \"UserId\", title: \"[resource_displayname[userid]]\" },\n            { field: \"User.Email\", title: \"[resource_displayname[email]]\" }\n        ];\n        usersGrid.toolbar = `<div class=\"btn-group btn-group-sm\">\n            <button class=\"btn btn-primary\" name=\"addUser\">\n                <span class=\"k-icon k-i-plus\"></span>[resource_displayname[adduserbyid]]\n            </button>\n            <button class=\"btn btn-primary\" name=\"addUsers\">\n                <span class=\"k-icon k-i-plus\"></span>[resource_displayname[selectusers]]\n            </button>\n        </div>`;\n        usersGrid.groupable = false;\n        usersGrid.filterable = true;\n        usersGrid.commands.push({ name: \"delete\", icon: \"k-i-trash\", text: \"[resource_displayname[delete]]\" });\n        usersGrid.dataBound = function() { \n            $(\"[name=delete]\", usersGrid.gridElement).off(\"click\").on(\"click\", async function(e) {\n\t\t        var item = usersGrid.dataItem($(e.currentTarget).closest(\"tr\"));\n                await RoleUserManagement.deleteUser(item, usersGrid);\n            });\n        };\n        await usersGrid.init();\n        $(\"[name=addUser]\", usersGrid.gridElement).off(\"click\").on(\"click\", async (e) => await RoleUserManagement.addUser(e, role, usersGrid));\n        $(\"[name=addUsers]\", usersGrid.gridElement).off(\"click\").on(\"click\", async (e) => await RoleUserManagement.addUsers(e, usersGrid, role));\n    },\n\n\taddUsers: async function(e, grid, role) {\n        e.preventDefault();\n        var userGrid = null;\n        var userDialog = new Dialog({\n            title: \"[resource_displayname[selectusers]]\",\n            width: 800\n        });\n        userDialog.template = $(\"[name=selectusersdialog]\").first().html();\n        userDialog.events.select = async function(e) {\n            e.preventDefault();\n\t\t\tvar selected = userGrid.select();\n            for(let i = 0; i < selected.length; i++) {\n                var selectedUser = selected[i];\n                if(!selectedUser) { continue; }\n\t\t\t\tawait api.post(\"AppSecurity/UserRole\", {\n                    RoleId: role.Id,\n                    UserId: selectedUser.Id\n                }).then(() => {\n\t\t\t\t\tgrid.refresh();\n\t\t\t\t}).catch((e) => error(e));\n\t\t\t}\n\t\t\tuserDialog.events.close();\n        };\n        userDialog.init(async () => {\n            var userData = await model.getDatasource({\n                endpoint: \"AppSecurity/User\",\n                odataAppend: \"?$filter=IsActive eq true\",\n                pageSize: 10\n            });\n            userGrid = new GridWidget($(\"[name=selectUsersGrid]\", userDialog.element), userData);\n\t\t\tuserGrid.filterable = true;\n\t\t\tuserGrid.groupable = false;\n            userGrid.pageable = true;\n            userGrid.columns = [\n                {selectable: true, width: 50},\n                { field: \"Id\", title: \"[resource_displayname[userid]]\" },\n                { field: \"DisplayName\", title: \"[resource_displayname[displayname]]\" },\n                { field: \"Email\", title: \"[resource_displayname[email]]\" }\n            ];\n            userGrid.init();\n        });\n    },\n\n    deleteUser: async function(roleUser, usersGrid) {\n        await api.destroy(\"AppSecurity/UserRole(RoleId=\" + roleUser.RoleId + \",UserId='\" + roleUser.UserId + \"')\").then(() => {\n            notification.success(\"[resource_displayname[userdeleted]]\");\n            usersGrid.refresh();\n        }).catch((err) => error(err));\n    },\n\n    addUser: async function (e, role, grid) {\n        e.preventDefault();\n        var model = kendo.observable({\n            RoleId: role.Id,\n            UserId: \"\"\n        });\n        var addUserDialog = new Dialog({\n            title: \"[resource_displayname[adduser]]\",\n            width: 500\n        });\n        addUserDialog.template = $(\"[name=addUserDialog]\").html();\n        addUserDialog.events.confirm = async function (e) {\n            await api.add(\"AppSecurity/UserRole\", model).then(() => {\n                notification.success(\"[resource_displayname[added]]\");\n                if (role.Users) { role.Users.push({ RoleId: role.Id, UserId:  model.UserId }); }\n                addUserDialog.events.close();\n                grid.refresh();\n            }).catch((err) => error(err));\n        };\n        addUserDialog.init();\n        kendo.bind(addUserDialog.element, model);\n    }\n}\n",
+  "Content": "<script type='text/template' name='addUserDialog'>\n\t<div class=\"input-group input-group-sm mb-1\">\n\t\t<span class=\"input-group-text\">[resource_displayname[userid]]</span>\n\t\t<input type=\"text\" class=\"form-control\" data-bind=\"value: UserId\" />\n\t</div>\n\n    <hr />\n\n    <button class=\"btn btn-sm btn-primary float-end\">\n        <span class=\"k-icon k-i-plus\"></span>[resource_displayname[add]]\n    </button>\n</script>\n\n<script type=\"text/template\" name=\"selectusersdialog\">\n    <div class=\"row\">\n        <div class=\"col-md-12\">\n            <div name=\"selectUsersGrid\"></div>\n        </div>\n    </div>\n\n    <hr />\n\n    <button class=\"btn btn-sm btn-primary float-end\">\n        <span class=\"k-icon k-i-plus\"></span>[resource_displayname[add]]\n    </button>\n</script>",
+  "LastUpdated": "2024-11-19T18:18:30.78606+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "SSORoleManagement",
+  "Key": "SSO",
+  "ResourceKey": "SSO",
+  "Script": "SSORoleManagement = {\r\n\tinit: async function (app, container) {\r\n\t\tapp = app || session.app;\r\n\t\tcontainer = container || $(\".component[name=SSORoleManagement]\");\r\n\r\n\t\tapi.addToMetaCache([\r\n\t\t\t{\r\n\t\t\t\t\"Name\": \"Security\",\r\n\t\t\t\t\"Types\": [\r\n\t\t\t\t\t[meta[Security/SSORole]]\r\n\t\t\t\t]\r\n\t\t\t}\r\n\t\t]);\r\n\r\n\t\tSSORoleManagement.setupRoleGrid(app, container);\r\n\t},\r\n\r\n\tsetupRoleGrid: async function (app, container) {\r\n\t\tvar config = {\r\n\t\t\tendpoint: \"Security/SSORole\",\r\n\t\t\tsort: {\r\n\t\t\t\tfield: \"Name\",\r\n\t\t\t\tdir: \"asc\"\r\n\t\t\t}\r\n\t\t};\r\n\t\tvar ds = await model.getDatasource(config);\r\n\t\tvar roleGrid = new GridWidget(container, ds);\r\n\t\troleGrid.groupable = false;\r\n\t\troleGrid.pageable = false;\r\n\t\troleGrid.toolbar = [\r\n\t\t\t{\r\n\t\t\t\ttemplate: `<div class='btn-group btn-group-sm'>\r\n\t\t\t\t\t<button class='btn btn-primary' name='createRole'>\r\n\t\t\t\t\t\t<span class='k-icon k-i-plus'></span>[resource_displayname[NewRole]]\r\n\t\t\t\t\t</button>\r\n\t\t\t\t</div>`\r\n\t\t\t}\r\n\t\t];\r\n\t\troleGrid.columns = [{\r\n\t\t\tfield: \"Name\",\r\n\t\t\ttitle: \"[resource_shortdisplayname[Name]]\"\r\n\t\t},{\r\n\t\t\tfield: \"UsersArePortalAdmins\",\r\n\t\t\ttitle: \"[resource_shortdisplayname[UsersArePortalAdmins]]\",\r\n\t\t\twidth: \"50px\",\r\n\t\t\ttype: \"boolean\",\r\n\t\t\ttemplate: `<span class=\"k-icon k-i-#: UsersArePortalAdmins ? 'check' : 'x' #\"></span>`,\r\n\t\t\teditor: `<input type=\"checkbox\" #: UsersArePortalAdmins ? 'checked' : '' #></input>`\r\n\t\t}];\r\n\t\troleGrid.commands.push({\r\n\t\t\tname: \"[resource_displayname[save]]\",\r\n\t\t\ticon: 'k-i-save',\r\n\t\t\ttext: \"[resource_displayname[save]]\"\r\n\t\t});\r\n\t\troleGrid.commands.push({\r\n\t\t\tname: \"[resource_displayname[destroy]]\",\r\n\t\t\ticon: 'k-i-trash',\r\n\t\t\ttext: \"[resource_displayname[delete]]\"\r\n\t\t});\r\n\r\n\t\troleGrid.detailTemplate = $(\"[name=roleDetails]\").html();\r\n\r\n\t\troleGrid.detailExpand = function (e) {\r\n\t\t\tSSORoleManagement.expandRole(e, app, roleGrid);\r\n\t\t};\r\n\r\n\t\troleGrid.dataBound = function () {\r\n\t\t\t$(\"button[name=save]\", roleGrid.gridElement).off(\"click\").on(\"click\", async (e) => await SSORoleManagement.save(e, roleGrid));\r\n\t\t\t$(\"button[name=destroy]\", roleGrid.gridElement).off(\"click\").on(\"click\", async (e) => await SSORoleManagement.destroy(e, roleGrid));\r\n\t\t};\r\n\r\n\t\tawait roleGrid.init();\r\n\t\t$(\"button[name=createRole]\", roleGrid.gridElement).off(\"click\").on(\"click\", async (e) => await SSORoleManagement.createRole(e, app, roleGrid));\r\n\r\n\t\tawait loadComponent($('[name=roleUserManagementComponent]', container), 'SSORoleUserManagement');\r\n\t\tawait loadComponent($('[name=rolePrivManagementComponent]', container), 'SSORolePrivManagement');\r\n\t},\r\n\r\n\tsave: async function (e, grid) {\r\n\t\te.preventDefault();\r\n\t\tvar role = grid.dataItem($(e.currentTarget).closest(\"tr\"));\r\n\t\tawait role.save().then(() => { \r\n\t\t\tnotification.success(\"[resource_displayname[RoleSaved]]\"); \r\n\t\t}).catch((err) => {\r\n\t\t\terror(err);\r\n\t\t});\r\n\t},\r\n\r\n\tdestroy: async function (e, grid) {\r\n\t\te.preventDefault();\r\n\t\tvar row = $(e.currentTarget).closest(\"tr\");\r\n\t\tvar role = grid.dataItem(row);\r\n\t\tgrid.dataSource().remove(role);\r\n\t\tawait api.destroy(\"Security/SSORole(\" + role.Id + \")\").then(() => { \r\n\t\t\tnotification.success(\"[resource_displayname[roledeleted]]\"); \r\n\t\t}).catch((err) => {\r\n\t\t\terror(err);\r\n\t\t});\r\n\t},\r\n\r\n\texpandRole: async function (e, app, grid, container) {\r\n\t\tvar role = grid.dataItem(e.masterRow);\r\n\t\tvar container = $(e.detailRow);\r\n\t\tvar replaced = container.html().replaceAll('{ID}', Guid());\r\n\t\t\r\n\t\tcontainer.html(replaced);\r\n\r\n\t\tif($(container).find(\".component\").length == 0) {\r\n\t\t\tSSORoleUserManagement.init(app, $(\"[name=userGrid]\", container), role);\r\n\t\t\tSSORolePrivManagement.init(app, $(\"[name=privGrid]\", container), role);\r\n\t\t}\r\n\t},\r\n\r\n\tcreateRole: function (e, app, grid) {\r\n        var newRole = {\r\n            AppId: app.Id,\r\n            Name: \"[resource_displayname[newrole]]\",\r\n            Privs: \"\"\r\n        };\r\n\t\tvar args = {\r\n\t\t\tfields: [{\r\n\t\t\t\tfield: \"Name\",\r\n\t\t\t\ttitle: \"[resource_displayname[name]]\"\r\n\t\t\t}],\r\n\t\t\ttitle: \"[resource_displayname[newRole]]\",\r\n\t\t\tdata: newRole,\r\n\t\t\tconfirm: \"<span class='k-icon k-i-plus'></span>[resource_displayname[confirm]]\",\r\n\t\t\tclose: \"[resource_displayname[close]]\"\r\n\t\t};\r\n\t\tvar addRoleDialog = new EditorDialog(args);\r\n\t\taddRoleDialog.events.confirm = async function () {\r\n\t\t\tnewRole = addRoleDialog.data;//Remove all the kendo observable properties.\r\n\t\t\tawait api.add(\"Security/SSORole\", newRole).then(() => {\r\n                notification.success('[resource_displayname[RoleCreated]]');\r\n\t\t\t    grid.refresh();\r\n\t\t\t    addRoleDialog.events.close();\r\n            }).catch((err) => error(err));\r\n\t\t};\r\n\t\taddRoleDialog.init();\r\n\t}\r\n}\r\n",
+  "Content": "<script type=\"text/template\" name=\"roleDetails\">\r\n    <div class=\"tab-control\" name=\"tabs\">\r\n    <nav>\r\n        <div class=\"nav nav-tabs\" id=\"app-roles-nav-tab-{ID}\" role=\"tablist\">\r\n            <button class=\"nav-link bg active\" id=\"app-roles-users-tab-{ID}\" data-bs-toggle=\"tab\" data-bs-target=\"\\#app-roles-users-{ID}\" type=\"button\" role=\"tab\" aria-controls=\"app-roles-users-{ID}\" aria-selected=\"false\" tabindex=\"-1\" name=\"users-tab-button\">\r\n                <span class=\"k-icon k-i-user\"></span>[resource_displayname[users]]\r\n            </button>\r\n            <button class=\"nav-link bg\" id=\"app-roles-privileges-tab-{ID}\" data-bs-toggle=\"tab\" data-bs-target=\"\\#app-roles-privileges-{ID}\" type=\"button\" role=\"tab\" aria-controls=\"app-roles-privileges-{ID}\" aria-selected=\"true\" name=\"privileges-tab-button\">\r\n                <span class=\"k-icon k-i-check\"></span>[resource_displayname[privileges]]\r\n            </button>\r\n        </div>\r\n    </nav>\r\n\r\n    <div class=\"tab-content\" id=\"app-roles-nav-tab-{ID}users\">\r\n        <div class=\"tab-pane fade active show\" id=\"app-roles-users-{ID}\" role=\"tabpanel\" aria-labelledby=\"app-roles-users-tab-{ID}\" name=\"users\">\r\n            <div name=\"userGrid\"></div>\r\n        </div>\r\n        <div class=\"tab-pane fade\" id=\"app-roles-privileges-{ID}\" role=\"tabpanel\" aria-labelledby=\"app-roles-privileges-tab-{ID}\" name=\"privileges\">\r\n            <div name=\"privGrid\"></div>\r\n        </div>\r\n    </div>\r\n</script>\r\n\r\n<div name=\"roleUserManagementComponent\" style=\"display:none;\"></div>\r\n<div name=\"rolePrivManagementComponent\" style=\"display:none;\"></div>",
+  "LastUpdated": "2024-11-29T17:07:59.2343224+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "SSORolePrivManagement",
+  "Key": "SSO",
+  "ResourceKey": "SSO",
+  "Script": "SSORolePrivManagement = {\r\n    init: async function(app, container, role) {\r\n        app = app || session.app;\r\n        container = container || $(\".component[name=SSORolePrivManagement]\");\r\n\r\n        if(!role) { return; }\r\n\r\n        var privs = (await api.get(\"Security/SSOPrivilege\")).value;\r\n        privs.forEach(p => p.Has = (role.Privs.indexOf(p.Id) !== -1));\r\n        var rolePrivGrid = new GridWidget(container, {data: privs});\r\n\r\n        rolePrivGrid.columns=[\r\n            {field: \"Has\", title: \" \", template: \"<input class='k-select-checkbox k-checkbox k-checkbox-md k-rounded-md' type='checkbox' #= (Has == true) ? checked ='checked' : '' # class='chkbx k-checkbox'/>\", width: 40},\r\n            {field: \"Type\", title: \"[resource_displayname[Type]]\" },\r\n            {field: \"Operation\", title: \"[resource_displayname[Operation]]\"},\r\n            {field: \"Description\", title: \"[resource_displayname[PrivExplanation]]\"}\r\n        ];\r\n\r\n        rolePrivGrid.groupable = false;\r\n        rolePrivGrid.editable = false;\r\n        rolePrivGrid.filterable = false;\r\n        rolePrivGrid.pageable = false;\r\n        rolePrivGrid.sortable = false;\r\n\r\n        rolePrivGrid.dataBound = function() {\r\n            $(\"input[type=checkbox]\", rolePrivGrid.gridElement).off(\"click\").on(\"click\", async function(e) {\r\n                e.preventDefault();\r\n                var dataItem = rolePrivGrid.dataItem($(e.target).closest(\"tr\"));\r\n                dataItem.set(\"Has\", this.checked);\r\n                role.Privs = rolePrivGrid.dataSource().data().filter(p => p.Has).map(p => p.Id).join(',');\r\n                await role.save().then(() => { notification.success(\"[resource_displayname[rolesaved]]\"); })\r\n                .catch((err) => { error(err); });\r\n            });\r\n        };\r\n\r\n        await rolePrivGrid.init();\r\n        rolePrivGrid.dataSource().group({field: \"Type\"});\r\n    }\r\n}",
+  "Content": "<style scoped>\r\n    .component[name=RolePrivManagement] {max-height: 800px !important; }\r\n    .k-grid-content k-auto-scrollable {max-height: 800px; }\r\n    div[name=privs].k-tabstrip-content {overflow-x: hidden !important; }\r\n    </style>",
+  "LastUpdated": "2024-11-29T17:11:01.5261213+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "SSORoleUserManagement",
+  "Key": "SSO",
+  "ResourceKey": "SSO",
+  "Script": "SSORoleUserManagement = {\r\n    init: async function (app, container, role) {\r\n        app = app || session.app;\r\n        container = container || $(\".component[name=SSORoleUserManagement]\");\r\n        if(!role) { return; }\r\n        api.addToMetaCache([{\r\n            Name: \"Security\",\r\n            Types: [\r\n                [meta[Security/SSOUser]],\r\n                [meta[Security/SSOUserRole]]\r\n            ]\r\n        }]);\r\n        await SSORoleUserManagement.setupUserGrid(container, role);\r\n    },\r\n\r\n    setupUserGrid: async function(container, role) {\r\n        var ds = await model.getDatasource({ endpoint: \"Security/SSOUserRole\", odataAppend: \"?$filter=RoleId eq \" + role.Id + \"&$expand=User\" });\r\n        var usersGrid = new GridWidget(container, ds);\r\n        usersGrid.commandWidth = 100;\r\n        usersGrid.columns = [\r\n            { field: \"UserId\", title: \"[resource_displayname[userid]]\" },\r\n            { field: \"User.Email\", title: \"[resource_displayname[email]]\" }\r\n        ];\r\n        usersGrid.toolbar = `<div class=\"btn-group btn-group-sm\">\r\n            <button class=\"btn btn-primary\" name=\"addUser\">\r\n                <span class=\"k-icon k-i-plus\"></span>[resource_displayname[adduserbyid]]\r\n            </button>\r\n            <button class=\"btn btn-primary\" name=\"addUsers\">\r\n                <span class=\"k-icon k-i-plus\"></span>[resource_displayname[selectusers]]\r\n            </button>\r\n        </div>`;\r\n        usersGrid.groupable = false;\r\n        usersGrid.filterable = true;\n        usersGrid.commands.push({ name: \"delete\", icon: \"k-i-trash\", text: \"[resource_displayname[delete]]\" });\n        usersGrid.dataBound = function() { \n            $(\"[name=delete]\", usersGrid.gridElement).off(\"click\").on(\"click\", async function(e) {\n\t\t        var item = usersGrid.dataItem($(e.currentTarget).closest(\"tr\"));\n                await SSORoleUserManagement.deleteUser(item, usersGrid);\n            });\n        };\n        await usersGrid.init();\n        $(\"[name=addUser]\", usersGrid.gridElement).off(\"click\").on(\"click\", async (e) => await SSORoleUserManagement.addUser(e, role, usersGrid));\n        $(\"[name=addUsers]\", usersGrid.gridElement).off(\"click\").on(\"click\", async (e) => await SSORoleUserManagement.addUsers(e, usersGrid, role));\n    },\r\n\r\n\taddUsers: async function(e, grid, role) {\r\n        e.preventDefault();\r\n        var userGrid = null;\r\n        var userDialog = new Dialog({\r\n            title: \"[resource_displayname[selectusers]]\",\r\n            width: 800\r\n        });\r\n        userDialog.template = $(\"[name=selectusersdialog]\").first().html();\r\n        userDialog.events.select = async function(e) {\n            e.preventDefault();\n\t\t\tvar selected = userGrid.select();\n            for(let i = 0; i < selected.length; i++) {\n                var selectedUser = selected[i];\n                if(!selectedUser) { continue; }\n\t\t\t\tawait api.post(\"Security/SSOUserRole\", {\n                    RoleId: role.Id,\n                    UserId: selectedUser.Id\n                }).then(() => {\n\t\t\t\t\tgrid.refresh();\n\t\t\t\t}).catch((e) => error(e));\n\t\t\t}\n\t\t\tuserDialog.events.close();\n        };\n        userDialog.init(async () => {\n            var userData = await model.getDatasource({\n                endpoint: \"Security/SSOUser\",\n                odataAppend: \"?$filter=IsActive eq true\",\n                pageSize: 10\n            });\n            userGrid = new GridWidget($(\"[name=selectUsersGrid]\", userDialog.element), userData);\r\n\t\t\tuserGrid.filterable = true;\r\n\t\t\tuserGrid.groupable = false;\r\n            userGrid.pageable = true;\r\n            userGrid.columns = [\r\n                {selectable: true, width: 50},\r\n                { field: \"Id\", title: \"[resource_displayname[userid]]\" },\r\n                { field: \"DisplayName\", title: \"[resource_displayname[displayname]]\" },\r\n                { field: \"Email\", title: \"[resource_displayname[email]]\" }\r\n            ];\r\n            userGrid.init();\r\n        });\r\n    },\n\n    deleteUser: async function(roleUser, usersGrid) {\n        await api.destroy(\"Security/SSOUserRole(RoleId=\" + roleUser.RoleId + \",UserId='\" + roleUser.UserId + \"')\").then(() => {\n            notification.success(\"[resource_displayname[userdeleted]]\");\n            usersGrid.refresh();\n        }).catch((err) => error(err));\n    },\r\n\r\n    addUser: async function (e, role, grid) {\r\n        e.preventDefault();\r\n        var model = kendo.observable({\r\n            RoleId: role.Id,\r\n            UserId: \"\"\r\n        });\r\n        var addUserDialog = new Dialog({\r\n            title: \"[resource_displayname[adduser]]\",\r\n            width: 500\r\n        });\n        addUserDialog.template = $(\"[name=addUserDialog]\").html();\n        addUserDialog.events.confirm = async function (e) {\n            await api.add(\"Security/SSOUserRole\", model).then(() => {\n                notification.success(\"[resource_displayname[added]]\");\n                if (role.Users) { role.Users.push({ RoleId: role.Id, UserId:  model.UserId }); }\n                addUserDialog.events.close();\n                grid.refresh();\r\n            }).catch((err) => error(err));\r\n        };\r\n        addUserDialog.init();\r\n        kendo.bind(addUserDialog.element, model);\r\n    }\r\n}\n",
+  "Content": "<script type='text/template' name='addUserDialog'>\r\n\t<div class=\"input-group input-group-sm mb-1\">\r\n\t\t<span class=\"input-group-text\">[resource_displayname[userid]]</span>\r\n\t\t<input type=\"text\" class=\"form-control\" data-bind=\"value: UserId\" />\r\n\t</div>\r\n\r\n    <hr />\r\n\r\n    <button class=\"btn btn-sm btn-primary float-end\">\r\n        <span class=\"k-icon k-i-plus\"></span>[resource_displayname[add]]\r\n    </button>\r\n</script>\r\n\r\n<script type=\"text/template\" name=\"selectusersdialog\">\r\n    <div class=\"row\">\r\n        <div class=\"col-md-12\">\r\n            <div name=\"selectUsersGrid\"></div>\r\n        </div>\r\n    </div>\r\n\r\n    <hr />\r\n\r\n    <button class=\"btn btn-sm btn-primary float-end\">\r\n        <span class=\"k-icon k-i-plus\"></span>[resource_displayname[add]]\r\n    </button>\r\n</script>",
+  "LastUpdated": "2024-11-26T17:01:07.6893459+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "UserProfile",
+  "Key": "Account",
+  "ResourceKey": "Account",
+  "Script": "UserProfile = {\r\n    init: async function (app, container) {\r\n        app = app || session.app;\r\n        container = container || $(\".component[name=UserProfile]\");\r\n        if (session.user) {\r\n            $(\"[name=userPrefs]\", container).css(\"cursor\", \"pointer\");\r\n            $(\"[name=userPrefs]\", container).on(\"click\", () => UserProfile.showProfile(app));\r\n        }\r\n        $(\"a[name=logout]\", container).on(\"click\", async (e) => {\r\n            e.preventDefault();\r\n            await api.logout();\r\n            window.location.href = '/';\r\n        }); \r\n    },\r\n\r\n    showProfile: async function ( app) {\r\n        var model = null;\r\n        var SSOUser = await api.get(\"Security/SSOUser/Me()\");\r\n        var CoreUser = await api.get(\"AppSecurity/User/Me()\");\r\n        var d = new Dialog({ title: \"[resource_displayname[edituserprofile]]\" });\r\n        d.template = $(\"[name=userProfileDialog]\").html();\r\n        d.events.confirm = async  () => await UserProfile.updateProfile(model.toJSON());\r\n        d.events.updatePassword = async function () {\r\n            d.events.close();\r\n            await UserProfile.resetPassword();\r\n        };\r\n        d.init(async () => {\r\n            var cultures = (await api.get(\"ContentManagement/App(\" + app.Id + \")?$expand=Cultures($expand=Culture)\")).Cultures;\r\n            model = new kendo.data.ObservableObject({\r\n                Id: SSOUser.Id,\r\n                Email: SSOUser.Email,\r\n                DisplayName: SSOUser.DisplayName,\r\n                PhoneNumber: SSOUser.PhoneNumber,\r\n                DefaultCultureId: CoreUser.DefaultCultureId\r\n            });\r\n            $(\"input[name=culture]\", d.element).kendoDropDownList({\r\n                dataTextField: \"Culture.Name\",\r\n                dataValueField: \"CultureId\",\r\n                height: 310,\r\n                dataSource: {\r\n                    data: cultures\r\n                }\r\n            }).data(\"kendoDropDownList\");\r\n            kendo.bind($(d.element), model);\r\n            $(d.element).data(\"model\", model);\r\n        });\r\n    },\r\n\r\n    resetPassword: async function () {\r\n        var model = null;\r\n        var d = new Dialog({ title: \"[resource_displayname[resetpassword]]\" });\r\n        d.template = $(\"[name=forgotPasswordDialog]\").html();\r\n        d.events.confirm = async function () {\r\n            UserProfile.changePassword(model.toJSON());\r\n        };\r\n        d.init(() => {\r\n            model = new kendo.data.ObservableObject({\r\n                OldPassword: \"\",\r\n                NewPassword: \"\",\r\n                ConfirmPassword: \"\"\r\n            });\r\n            kendo.bind($(d.element), model);\r\n            $(d.element).data(\"model\", model);\r\n        });\r\n    },\r\n\r\n    changePassword: async function (model) {\r\n        await api.update(\"Account/ChangePassword\", model).then(() => {\r\n            notification.success(\"[resource_displayname[PasswordChanged]]\");\r\n        }).catch((err) => error(err));\r\n    },\r\n\r\n    updateProfile: async function (model) {\r\n        var SSOUserModel = {\r\n            Id: model.Id,\r\n            Email: model.Email,\r\n            DisplayName: model.DisplayName,\r\n            PhoneNumber: model.PhoneNumber\r\n        };\r\n        var CoreUserModel = {\r\n            Id: model.Id,\r\n            Email: model.Email,\r\n            DisplayName: model.DisplayName,\r\n            DefaultCultureId: (model.DefaultCultureId) ? model.DefaultCultureId : \"\"\r\n        };\r\n        var B2BUserModel = {\r\n            Id: model.Id,\r\n            EmailAddress: model.Email,\r\n            DisplayName: model.DisplayName\r\n        };\r\n        await api.update(\"Security/SSOUser('\" + SSOUserModel.Id + \"')\", SSOUserModel).then(async () => {\r\n            await api.update(\"AppSecurity/User('\" + CoreUserModel.Id + \"')\", CoreUserModel).then(async () => {\r\n                await api.update(\"B2B/B2BUser('\" + B2BUserModel.Id + \"')\", B2BUserModel).then(async () => {\r\n                    $(\"span[name=userPrefs]\").html(SSOUserModel.DisplayName);\r\n                    notification.success(\"[resource_displayname[UserUpdated]]\");\r\n                }).catch((err) => error(err));\r\n            }).catch((err) => error(err));\r\n        }).catch((err) => error(err));\r\n    }\r\n}",
+  "Content": "<div class=\"userName\">\r\n    <span class=\"k-icon k-i-user\"></span>\r\n    <span name=\"userPrefs\" class=\"userPrefs\">[[displayname]]</span> \r\n    ([[loginlink]])\r\n</div>\r\n\r\n<script type=\"text/template\" name=\"forgotPasswordDialog\">\r\n<ul class=\"fieldList\">\r\n    <li>\r\n        <label>[resource_displayname[OldPassword]]</label>\r\n        <div class=\"value\">\r\n            <input type=\"password\" data-bind=\"value: OldPassword\" />\r\n        </div>\r\n    </li>\r\n    <li>\r\n        <label>[resource_displayname[NewPassword]]</label>\r\n        <div class=\"value\">\r\n            <input type=\"password\" data-bind=\"value: NewPassword\" />\r\n        </div>\r\n    </li>\r\n    <li>\r\n        <label>[resource_displayname[ConfirmPassword]]</label>\r\n        <div class=\"value\">\r\n            <input type=\"password\" data-bind=\"value: ConfirmPassword\" />\r\n        </div>\r\n    </li>\r\n</ul>\r\n<hr>\r\n<div style=\"text-align:right;\">\r\n    <button name=\"close\">[resource_displayname[close]]</button>\r\n    <button name=\"confirm\">[resource_displayname[confirm]]</button>\r\n</div>\r\n</script>\r\n<script type=\"text/template\" name=\"userProfileDialog\">\r\n<ul class=\"fieldList\">\r\n    <li>\r\n        <label>[resource_displayname[Username]]</label>\r\n        <div class=\"value\">\r\n            <label name=\"username\" data-bind=\"html: Id\"></label>\r\n        </div>\r\n    </li>\r\n    <li>\r\n        <label>[resource_displayname[DisplayName]]</label>\r\n        <div class=\"value\">\r\n            <input type=\"text\" name=\"displayName\" data-bind=\"value: DisplayName\" />\r\n        </div>\r\n    </li>\r\n    <li>\r\n        <label>[resource_displayname[Email]]</label>\r\n        <div class=\"value\">\r\n            <input type=\"text\" name=\"email\" data-bind=\"value: Email\" />\r\n        </div>\r\n    </li>\r\n    <li>\r\n        <label>[resource_displayname[PhoneNumber]]</label>\r\n        <div class=\"value\">\r\n            <input type=\"text\" name=\"PhoneNumber\" data-bind=\"value: PhoneNumber\" />\r\n        </div>\r\n    </li>\r\n    <li>\r\n        <label>[resource_displayname[culture]]</label>\r\n        <div class=\"value\">\r\n            <input type=\"text\" name=\"culture\" data-bind=\"value: DefaultCultureId\" />\r\n        </div>\r\n    </li>\r\n</ul>\r\n<hr>\r\n<div style=\"text-align:right;\">\r\n    <button name=\"updatePassword\"> <span class=\"k-icon k-i-lock\"></span>[resource_displayname[changepassword]]</button>\r\n    <button name=\"confirm\"><span class=\"k-icon k-i-check\"></span>[resource_displayname[confirm]]</button>\r\n</div>\r\n</script>\r\n<style scoped>\r\n.component[name=UserProfile] {\r\n    border:none;\r\n    box-shadow: none;\r\n    padding: 0;\r\n    margin: 0;\r\n}\r\n\r\ndiv.dialog.k-window-content > div > button {\r\n    margin-right: 5px;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.userName { min-width: 200px; text-align: right; }\r\n.userName > .userPrefs { text-align: right; }\r\n</style>",
+  "LastUpdated": "2024-06-10T14:56:38.5573953+01:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "PasswordReset",
+  "Key": "Account Management",
+  "ResourceKey": "Account",
+  "Script": "PasswordReset = {\n\tinit: async function (app, container) {\n\t\tapp = app || session.app;\n\t\tcontainer = container || $(\".component[name=PasswordReset]\");\n\n\t\t$('input', container).on('click', function (e) {\n\t\t\t$(this).attr('type') == 'password' ? 'text' : 'password';\n\t\t});\n\t\t$('button[name=submitReset]', container).on('click', async function (e) {\n\t\t\tawait PasswordReset.confirm(e, app, container)\n\t\t});\n\t},\n\n\tconfirm: async function (e, app, container) {\n\t\tvar url = new URL(window.location.href);\n\t\tvar resetRequest = {\n\t\t\tUserId: url.searchParams.get(\"uid\"),\n\t\t\tNewPassword: $('input[name=pass]', container).val(),\n\t\t\tConfirmPassword: $('input[name=confirm]', container).val(),\n\t\t\tToken: url.searchParams.get(\"token\"),\n\t\t\tSourceAppId: app.Id\n\t\t};\n\t\tawait api.post(\"Account/ConfirmForgotPassword\", resetRequest).then((resSuccess) => {\n\t\t\tif (resSuccess || resSuccess == '')\n\t\t\t{\n\t\t\t\tnotification.success(\"[resource_description[ResetSuccess]]\");\n\t\t\t\twindow.location.href = \"/Login\";\n\t\t\t}\n\t\t\telse\n\t\t\t\tnotification.error(\"[resource_description[ResetFailed]]\");\n\t\t});\n\n\n\t}\n}\n\n$(function () {\n\tPasswordReset.init();\n});\n",
+  "Content": "<div class=\"container\">\n  <div class=\"row justify-content-center\">\n    <div class=\"col-md-6 col-lg-5\">\n       <h2 class=\"ps-2\"> [resource_displayname[resetyourpassword]]</h2>\n\n      <ul class=\"fieldList list-unstyled\">\n\n        <li class=\"input-group input-group-sm mb-2\">\n          <span class=\"input-group-text\">\n            [resource_displayname[Password]]\n          </span>\n          <input type=\"password\"\n                 name=\"pass\"\n                 required\n                 class=\"form-control\" />\n        </li>\n\n        <li class=\"input-group input-group-sm mb-2\">\n          <span class=\"input-group-text\">\n            [resource_displayname[ConfirmPassword]]\n          </span>\n          <input type=\"password\"\n                 name=\"confirm\"\n                 required\n                 class=\"form-control\" />\n        </li>\n\n        <li class=\"text-end mt-3\">\n          <button name=\"submitReset\"\n                  class=\"btn btn-sm btn-primary\">\n            [resource_displayname[Submit]]\n          </button>\n        </li>\n\n      </ul>\n\n    </div>\n  </div>\n</div>\n",
+  "LastUpdated": "2026-02-10T13:16:43.0428768Z"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "InviteUser",
+  "Key": "Account Management",
+  "ResourceKey": "Account",
+  "Script": "InviteUser = {\n    init: function(app, container, callback = null) {\n        app = app || session.app;\n        container = container || $(\".component[name=InviteUser]\");\n        container.kendoValidator();\n\n        $(\"button[name=sendInvite]\", container).off(\"click\").on(\"click\", async function(e) {\n            await InviteUser.send(e, app, container, callback);\n        });\n    },\n\n    send: async function(e, app, container, callback) {\n        e.preventDefault();\n        if (!container.getKendoValidator().validate()) {\n            notification.error(\"[resource_description[PleaseResolveValidationIssues]]\");\n            return;\n        }\n\n        var request = {\n            DisplayName: $(\"input[name=DisplayName]\", container).val(),\n            Email: $(\"input[name=Email]\", container).val(),\n            Password: null,\n            Culture: session.culture || app.DefaultCultureId,\n            PhoneNumber: $(\"input[name=PhoneNumber]\", container).val() || null,\n            TenantId: app.TenantId || (app.Config && app.Config.Deployment ? app.Config.Deployment.TenantId : null),\n            AppId: app.Id\n        };\n\n        try {\n            var result = await api.post(\"Account/Invite\", request);\n            var user = result.user || result.User;\n            var token = result.token || result.Token;\n            var inviteLink = `${window.location.origin}/AcceptInvite?user=${encodeURIComponent(user.id || user.Id)}&e=${encodeURIComponent(user.email || user.Email)}&t=${encodeURIComponent(token)}`;\n            $(\"input[name=InviteLink]\", container).val(inviteLink);\n            notification.success(\"[resource_displayname[invitesent]]\");\n            if (callback) {\n                callback(result);\n            }\n        } catch(err) {\n            error(err);\n        }\n    }\n}",
+  "Content": "<form class=\"form\" name=\"inviteUserForm\">\n    <div class=\"input-group input-group-sm mb-2\">\n        <span class=\"input-group-text\">[resource_displayname[DisplayName]]</span>\n        <input type=\"text\" class=\"form-control\" name=\"DisplayName\" required />\n    </div>\n    <div class=\"input-group input-group-sm mb-2\">\n        <span class=\"input-group-text\">[resource_displayname[Email]]</span>\n        <input type=\"email\" class=\"form-control\" name=\"Email\" required />\n    </div>\n    <div class=\"input-group input-group-sm mb-2\">\n        <span class=\"input-group-text\">[resource_displayname[PhoneNumber]]</span>\n        <input type=\"text\" class=\"form-control\" name=\"PhoneNumber\" />\n    </div>\n    <div class=\"input-group input-group-sm mb-2\">\n        <span class=\"input-group-text\">[resource_displayname[InviteLink]]</span>\n        <input type=\"text\" class=\"form-control\" name=\"InviteLink\" readonly />\n    </div>\n    <div class=\"text-end\">\n        <button type=\"button\" class=\"btn btn-sm btn-primary\" name=\"sendInvite\">\n            <span class=\"k-icon k-i-paper-plane\"></span>[resource_displayname[invite]]\n        </button>\n    </div>\n</form>",
+  "LastUpdated": "2026-07-06T00:00:00+01:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "PendingUserInvites",
+  "Key": "Account Management",
+  "ResourceKey": "Account",
+  "Script": "PendingUserInvites = {\n    init: async function(app, container) {\n        app = app || session.app;\n        container = container || $(\".component[name=PendingUserInvites]\");\n        await PendingUserInvites.setupGrid(app, container);\n    },\n\n    setupGrid: async function(app, container) {\n        api.addToMetaCache([{\n            Name: \"Security\",\n            Types: [\n                [meta[Security/SSOUser]]\n            ]\n        }]);\n\n        var ds = await model.getDatasource({\n            endpoint: \"Security/SSOUser\",\n            odataAppend: \"?$filter=LockoutEnabled eq true\",\n            sort: { field: \"Email\", dir: \"asc\" }\n        });\n\n        var grid = new GridWidget(container, ds);\n        grid.groupable = false;\n        grid.filterable = true;\n        grid.pageable = true;\n        grid.columns = [\n            { field: \"Id\", title: \"[resource_displayname[userid]]\" },\n            { field: \"DisplayName\", title: \"[resource_displayname[displayname]]\" },\n            { field: \"Email\", title: \"[resource_displayname[email]]\" }\n        ];\n        grid.commands.push({ name: \"resendInvite\", icon: \"k-i-paper-plane\", text: \"[resource_displayname[resendinvite]]\" });\n        grid.dataBound = function () {\n            $(\"[name=resendInvite]\", grid.gridElement).off(\"click\").on(\"click\", async function(e) {\n                await PendingUserInvites.resend(e, grid);\n            });\n        };\n\n        await grid.init();\n    },\n\n    resend: async function(e, grid) {\n        e.preventDefault();\n        var user = grid.dataItem($(e.currentTarget).closest(\"tr\"));\n        var result = await api.post(`Account/ResendInvite?userId=${encodeURIComponent(user.Id)}`);\n        var token = result.token || result.Token;\n        var inviteLink = `${window.location.origin}/AcceptInvite?user=${encodeURIComponent(user.Id)}&e=${encodeURIComponent(user.Email)}&t=${encodeURIComponent(token)}`;\n        notification.success(inviteLink);\n    }\n}",
+  "Content": "<div name=\"pendingUserInvitesGrid\"></div>",
+  "LastUpdated": "2026-07-06T00:00:00+01:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "UserInvitations",
+  "Key": "Account Management",
+  "ResourceKey": "Account",
+  "Script": "UserInvitations = {\n    init: async function(app, container) {\n        app = app || session.app;\n        container = container || $(\".component[name=UserInvitations]\");\n        await loadComponent($(\"[name=inviteUser]\", container), \"InviteUser\", async (component) => {\n            await component.init(app, $(\".component[name=InviteUser]\", container), async () => {\n                await UserInvitations.refreshPending(container);\n            });\n        });\n        await loadComponent($(\"[name=pendingUserInvites]\", container), \"PendingUserInvites\", async (component) => {\n            await component.init(app, $(\".component[name=PendingUserInvites]\", container));\n        });\n    },\n\n    refreshPending: async function(container) {\n        var grid = $(\"[name=pendingUserInvites] .k-grid\", container).data(\"kendoGrid\");\n        if (grid) {\n            grid.dataSource.read();\n        }\n    }\n}",
+  "Content": "<div class=\"tab-control\" name=\"tabs\">\n    <nav>\n        <div class=\"nav nav-tabs\" id=\"user-invitations-nav-tab\" role=\"tablist\">\n            <button class=\"nav-link active\" id=\"user-invitations-invite-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#user-invitations-invite\" type=\"button\" role=\"tab\" aria-controls=\"user-invitations-invite\" aria-selected=\"true\">\n                <span class=\"k-icon k-i-paper-plane\"></span>[resource_displayname[inviteuser]]\n            </button>\n            <button class=\"nav-link\" id=\"user-invitations-pending-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#user-invitations-pending\" type=\"button\" role=\"tab\" aria-controls=\"user-invitations-pending\" aria-selected=\"false\">\n                <span class=\"k-icon k-i-clock\"></span>[resource_displayname[pendinginvites]]\n            </button>\n        </div>\n    </nav>\n    <div class=\"tab-content\" id=\"user-invitations-nav-tab-content\">\n        <div class=\"tab-pane fade show active p-3\" id=\"user-invitations-invite\" role=\"tabpanel\" aria-labelledby=\"user-invitations-invite-tab\" name=\"inviteUser\"></div>\n        <div class=\"tab-pane fade p-3\" id=\"user-invitations-pending\" role=\"tabpanel\" aria-labelledby=\"user-invitations-pending-tab\" name=\"pendingUserInvites\"></div>\n    </div>\n</div>",
+  "LastUpdated": "2026-07-06T00:00:00+01:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Component",
+                Data = """
+{
+  "Name": "AcceptInvite",
+  "Key": "Account",
+  "ResourceKey": "Account",
+  "Script": "AcceptInvite = {\n\tinit: async function (app, container) {\n\t\tapp = app || session.app;\n\t\tcontainer = container || $(\".component[name=AcceptInvite]\");\n\n        var userId = getQueryParameter('user');\n        var email = getQueryParameter('e');\n        var token = getQueryParameter('t');\n\n        if(userId == '' || email == '' || token == '') {\n            $(\"[name=accept-form]\", container).addClass('d-none');\n            $(\"[name=error-text]\", container).html(\"[resource_displayname[clickinvitelinkandtryagain]]\");\n            $(\"[name=error]\", container).removeClass('d-none');\n            return;\n        }\n\n        $(\"input[name=userId]\", container).val(userId);\n        $(\"input[name=email]\", container).val(email);\n\n\t\t$(\"[name=accept-invite]\", container).on(\"click\", async () => {\n\t\t\tawait AcceptInvite.acceptInvite(app, container, userId, email, token);\n\t\t});\n\t},\n\n    acceptInvite: async function(app, container, userId, email, token) {\n        var displayName = $(\"[name=displayname]\", container).val();\n        var password = $(\"[name=password]\", container).val();\n        var confirmPassword = $(\"[name=confirm-password]\", container).val();\n\n        if(password !== confirmPassword || password == '') {\n            notification.error(\"[resource_displayname[passwordsdonotmatch]]\");\n            return;\n        }\n\n        if(displayName == '') {\n            notification.error(\"[resource_displayname[pickadisplayname]]\");\n            return;\n        }\n\n        try {\n            await api.post(`Account/AcceptInvite?userId=${encodeURIComponent(userId)}&inviteToken=${encodeURIComponent(token)}&t=${encodeURIComponent(token)}`, {\n                DisplayName: displayName,\n                Email: email,\n                Password: password,\n                Culture: session.culture || app.DefaultCultureId,\n                PhoneNumber: null,\n                TenantId: app.TenantId || (app.Config && app.Config.Deployment ? app.Config.Deployment.TenantId : null),\n                AppId: app.Id\n            });\n        } catch(e) {\n            error(e);\n            return;\n        }\n\n        notification.success('[resource_displayname[inviteaccepted]]');\n        await api.login(email, password, true);\n        location.href = '/';\n    }\n}",
+  "Content": "<div class=\"row align-items-center justify-content-center\">\n\t<div class=\"col-sm-4\" name=\"accept-form\">\n\t\t<form class=\"form\">\n\t\t\t<div class=\"input-group input-group-sm mb-3\">\n\t\t\t\t<span class=\"input-group-text\">[resource_displayname[userid]]</span>\n\t\t\t\t<input type=\"text\" class=\"form-control\" name=\"userId\" disabled />\n\t\t\t</div>\n\t\t\t<div class=\"input-group input-group-sm mb-3\">\n\t\t\t\t<span class=\"input-group-text\">[resource_displayname[email]]</span>\n\t\t\t\t<input type=\"text\" class=\"form-control\" name=\"email\" disabled />\n\t\t\t</div>\n\t\t\t<div class=\"input-group input-group-sm mb-3\">\n\t\t\t\t<input type=\"text\" class=\"form-control\" name=\"displayname\" aria-label=\"Display Name\" placeholder=\"Display name...\" />\n\t\t\t</div>\n\t\t\t<div class=\"input-group input-group-sm mb-3\">\n\t\t\t\t<input type=\"password\" class=\"form-control\" name=\"password\" aria-label=\"Password\" placeholder=\"Password...\" />\n\t\t\t</div>\n\t\t\t<div class=\"input-group input-group-sm mb-3\">\n\t\t\t\t<input type=\"password\" class=\"form-control\" name=\"confirm-password\" aria-label=\"Confirm Password\" placeholder=\"Confirm password...\" />\n\t\t\t</div>\n\t\t\t<div class=\"text-end\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-sm btn-primary\" name=\"accept-invite\">\n\t\t\t\t\t[resource_displayname[acceptinvite]]\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</form>\n\t</div>\n    <div class=\"col-sm-4 d-none\" name=\"error\">\n        <div class=\"alert alert-warning\" name=\"error-text\"></div>\n    </div>\n</div>",
+  "LastUpdated": "2026-07-06T00:00:00+01:00"
+}
+"""
+            },
+        ]
+    };
+
+    static Package Pages => new()
+    {
+        Name = "App Security Pages",
+        Category = "Account",
+        Description = "App Security Pages.",
+        SourceApi = "https://ccoder.co.uk/Api/",
+        Items =
+        [
+            new PackageItem
+            {
+                Type = "Core/Page",
+                Data = """
+{
+  "Path": "ResetPassword",
+  "Name": "Reset Password",
+  "ShowOnMenus": false,
+  "Order": 5,
+  "LastUpdated": "2024-04-04T15:46:54.0679935+01:00",
+  "Layout": "Default",
+  "Contents": [
+    {
+      "CultureId": "",
+      "Name": "body",
+      "Html": "[component[PasswordReset]]"
+    },
+    {
+      "CultureId": "en-GB",
+      "Name": "body",
+      "Html": " [component[PasswordReset]]\n                    "
+    }
+  ],
+  "PageInfo": [
+    {
+      "CultureId": "",
+      "Description": "Reset Password",
+      "Keywords": "password, reset",
+      "Title": "Reset Password"
+    }
+  ]
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Page",
+                Data = """
+{
+  "Path": "Login",
+  "Name": "Login",
+  "ShowOnMenus": false,
+  "Order": 0,
+  "LastUpdated": "2024-04-04T15:47:14.0500973+01:00",
+  "Layout": "Default",
+  "Contents": [
+    {
+      "CultureId": "",
+      "Name": "body",
+      "Html": "[component[Login]]"
+    }
+  ],
+  "PageInfo": [
+    {
+      "CultureId": "",
+      "Description": "Login",
+      "Keywords": "Login",
+      "Title": "Login"
+    }
+  ]
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Page",
+                Data = """
+{
+  "Path": "Admin/SSOAdmin",
+  "Name": "SSO Admin",
+  "ShowOnMenus": true,
+  "Order": 0,
+  "LastUpdated": "2024-11-26T16:37:33.6775748+00:00",
+  "Layout": "Default",
+  "Contents": [
+    {
+      "CultureId": "",
+      "Name": "body",
+      "Html": " [component[SSORoleManagement]]\n                    "
+    }
+  ],
+  "PageInfo": [
+    {
+      "CultureId": "",
+      "Description": "SSO Admin",
+      "Keywords": "SSO Admin",
+      "Title": "SSO Admin"
+    }
+  ]
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Page",
+                Data = """
+{
+  "Path": "AcceptInvite",
+  "Name": "Accept Invite",
+  "ResourceKey": "",
+  "ShowOnMenus": false,
+  "Order": 0,
+  "LastUpdated": "2026-07-06T00:00:00+01:00",
+  "Layout": "Default",
+  "Contents": [
+    {
+      "CultureId": "",
+      "Name": "body",
+      "Html": "[component[AcceptInvite]]"
+    }
+  ],
+  "PageInfo": [
+    {
+      "CultureId": "",
+      "Description": "Accept Invite",
+      "Keywords": "invite, account",
+      "Title": "Accept Invite"
+    }
+  ]
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Page",
+                Data = """
+{
+  "Path": "Admin/UserInvitations",
+  "Name": "User Invitations",
+  "ResourceKey": "",
+  "ShowOnMenus": true,
+  "Order": 20,
+  "LastUpdated": "2026-07-06T00:00:00+01:00",
+  "Layout": "Default",
+  "Contents": [
+    {
+      "CultureId": "",
+      "Name": "body",
+      "Html": "[component[UserInvitations]]"
+    }
+  ],
+  "PageInfo": [
+    {
+      "CultureId": "",
+      "Description": "User invitation administration",
+      "Keywords": "invite, account, user",
+      "Title": "User Invitations"
+    }
+  ]
+}
+"""
+            },
+        ]
+    };
+
+    static Package Resources => new()
+    {
+        Name = "App Security Resources",
+        Category = "Account",
+        Description = "App Security Resources.",
+        SourceApi = "https://ccoder.co.uk/Api/",
+        Items =
+        [
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "remove",
+  "DisplayName": "Remove",
+  "ShortDisplayName": "Remove",
+  "Description": "Remove",
+  "LastUpdated": "2022-03-18T10:41:54.1891378+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "newrole",
+  "DisplayName": "New Role",
+  "ShortDisplayName": "New Role",
+  "Description": "New Role",
+  "LastUpdated": "2022-03-18T10:41:54.1891472+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "name",
+  "DisplayName": "Nom et Prénom",
+  "ShortDisplayName": "Nom et Prénom",
+  "Description": "Nom et Prénom",
+  "LastUpdated": "2022-03-18T10:41:54.189239+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "passwordrules",
+  "DisplayName": "Les mots de passe doivent avoir une longueur minimale de 6 caractères et contenir au moins 1 lettre majuscule, au moins 1 lettre minuscule, au moins 1 chiffre, au moins 1 caractère non alphanumérique",
+  "ShortDisplayName": "Les mots de passe doivent avoir une longueur minimale de 6 caractères et contenir au moins 1 lettre majuscule, au moins 1 lettre minuscule, au moins 1 chiffre, au moins 1 caractère non alphanumérique",
+  "Description": "Les mots de passe doivent avoir une longueur minimale de 6 caractères et contenir au moins 1 lettre majuscule, au moins 1 lettre minuscule, au moins 1 chiffre, au moins 1 caractère non alphanumérique",
+  "LastUpdated": "2022-03-18T10:41:54.1892433+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "passwordrulesheading",
+  "DisplayName": "Password Rules",
+  "ShortDisplayName": "Password Rules",
+  "Description": "Password Rules",
+  "LastUpdated": "2022-03-18T10:41:54.1892713+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "passwordresetemailtitle",
+  "DisplayName": "Password Reset Email",
+  "ShortDisplayName": "Password Reset Email",
+  "Description": "Password Reset Email",
+  "LastUpdated": "2022-03-18T10:41:54.1892757+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "passwordrules",
+  "DisplayName": "Password Rules",
+  "ShortDisplayName": "Password Rules",
+  "Description": "Password Rules",
+  "LastUpdated": "2022-03-18T10:41:54.1893124+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "resetfailed",
+  "DisplayName": "Échec de la réinitialisation",
+  "ShortDisplayName": "Échec de la réinitialisation",
+  "Description": "Échec de la réinitialisation",
+  "LastUpdated": "2022-03-18T10:41:54.1893183+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "login",
+  "DisplayName": "Login",
+  "ShortDisplayName": "Login",
+  "Description": "Login",
+  "LastUpdated": "2022-03-18T10:41:54.1893228+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "passworddoesmeetrequirements",
+  "DisplayName": "Password **DOES** meet requirements",
+  "ShortDisplayName": "Password DOES meet requirements",
+  "Description": "Password DOES meet requirements",
+  "LastUpdated": "2022-03-18T10:41:54.1893273+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "passwordmeetsrequirements",
+  "DisplayName": "Password meets requirements",
+  "ShortDisplayName": "Password meets requirements",
+  "Description": "Password meets requirements",
+  "LastUpdated": "2022-03-18T10:41:54.1893317+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "deletethisapptitle",
+  "DisplayName": "Delete This App",
+  "ShortDisplayName": "Delete This App",
+  "Description": "Delete This App",
+  "LastUpdated": "2022-03-18T10:41:54.1893361+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "new",
+  "DisplayName": "New",
+  "ShortDisplayName": "New",
+  "Description": "New",
+  "LastUpdated": "2022-03-18T10:41:54.1893404+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "environment",
+  "DisplayName": "Environment",
+  "ShortDisplayName": "Environment",
+  "Description": "Environment",
+  "LastUpdated": "2022-03-18T10:41:54.1893448+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "createapptitle",
+  "DisplayName": "Create App",
+  "ShortDisplayName": "Create App",
+  "Description": "Create App",
+  "LastUpdated": "2022-03-18T10:41:54.1893491+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "passwordrulescontent",
+  "DisplayName": "<div class=\"value\">          <ul>             <li>Must be at least 6 characters</li>             <li>At least 1 digit</li>             <li>At least 1 capital letter</li>             <li>At least 1 lowercase letter</li>             <li>At least 1 special character</li>            </ul>       \t</div>",
+  "ShortDisplayName": "<div class=\"value\">          <ul>             <li>Must be at least 6 characters</li>             <li>At least 1 digit</li>             <li>At least 1 capital letter</li>             <li>At least 1 lowercase letter</li>             <li>At least 1 special character</li>            </ul>       \t</div>",
+  "Description": "<div class=\"value\">          <ul>             <li>Must be at least 6 characters</li>             <li>At least 1 digit</li>             <li>At least 1 capital letter</li>             <li>At least 1 lowercase letter</li>             <li>At least 1 special character</li>            </ul>       \t</div>",
+  "LastUpdated": "2022-03-18T10:41:54.1893727+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "login",
+  "DisplayName": "Se connecter",
+  "ShortDisplayName": "Se connecter",
+  "Description": "Se connecter",
+  "LastUpdated": "2022-03-18T10:41:54.189377+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "passwordsdontmatch",
+  "DisplayName": "Passwords do not match",
+  "ShortDisplayName": "Passwords do not match",
+  "Description": "Passwords do not match",
+  "LastUpdated": "2022-03-18T10:41:54.1893915+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "confirmpassword",
+  "DisplayName": "Confirm Password",
+  "ShortDisplayName": "Confirm Password",
+  "Description": "confirmpassword",
+  "LastUpdated": "2022-03-18T10:41:54.189396+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "logout",
+  "DisplayName": "Logout",
+  "ShortDisplayName": "Logout",
+  "Description": "Logout",
+  "LastUpdated": "2022-03-18T10:41:54.1894003+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "phone",
+  "DisplayName": "Phone number",
+  "ShortDisplayName": "Phone number",
+  "Description": "Phone number",
+  "LastUpdated": "2022-03-18T10:41:54.1894047+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "name",
+  "DisplayName": "Name",
+  "ShortDisplayName": "Name",
+  "Description": "Name",
+  "LastUpdated": "2022-03-18T10:41:54.1894091+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "logout",
+  "DisplayName": "Se déconnecter",
+  "ShortDisplayName": "Se déconnecter",
+  "Description": "Se déconnecter",
+  "LastUpdated": "2022-03-18T10:41:54.1894134+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "confirmationemailsentto",
+  "DisplayName": "Un e-mail de confirmation a été envoyé à",
+  "ShortDisplayName": "Un e-mail de confirmation a été envoyé à",
+  "Description": "Un e-mail de confirmation a été envoyé à",
+  "LastUpdated": "2022-03-18T10:41:54.1894326+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "passwordsdontmatch",
+  "DisplayName": "Pas de correspondance des mots de passe",
+  "ShortDisplayName": "Pas de correspondance des mots de passe",
+  "Description": "Pas de correspondance des mots de passe",
+  "LastUpdated": "2022-03-18T10:41:54.189437+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "confirmationemailsentto",
+  "DisplayName": "A confirmation email has been sent to",
+  "ShortDisplayName": "A confirmation email has been sent to",
+  "Description": "A confirmation email has been sent to",
+  "LastUpdated": "2022-03-18T10:41:54.1894414+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "pleaseresolvevalidationissues",
+  "DisplayName": "Please resolve the validation issues",
+  "ShortDisplayName": "Please resolve the validation issues",
+  "Description": "Please resolve the validation issues",
+  "LastUpdated": "2022-03-18T10:41:54.1894458+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "passwordrulesheading",
+  "DisplayName": "Règles pour le mot de passe",
+  "ShortDisplayName": "Règles pour le mot de passe",
+  "Description": "Règles pour le mot de passe",
+  "LastUpdated": "2022-03-18T10:41:54.1894502+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "passwordrequirementsline3",
+  "DisplayName": "Au moins 1 lettre majuscule",
+  "ShortDisplayName": "Au moins 1 lettre majuscule",
+  "Description": "Au moins 1 lettre majuscule",
+  "LastUpdated": "2022-03-18T10:41:54.1894604+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "confirmpassword",
+  "DisplayName": "Confirmez le mot de passe",
+  "ShortDisplayName": "Confirmez le mot de passe",
+  "Description": "Confirmez le mot de passe",
+  "LastUpdated": "2022-03-18T10:41:54.1894778+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "pleaseresolvevalidationissues",
+  "DisplayName": "Veuillez résoudre l'(es) anomalie(s) pour la validation ",
+  "ShortDisplayName": "Veuillez résoudre l'(es) anomalie(s) pour la validation",
+  "Description": "Veuillez résoudre l'(es) anomalie(s) pour la validation",
+  "LastUpdated": "2022-03-18T10:41:54.1895421+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "passworddoesmeetrequirements",
+  "DisplayName": "Le mot de passe répond aux exigences",
+  "ShortDisplayName": "Le mot de passe répond aux exigences",
+  "Description": "Le mot de passe répond aux exigences",
+  "LastUpdated": "2022-03-18T10:41:54.1895612+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "passwordmeetsrequirements",
+  "DisplayName": "Le mot de passe répond aux exigences",
+  "ShortDisplayName": "Le mot de passe répond aux exigences",
+  "Description": "Le mot de passe répond aux exigences",
+  "LastUpdated": "2022-03-18T10:41:54.1895656+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "passwordresetemailtitle",
+  "DisplayName": "E-mail de réinitialisation du mot de passe",
+  "ShortDisplayName": "E-mail de réinitialisation du mot de passe",
+  "Description": "E-mail de réinitialisation du mot de passe",
+  "LastUpdated": "2022-03-18T10:41:54.18957+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "phone",
+  "DisplayName": "Numéro de téléphone",
+  "ShortDisplayName": "Numéro de téléphone",
+  "Description": "Numéro de téléphone",
+  "LastUpdated": "2022-03-18T10:41:54.1895743+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "passwordrequirementsline3",
+  "DisplayName": "At least 1 capital letter",
+  "ShortDisplayName": "At least 1 capital letter",
+  "Description": "At least 1 capital letter",
+  "LastUpdated": "2022-03-18T10:41:54.189583+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "resetfailed",
+  "DisplayName": "Reset Failed",
+  "ShortDisplayName": "Reset Failed",
+  "Description": "Reset Failed",
+  "LastUpdated": "2022-03-18T10:41:54.1898141+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr",
+  "Key": "Account",
+  "Name": "tacmessage",
+  "DisplayName": "Assurez vous d'avoir lu nos conditions d'utilisation",
+  "ShortDisplayName": "Assurez vous d'avoir lu nos conditions d'utilisation",
+  "Description": "Assurez vous d'avoir lu nos conditions d'utilisation",
+  "LastUpdated": "2022-03-18T10:41:54.1898272+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "DPPTACNotice",
+  "DisplayName": "DPPTACNotice",
+  "ShortDisplayName": "DPPTACNotice",
+  "Description": "By checking these boxes you are acknowledging that you have read, understood, and accept our Terms & Conditions and Data Protection Policy, and that you consent to our use of your personal data as described in our Data Protection Policy (required to register).",
+  "LastUpdated": "2022-03-18T10:41:54.1898332+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "ourtac",
+  "DisplayName": "<a href='https://[app[domain]]/Documentation'>Platform documentation</a>",
+  "ShortDisplayName": "Platform documentation",
+  "Description": "Platform documentation",
+  "LastUpdated": "2022-03-18T10:41:54.1898376+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "ourdpp",
+  "DisplayName": "<a href='https://[app[domain]]/Documentation'>Platform documentation</a>",
+  "ShortDisplayName": "Platform documentation",
+  "Description": "Platform documentation",
+  "LastUpdated": "2022-03-18T10:41:54.189842+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "tacmessage",
+  "DisplayName": "Please make sure you have read and checked Terms & Conditions.",
+  "ShortDisplayName": "Please make sure you have read and checked Terms & Conditions.",
+  "Description": "Please make sure you have read and checked Terms & Conditions.",
+  "LastUpdated": "2022-03-18T10:41:54.1898464+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "dppmessage",
+  "DisplayName": "Please make sure you have read and checked Data Protection Policy.",
+  "ShortDisplayName": "Please make sure you have read and checked Data Protection Policy.",
+  "Description": "Please make sure you have read and checked Data Protection Policy.",
+  "LastUpdated": "2022-03-18T10:41:54.1898508+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr",
+  "Key": "Account",
+  "Name": "DPPTACNotice",
+  "DisplayName": "DPPTACNotice",
+  "ShortDisplayName": "DPPTACNotice",
+  "Description": "En cliquant, dans ces 2 espaces, vous acceptez avoir lu, compris et accepté nos conditions d'utilisation ainsi que notre politique de protection des données et que consentez à l'utilisation de vos données personnelles telles que décrites dans le document de Politique de Protection des Données\"",
+  "LastUpdated": "2022-03-18T10:41:54.1898553+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "notice",
+  "DisplayName": "Notice",
+  "ShortDisplayName": "Notice",
+  "Description": "Notice",
+  "LastUpdated": "2022-03-18T10:41:54.1898597+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr",
+  "Key": "Account",
+  "Name": "ourtac",
+  "DisplayName": "<a href='https://[app[domain]]/Documentation'>Documentation de la plateforme</a>",
+  "ShortDisplayName": "Documentation de la plateforme",
+  "Description": "Documentation de la plateforme",
+  "LastUpdated": "2022-03-18T10:41:54.1898656+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr",
+  "Key": "Account",
+  "Name": "ourdpp",
+  "DisplayName": "<a href='https://[app[domain]]/Documentation'>Documentation de la plateforme</a>",
+  "ShortDisplayName": "Documentation de la plateforme",
+  "Description": "Documentation de la plateforme",
+  "LastUpdated": "2022-03-18T10:41:54.1898702+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr",
+  "Key": "Account",
+  "Name": "dppmessage",
+  "DisplayName": "Assurez-vous d'avoir lu notre politique de protection des données",
+  "ShortDisplayName": "Assurez-vous d'avoir lu notre politique de protection des données",
+  "Description": "Assurez-vous d'avoir lu notre politique de protection des données",
+  "LastUpdated": "2022-03-18T10:41:54.1898747+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "furtherinformationvisit",
+  "DisplayName": "Open documentation",
+  "ShortDisplayName": "Open documentation",
+  "Description": "Open documentation",
+  "LastUpdated": "2022-03-18T10:41:54.1898836+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "newrole",
+  "DisplayName": "New Role",
+  "ShortDisplayName": "New Role",
+  "Description": "New Role",
+  "LastUpdated": "2022-03-18T10:41:54.189888+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "passwordrulescontent",
+  "DisplayName": "<div class=\"value\">           \t<ul> \t             <li>La longueur minimale est de 6 caractères</li> \t             <li>Au moins 1 chiffre</li> \t             <li>Au moins 1 lettre majuscule</li> \t             <li>Au moins 1 lettre minuscule</li> \t             <li>Au moins 1 caractère spécial non alphanumérique</li> \t</ul> </div>",
+  "ShortDisplayName": "<div class=\"value\">           \t<ul> \t             <li>La longueur minimale est de 6 caractères</li> \t             <li>Au moins 1 chiffre</li> \t             <li>Au moins 1 lettre majuscule</li> \t             <li>Au moins 1 lettre minuscule</li> \t             <li>Au moins 1 caractère spécial non alphanumérique</li> \t</ul> </div>",
+  "Description": "<div class=\"value\">           \t<ul> \t             <li>La longueur minimale est de 6 caractères</li> \t             <li>Au moins 1 chiffre</li> \t             <li>Au moins 1 lettre majuscule</li> \t             <li>Au moins 1 lettre minuscule</li> \t             <li>Au moins 1 caractère spécial non alphanumérique</li> \t</ul> </div>",
+  "LastUpdated": "2022-03-18T10:41:54.1899326+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "Account",
+  "Name": "furtherinformationlogin",
+  "DisplayName": "Want to learn more about the platform? Open the documentation below.",
+  "ShortDisplayName": "Want to learn more about the platform? Open the documentation below.",
+  "Description": "Want to learn more about the platform? Open the documentation below.",
+  "LastUpdated": "2022-03-18T10:41:54.1899619+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "furtherinformationlogin",
+  "DisplayName": "Souhaitez-vous en savoir plus sur la plateforme ? Ouvrez la documentation ci-dessous.",
+  "ShortDisplayName": "Souhaitez-vous en savoir plus sur la plateforme ? Ouvrez la documentation ci-dessous.",
+  "Description": "Souhaitez-vous en savoir plus sur la plateforme ? Ouvrez la documentation ci-dessous.",
+  "LastUpdated": "2022-03-18T10:41:54.1906461+00:00"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "fr-FR",
+  "Key": "Account",
+  "Name": "furtherinformationvisit",
+  "DisplayName": "Ouvrir la documentation",
+  "ShortDisplayName": "Ouvrir la documentation",
+  "Description": "Ouvrir la documentation",
+  "LastUpdated": "2022-03-18T10:41:54.1906562+00:00"
+}
+"""
+            },
+        ]
+    };
+
+    static Package Roles => new()
+    {
+        Name = "App Security Roles",
+        Category = "Account",
+        Description = "App Security Roles.",
+        SourceApi = "https://ccoder.co.uk/Api/",
+        Items =
+        [
+            new PackageItem
+            {
+                Type = "Core/Role",
+                Data = """
+{
+  "Name": "Administrators",
+  "Privs": "app_admin,app_create,app_delete,app_read,app_update,appculture_create,appculture_delete,appculture_read,appculture_update,businessprocess_create,businessprocess_delete,businessprocess_read,businessprocess_update,calendar_create,calendar_delete,calendar_read,calendar_update,calendarevent_create,calendarevent_delete,calendarevent_read,calendarevent_update,commonobject_create,commonobject_delete,commonobject_read,commonobject_update,component_create,component_delete,component_read,component_render,component_update,content_create,content_delete,content_read,content_update,culture_create,culture_delete,culture_read,culture_update,emailsendfailure_create,emailsendfailure_delete,emailsendfailure_read,emailsendfailure_update,file_create,file_delete,file_read,file_update,file_updatecontents,filecontent_create,filecontent_delete,filecontent_read,filecontent_update,flowdefinition_create,flowdefinition_delete,flowdefinition_execute,flowdefinition_read,flowdefinition_update,flowinstancedata_create,flowinstancedata_delete,flowinstancedata_read,flowinstancedata_update,folder_create,folder_delete,folder_read,folder_update,folder_updatefiles,folder_updateroles,folder_updatesubfolders,folderrole_create,folderrole_delete,folderrole_read,folderrole_update,layout_create,layout_delete,layout_read,layout_update,logdataitem_create,logdataitem_delete,logdataitem_read,logdataitem_update,logentry_create,logentry_delete,logentry_read,logentry_update,mailserver_create,mailserver_delete,mailserver_read,mailserver_update,package_create,package_delete,package_read,package_update,packageitem_create,packageitem_delete,packageitem_read,packageitem_update,page_create,page_delete,page_read,page_update,page_updatecontents,page_updateinfo,page_updateroles,pageinfo_create,pageinfo_delete,pageinfo_read,pageinfo_update,pagerole_create,pagerole_delete,pagerole_read,pagerole_update,queuedemail_create,queuedemail_delete,queuedemail_read,queuedemail_update,resource_create,resource_delete,resource_read,resource_update,role_create,role_delete,role_read,role_update,scheduledtask_create,scheduledtask_delete,scheduledtask_execute,scheduledtask_read,scheduledtask_update,script_create,script_delete,script_execute,script_read,script_update,sentemail_create,sentemail_delete,sentemail_read,sentemail_update,submission_create,submission_delete,submission_read,submission_update,template_buildemailto,template_create,template_delete,template_read,template_render,template_update,user_create,user_delete,user_read,user_update,userrole_create,userrole_delete,userrole_read,userrole_update,workflowevent_create,workflowevent_delete,workflowevent_read,workflowevent_update,tenant_admin,tenant_create,tenant_read,tenant_update,tenant_delete"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Role",
+                Data = """
+{
+  "Name": "Users",
+  "Privs": "culture_read,folderrole_read,pagerole_read,userrole_read,appculture_read,page_read,folder_read,file_read,app_read,user_update"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/Role",
+                Data = """
+{
+  "Name": "Guests",
+  "Privs": "app_read,appculture_read,file_read,filecontent_read,folder_read,folderrole_read,page_read,pagerole_read,script_execute,userrole_read"
+}
+"""
+            },
+        ]
+    };
+
+    static Package PageRoles => new()
+    {
+        Name = "App Security Page Roles",
+        Category = "Account",
+        Description = "App Security Page Roles.",
+        SourceApi = "https://ccoder.co.uk/Api/",
+        Items =
+        [
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "ResetPassword",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "ResetPassword",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "ResetPassword",
+  "Role": "Guests"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Login",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Login",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Admin/SSOAdmin",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "AcceptInvite",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "AcceptInvite",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "AcceptInvite",
+  "Role": "Guests"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Admin/UserInvitations",
+  "Role": "Administrators"
+}
+"""
+            },
+        ]
+    };
+}

@@ -9,5 +9,5 @@ public sealed class BaselineController : ControllerBase
 {
     [HttpGet]
     public IActionResult Get() =>
-        Ok(AppSecurityBaselinePackages.All);
+        Ok(UIBaseline.Packages);
 }
