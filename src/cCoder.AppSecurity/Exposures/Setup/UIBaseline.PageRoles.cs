@@ -6,9 +6,9 @@ public static partial class UIBaseline
 {
     static Package PageRoles => new()
     {
-        Name = "App Security Page Roles",
-        Category = "Account",
-        Description = "App Security Page Roles.",
+        Name = "AppSecurity Page Roles",
+        Category = "AppSecurity",
+        Description = "AppSecurity Page Roles.",
         SourceApi = "https://ccoder.co.uk/Api/",
         Items =
         [
@@ -112,6 +112,186 @@ public static partial class UIBaseline
 }
 """
             },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/AppManagement/Security",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/AppManagement/Security",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/CoreDocumentation/AppManagement/Security",
+  "Role": "Guests"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/ForgottenYourPassword",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/ForgottenYourPassword",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/ForgottenYourPassword",
+  "Role": "Guests"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/ManagingyourProfile",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/ManagingyourProfile",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/ManagingyourProfile",
+  "Role": "Guests"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/LoggingIn",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/LoggingIn",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/LoggingIn",
+  "Role": "Guests"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/Registration",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/Registration",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/Registration",
+  "Role": "Guests"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/SSOAPI",
+  "Role": "Administrators"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/SSOAPI",
+  "Role": "Users"
+}
+"""
+            },
+            new PackageItem
+            {
+                Type = "Core/PageRole",
+                Data = """
+{
+  "Path": "Documentation/SSODocumentation/SSOAPI",
+  "Role": "Guests"
+}
+"""
+            }
         ]
     };
 }
