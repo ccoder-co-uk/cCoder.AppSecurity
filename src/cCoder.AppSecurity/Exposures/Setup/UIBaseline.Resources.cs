@@ -6,9 +6,9 @@ public static partial class UIBaseline
 {
     static Package Resources => new()
     {
-        Name = "App Security Resources",
-        Category = "Account",
-        Description = "App Security Resources.",
+        Name = "AppSecurity Resources",
+        Category = "AppSecurity",
+        Description = "AppSecurity Resources.",
         SourceApi = "https://ccoder.co.uk/Api/",
         Items =
         [
@@ -18,7 +18,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "remove",
   "DisplayName": "Remove",
   "ShortDisplayName": "Remove",
@@ -33,7 +33,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "newrole",
   "DisplayName": "New Role",
   "ShortDisplayName": "New Role",
@@ -48,7 +48,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "name",
   "DisplayName": "Nom et Prénom",
   "ShortDisplayName": "Nom et Prénom",
@@ -63,7 +63,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordrules",
   "DisplayName": "Les mots de passe doivent avoir une longueur minimale de 6 caractères et contenir au moins 1 lettre majuscule, au moins 1 lettre minuscule, au moins 1 chiffre, au moins 1 caractère non alphanumérique",
   "ShortDisplayName": "Les mots de passe doivent avoir une longueur minimale de 6 caractères et contenir au moins 1 lettre majuscule, au moins 1 lettre minuscule, au moins 1 chiffre, au moins 1 caractère non alphanumérique",
@@ -78,7 +78,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordrulesheading",
   "DisplayName": "Password Rules",
   "ShortDisplayName": "Password Rules",
@@ -93,7 +93,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordresetemailtitle",
   "DisplayName": "Password Reset Email",
   "ShortDisplayName": "Password Reset Email",
@@ -108,7 +108,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordrules",
   "DisplayName": "Password Rules",
   "ShortDisplayName": "Password Rules",
@@ -123,7 +123,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "resetfailed",
   "DisplayName": "Échec de la réinitialisation",
   "ShortDisplayName": "Échec de la réinitialisation",
@@ -138,7 +138,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "login",
   "DisplayName": "Login",
   "ShortDisplayName": "Login",
@@ -153,7 +153,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passworddoesmeetrequirements",
   "DisplayName": "Password **DOES** meet requirements",
   "ShortDisplayName": "Password DOES meet requirements",
@@ -168,7 +168,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordmeetsrequirements",
   "DisplayName": "Password meets requirements",
   "ShortDisplayName": "Password meets requirements",
@@ -183,7 +183,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "deletethisapptitle",
   "DisplayName": "Delete This App",
   "ShortDisplayName": "Delete This App",
@@ -198,7 +198,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "new",
   "DisplayName": "New",
   "ShortDisplayName": "New",
@@ -213,7 +213,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "environment",
   "DisplayName": "Environment",
   "ShortDisplayName": "Environment",
@@ -228,7 +228,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "createapptitle",
   "DisplayName": "Create App",
   "ShortDisplayName": "Create App",
@@ -243,7 +243,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordrulescontent",
   "DisplayName": "<div class=\"value\">          <ul>             <li>Must be at least 6 characters</li>             <li>At least 1 digit</li>             <li>At least 1 capital letter</li>             <li>At least 1 lowercase letter</li>             <li>At least 1 special character</li>            </ul>       \t</div>",
   "ShortDisplayName": "<div class=\"value\">          <ul>             <li>Must be at least 6 characters</li>             <li>At least 1 digit</li>             <li>At least 1 capital letter</li>             <li>At least 1 lowercase letter</li>             <li>At least 1 special character</li>            </ul>       \t</div>",
@@ -258,7 +258,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "login",
   "DisplayName": "Se connecter",
   "ShortDisplayName": "Se connecter",
@@ -273,7 +273,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordsdontmatch",
   "DisplayName": "Passwords do not match",
   "ShortDisplayName": "Passwords do not match",
@@ -288,7 +288,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "confirmpassword",
   "DisplayName": "Confirm Password",
   "ShortDisplayName": "Confirm Password",
@@ -303,7 +303,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "logout",
   "DisplayName": "Logout",
   "ShortDisplayName": "Logout",
@@ -318,7 +318,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "phone",
   "DisplayName": "Phone number",
   "ShortDisplayName": "Phone number",
@@ -333,7 +333,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "name",
   "DisplayName": "Name",
   "ShortDisplayName": "Name",
@@ -348,7 +348,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "logout",
   "DisplayName": "Se déconnecter",
   "ShortDisplayName": "Se déconnecter",
@@ -363,7 +363,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "confirmationemailsentto",
   "DisplayName": "Un e-mail de confirmation a été envoyé à",
   "ShortDisplayName": "Un e-mail de confirmation a été envoyé à",
@@ -378,7 +378,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordsdontmatch",
   "DisplayName": "Pas de correspondance des mots de passe",
   "ShortDisplayName": "Pas de correspondance des mots de passe",
@@ -393,7 +393,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "confirmationemailsentto",
   "DisplayName": "A confirmation email has been sent to",
   "ShortDisplayName": "A confirmation email has been sent to",
@@ -408,7 +408,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "pleaseresolvevalidationissues",
   "DisplayName": "Please resolve the validation issues",
   "ShortDisplayName": "Please resolve the validation issues",
@@ -423,7 +423,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordrulesheading",
   "DisplayName": "Règles pour le mot de passe",
   "ShortDisplayName": "Règles pour le mot de passe",
@@ -438,7 +438,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordrequirementsline3",
   "DisplayName": "Au moins 1 lettre majuscule",
   "ShortDisplayName": "Au moins 1 lettre majuscule",
@@ -453,7 +453,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "confirmpassword",
   "DisplayName": "Confirmez le mot de passe",
   "ShortDisplayName": "Confirmez le mot de passe",
@@ -468,7 +468,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "pleaseresolvevalidationissues",
   "DisplayName": "Veuillez résoudre l'(es) anomalie(s) pour la validation ",
   "ShortDisplayName": "Veuillez résoudre l'(es) anomalie(s) pour la validation",
@@ -483,7 +483,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passworddoesmeetrequirements",
   "DisplayName": "Le mot de passe répond aux exigences",
   "ShortDisplayName": "Le mot de passe répond aux exigences",
@@ -498,7 +498,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordmeetsrequirements",
   "DisplayName": "Le mot de passe répond aux exigences",
   "ShortDisplayName": "Le mot de passe répond aux exigences",
@@ -513,7 +513,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordresetemailtitle",
   "DisplayName": "E-mail de réinitialisation du mot de passe",
   "ShortDisplayName": "E-mail de réinitialisation du mot de passe",
@@ -528,7 +528,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "phone",
   "DisplayName": "Numéro de téléphone",
   "ShortDisplayName": "Numéro de téléphone",
@@ -543,7 +543,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordrequirementsline3",
   "DisplayName": "At least 1 capital letter",
   "ShortDisplayName": "At least 1 capital letter",
@@ -558,7 +558,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "resetfailed",
   "DisplayName": "Reset Failed",
   "ShortDisplayName": "Reset Failed",
@@ -573,7 +573,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "tacmessage",
   "DisplayName": "Assurez vous d'avoir lu nos conditions d'utilisation",
   "ShortDisplayName": "Assurez vous d'avoir lu nos conditions d'utilisation",
@@ -588,7 +588,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "DPPTACNotice",
   "DisplayName": "DPPTACNotice",
   "ShortDisplayName": "DPPTACNotice",
@@ -603,7 +603,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "ourtac",
   "DisplayName": "<a href='https://[app[domain]]/Documentation'>Platform documentation</a>",
   "ShortDisplayName": "Platform documentation",
@@ -618,7 +618,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "ourdpp",
   "DisplayName": "<a href='https://[app[domain]]/Documentation'>Platform documentation</a>",
   "ShortDisplayName": "Platform documentation",
@@ -633,7 +633,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "tacmessage",
   "DisplayName": "Please make sure you have read and checked Terms & Conditions.",
   "ShortDisplayName": "Please make sure you have read and checked Terms & Conditions.",
@@ -648,7 +648,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "dppmessage",
   "DisplayName": "Please make sure you have read and checked Data Protection Policy.",
   "ShortDisplayName": "Please make sure you have read and checked Data Protection Policy.",
@@ -663,7 +663,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "DPPTACNotice",
   "DisplayName": "DPPTACNotice",
   "ShortDisplayName": "DPPTACNotice",
@@ -678,7 +678,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "notice",
   "DisplayName": "Notice",
   "ShortDisplayName": "Notice",
@@ -693,7 +693,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "ourtac",
   "DisplayName": "<a href='https://[app[domain]]/Documentation'>Documentation de la plateforme</a>",
   "ShortDisplayName": "Documentation de la plateforme",
@@ -708,7 +708,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "ourdpp",
   "DisplayName": "<a href='https://[app[domain]]/Documentation'>Documentation de la plateforme</a>",
   "ShortDisplayName": "Documentation de la plateforme",
@@ -723,7 +723,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "dppmessage",
   "DisplayName": "Assurez-vous d'avoir lu notre politique de protection des données",
   "ShortDisplayName": "Assurez-vous d'avoir lu notre politique de protection des données",
@@ -738,7 +738,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "furtherinformationvisit",
   "DisplayName": "Open documentation",
   "ShortDisplayName": "Open documentation",
@@ -753,7 +753,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "newrole",
   "DisplayName": "New Role",
   "ShortDisplayName": "New Role",
@@ -768,7 +768,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "passwordrulescontent",
   "DisplayName": "<div class=\"value\">           \t<ul> \t             <li>La longueur minimale est de 6 caractères</li> \t             <li>Au moins 1 chiffre</li> \t             <li>Au moins 1 lettre majuscule</li> \t             <li>Au moins 1 lettre minuscule</li> \t             <li>Au moins 1 caractère spécial non alphanumérique</li> \t</ul> </div>",
   "ShortDisplayName": "<div class=\"value\">           \t<ul> \t             <li>La longueur minimale est de 6 caractères</li> \t             <li>Au moins 1 chiffre</li> \t             <li>Au moins 1 lettre majuscule</li> \t             <li>Au moins 1 lettre minuscule</li> \t             <li>Au moins 1 caractère spécial non alphanumérique</li> \t</ul> </div>",
@@ -783,7 +783,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "furtherinformationlogin",
   "DisplayName": "Want to learn more about the platform? Open the documentation below.",
   "ShortDisplayName": "Want to learn more about the platform? Open the documentation below.",
@@ -798,7 +798,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "furtherinformationlogin",
   "DisplayName": "Souhaitez-vous en savoir plus sur la plateforme ? Ouvrez la documentation ci-dessous.",
   "ShortDisplayName": "Souhaitez-vous en savoir plus sur la plateforme ? Ouvrez la documentation ci-dessous.",
@@ -813,7 +813,7 @@ public static partial class UIBaseline
                 Data = """
 {
   "Culture": "fr-FR",
-  "Key": "Account",
+  "Key": "AppSecurity",
   "Name": "furtherinformationvisit",
   "DisplayName": "Ouvrir la documentation",
   "ShortDisplayName": "Ouvrir la documentation",
@@ -822,6 +822,21 @@ public static partial class UIBaseline
 }
 """
             },
+            new PackageItem
+            {
+                Type = "Core/Resource",
+                Data = """
+{
+  "Culture": "",
+  "Key": "AppSecurity",
+  "Name": "Account",
+  "DisplayName": "Select a user to add...",
+  "ShortDisplayName": "Select a user to add...",
+  "Description": "Select a user to add...",
+  "LastUpdated": "2022-03-18T10:41:54.1905129+00:00"
+}
+"""
+            }
         ]
     };
 }

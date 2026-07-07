@@ -8,6 +8,7 @@ public static partial class UIBaseline
         Components,
         Pages,
         Resources,
+        Templates,
         Roles,
         PageRoles
     ];
