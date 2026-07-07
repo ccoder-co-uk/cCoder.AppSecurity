@@ -1,0 +1,21 @@
+using System.Text.Json;
+using FluentAssertions;
+using Xunit;
+
+namespace Web.AcceptanceTests.Tests.Api;
+
+public sealed partial class BaselineTests
+{
+    [Fact]
+    public async Task Get_ReturnsPackageArray()
+    {
+        // Given
+
+        // When
+        string response = await Client.GetStringAsync("Api/AppSecurity/Baseline");
+        using JsonDocument document = JsonDocument.Parse(response);
+
+        // Then
+        document.RootElement.ValueKind.Should().Be(JsonValueKind.Array);
+    }
+}
