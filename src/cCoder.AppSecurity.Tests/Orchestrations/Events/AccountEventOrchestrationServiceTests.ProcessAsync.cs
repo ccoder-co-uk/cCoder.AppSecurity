@@ -46,7 +46,7 @@ public partial class AccountEventOrchestrationServiceTests
             .Setup(service => service.GetAll(true))
             .Returns(Array.Empty<UserRole>().AsQueryable());
         userRoleProcessingServiceMock
-            .Setup(service => service.AddAsync(It.Is<UserRole>(userRole =>
+            .Setup(service => service.SaveAsync(It.Is<UserRole>(userRole =>
                 userRole.UserId == accountEvent.User.Id
                 && userRole.RoleId == usersRole.Id)))
             .ReturnsAsync((UserRole userRole) => userRole);
@@ -57,7 +57,7 @@ public partial class AccountEventOrchestrationServiceTests
             service => service.AddAsync(It.IsAny<User>()),
             Times.Once);
         userRoleProcessingServiceMock.Verify(
-            service => service.AddAsync(It.IsAny<UserRole>()),
+            service => service.SaveAsync(It.IsAny<UserRole>()),
             Times.Once);
     }
 }

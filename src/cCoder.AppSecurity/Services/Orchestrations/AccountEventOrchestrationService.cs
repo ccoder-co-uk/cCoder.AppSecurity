@@ -84,7 +84,7 @@ internal class AccountEventOrchestrationService(
         if (roleAssigned)
             return;
 
-        await userRoleProcessingService.AddAsync(
+        await userRoleProcessingService.SaveAsync(
             new UserRole
             {
                 UserId = user.Id,
