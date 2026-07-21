@@ -10,8 +10,8 @@ internal sealed class AppSecurityMetadataTypeService : IAppSecurityMetadataTypeS
     [
         new MetadataContainerSet
         {
-            Name = "Core",
-            UriBase = "Core",
+            Name = "AppSecurity",
+            UriBase = "AppSecurity",
             Types =
             [
                 Entity<Privilege>(),
@@ -25,7 +25,7 @@ internal sealed class AppSecurityMetadataTypeService : IAppSecurityMetadataTypeS
     private static ExtendedMetadataContainer Entity<T>() =>
         new(typeof(T), isEntity: true, hasEndpoint: true)
         {
-            Category = "Core",
+            Category = "AppSecurity",
         };
 }
 
