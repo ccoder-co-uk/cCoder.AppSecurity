@@ -51,7 +51,7 @@ internal class UserRoleProcessingService(
         if (existingUserRole != null)
             return existingUserRole;
 
-        return await service.AddAsync(entity);
+        return await service.AddAsync(entity, authorize: false);
     }
 
     public async ValueTask DeleteAsync(UserRole link)

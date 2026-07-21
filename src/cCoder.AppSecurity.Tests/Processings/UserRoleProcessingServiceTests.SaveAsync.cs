@@ -37,14 +37,14 @@ public partial class UserRoleProcessingServiceTests
         };
         UserRole link = new() { UserId = targetUser.Id, RoleId = role.Id };
         userRoleServiceMock.Setup(x => x.GetAll(true)).Returns(Array.Empty<UserRole>().AsQueryable());
-        userRoleServiceMock.Setup(x => x.AddAsync(link)).ReturnsAsync(link);
+        userRoleServiceMock.Setup(x => x.AddAsync(link, false)).ReturnsAsync(link);
 
         // When
         UserRole result = await userRoleProcessingService.SaveAsync(link);
 
         // Then
         Assert.Same(link, result);
-        userRoleServiceMock.Verify(x => x.AddAsync(link), Times.Once);
+        userRoleServiceMock.Verify(x => x.AddAsync(link, false), Times.Once);
     }
 
 }
