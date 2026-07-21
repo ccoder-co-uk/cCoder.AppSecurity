@@ -18,16 +18,20 @@ internal class UserRoleService(
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
         userRoleBroker.GetAllUserRoles(ignoreFilters);
 
-    public async ValueTask<UserRole> AddAsync(UserRole userRole)
+    public async ValueTask<UserRole> AddAsync(UserRole userRole, bool authorize = true)
     {
         DataUserRole internalUserRole = new()
         {
             RoleId = userRole.RoleId,
             UserId = userRole.UserId
         };
-        int? appId = userRoleBroker.GetAppId(internalUserRole);
-        authorizationBroker.Authorize(appId, $"{nameof(UserRole)}_create");
-        AuthorizeAssignedRolePrivileges(appId, userRole.RoleId);
+        if (authorize)
+        {
+            int? appId = userRoleBroker.GetAppId(internalUserRole);
+            authorizationBroker.Authorize(appId, $"{nameof(UserRole)}_create");
+            AuthorizeAssignedRolePrivileges(appId, userRole.RoleId);
+        }
+
         DataUserRole result = await userRoleBroker.AddUserRoleAsync(internalUserRole);
         userRole.RoleId = result.RoleId;
         userRole.UserId = result.UserId;
