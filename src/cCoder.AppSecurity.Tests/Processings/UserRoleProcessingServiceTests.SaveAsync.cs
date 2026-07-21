@@ -36,8 +36,7 @@ public partial class UserRoleProcessingServiceTests
             },
         };
         UserRole link = new() { UserId = targetUser.Id, RoleId = role.Id };
-        roleServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { role }.AsQueryable());
-        userServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { targetUser }.AsQueryable());
+        userRoleServiceMock.Setup(x => x.GetAll(true)).Returns(Array.Empty<UserRole>().AsQueryable());
         userRoleServiceMock.Setup(x => x.AddAsync(link)).ReturnsAsync(link);
 
         // When

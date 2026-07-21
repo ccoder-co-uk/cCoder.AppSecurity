@@ -42,21 +42,11 @@ internal class UserRoleProcessingService(
 
     public async ValueTask<UserRole> SaveAsync(UserRole entity)
     {
-        Role role = roleService
+        UserRole existingUserRole = service
             .GetAll(true)
-            .FirstOrDefault(r => r.Id == entity.RoleId);
-
-        if (role is null)
-            throw new InvalidOperationException("Role could not be found.");
-
-        User user = userService
-            .GetAll(true)
-            .FirstOrDefault(u => u.Id == entity.UserId);
-
-        if (user is null)
-            throw new InvalidOperationException("User could not be found.");
-
-        UserRole existingUserRole = role.Users?.FirstOrDefault(u => u.UserId == user.Id);
+            .FirstOrDefault(userRole =>
+                userRole.UserId == entity.UserId
+                && userRole.RoleId == entity.RoleId);
 
         if (existingUserRole != null)
             return existingUserRole;
