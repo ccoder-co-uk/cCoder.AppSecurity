@@ -100,7 +100,7 @@ internal class UserRoleProcessingService(
     {
         UserRole[] itemArray = [.. items];
         var leftIds = itemArray.Select(selector: item => item.UserId).Distinct().ToArray();
-        UserRole[] existingItems = [.. GetAll().Where(predicate: item => leftIds.Contains(item.UserId))];
+        UserRole[] existingItems = [.. GetAll().Where(predicate: item => leftIds.Contains(value: item.UserId))];
 
         List<Result<UserRole>> results = [];
         foreach (var group in itemArray.GroupBy(keySelector: item => item.UserId))
@@ -108,7 +108,7 @@ internal class UserRoleProcessingService(
             UserRole[] groupItems = [.. group];
             UserRole[] existingGroupItems =
             [
-                .. existingItems.Where(predicate: item => Equals(item.UserId, group.Key)),
+                .. existingItems.Where(predicate: item => Equals(objA: item.UserId, objB: group.Key)),
             ];
 
             await DeleteAllAsync(items: existingGroupItems);
@@ -121,7 +121,7 @@ item: new Result<UserRole>
 {
     Id = $"{item.UserId}:{item.RoleId}",
     Success = true,
-    Item = await AddAsync(item),
+    Item = await AddAsync(entity: item),
     Message = "Added Successfully",
 }
                     );

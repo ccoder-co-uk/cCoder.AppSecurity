@@ -102,14 +102,14 @@ builder: builder);
                 .Filter()
                 .Select()
                 .OrderBy()
-                .SetMaxTop(1000)
-                .AddRouteComponents(rootPath, routeModel, batchHandler);
+                .SetMaxTop(maxTopValue: 1000)
+                .AddRouteComponents(routePrefix: rootPath, model: routeModel, batchHandler: batchHandler);
 
             if (builder is null
                 && configuration.IncludeLegacyCoreContext
-                && !string.Equals(rootPath, "Api/Core", StringComparison.OrdinalIgnoreCase))
+                && !string.Equals(a: rootPath, b: "Api/Core", comparisonType: StringComparison.OrdinalIgnoreCase))
             {
-                _ = options.AddRouteComponents("Api/Core", routeModel, batchHandler);
+                _ = options.AddRouteComponents(routePrefix: "Api/Core", model: routeModel, batchHandler: batchHandler);
             }
         });
     }
@@ -122,22 +122,22 @@ builder: builder);
     {
         services.AddSwaggerGen(setupAction: options =>
         {
-            options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-            AddSwaggerDocuments(options, documentName, configuration);
+            options.ResolveConflictingActions(resolver: apiDescriptions => apiDescriptions.First());
+            AddSwaggerDocuments(options: options, documentName: documentName, configuration: configuration);
             options.DocInclusionPredicate(
-                (swaggerDocumentName, apiDescription) =>
+predicate: (swaggerDocumentName, apiDescription) =>
                     ShouldIncludeInDocument(
-                        swaggerDocumentName,
-                        apiDescription.RelativePath,
-                        documentName,
-                        configuration));
+swaggerDocumentName: swaggerDocumentName,
+relativePath: apiDescription.RelativePath,
+documentName: documentName,
+configuration: configuration));
 
             if (useFullSchemaIds)
             {
-                options.CustomSchemaIds(type => type.FullName?.Replace('+', '.') ?? type.Name);
+                options.CustomSchemaIds(schemaIdSelector: type => type.FullName?.Replace(oldChar: '+', newChar: '.') ?? type.Name);
             }
 
-            options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+            options.AddSecurityDefinition(name: "bearer", securityScheme: new OpenApiSecurityScheme
             {
                 Description = @"Authorization header using the Bearer scheme.",
                 Name = "Authorization",
@@ -232,7 +232,7 @@ implementationFactory: ctx => ctx.GetService<IHttpContextAccessor>()?.HttpContex
         {
             options.Preload = true;
             options.IncludeSubDomains = true;
-            options.MaxAge = TimeSpan.FromMinutes(60);
+            options.MaxAge = TimeSpan.FromMinutes(minutes: 60);
         });
         services.AddMvc(setupAction: options => options.EnableEndpointRouting = false);
         services.AddRazorPages();

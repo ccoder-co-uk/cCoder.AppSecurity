@@ -52,7 +52,7 @@ internal class RoleProcessingService(IRoleService service) : IRoleProcessingServ
 item: new Result<Role>
 {
     Success = true,
-    Item = isAdd ? await AddAsync(item) : await UpdateAsync(item),
+    Item = isAdd ? await AddAsync(entity: item) : await UpdateAsync(entity: item),
     Message = isAdd ? "Added Successfully" : "Updated Successfully",
 }
                 );

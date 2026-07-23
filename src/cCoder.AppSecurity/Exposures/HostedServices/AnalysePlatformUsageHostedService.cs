@@ -23,7 +23,7 @@ public sealed class AnalysePlatformUsageHostedService(
 
         await analysePlatformUsageOrchestrationService.RunAsync(cancellationToken: stoppingToken);
 
-        using PeriodicTimer timer = new(period: TimeSpan.FromDays(1));
+        using PeriodicTimer timer = new(period: TimeSpan.FromDays(days: 1));
 
         while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: stoppingToken))
         {

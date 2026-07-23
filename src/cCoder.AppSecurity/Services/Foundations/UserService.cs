@@ -36,7 +36,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
     }
 
     public User GetByEmail(string email, bool ignoreFilters = false) =>
-        ToLocalUser(item: userBroker.GetUserByEmail(email, ignoreFilters));
+        ToLocalUser(item: userBroker.GetUserByEmail(email: email, ignoreFilters: ignoreFilters));
 
     public IQueryable<User> GetAll(bool ignoreFilters = false) =>
         userBroker.GetAllUsers(ignoreFilters: ignoreFilters);
@@ -51,7 +51,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
             Email = user.Email,
             IsActive = user.IsActive
         };
-        authorizationBroker.Authorize(appId: userBroker.GetAppId(internalUser), privilege: $"{nameof(User)}_create");
+        authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_create");
         DataUser result = await userBroker.AddUserAsync(entity: internalUser);
         user.Id = result.Id;
         user.DefaultCultureId = result.DefaultCultureId;
@@ -71,7 +71,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
             Email = user.Email,
             IsActive = user.IsActive
         };
-        authorizationBroker.Authorize(appId: userBroker.GetAppId(internalUser), privilege: $"{nameof(User)}_update");
+        authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_update");
         DataUser result = await userBroker.UpdateUserAsync(entity: internalUser);
         user.Id = result.Id;
         user.DefaultCultureId = result.DefaultCultureId;
@@ -85,7 +85,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
     {
         User user = Get(id: id);
         DataUser internalUser = ToExternalUser(item: user);
-        authorizationBroker.Authorize(appId: userBroker.GetAppId(internalUser), privilege: $"{nameof(User)}_delete");
+        authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_delete");
         _ = await userBroker.DeleteUserAsync(entity: internalUser);
     }
 

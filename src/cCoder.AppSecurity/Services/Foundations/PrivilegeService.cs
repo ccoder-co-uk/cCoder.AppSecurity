@@ -51,7 +51,7 @@ internal class PrivilegeService(
             PortalAdminsOnly = privilege.PortalAdminsOnly
         };
         authorizationBroker.Authorize(
-appId: privilegeBroker.GetAppId(internalPrivilege),
+appId: privilegeBroker.GetAppId(entity: internalPrivilege),
 privilege: $"{nameof(Privilege)}_create"
         );
         DataPrivilege result = await privilegeBroker.AddPrivilegeAsync(entity: internalPrivilege);
@@ -74,7 +74,7 @@ privilege: $"{nameof(Privilege)}_create"
             PortalAdminsOnly = privilege.PortalAdminsOnly
         };
         authorizationBroker.Authorize(
-appId: privilegeBroker.GetAppId(internalPrivilege),
+appId: privilegeBroker.GetAppId(entity: internalPrivilege),
 privilege: $"{nameof(Privilege)}_update"
         );
         DataPrivilege result = await privilegeBroker.UpdatePrivilegeAsync(entity: internalPrivilege);
@@ -91,7 +91,7 @@ privilege: $"{nameof(Privilege)}_update"
         Privilege privilege = Get(id: id);
         DataPrivilege internalPrivilege = ToExternalPrivilege(item: privilege);
         authorizationBroker.Authorize(
-appId: privilegeBroker.GetAppId(internalPrivilege),
+appId: privilegeBroker.GetAppId(entity: internalPrivilege),
 privilege: $"{nameof(Privilege)}_delete"
         );
         _ = await privilegeBroker.DeletePrivilegeAsync(entity: internalPrivilege);

@@ -55,7 +55,7 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
 
         foreach (string tenant in tenants)
         {
-            results.AddRange(collection: GenerateUserActivityReport(tenant, forDate, sso));
+            results.AddRange(collection: GenerateUserActivityReport(tenant: tenant, forDate: forDate, sso: sso));
         }
 
         return results;
@@ -79,7 +79,7 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
                 TenantId = tenant,
                 Key = "System",
                 Name = "User Activity (Daily)",
-                Value = AnalyseTenantUserActivity(tenant, forDate, sso).ToJsonForOdata(),
+                Value = AnalyseTenantUserActivity(tenantId: tenant, reportDate: forDate, sso: sso).ToJsonForOdata(),
                 CreatedOn = forDate
             });
         }
@@ -89,7 +89,7 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
 
     private static object AnalyseTenantUserActivity(string tenantId, DateTime reportDate, SecurityDbContext sso)
     {
-        UserActivity[] activityData = GetUserActivity(tenantId: tenantId, from: reportDate, to: reportDate.AddDays(1), sso: sso);
+        UserActivity[] activityData = GetUserActivity(tenantId: tenantId, from: reportDate, to: reportDate.AddDays(value: 1), sso: sso);
 
         return new
         {
@@ -136,26 +136,26 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
                 group.First().UserDisplayName
             },
             Sessions = group
-                .Select(activity => activity.SessionId)
+                .Select(selector: activity => activity.SessionId)
                 .Distinct()
                 .Count(),
             PageRequests = group
-                .Count(activity => activity.EventName.StartsWith("Page_GET/") && !activity.EventName.StartsWith("Page_GET/lib/")),
+                .Count(predicate: activity => activity.EventName.StartsWith(value: "Page_GET/") && !activity.EventName.StartsWith(value: "Page_GET/lib/")),
             ApiRequests = group
-                .Count(activity => activity.EventName.StartsWith("Api_GET/"))
+                .Count(predicate: activity => activity.EventName.StartsWith(value: "Api_GET/"))
         })
         .OrderByDescending(keySelector: item => item.PageRequests + item.ApiRequests)
         .Take(count: 10);
 
     private static object AnalysePageActivity(IEnumerable<UserActivity> data) =>
         data
-        .Where(predicate: activity => activity.EventName.StartsWith("Page_GET/") && !activity.EventName.StartsWith("Page_GET/lib/"))
-        .GroupBy(keySelector: activity => activity.EventValue.Split('?').First())
+        .Where(predicate: activity => activity.EventName.StartsWith(value: "Page_GET/") && !activity.EventName.StartsWith(value: "Page_GET/lib/"))
+        .GroupBy(keySelector: activity => activity.EventValue.Split(separator: '?').First())
         .Select(selector: group => new
         {
             Page = group.Key,
             Sessions = group
-                .Select(activity => activity.SessionId)
+                .Select(selector: activity => activity.SessionId)
                 .Distinct()
                 .Count(),
             Hits = group.Count()
@@ -165,13 +165,13 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
 
     private static object AnalyseApiActivity(IEnumerable<UserActivity> data) =>
         data
-        .Where(predicate: activity => activity.EventName.StartsWith("Api_"))
-        .GroupBy(keySelector: activity => activity.EventValue.Split('?').First())
+        .Where(predicate: activity => activity.EventName.StartsWith(value: "Api_"))
+        .GroupBy(keySelector: activity => activity.EventValue.Split(separator: '?').First())
         .Select(selector: group => new
         {
             Endpoint = group.Key,
             Sessions = group
-                .Select(activity => activity.SessionId)
+                .Select(selector: activity => activity.SessionId)
                 .Distinct()
                 .Count(),
             Hits = group.Count()

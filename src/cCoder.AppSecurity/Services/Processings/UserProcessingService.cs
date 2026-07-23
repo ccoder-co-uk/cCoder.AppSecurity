@@ -62,7 +62,7 @@ internal class UserProcessingService(IUserService service, ICoreAuthInfo authInf
 item: new Result<User>
 {
     Success = true,
-    Item = isAdd ? await AddAsync(item) : await UpdateAsync(item),
+    Item = isAdd ? await AddAsync(newUser: item) : await UpdateAsync(entity: item),
     Message = isAdd ? "Added Successfully" : "Updated Successfully",
 }
                 );

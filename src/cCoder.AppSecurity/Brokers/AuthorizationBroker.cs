@@ -42,7 +42,7 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory) : IAu
             .FirstOrDefault(predicate: foundUser => foundUser.Id == userName);
 
         App app = coreDataContext.Apps
-            .Include(navigationPropertyPath: foundApp => foundApp.Roles.Select(role => role.Users))
+            .Include(navigationPropertyPath: foundApp => foundApp.Roles.Select(selector: role => role.Users))
             .FirstOrDefault(predicate: foundApp => foundApp.Id == appId);
 
         return app?.IsAppAdmin(user: user) ?? false;
@@ -65,11 +65,11 @@ internal class AuthorizationBroker(ICoreContextFactory coreContextFactory) : IAu
         return (appId != null && HasAppAdminPrivilege(user: user, appId: appId.Value))
             || (user.Roles?.Any(predicate: role =>
                 (appId == null || role.Role.AppId == appId)
-                && role.Role.Privileges.Contains(normalizedPrivilege))
+                && role.Role.Privileges.Contains(item: normalizedPrivilege))
                 ?? false);
     }
 
     private static bool HasAppAdminPrivilege(User user, int? appId) =>
         appId.HasValue
-        && (user.Roles?.Any(predicate: role => role.Role.AppId == appId.Value && role.Role.Allows(user, "app_admin")) ?? false);
+        && (user.Roles?.Any(predicate: role => role.Role.AppId == appId.Value && role.Role.Allows(user: user, privilege: "app_admin")) ?? false);
 }

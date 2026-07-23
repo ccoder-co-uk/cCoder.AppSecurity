@@ -62,7 +62,7 @@ internal class PrivilegeProcessingService(
 item: new Result<Privilege>
 {
     Success = true,
-    Item = isAdd ? await AddAsync(item) : await UpdateAsync(item),
+    Item = isAdd ? await AddAsync(entity: item) : await UpdateAsync(entity: item),
     Message = isAdd ? "Added Successfully" : "Updated Successfully",
 }
                 );

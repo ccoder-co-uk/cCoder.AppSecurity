@@ -25,7 +25,7 @@ public partial class UserRoleController : ODataController
 
     [HttpGet]
     public IActionResult GetMetadata() =>
-        Ok(value: new MetadataContainer(typeof(UserRole), true, true));
+        Ok(value: new MetadataContainer(type: typeof(UserRole), isEntity: true, hasEndpoint: true));
 
     [HttpGet]
     [EnableQuery(
@@ -48,7 +48,7 @@ public partial class UserRoleController : ODataController
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddAsync(entity));
+        return Ok(value: await Service.AddAsync(entity: entity));
     }
 
     [HttpPost]

@@ -159,7 +159,7 @@ internal class RoleService(
 
         await roleBroker.DeletePageRolesByRoleIdAsync(roleId: role.Id);
         await roleBroker.DeleteFolderRolesByRoleIdAsync(roleId: role.Id);
-        _ = await roleBroker.DeleteRoleAsync(entity: ToExternalRole(role));
+        _ = await roleBroker.DeleteRoleAsync(entity: ToExternalRole(item: role));
     }
 
     private void AuthorizeMutationOrAllowBootstrap(int? appId, string privilege, string assignedPrivileges)
@@ -190,11 +190,11 @@ internal class RoleService(
         User currentUser = authorizationBroker.GetCurrentUser();
         HashSet<string> grantedPrivileges = currentUser?.Roles?
             .Where(predicate: userRole => userRole.Role?.AppId == appId.Value)
-            .SelectMany(selector: userRole => ToPrivilegeSet(userRole.Role.Privs))
+            .SelectMany(selector: userRole => ToPrivilegeSet(privileges: userRole.Role.Privs))
             .ToHashSet(comparer: StringComparer.OrdinalIgnoreCase)
             ?? [];
 
-        if (assignedPrivilegeSet.Any(predicate: assignedPrivilege => !grantedPrivileges.Contains(assignedPrivilege)))
+        if (assignedPrivilegeSet.Any(predicate: assignedPrivilege => !grantedPrivileges.Contains(item: assignedPrivilege)))
         {
             throw new SecurityException(message: "Access Denied!");
         }

@@ -50,22 +50,22 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker)
     void ListenToAppAddEvents() =>
         eventHubBroker.ListenToEvent<App, Services.Orchestrations.IAppOrchestrationService>(
 eventName: "app_add",
-handler: (service, app) => service.AddAsync(app));
+handler: (service, app) => service.AddAsync(app: app));
 
     void ListenToAppUpdateEvents() =>
         eventHubBroker.ListenToEvent<App, Services.Orchestrations.IAppOrchestrationService>(
 eventName: "app_update",
-handler: (service, app) => service.UpdateAsync(app));
+handler: (service, app) => service.UpdateAsync(app: app));
 
     void ListenToAppDeleteEvent() =>
         eventHubBroker.ListenToEvent<App, Services.Orchestrations.IAppOrchestrationService>(
 eventName: "app_delete",
-handler: (service, app) => service.DeleteAsync(app.Id));
+handler: (service, app) => service.DeleteAsync(appId: app.Id));
 
     void ListenToPackageImportEvents() =>
         eventHubBroker.ListenToEvent<(int appId, Package package), IAppSecurityMigrationAggregationService>(
 eventName: "package_import",
-handler: (service, args) => service.ImportPackageAsync(args.appId, ToLocalPackage(args.package)));
+handler: (service, args) => service.ImportPackageAsync(appId: args.appId, package: ToLocalPackage(package: args.package)));
 
     void ListenToSecurityRegistrationCreatedEvent() =>
         ListenToSecurityAccountEvent(eventName: SecurityAccountEventNames.RegistrationCreated);
@@ -85,7 +85,7 @@ handler: (service, args) => service.ImportPackageAsync(args.appId, ToLocalPackag
     void ListenToSecurityAccountEvent(string eventName) =>
         eventHubBroker.ListenToEvent<SecurityAccountEvent, IAccountEventProcessingService>(
 eventName: eventName,
-handler: (service, accountEvent) => service.ProcessAsync(accountEvent));
+handler: (service, accountEvent) => service.ProcessAsync(accountEvent: accountEvent));
 
     static AppSecurityPackage ToLocalPackage(Package package) =>
         package == null ? null : new AppSecurityPackage(name: package.Name)

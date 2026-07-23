@@ -46,7 +46,7 @@ internal class UserRoleService(
     {
         DataUserRole internalUserRole = ToExternalUserRole(item: userRole);
         authorizationBroker.Authorize(
-appId: userRoleBroker.GetAppId(internalUserRole),
+appId: userRoleBroker.GetAppId(entity: internalUserRole),
 privilege: $"{nameof(UserRole)}_delete"
         );
         _ = await userRoleBroker.DeleteUserRoleAsync(entity: internalUserRole);
@@ -76,11 +76,11 @@ privilege: $"{nameof(UserRole)}_delete"
         User currentUser = authorizationBroker.GetCurrentUser();
         HashSet<string> grantedPrivileges = currentUser?.Roles?
             .Where(predicate: userRole => userRole.Role?.AppId == appId.Value)
-            .SelectMany(selector: userRole => ToPrivilegeSet(userRole.Role.Privs))
+            .SelectMany(selector: userRole => ToPrivilegeSet(privileges: userRole.Role.Privs))
             .ToHashSet(comparer: StringComparer.OrdinalIgnoreCase)
             ?? [];
 
-        if (assignedPrivilegeSet.Any(predicate: assignedPrivilege => !grantedPrivileges.Contains(assignedPrivilege)))
+        if (assignedPrivilegeSet.Any(predicate: assignedPrivilege => !grantedPrivileges.Contains(item: assignedPrivilege)))
         {
             throw new System.Security.SecurityException(message: "Access Denied!");
         }

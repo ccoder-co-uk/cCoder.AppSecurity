@@ -23,7 +23,7 @@ public sealed class TokenCleanerHostedService(
 
         await tokenCleanerOrchestrationService.RunAsync(cancellationToken: stoppingToken);
 
-        using PeriodicTimer timer = new(period: TimeSpan.FromMinutes(1));
+        using PeriodicTimer timer = new(period: TimeSpan.FromMinutes(minutes: 1));
 
         while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: stoppingToken))
         {

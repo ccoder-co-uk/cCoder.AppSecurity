@@ -61,7 +61,7 @@ internal class AppOrchestrationService(
         Guid[] roleIds = [.. roleArray.Select(selector: role => role.Id)];
         HashSet<Guid> existingRoleIds =
             [.. roleOrchestrationService.GetAll(ignoreFilters: true)
-                .Where(predicate: foundRole => roleIds.Contains(foundRole.Id))
+                .Where(predicate: foundRole => roleIds.Contains(value: foundRole.Id))
                 .Select(selector: foundRole => foundRole.Id)];
 
         foreach (Role role in roleArray)
@@ -101,8 +101,8 @@ internal class AppOrchestrationService(
         string[] userPrivileges =
             [.. privileges
                 .Where(predicate: privilege =>
-                    string.Equals(privilege.Operation, "Read", StringComparison.OrdinalIgnoreCase)
-                    && !IsWorkflowType(privilege.Type))
+                    string.Equals(a: privilege.Operation, b: "Read", comparisonType: StringComparison.OrdinalIgnoreCase)
+                    && !IsWorkflowType(type: privilege.Type))
                 .Select(selector: privilege => privilege.Id)];
 
         EnsureRole(app: app, roleName: "Administrators", requiredPrivileges: administratorPrivileges, userId: currentUserId);
@@ -122,7 +122,7 @@ internal class AppOrchestrationService(
     )
     {
         Role role = app.Roles.FirstOrDefault(predicate: foundRole =>
-            string.Equals(foundRole.Name, roleName, StringComparison.OrdinalIgnoreCase));
+            string.Equals(a: foundRole.Name, b: roleName, comparisonType: StringComparison.OrdinalIgnoreCase));
 
         if (role is null)
         {

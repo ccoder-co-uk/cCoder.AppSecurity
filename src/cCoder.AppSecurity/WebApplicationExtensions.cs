@@ -71,7 +71,7 @@ scope: MetadataScope,
 typeSetPayloads: app.Services
                     .GetRequiredService<IAppSecurityMetadataTypeService>()
                     .GetKnownMetadata()
-                    .Select(static metadata => JsonSerializer.Serialize(metadata)));
+                    .Select(selector: static metadata => JsonSerializer.Serialize(value: metadata)));
         }
     }
 }

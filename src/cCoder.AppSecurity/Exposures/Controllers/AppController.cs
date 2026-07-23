@@ -26,8 +26,8 @@ public sealed class AppController(IAppService service) : ODataController
             ? Ok(
 value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("AppSecurity", typeof(App)))
-            : Ok(value: new MetadataContainer(typeof(App), true, false));
+                    .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(App)))
+            : Ok(value: new MetadataContainer(type: typeof(App), isEntity: true, hasEndpoint: false));
     }
 
     [HttpGet]
@@ -56,6 +56,6 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     {
         IQueryable<App> result = service.GetAll().Where(predicate: app => app.Id == key);
 
-        return Ok(value: SingleResult.Create(result));
+        return Ok(value: SingleResult.Create(queryable: result));
     }
 }

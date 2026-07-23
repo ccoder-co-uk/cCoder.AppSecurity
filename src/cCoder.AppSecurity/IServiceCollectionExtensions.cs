@@ -58,12 +58,12 @@ public static partial class IServiceCollectionExtensions
         this IServiceCollection services,
         Action<AppSecurityConfiguration> configure = null,
         ODataConventionModelBuilder builder = null) =>
-        services.AddConfiguredAppSecurityWeb(configure: (_, configuration) => configure?.Invoke(configuration), builder: builder);
+        services.AddConfiguredAppSecurityWeb(configure: (_, configuration) => configure?.Invoke(obj: configuration), builder: builder);
 
     public static void AddAppSecurityHostedServices(
         this IServiceCollection services,
         Action<AppSecurityConfiguration> configure = null) =>
-        services.AddConfiguredAppSecurityHostedServices(configure: (_, configuration) => configure?.Invoke(configuration));
+        services.AddConfiguredAppSecurityHostedServices(configure: (_, configuration) => configure?.Invoke(obj: configuration));
 
     private static void AddAppSecurity(this IServiceCollection services)
     {

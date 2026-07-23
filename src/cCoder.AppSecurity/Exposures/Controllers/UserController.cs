@@ -44,7 +44,7 @@ public partial class UserController : ODataController
         MaxExpansionDepth = 6
     )]
     public IActionResult Me() =>
-        Ok(value: Service.Get(authInfo.SSOUserId));
+        Ok(value: Service.Get(id: authInfo.SSOUserId));
 
     [HttpGet]
     public IActionResult GetMetadata()
@@ -55,9 +55,9 @@ public partial class UserController : ODataController
             ? Ok(
 value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("AppSecurity", typeof(User))
+                    .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(User))
             )
-            : Ok(value: new MetadataContainer(typeof(User), true, true));
+            : Ok(value: new MetadataContainer(type: typeof(User), isEntity: true, hasEndpoint: true));
     }
 
     [HttpGet]
@@ -88,7 +88,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         try
         {
             IQueryable<User> result = Service.GetAll().Where(predicate: user => user.Id == key);
-            return Ok(value: SingleResult.Create(result));
+            return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)
         {
@@ -112,7 +112,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddAsync(entity));
+        return Ok(value: await Service.AddAsync(entity: entity));
     }
 
     [HttpPut]
@@ -131,7 +131,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.UpdateAsync(entity));
+        return Ok(value: await Service.UpdateAsync(entity: entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
@@ -144,7 +144,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         }
 
         delta.Patch(original: originalEntity);
-        return Ok(value: await Service.UpdateAsync(originalEntity));
+        return Ok(value: await Service.UpdateAsync(entity: originalEntity));
     }
 
     [HttpDelete]

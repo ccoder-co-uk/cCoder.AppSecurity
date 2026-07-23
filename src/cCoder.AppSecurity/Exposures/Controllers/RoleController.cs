@@ -36,9 +36,9 @@ public partial class RoleController : ODataController
             ? Ok(
 value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
                     .Build()
-                    .EDMModel.GetExtendedMetadataForType("AppSecurity", typeof(Role))
+                    .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(Role))
             )
-            : Ok(value: new MetadataContainer(typeof(Role), true, true));
+            : Ok(value: new MetadataContainer(type: typeof(Role), isEntity: true, hasEndpoint: true));
     }
 
     [HttpGet]
@@ -69,7 +69,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         try
         {
             IQueryable<Role> result = Service.GetAll().Where(predicate: role => role.Id == key);
-            return Ok(value: SingleResult.Create(result));
+            return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)
         {
@@ -93,7 +93,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddAsync(entity));
+        return Ok(value: await Service.AddAsync(entity: entity));
     }
 
     [HttpPut]
@@ -112,7 +112,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.UpdateAsync(entity));
+        return Ok(value: await Service.UpdateAsync(entity: entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
@@ -125,7 +125,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         }
 
         delta.Patch(original: originalEntity);
-        return Ok(value: await Service.UpdateAsync(originalEntity));
+        return Ok(value: await Service.UpdateAsync(entity: originalEntity));
     }
 
     [HttpDelete]
