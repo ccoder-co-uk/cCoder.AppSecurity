@@ -23,10 +23,10 @@ internal class PrivilegeEventService(
         EventMessage<DataPrivilege> message = new()
         {
             AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalPrivilege(entity),
+            Data = ToExternalPrivilege(item: entity),
         };
 
-        await privilegeEventBroker.RaisePrivilegeAddEventAsync(message);
+        await privilegeEventBroker.RaisePrivilegeAddEventAsync(message: message);
     }
 
     public async ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity)
@@ -34,10 +34,10 @@ internal class PrivilegeEventService(
         EventMessage<DataPrivilege> message = new()
         {
             AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalPrivilege(entity),
+            Data = ToExternalPrivilege(item: entity),
         };
 
-        await privilegeEventBroker.RaisePrivilegeUpdateEventAsync(message);
+        await privilegeEventBroker.RaisePrivilegeUpdateEventAsync(message: message);
     }
 
     public async ValueTask RaisePrivilegeDeleteEventAsync(Privilege entity)
@@ -45,10 +45,10 @@ internal class PrivilegeEventService(
         EventMessage<DataPrivilege> message = new()
         {
             AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalPrivilege(entity),
+            Data = ToExternalPrivilege(item: entity),
         };
 
-        await privilegeEventBroker.RaisePrivilegeDeleteEventAsync(message);
+        await privilegeEventBroker.RaisePrivilegeDeleteEventAsync(message: message);
     }
 
     static DataPrivilege ToExternalPrivilege(Privilege item) =>

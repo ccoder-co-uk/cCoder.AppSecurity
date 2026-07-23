@@ -18,7 +18,7 @@ public interface IPrivilegeBroker
     int? GetAppId(Privilege entity);
 }
 
-public class PrivilegeBroker(ICoreContextFactory coreContextFactory) : IPrivilegeBroker
+internal sealed class PrivilegeBroker(ICoreContextFactory coreContextFactory) : IPrivilegeBroker
 {
 
     public IQueryable<Privilege> GetAllPrivileges(bool ignoreFilters)
@@ -32,7 +32,7 @@ public class PrivilegeBroker(ICoreContextFactory coreContextFactory) : IPrivileg
     public async ValueTask<Privilege> AddPrivilegeAsync(Privilege entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Privilege result = (await coreDataContext.Set<Privilege>().AddAsync(entity)).Entity;
+        Privilege result = (await coreDataContext.Set<Privilege>().AddAsync(entity: entity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -40,7 +40,7 @@ public class PrivilegeBroker(ICoreContextFactory coreContextFactory) : IPrivileg
     public async ValueTask<Privilege> UpdatePrivilegeAsync(Privilege entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Privilege result = coreDataContext.Set<Privilege>().Update(entity).Entity;
+        Privilege result = coreDataContext.Set<Privilege>().Update(entity: entity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -48,7 +48,7 @@ public class PrivilegeBroker(ICoreContextFactory coreContextFactory) : IPrivileg
     public async ValueTask<int> DeletePrivilegeAsync(Privilege entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Set<Privilege>().Remove(entity);
+        coreDataContext.Set<Privilege>().Remove(entity: entity);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -58,7 +58,7 @@ public class PrivilegeBroker(ICoreContextFactory coreContextFactory) : IPrivileg
             return;
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Set<Privilege>().RemoveRange(items);
+        coreDataContext.Set<Privilege>().RemoveRange(entities: items);
         _ = await coreDataContext.SaveChangesAsync();
     }
 

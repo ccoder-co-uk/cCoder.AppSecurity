@@ -20,7 +20,7 @@ public interface IRoleBroker
     int? GetAppId(Role entity);
 }
 
-public class RoleBroker(ICoreContextFactory coreContextFactory) : IRoleBroker
+internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRoleBroker
 {
 
     public IQueryable<Role> GetAllRoles(bool ignoreFilters)
@@ -34,7 +34,7 @@ public class RoleBroker(ICoreContextFactory coreContextFactory) : IRoleBroker
     public async ValueTask<Role> AddRoleAsync(Role entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Role result = (await coreDataContext.Roles.AddAsync(entity)).Entity;
+        Role result = (await coreDataContext.Roles.AddAsync(entity: entity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -42,7 +42,7 @@ public class RoleBroker(ICoreContextFactory coreContextFactory) : IRoleBroker
     public async ValueTask<Role> UpdateRoleAsync(Role entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Role result = coreDataContext.Roles.Update(entity).Entity;
+        Role result = coreDataContext.Roles.Update(entity: entity).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -52,12 +52,12 @@ public class RoleBroker(ICoreContextFactory coreContextFactory) : IRoleBroker
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         FolderRole[] folderRoles = [.. coreDataContext.FolderRoles
             .IgnoreQueryFilters()
-            .Where(folderRole => folderRole.RoleId == roleId)];
+            .Where(predicate: folderRole => folderRole.RoleId == roleId)];
 
         if (folderRoles.Length == 0)
             return;
 
-        coreDataContext.FolderRoles.RemoveRange(folderRoles);
+        coreDataContext.FolderRoles.RemoveRange(entities: folderRoles);
         await coreDataContext.SaveChangesAsync();
     }
 
@@ -66,19 +66,19 @@ public class RoleBroker(ICoreContextFactory coreContextFactory) : IRoleBroker
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         PageRole[] pageRoles = [.. coreDataContext.PageRoles
             .IgnoreQueryFilters()
-            .Where(pageRole => pageRole.RoleId == roleId)];
+            .Where(predicate: pageRole => pageRole.RoleId == roleId)];
 
         if (pageRoles.Length == 0)
             return;
 
-        coreDataContext.PageRoles.RemoveRange(pageRoles);
+        coreDataContext.PageRoles.RemoveRange(entities: pageRoles);
         await coreDataContext.SaveChangesAsync();
     }
 
     public async ValueTask<int> DeleteRoleAsync(Role entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Roles.Remove(entity);
+        coreDataContext.Roles.Remove(entity: entity);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -88,7 +88,7 @@ public class RoleBroker(ICoreContextFactory coreContextFactory) : IRoleBroker
             return;
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Roles.RemoveRange(items);
+        coreDataContext.Roles.RemoveRange(entities: items);
         _ = await coreDataContext.SaveChangesAsync();
     }
 

@@ -21,34 +21,34 @@ internal class UserRoleProcessingService(
 {
     private string CurrentUserId => authorizationBroker.GetCurrentUser()?.Id;
 
-    public IQueryable<UserRole> GetAll(bool ignoreFilters = false) => service.GetAll(ignoreFilters);
+    public IQueryable<UserRole> GetAll(bool ignoreFilters = false) => service.GetAll(ignoreFilters: ignoreFilters);
 
     public async ValueTask<UserRole> AddAsync(UserRole entity)
     {
         Role role = roleService
-            .GetAll(true)
-            .FirstOrDefault(r => r.Id == entity.RoleId);
+            .GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: r => r.Id == entity.RoleId);
 
         User user = userService
-            .GetAll(true)
-            .FirstOrDefault(u => u.Id == entity.UserId);
+            .GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: u => u.Id == entity.UserId);
 
-        if (role == null || user == null || role.Users?.Any(u => u.UserId == user.Id) == true)
-            throw new SecurityException("Access Denied!");
+        if (role == null || user == null || role.Users?.Any(predicate: u => u.UserId == user.Id) == true)
+            throw new SecurityException(message: "Access Denied!");
 
-        authorizationBroker.Authorize(role.AppId, "userrole_create");
+        authorizationBroker.Authorize(appId: role.AppId, privilege: "userrole_create");
 
-        if (role.Privileges.Contains("app_admin") && !authorizationBroker.IsAdminOfApp(role.AppId))
-            throw new SecurityException("Access Denied!");
+        if (role.Privileges.Contains(item: "app_admin") && !authorizationBroker.IsAdminOfApp(appId: role.AppId))
+            throw new SecurityException(message: "Access Denied!");
 
-        return await service.AddAsync(entity);
+        return await service.AddAsync(userRole: entity);
     }
 
     public async ValueTask<UserRole> SaveAsync(UserRole entity)
     {
         UserRole existingUserRole = service
-            .GetAll(true)
-            .FirstOrDefault(userRole =>
+            .GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: userRole =>
                 userRole.UserId == entity.UserId
                 && userRole.RoleId == entity.RoleId);
 
@@ -61,27 +61,27 @@ internal class UserRoleProcessingService(
     public async ValueTask DeleteAsync(UserRole link)
     {
         UserRole dbVersion = service
-            .GetAll(true)
-            .FirstOrDefault(ur => ur.RoleId == link.RoleId && ur.UserId == link.UserId);
+            .GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: ur => ur.RoleId == link.RoleId && ur.UserId == link.UserId);
 
         if (dbVersion == null || CurrentUserId == null)
-            throw new SecurityException("Access Denied!");
+            throw new SecurityException(message: "Access Denied!");
 
         int appId = roleService
-            .GetAll(true)
-            .Where(role => role.Id == dbVersion.RoleId)
-            .Select(role => role.AppId)
+            .GetAll(ignoreFilters: true)
+            .Where(predicate: role => role.Id == dbVersion.RoleId)
+            .Select(selector: role => role.AppId)
             .FirstOrDefault();
 
-        authorizationBroker.Authorize(appId, "userrole_delete");
-        await service.DeleteAsync(dbVersion);
+        authorizationBroker.Authorize(appId: appId, privilege: "userrole_delete");
+        await service.DeleteAsync(userRole: dbVersion);
     }
 
     public async ValueTask DeleteAllAsync(IEnumerable<UserRole> items)
     {
         foreach (UserRole item in items)
         {
-            await DeleteAsync(item);
+            await DeleteAsync(link: item);
         }
     }
 
@@ -90,43 +90,43 @@ internal class UserRoleProcessingService(
     )
     {
         UserRole[] itemArray = [.. items];
-        var leftIds = itemArray.Select(item => item.UserId).Distinct().ToArray();
-        UserRole[] existingItems = [.. GetAll().Where(item => leftIds.Contains(item.UserId))];
+        var leftIds = itemArray.Select(selector: item => item.UserId).Distinct().ToArray();
+        UserRole[] existingItems = [.. GetAll().Where(predicate: item => leftIds.Contains(item.UserId))];
 
         List<Result<UserRole>> results = [];
-        foreach (var group in itemArray.GroupBy(item => item.UserId))
+        foreach (var group in itemArray.GroupBy(keySelector: item => item.UserId))
         {
             UserRole[] groupItems = [.. group];
             UserRole[] existingGroupItems =
             [
-                .. existingItems.Where(item => Equals(item.UserId, group.Key)),
+                .. existingItems.Where(predicate: item => Equals(item.UserId, group.Key)),
             ];
 
-            await DeleteAllAsync(existingGroupItems);
+            await DeleteAllAsync(items: existingGroupItems);
             foreach (UserRole item in groupItems)
             {
                 try
                 {
                     results.Add(
-                        new Result<UserRole>
-                        {
-                            Id = $"{item.UserId}:{item.RoleId}",
-                            Success = true,
-                            Item = await AddAsync(item),
-                            Message = "Added Successfully",
-                        }
+item: new Result<UserRole>
+{
+    Id = $"{item.UserId}:{item.RoleId}",
+    Success = true,
+    Item = await AddAsync(item),
+    Message = "Added Successfully",
+}
                     );
                 }
                 catch (Exception ex)
                 {
                     results.Add(
-                        new Result<UserRole>
-                        {
-                            Id = $"{item.UserId}:{item.RoleId}",
-                            Success = false,
-                            Item = item,
-                            Message = ex.Message,
-                        }
+item: new Result<UserRole>
+{
+    Id = $"{item.UserId}:{item.RoleId}",
+    Success = false,
+    Item = item,
+    Message = ex.Message,
+}
                     );
                 }
             }

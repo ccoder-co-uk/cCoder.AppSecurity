@@ -34,11 +34,11 @@ public partial class RoleController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-                new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
+value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
                     .Build()
                     .EDMModel.GetExtendedMetadataForType("AppSecurity", typeof(Role))
             )
-            : Ok(new MetadataContainer(typeof(Role), true, true));
+            : Ok(value: new MetadataContainer(typeof(Role), true, true));
     }
 
     [HttpGet]
@@ -51,7 +51,7 @@ public partial class RoleController : ODataController
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<Role> queryOptions) => Ok(Service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<Role> queryOptions) => Ok(value: Service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -67,8 +67,8 @@ public partial class RoleController : ODataController
     {
         try
         {
-            IQueryable<Role> result = Service.GetAll().Where(role => role.Id == key);
-            return Ok(SingleResult.Create(result));
+            IQueryable<Role> result = Service.GetAll().Where(predicate: role => role.Id == key);
+            return Ok(value: SingleResult.Create(result));
         }
         catch (System.Security.SecurityException)
         {
@@ -88,9 +88,9 @@ public partial class RoleController : ODataController
     public async Task<IActionResult> Post([FromBody] Role entity)
     {
         if (!ModelState.IsValid)
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(ModelState);
+            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
 
-        return Ok(await Service.AddAsync(entity));
+        return Ok(value: await Service.AddAsync(entity));
     }
 
     [HttpPut]
@@ -105,26 +105,26 @@ public partial class RoleController : ODataController
     public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] Role entity)
     {
         if (!ModelState.IsValid)
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(ModelState);
+            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
 
-        return Ok(await Service.UpdateAsync(entity));
+        return Ok(value: await Service.UpdateAsync(entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<Role> delta)
     {
-        Role originalEntity = Service.Get(key);
+        Role originalEntity = Service.Get(id: key);
         if (originalEntity == null)
             return NotFound();
 
-        delta.Patch(originalEntity);
-        return Ok(await Service.UpdateAsync(originalEntity));
+        delta.Patch(original: originalEntity);
+        return Ok(value: await Service.UpdateAsync(originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid key)
     {
-        await Service.DeleteAsync(key);
+        await Service.DeleteAsync(id: key);
         return Ok();
     }
 }

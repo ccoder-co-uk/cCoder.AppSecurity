@@ -12,7 +12,7 @@ namespace cCoder.AppSecurity.Exposures;
 internal class AppSecurityAppExposure(IAppOrchestrationService appOrchestrationService)
     : IAppSecurityAppExposure
 {
-    public ValueTask AddAsync(App app) => appOrchestrationService.AddAsync(app);
-    public ValueTask UpdateAsync(App app) => appOrchestrationService.UpdateAsync(app);
-    public ValueTask DeleteAsync(int appId) => appOrchestrationService.DeleteAsync(appId);
+    public ValueTask AddAsync(App app) => appOrchestrationService.AddAsync(app: app);
+    public ValueTask UpdateAsync(App app) => appOrchestrationService.UpdateAsync(app: app);
+    public ValueTask DeleteAsync(int appId) => appOrchestrationService.DeleteAsync(appId: appId);
 }

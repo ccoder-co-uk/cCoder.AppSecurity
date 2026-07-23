@@ -13,7 +13,7 @@ namespace cCoder.AppSecurity.Api.OData;
 internal class AppSecurityModelBuilder : ODataModelBuilder
 {
     public AppSecurityModelBuilder(Microsoft.OData.ModelBuilder.ODataConventionModelBuilder builder = null)
-        : base(builder) { }
+        : base(builder: builder) { }
 
     public override ODataModel Build() =>
         new()
@@ -35,14 +35,14 @@ internal class AppSecurityModelBuilder : ODataModelBuilder
     {
         AddCommonComplextypes();
 
-        Builder.EntityType<App>().Ignore(app => app.Config);
+        Builder.EntityType<App>().Ignore(propertyExpression: app => app.Config);
         _ = AddSet<App, int>();
         _ = AddSet<User, string>();
         _ = AddSet<Role, Guid>();
         _ = AddSet<Privilege, string>();
-        _ = AddJoinSet<UserRole, object>(i => new { i.UserId, i.RoleId });
+        _ = AddJoinSet<UserRole, object>(key: i => new { i.UserId, i.RoleId });
 
         Builder.Namespace = "";
-        _ = Builder.EntityType<User>().Collection.Function("Me").ReturnsFromEntitySet<User>("User");
+        _ = Builder.EntityType<User>().Collection.Function(name: "Me").ReturnsFromEntitySet<User>(entitySetName: "User");
     }
 }

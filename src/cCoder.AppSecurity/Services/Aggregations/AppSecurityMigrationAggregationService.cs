@@ -21,19 +21,19 @@ internal class AppSecurityMigrationAggregationService(
         if (package.Items is null || package.Items.Count == 0)
             return;
 
-        foreach (AppSecurityPackageItem item in package.Items.Where(item => item.Type == "Core/Role"))
+        foreach (AppSecurityPackageItem item in package.Items.Where(predicate: item => item.Type == "Core/Role"))
         {
-            Role[] items = item.Data.StartsWith("{")
-                ? [jsonBroker.ParseJson<Role>(item.Data)]
-                : jsonBroker.ParseJson<Role[]>(item.Data);
+            Role[] items = item.Data.StartsWith(value: "{")
+                ? [jsonBroker.ParseJson<Role>(json: item.Data)]
+                : jsonBroker.ParseJson<Role[]>(json: item.Data);
 
-            await roleOrchestrationService.ImportAsync(appId, items);
+            await roleOrchestrationService.ImportAsync(appId: appId, roles: items);
         }
     }
 
     public AppSecurityPackage ExportPackage(int appId, string packageName) =>
         packageName == "Roles"
-            ? new AppSecurityPackage("Roles")
+            ? new AppSecurityPackage(name: "Roles")
             {
                 Items =
                 [
@@ -41,13 +41,13 @@ internal class AppSecurityMigrationAggregationService(
                     {
                         Type = "Core/Role",
                         Data = roleOrchestrationService
-                            .GetAll(false)
-                            .Where(role => role.AppId == appId)
-                            .Select(role => new { role.Name, role.Privs })
+                            .GetAll(ignoreFilters: false)
+                            .Where(predicate: role => role.AppId == appId)
+                            .Select(selector: role => new { role.Name, role.Privs })
                             .ToArray()
                             .ToJson(),
                     },
                 ],
             }
-            : new AppSecurityPackage(packageName) { Items = [] };
+            : new AppSecurityPackage(name: packageName) { Items = [] };
 }

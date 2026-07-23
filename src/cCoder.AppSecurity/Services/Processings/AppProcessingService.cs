@@ -11,5 +11,5 @@ internal class AppProcessingService(IAppService service) : IAppProcessingService
 {
     public IQueryable<App> GetAll() => service.GetAll();
 
-    public App GetByDomain(string domain) => service.GetByDomain(domain);
+    public App GetByDomain(string domain) => service.GetByDomain(domain: domain);
 }

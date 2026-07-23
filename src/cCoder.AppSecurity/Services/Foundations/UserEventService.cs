@@ -23,10 +23,10 @@ internal class UserEventService(IUserEventBroker userEventBroker, ICoreAuthInfo 
         EventMessage<DataUser> message = new()
         {
             AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUser(entity),
+            Data = ToExternalUser(item: entity),
         };
 
-        await userEventBroker.RaiseUserAddEventAsync(message);
+        await userEventBroker.RaiseUserAddEventAsync(message: message);
     }
 
     public async ValueTask RaiseUserUpdateEventAsync(User entity)
@@ -34,10 +34,10 @@ internal class UserEventService(IUserEventBroker userEventBroker, ICoreAuthInfo 
         EventMessage<DataUser> message = new()
         {
             AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUser(entity),
+            Data = ToExternalUser(item: entity),
         };
 
-        await userEventBroker.RaiseUserUpdateEventAsync(message);
+        await userEventBroker.RaiseUserUpdateEventAsync(message: message);
     }
 
     public async ValueTask RaiseUserDeleteEventAsync(User entity)
@@ -45,10 +45,10 @@ internal class UserEventService(IUserEventBroker userEventBroker, ICoreAuthInfo 
         EventMessage<DataUser> message = new()
         {
             AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUser(entity),
+            Data = ToExternalUser(item: entity),
         };
 
-        await userEventBroker.RaiseUserDeleteEventAsync(message);
+        await userEventBroker.RaiseUserDeleteEventAsync(message: message);
     }
 
     static DataUser ToExternalUser(User item) =>
@@ -60,7 +60,7 @@ internal class UserEventService(IUserEventBroker userEventBroker, ICoreAuthInfo 
             Email = item.Email,
             IsActive = item.IsActive,
             DefaultCulture = item.DefaultCulture as cCoder.Data.Models.CMS.Culture,
-            Roles = item.Roles?.Select(userRole => new DataUserRole
+            Roles = item.Roles?.Select(selector: userRole => new DataUserRole
             {
                 RoleId = userRole.RoleId,
                 UserId = userRole.UserId,

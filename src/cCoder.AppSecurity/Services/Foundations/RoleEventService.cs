@@ -26,10 +26,10 @@ internal class RoleEventService(IRoleEventBroker roleEventBroker, ICoreAuthInfo 
         EventMessage<DataRole> message = new()
         {
             AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalRole(entity),
+            Data = ToExternalRole(item: entity),
         };
 
-        await roleEventBroker.RaiseRoleAddEventAsync(message);
+        await roleEventBroker.RaiseRoleAddEventAsync(message: message);
     }
 
     public async ValueTask RaiseRoleUpdateEventAsync(Role entity)
@@ -37,10 +37,10 @@ internal class RoleEventService(IRoleEventBroker roleEventBroker, ICoreAuthInfo 
         EventMessage<DataRole> message = new()
         {
             AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalRole(entity),
+            Data = ToExternalRole(item: entity),
         };
 
-        await roleEventBroker.RaiseRoleUpdateEventAsync(message);
+        await roleEventBroker.RaiseRoleUpdateEventAsync(message: message);
     }
 
     public async ValueTask RaiseRoleDeleteEventAsync(Role entity)
@@ -48,10 +48,10 @@ internal class RoleEventService(IRoleEventBroker roleEventBroker, ICoreAuthInfo 
         EventMessage<DataRole> message = new()
         {
             AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalRole(entity),
+            Data = ToExternalRole(item: entity),
         };
 
-        await roleEventBroker.RaiseRoleDeleteEventAsync(message);
+        await roleEventBroker.RaiseRoleDeleteEventAsync(message: message);
     }
 
     static DataRole ToExternalRole(Role item) =>
@@ -72,7 +72,7 @@ internal class RoleEventService(IRoleEventBroker roleEventBroker, ICoreAuthInfo 
                 DefaultTheme = item.App.DefaultTheme,
                 ConfigJson = item.App.ConfigJson,
             },
-            Users = item.Users?.Select(userRole => new DataUserRole
+            Users = item.Users?.Select(selector: userRole => new DataUserRole
             {
                 RoleId = userRole.RoleId,
                 UserId = userRole.UserId,
@@ -86,12 +86,12 @@ internal class RoleEventService(IRoleEventBroker roleEventBroker, ICoreAuthInfo 
                     DefaultCulture = userRole.User.DefaultCulture as cCoder.Data.Models.CMS.Culture,
                 },
             }).ToArray(),
-            Pages = item.Pages?.Select(pageRole => new DataPageRole
+            Pages = item.Pages?.Select(selector: pageRole => new DataPageRole
             {
                 PageId = pageRole.PageId,
                 RoleId = pageRole.RoleId,
             }).ToArray(),
-            Folders = item.Folders?.Select(folderRole => new DataFolderRole
+            Folders = item.Folders?.Select(selector: folderRole => new DataFolderRole
             {
                 FolderId = folderRole.FolderId,
                 RoleId = folderRole.RoleId,

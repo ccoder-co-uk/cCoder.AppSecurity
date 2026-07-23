@@ -20,29 +20,29 @@ internal class AccountEventOrchestrationService(
         if (accountEvent?.User is null)
             return;
 
-        App app = ResolveApp(accountEvent.RequestDomain);
+        App app = ResolveApp(requestDomain: accountEvent.RequestDomain);
 
         if (app is null)
             return;
 
-        User user = await AddOrUpdateUserAsync(accountEvent, app);
-        await AttachUsersRoleAsync(user, app.Id);
+        User user = await AddOrUpdateUserAsync(accountEvent: accountEvent, app: app);
+        await AttachUsersRoleAsync(user: user, appId: app.Id);
     }
 
     private App ResolveApp(string requestDomain)
     {
-        if (string.IsNullOrWhiteSpace(requestDomain))
+        if (string.IsNullOrWhiteSpace(value: requestDomain))
             return null;
 
-        string normalizedDomain = NormalizeDomain(requestDomain);
+        string normalizedDomain = NormalizeDomain(requestDomain: requestDomain);
 
-        return appProcessingService.GetByDomain(normalizedDomain);
+        return appProcessingService.GetByDomain(domain: normalizedDomain);
     }
 
     private async ValueTask<User> AddOrUpdateUserAsync(SecurityAccountEvent accountEvent, App app)
     {
         User user = userProcessingService.GetAll(ignoreFilters: true)
-            .FirstOrDefault(user =>
+            .FirstOrDefault(predicate: user =>
                 user.Id == accountEvent.User.Id
                 || user.Email == accountEvent.User.Email);
 
@@ -51,7 +51,7 @@ internal class AccountEventOrchestrationService(
             user = new User
             {
                 Id = accountEvent.User.Id,
-                DefaultCultureId = string.IsNullOrWhiteSpace(accountEvent.Culture)
+                DefaultCultureId = string.IsNullOrWhiteSpace(value: accountEvent.Culture)
                     ? app.DefaultCultureId
                     : accountEvent.Culture,
                 DisplayName = accountEvent.User.DisplayName,
@@ -59,29 +59,29 @@ internal class AccountEventOrchestrationService(
                 IsActive = !accountEvent.User.LockoutEnabled
             };
 
-            return await userProcessingService.AddAsync(user);
+            return await userProcessingService.AddAsync(entity: user);
         }
 
         user.DisplayName = accountEvent.User.DisplayName;
         user.Email = accountEvent.User.Email;
         user.IsActive = !accountEvent.User.LockoutEnabled;
 
-        if (!string.IsNullOrWhiteSpace(accountEvent.Culture))
+        if (!string.IsNullOrWhiteSpace(value: accountEvent.Culture))
             user.DefaultCultureId = accountEvent.Culture;
 
-        return await userProcessingService.UpdateAsync(user);
+        return await userProcessingService.UpdateAsync(entity: user);
     }
 
     private async ValueTask AttachUsersRoleAsync(User user, int appId)
     {
         Role usersRole = roleProcessingService.GetAll(ignoreFilters: true)
-            .FirstOrDefault(role => role.AppId == appId && role.Name == "Users");
+            .FirstOrDefault(predicate: role => role.AppId == appId && role.Name == "Users");
 
         if (usersRole is null)
             return;
 
         bool roleAssigned = userRoleProcessingService.GetAll(ignoreFilters: true)
-            .Any(userRole =>
+            .Any(predicate: userRole =>
                 userRole.UserId == user.Id
                 && userRole.RoleId == usersRole.Id);
 
@@ -89,19 +89,19 @@ internal class AccountEventOrchestrationService(
             return;
 
         await userRoleProcessingService.SaveAsync(
-            new UserRole
-            {
-                UserId = user.Id,
-                RoleId = usersRole.Id
-            });
+entity: new UserRole
+{
+    UserId = user.Id,
+    RoleId = usersRole.Id
+});
     }
 
     private static string NormalizeDomain(string requestDomain)
     {
-        if (Uri.TryCreate(requestDomain, UriKind.Absolute, out Uri absoluteUri))
+        if (Uri.TryCreate(uriString: requestDomain, uriKind: UriKind.Absolute, result: out Uri absoluteUri))
             return absoluteUri.Host;
 
-        int portSeparatorIndex = requestDomain.IndexOf(':');
+        int portSeparatorIndex = requestDomain.IndexOf(value: ':');
 
         return portSeparatorIndex < 0
             ? requestDomain

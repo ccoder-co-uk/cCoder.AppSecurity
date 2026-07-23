@@ -21,30 +21,30 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
 
         List<DateTime> datesWithData = sso.UserEvents
             .IgnoreQueryFilters()
-            .Select(userEvent => userEvent.CreatedOn.Date)
+            .Select(selector: userEvent => userEvent.CreatedOn.Date)
             .Distinct()
-            .OrderByDescending(date => date)
+            .OrderByDescending(keySelector: date => date)
             .ToList();
 
         if (datesWithData.FirstOrDefault() == DateTime.Today)
-            datesWithData.RemoveAt(0);
+            datesWithData.RemoveAt(index: 0);
 
         string[] tenants = sso.Tenants
             .IgnoreQueryFilters()
-            .Select(tenant => tenant.Id)
+            .Select(selector: tenant => tenant.Id)
             .ToArray();
 
         foreach (DateTime date in datesWithData)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            IEnumerable<TenantAnalysis> reports = GenerateDailyReports(tenants, date, sso);
-            sso.AddRange(reports);
-            await sso.SaveChangesAsync(cancellationToken);
+            IEnumerable<TenantAnalysis> reports = GenerateDailyReports(tenants: tenants, forDate: date, sso: sso);
+            sso.AddRange(entities: reports);
+            await sso.SaveChangesAsync(cancellationToken: cancellationToken);
         }
 
-        string sql = $"DELETE UserEvents WHERE CreatedOn < '{DateTime.Today.AddDays(-2):yyyy-MM-dd}'";
-        sso.Database.ExecuteSqlRaw(sql);
+        string sql = $"DELETE UserEvents WHERE CreatedOn < '{DateTime.Today.AddDays(value: -2):yyyy-MM-dd}'";
+        sso.Database.ExecuteSqlRaw(sql: sql);
     }
 
     private static IEnumerable<TenantAnalysis> GenerateDailyReports(string[] tenants, DateTime forDate, SecurityDbContext sso)
@@ -52,7 +52,7 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
         List<TenantAnalysis> results = [];
 
         foreach (string tenant in tenants)
-            results.AddRange(GenerateUserActivityReport(tenant, forDate, sso));
+            results.AddRange(collection: GenerateUserActivityReport(tenant, forDate, sso));
 
         return results;
     }
@@ -63,14 +63,14 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
 
         TenantAnalysis existingReport = sso.TenantAnalysis
             .IgnoreQueryFilters()
-            .FirstOrDefault(analysis =>
+            .FirstOrDefault(predicate: analysis =>
                 analysis.TenantId == tenant &&
                 analysis.CreatedOn == forDate &&
                 analysis.Name == "User Activity (Daily)");
 
         if (existingReport == null)
         {
-            results.Add(new TenantAnalysis
+            results.Add(item: new TenantAnalysis
             {
                 TenantId = tenant,
                 Key = "System",
@@ -85,21 +85,21 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
 
     private static object AnalyseTenantUserActivity(string tenantId, DateTime reportDate, SecurityDbContext sso)
     {
-        UserActivity[] activityData = GetUserActivity(tenantId, reportDate, reportDate.AddDays(1), sso);
+        UserActivity[] activityData = GetUserActivity(tenantId: tenantId, from: reportDate, to: reportDate.AddDays(1), sso: sso);
 
         return new
         {
-            Users = AnalyseUserActivity(activityData),
-            Pages = AnalysePageActivity(activityData),
-            ApiCalls = AnalyseApiActivity(activityData)
+            Users = AnalyseUserActivity(data: activityData),
+            Pages = AnalysePageActivity(data: activityData),
+            ApiCalls = AnalyseApiActivity(data: activityData)
         };
     }
 
     private static UserActivity[] GetUserActivity(string tenantId, DateTime from, DateTime to, SecurityDbContext sso) =>
         sso.UserEvents
             .IgnoreQueryFilters()
-            .Where(activity => activity.CreatedOn >= from && activity.CreatedOn <= to && activity.TenantId == tenantId)
-            .Select(userEvent => new UserActivity
+            .Where(predicate: activity => activity.CreatedOn >= from && activity.CreatedOn <= to && activity.TenantId == tenantId)
+            .Select(selector: userEvent => new UserActivity
             {
                 TenantId = userEvent.TenantId,
                 TenantName = userEvent.Tenant.Name,
@@ -121,8 +121,8 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
             .ToArray();
 
     private static object AnalyseUserActivity(IEnumerable<UserActivity> data) => data
-        .GroupBy(activity => activity.UserId)
-        .Select(group => new
+        .GroupBy(keySelector: activity => activity.UserId)
+        .Select(selector: group => new
         {
             User = new
             {
@@ -139,13 +139,13 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
             ApiRequests = group
                 .Count(activity => activity.EventName.StartsWith("Api_GET/"))
         })
-        .OrderByDescending(item => item.PageRequests + item.ApiRequests)
-        .Take(10);
+        .OrderByDescending(keySelector: item => item.PageRequests + item.ApiRequests)
+        .Take(count: 10);
 
     private static object AnalysePageActivity(IEnumerable<UserActivity> data) => data
-        .Where(activity => activity.EventName.StartsWith("Page_GET/") && !activity.EventName.StartsWith("Page_GET/lib/"))
-        .GroupBy(activity => activity.EventValue.Split('?').First())
-        .Select(group => new
+        .Where(predicate: activity => activity.EventName.StartsWith("Page_GET/") && !activity.EventName.StartsWith("Page_GET/lib/"))
+        .GroupBy(keySelector: activity => activity.EventValue.Split('?').First())
+        .Select(selector: group => new
         {
             Page = group.Key,
             Sessions = group
@@ -154,13 +154,13 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
                 .Count(),
             Hits = group.Count()
         })
-        .OrderByDescending(item => item.Hits)
-        .Take(10);
+        .OrderByDescending(keySelector: item => item.Hits)
+        .Take(count: 10);
 
     private static object AnalyseApiActivity(IEnumerable<UserActivity> data) => data
-        .Where(activity => activity.EventName.StartsWith("Api_"))
-        .GroupBy(activity => activity.EventValue.Split('?').First())
-        .Select(group => new
+        .Where(predicate: activity => activity.EventName.StartsWith("Api_"))
+        .GroupBy(keySelector: activity => activity.EventValue.Split('?').First())
+        .Select(selector: group => new
         {
             Endpoint = group.Key,
             Sessions = group
@@ -169,6 +169,6 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
                 .Count(),
             Hits = group.Count()
         })
-        .OrderByDescending(item => item.Hits)
-        .Take(10);
+        .OrderByDescending(keySelector: item => item.Hits)
+        .Take(count: 10);
 }

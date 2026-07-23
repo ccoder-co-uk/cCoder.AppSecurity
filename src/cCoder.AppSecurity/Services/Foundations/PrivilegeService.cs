@@ -20,20 +20,20 @@ internal class PrivilegeService(
 {
     public Privilege Get(string id)
     {
-        Privilege privilege = GetAll().FirstOrDefault(i => i.Id == id);
+        Privilege privilege = GetAll().FirstOrDefault(predicate: i => i.Id == id);
         if (privilege is not null)
             return privilege;
 
-        Privilege unrestrictedPrivilege = GetAll(true).FirstOrDefault(i => i.Id == id);
+        Privilege unrestrictedPrivilege = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
         if (unrestrictedPrivilege is not null)
-            throw new SecurityException("Access Denied!");
+            throw new SecurityException(message: "Access Denied!");
 
         return null;
     }
 
     public IQueryable<Privilege> GetAll(bool ignoreFilters = false) =>
-        privilegeBroker.GetAllPrivileges(ignoreFilters)
-            .Select(ToLocalPrivilege)
+        privilegeBroker.GetAllPrivileges(ignoreFilters: ignoreFilters)
+            .Select(selector: ToLocalPrivilege)
             .AsQueryable();
 
     public async ValueTask<Privilege> AddAsync(Privilege privilege)
@@ -47,10 +47,10 @@ internal class PrivilegeService(
             PortalAdminsOnly = privilege.PortalAdminsOnly
         };
         authorizationBroker.Authorize(
-            privilegeBroker.GetAppId(internalPrivilege),
-            $"{nameof(Privilege)}_create"
+appId: privilegeBroker.GetAppId(internalPrivilege),
+privilege: $"{nameof(Privilege)}_create"
         );
-        DataPrivilege result = await privilegeBroker.AddPrivilegeAsync(internalPrivilege);
+        DataPrivilege result = await privilegeBroker.AddPrivilegeAsync(entity: internalPrivilege);
         privilege.Id = result.Id;
         privilege.Type = result.Type;
         privilege.Operation = result.Operation;
@@ -70,10 +70,10 @@ internal class PrivilegeService(
             PortalAdminsOnly = privilege.PortalAdminsOnly
         };
         authorizationBroker.Authorize(
-            privilegeBroker.GetAppId(internalPrivilege),
-            $"{nameof(Privilege)}_update"
+appId: privilegeBroker.GetAppId(internalPrivilege),
+privilege: $"{nameof(Privilege)}_update"
         );
-        DataPrivilege result = await privilegeBroker.UpdatePrivilegeAsync(internalPrivilege);
+        DataPrivilege result = await privilegeBroker.UpdatePrivilegeAsync(entity: internalPrivilege);
         privilege.Id = result.Id;
         privilege.Type = result.Type;
         privilege.Operation = result.Operation;
@@ -84,13 +84,13 @@ internal class PrivilegeService(
 
     public async ValueTask DeleteAsync(string id)
     {
-        Privilege privilege = Get(id);
-        DataPrivilege internalPrivilege = ToExternalPrivilege(privilege);
+        Privilege privilege = Get(id: id);
+        DataPrivilege internalPrivilege = ToExternalPrivilege(item: privilege);
         authorizationBroker.Authorize(
-            privilegeBroker.GetAppId(internalPrivilege),
-            $"{nameof(Privilege)}_delete"
+appId: privilegeBroker.GetAppId(internalPrivilege),
+privilege: $"{nameof(Privilege)}_delete"
         );
-        _ = await privilegeBroker.DeletePrivilegeAsync(internalPrivilege);
+        _ = await privilegeBroker.DeletePrivilegeAsync(entity: internalPrivilege);
     }
 
     static Privilege ToLocalPrivilege(DataPrivilege item) =>

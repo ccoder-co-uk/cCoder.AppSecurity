@@ -18,32 +18,32 @@ internal class PrivilegeProcessingService(
 {
     public Privilege Get(string id)
     {
-        authorizationBroker.Authorize(null, "privilege_read");
-        return service.Get(id);
+        authorizationBroker.Authorize(appId: null, privilege: "privilege_read");
+        return service.Get(id: id);
     }
 
     public IQueryable<Privilege> GetAll(bool ignoreFilters = false)
     {
-        authorizationBroker.Authorize(null, "privilege_read");
-        return service.GetAll(ignoreFilters);
+        authorizationBroker.Authorize(appId: null, privilege: "privilege_read");
+        return service.GetAll(ignoreFilters: ignoreFilters);
     }
 
     public ValueTask<Privilege> AddAsync(Privilege entity)
     {
-        authorizationBroker.Authorize(null, "privilege_create");
-        throw new InvalidOperationException("Cannot add privileges");
+        authorizationBroker.Authorize(appId: null, privilege: "privilege_create");
+        throw new InvalidOperationException(message: "Cannot add privileges");
     }
 
     public ValueTask<Privilege> UpdateAsync(Privilege entity)
     {
-        authorizationBroker.Authorize(null, "privilege_update");
-        throw new InvalidOperationException("Cannot update privileges");
+        authorizationBroker.Authorize(appId: null, privilege: "privilege_update");
+        throw new InvalidOperationException(message: "Cannot update privileges");
     }
 
     public ValueTask DeleteAsync(string id)
     {
-        authorizationBroker.Authorize(null, "privilege_delete");
-        throw new InvalidOperationException("Cannot delete privileges");
+        authorizationBroker.Authorize(appId: null, privilege: "privilege_delete");
+        throw new InvalidOperationException(message: "Cannot delete privileges");
     }
 
     public async ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdate(
@@ -56,26 +56,26 @@ internal class PrivilegeProcessingService(
         {
             try
             {
-                bool isAdd = string.IsNullOrWhiteSpace(item.Id);
+                bool isAdd = string.IsNullOrWhiteSpace(value: item.Id);
 
                 results.Add(
-                    new Result<Privilege>
-                    {
-                        Success = true,
-                        Item = isAdd ? await AddAsync(item) : await UpdateAsync(item),
-                        Message = isAdd ? "Added Successfully" : "Updated Successfully",
-                    }
+item: new Result<Privilege>
+{
+    Success = true,
+    Item = isAdd ? await AddAsync(item) : await UpdateAsync(item),
+    Message = isAdd ? "Added Successfully" : "Updated Successfully",
+}
                 );
             }
             catch (Exception ex)
             {
                 results.Add(
-                    new Result<Privilege>
-                    {
-                        Success = false,
-                        Item = item,
-                        Message = ex.Message,
-                    }
+item: new Result<Privilege>
+{
+    Success = false,
+    Item = item,
+    Message = ex.Message,
+}
                 );
             }
         }
@@ -85,6 +85,6 @@ internal class PrivilegeProcessingService(
     public async ValueTask DeleteAllAsync(IEnumerable<Privilege> items)
     {
         foreach (Privilege item in items)
-            await DeleteAsync(item.Id);
+            await DeleteAsync(id: item.Id);
     }
 }

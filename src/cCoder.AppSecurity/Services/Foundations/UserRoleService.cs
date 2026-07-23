@@ -20,7 +20,7 @@ internal class UserRoleService(
 ) : IUserRoleService
 {
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
-        userRoleBroker.GetAllUserRoles(ignoreFilters);
+        userRoleBroker.GetAllUserRoles(ignoreFilters: ignoreFilters);
 
     public async ValueTask<UserRole> AddAsync(UserRole userRole, bool authorize = true)
     {
@@ -31,12 +31,12 @@ internal class UserRoleService(
         };
         if (authorize)
         {
-            int? appId = userRoleBroker.GetAppId(internalUserRole);
-            authorizationBroker.Authorize(appId, $"{nameof(UserRole)}_create");
-            AuthorizeAssignedRolePrivileges(appId, userRole.RoleId);
+            int? appId = userRoleBroker.GetAppId(entity: internalUserRole);
+            authorizationBroker.Authorize(appId: appId, privilege: $"{nameof(UserRole)}_create");
+            AuthorizeAssignedRolePrivileges(appId: appId, roleId: userRole.RoleId);
         }
 
-        DataUserRole result = await userRoleBroker.AddUserRoleAsync(internalUserRole);
+        DataUserRole result = await userRoleBroker.AddUserRoleAsync(entity: internalUserRole);
         userRole.RoleId = result.RoleId;
         userRole.UserId = result.UserId;
         return userRole;
@@ -44,12 +44,12 @@ internal class UserRoleService(
 
     public async ValueTask DeleteAsync(UserRole userRole)
     {
-        DataUserRole internalUserRole = ToExternalUserRole(userRole);
+        DataUserRole internalUserRole = ToExternalUserRole(item: userRole);
         authorizationBroker.Authorize(
-            userRoleBroker.GetAppId(internalUserRole),
-            $"{nameof(UserRole)}_delete"
+appId: userRoleBroker.GetAppId(internalUserRole),
+privilege: $"{nameof(UserRole)}_delete"
         );
-        _ = await userRoleBroker.DeleteUserRoleAsync(internalUserRole);
+        _ = await userRoleBroker.DeleteUserRoleAsync(entity: internalUserRole);
     }
 
     private void AuthorizeAssignedRolePrivileges(int? appId, Guid roleId)
@@ -57,33 +57,33 @@ internal class UserRoleService(
         if (!appId.HasValue)
             return;
 
-        Role role = roleBroker.GetAllRoles(true).FirstOrDefault(foundRole => foundRole.Id == roleId);
+        Role role = roleBroker.GetAllRoles(ignoreFilters: true).FirstOrDefault(predicate: foundRole => foundRole.Id == roleId);
 
         if (role is null)
             return;
 
-        string[] assignedPrivilegeSet = ToPrivilegeSet(role.Privs);
+        string[] assignedPrivilegeSet = ToPrivilegeSet(privileges: role.Privs);
 
         if (assignedPrivilegeSet.Length == 0)
             return;
 
         User currentUser = authorizationBroker.GetCurrentUser();
         HashSet<string> grantedPrivileges = currentUser?.Roles?
-            .Where(userRole => userRole.Role?.AppId == appId.Value)
-            .SelectMany(userRole => ToPrivilegeSet(userRole.Role.Privs))
-            .ToHashSet(StringComparer.OrdinalIgnoreCase)
+            .Where(predicate: userRole => userRole.Role?.AppId == appId.Value)
+            .SelectMany(selector: userRole => ToPrivilegeSet(userRole.Role.Privs))
+            .ToHashSet(comparer: StringComparer.OrdinalIgnoreCase)
             ?? [];
 
-        if (assignedPrivilegeSet.Any(assignedPrivilege => !grantedPrivileges.Contains(assignedPrivilege)))
-            throw new System.Security.SecurityException("Access Denied!");
+        if (assignedPrivilegeSet.Any(predicate: assignedPrivilege => !grantedPrivileges.Contains(assignedPrivilege)))
+            throw new System.Security.SecurityException(message: "Access Denied!");
     }
 
     private static string[] ToPrivilegeSet(string privileges) =>
-        string.IsNullOrWhiteSpace(privileges)
+        string.IsNullOrWhiteSpace(value: privileges)
             ? []
             : [.. privileges
-                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .Select(privilege => privilege.ToLowerInvariant())
+                .Split(separator: ',', options: StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(selector: privilege => privilege.ToLowerInvariant())
                 .Distinct()];
 
     static UserRole ToLocalUserRole(DataUserRole item) =>

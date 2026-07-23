@@ -11,5 +11,5 @@ internal class AppService(IAppBroker appBroker) : IAppService
 {
     public IQueryable<App> GetAll() => appBroker.GetAll();
 
-    public App GetByDomain(string domain) => appBroker.GetByDomain(domain);
+    public App GetByDomain(string domain) => appBroker.GetByDomain(domain: domain);
 }

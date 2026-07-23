@@ -15,39 +15,39 @@ internal class UserOrchestrationService(
     IUserEventProcessingService eventService
 ) : IUserOrchestrationService
 {
-    public User Get(string id) => processingService.Get(id);
+    public User Get(string id) => processingService.Get(id: id);
 
     public User GetByEmail(string email, bool ignoreFilters = false) =>
-        processingService.GetByEmail(email, ignoreFilters);
+        processingService.GetByEmail(email: email, ignoreFilters: ignoreFilters);
 
     public IQueryable<User> GetAll(bool ignoreFilters = false) =>
-        processingService.GetAll(ignoreFilters);
+        processingService.GetAll(ignoreFilters: ignoreFilters);
 
     public async ValueTask<User> AddAsync(User entity)
     {
-        var result = await processingService.AddAsync(entity);
-        await eventService.RaiseUserAddEventAsync(result);
+        var result = await processingService.AddAsync(entity: entity);
+        await eventService.RaiseUserAddEventAsync(entity: result);
         return result;
     }
 
     public async ValueTask<User> UpdateAsync(User entity)
     {
-        var result = await processingService.UpdateAsync(entity);
-        await eventService.RaiseUserUpdateEventAsync(result);
+        var result = await processingService.UpdateAsync(entity: entity);
+        await eventService.RaiseUserUpdateEventAsync(entity: result);
         return result;
     }
 
     public async ValueTask DeleteAsync(string id)
     {
-        var entity = processingService.Get(id);
-        await eventService.RaiseUserDeleteEventAsync(entity);
-        await processingService.DeleteAsync(id);
+        var entity = processingService.Get(id: id);
+        await eventService.RaiseUserDeleteEventAsync(entity: entity);
+        await processingService.DeleteAsync(id: id);
     }
 
     public ValueTask<IEnumerable<Result<User>>> AddOrUpdate(
         IEnumerable<User> items
-    ) => processingService.AddOrUpdate(items);
+    ) => processingService.AddOrUpdate(items: items);
 
     public ValueTask DeleteAllAsync(IEnumerable<User> items) =>
-        processingService.DeleteAllAsync(items);
+        processingService.DeleteAllAsync(items: items);
 }

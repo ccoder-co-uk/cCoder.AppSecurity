@@ -11,5 +11,5 @@ internal class AccountEventProcessingService(IAccountEventOrchestrationService o
     : IAccountEventProcessingService
 {
     public ValueTask ProcessAsync(SecurityAccountEvent accountEvent) =>
-        orchestrationService.ProcessAsync(accountEvent);
+        orchestrationService.ProcessAsync(accountEvent: accountEvent);
 }

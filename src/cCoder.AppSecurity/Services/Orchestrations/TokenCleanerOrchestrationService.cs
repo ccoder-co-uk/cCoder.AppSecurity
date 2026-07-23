@@ -20,14 +20,14 @@ internal sealed class TokenCleanerOrchestrationService(
 
         Token[] expiredTokens = sso.Tokens
             .IgnoreQueryFilters()
-            .Where(token => token.Expires < DateTimeOffset.UtcNow)
+            .Where(predicate: token => token.Expires < DateTimeOffset.UtcNow)
             .ToArray();
 
         if (expiredTokens.Length == 0)
             return;
 
-        sso.RemoveRange(expiredTokens);
-        await sso.SaveChangesAsync(cancellationToken);
-        log.LogDebug("{Count} Expired tokens removed", expiredTokens.Length);
+        sso.RemoveRange(entities: expiredTokens);
+        await sso.SaveChangesAsync(cancellationToken: cancellationToken);
+        log.LogDebug(message: "{Count} Expired tokens removed", args: expiredTokens.Length);
     }
 }

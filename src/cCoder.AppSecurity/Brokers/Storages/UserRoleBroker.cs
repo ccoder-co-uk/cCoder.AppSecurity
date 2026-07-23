@@ -18,7 +18,7 @@ public interface IUserRoleBroker
     int? GetAppId(UserRole entity);
 }
 
-public class UserRoleBroker(ICoreContextFactory coreContextFactory) : IUserRoleBroker
+internal sealed class UserRoleBroker(ICoreContextFactory coreContextFactory) : IUserRoleBroker
 {
 
     public IQueryable<UserRole> GetAllUserRoles(bool ignoreFilters)
@@ -32,7 +32,7 @@ public class UserRoleBroker(ICoreContextFactory coreContextFactory) : IUserRoleB
     public async ValueTask<UserRole> AddUserRoleAsync(UserRole entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        UserRole result = (await coreDataContext.UserRoles.AddAsync(entity)).Entity;
+        UserRole result = (await coreDataContext.UserRoles.AddAsync(entity: entity)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -40,7 +40,7 @@ public class UserRoleBroker(ICoreContextFactory coreContextFactory) : IUserRoleB
     public async ValueTask<int> DeleteUserRoleAsync(UserRole entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.UserRoles.Remove(entity);
+        coreDataContext.UserRoles.Remove(entity: entity);
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -50,7 +50,7 @@ public class UserRoleBroker(ICoreContextFactory coreContextFactory) : IUserRoleB
             return;
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.UserRoles.RemoveRange(items);
+        coreDataContext.UserRoles.RemoveRange(entities: items);
         _ = await coreDataContext.SaveChangesAsync();
     }
 
@@ -59,8 +59,8 @@ public class UserRoleBroker(ICoreContextFactory coreContextFactory) : IUserRoleB
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         return coreDataContext.Roles
 
-            .Where(role => role.Id == entity.RoleId)
-            .Select(role => (int?)role.AppId)
+            .Where(predicate: role => role.Id == entity.RoleId)
+            .Select(selector: role => (int?)role.AppId)
             .FirstOrDefault();
 
     }

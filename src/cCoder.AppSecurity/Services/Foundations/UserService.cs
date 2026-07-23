@@ -20,22 +20,22 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
 {
     public User Get(string id)
     {
-        User user = GetAll().FirstOrDefault(i => i.Id == id);
+        User user = GetAll().FirstOrDefault(predicate: i => i.Id == id);
         if (user is not null)
             return user;
 
-        User unrestrictedUser = GetAll(true).FirstOrDefault(i => i.Id == id);
+        User unrestrictedUser = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
         if (unrestrictedUser is not null)
-            throw new SecurityException("Access Denied!");
+            throw new SecurityException(message: "Access Denied!");
 
         return null;
     }
 
     public User GetByEmail(string email, bool ignoreFilters = false) =>
-        ToLocalUser(userBroker.GetUserByEmail(email, ignoreFilters));
+        ToLocalUser(item: userBroker.GetUserByEmail(email, ignoreFilters));
 
     public IQueryable<User> GetAll(bool ignoreFilters = false) =>
-        userBroker.GetAllUsers(ignoreFilters);
+        userBroker.GetAllUsers(ignoreFilters: ignoreFilters);
 
     public async ValueTask<User> AddAsync(User user)
     {
@@ -47,8 +47,8 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
             Email = user.Email,
             IsActive = user.IsActive
         };
-        authorizationBroker.Authorize(userBroker.GetAppId(internalUser), $"{nameof(User)}_create");
-        DataUser result = await userBroker.AddUserAsync(internalUser);
+        authorizationBroker.Authorize(appId: userBroker.GetAppId(internalUser), privilege: $"{nameof(User)}_create");
+        DataUser result = await userBroker.AddUserAsync(entity: internalUser);
         user.Id = result.Id;
         user.DefaultCultureId = result.DefaultCultureId;
         user.DisplayName = result.DisplayName;
@@ -67,8 +67,8 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
             Email = user.Email,
             IsActive = user.IsActive
         };
-        authorizationBroker.Authorize(userBroker.GetAppId(internalUser), $"{nameof(User)}_update");
-        DataUser result = await userBroker.UpdateUserAsync(internalUser);
+        authorizationBroker.Authorize(appId: userBroker.GetAppId(internalUser), privilege: $"{nameof(User)}_update");
+        DataUser result = await userBroker.UpdateUserAsync(entity: internalUser);
         user.Id = result.Id;
         user.DefaultCultureId = result.DefaultCultureId;
         user.DisplayName = result.DisplayName;
@@ -79,10 +79,10 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
 
     public async ValueTask DeleteAsync(string id)
     {
-        User user = Get(id);
-        DataUser internalUser = ToExternalUser(user);
-        authorizationBroker.Authorize(userBroker.GetAppId(internalUser), $"{nameof(User)}_delete");
-        _ = await userBroker.DeleteUserAsync(internalUser);
+        User user = Get(id: id);
+        DataUser internalUser = ToExternalUser(item: user);
+        authorizationBroker.Authorize(appId: userBroker.GetAppId(internalUser), privilege: $"{nameof(User)}_delete");
+        _ = await userBroker.DeleteUserAsync(entity: internalUser);
     }
 
     static User ToLocalUser(DataUser item) =>
@@ -94,7 +94,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
             Email = item.Email,
             IsActive = item.IsActive,
             DefaultCulture = item.DefaultCulture,
-            Roles = item.Roles?.Select(ToLocalUserRole).ToArray(),
+            Roles = item.Roles?.Select(selector: ToLocalUserRole).ToArray(),
         };
 
     static DataUser ToExternalUser(User item) =>
@@ -106,7 +106,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
             Email = item.Email,
             IsActive = item.IsActive,
             DefaultCulture = item.DefaultCulture as cCoder.Data.Models.CMS.Culture,
-            Roles = item.Roles?.Select(ToExternalUserRole).ToArray(),
+            Roles = item.Roles?.Select(selector: ToExternalUserRole).ToArray(),
         };
 
     static UserRole ToLocalUserRole(DataUserRole item) =>

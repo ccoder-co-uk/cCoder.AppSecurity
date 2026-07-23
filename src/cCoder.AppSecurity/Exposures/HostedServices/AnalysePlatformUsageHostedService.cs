@@ -19,11 +19,11 @@ public sealed class AnalysePlatformUsageHostedService(
         if (appSecurityConfiguration.IsMigrating)
             return;
 
-        await analysePlatformUsageOrchestrationService.RunAsync(stoppingToken);
+        await analysePlatformUsageOrchestrationService.RunAsync(cancellationToken: stoppingToken);
 
-        using PeriodicTimer timer = new(TimeSpan.FromDays(1));
+        using PeriodicTimer timer = new(period: TimeSpan.FromDays(1));
 
-        while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
-            await analysePlatformUsageOrchestrationService.RunAsync(stoppingToken);
+        while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: stoppingToken))
+            await analysePlatformUsageOrchestrationService.RunAsync(cancellationToken: stoppingToken);
     }
 }

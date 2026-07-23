@@ -12,9 +12,9 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal class UserEventProcessingService(IUserEventService eventService) : IUserEventProcessingService
 {
-    public ValueTask RaiseUserAddEventAsync(User entity) => eventService.RaiseUserAddEventAsync(entity);
+    public ValueTask RaiseUserAddEventAsync(User entity) => eventService.RaiseUserAddEventAsync(entity: entity);
 
-    public ValueTask RaiseUserUpdateEventAsync(User entity) => eventService.RaiseUserUpdateEventAsync(entity);
+    public ValueTask RaiseUserUpdateEventAsync(User entity) => eventService.RaiseUserUpdateEventAsync(entity: entity);
 
-    public ValueTask RaiseUserDeleteEventAsync(User entity) => eventService.RaiseUserDeleteEventAsync(entity);
+    public ValueTask RaiseUserDeleteEventAsync(User entity) => eventService.RaiseUserDeleteEventAsync(entity: entity);
 }

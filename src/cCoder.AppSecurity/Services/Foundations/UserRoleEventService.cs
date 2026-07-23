@@ -23,10 +23,10 @@ internal class UserRoleEventService(IUserRoleEventBroker userRoleEventBroker, IC
         EventMessage<DataUserRole> message = new()
         {
             AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUserRole(entity),
+            Data = ToExternalUserRole(item: entity),
         };
 
-        await userRoleEventBroker.RaiseUserRoleAddEventAsync(message);
+        await userRoleEventBroker.RaiseUserRoleAddEventAsync(message: message);
     }
 
     public async ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity)
@@ -34,10 +34,10 @@ internal class UserRoleEventService(IUserRoleEventBroker userRoleEventBroker, IC
         EventMessage<DataUserRole> message = new()
         {
             AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUserRole(entity),
+            Data = ToExternalUserRole(item: entity),
         };
 
-        await userRoleEventBroker.RaiseUserRoleDeleteEventAsync(message);
+        await userRoleEventBroker.RaiseUserRoleDeleteEventAsync(message: message);
     }
 
     static DataUserRole ToExternalUserRole(UserRole item) =>

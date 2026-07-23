@@ -24,10 +24,10 @@ public sealed class AppController(IAppService service) : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-                new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
+value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
                     .Build()
                     .EDMModel.GetExtendedMetadataForType("AppSecurity", typeof(App)))
-            : Ok(new MetadataContainer(typeof(App), true, false));
+            : Ok(value: new MetadataContainer(typeof(App), true, false));
     }
 
     [HttpGet]
@@ -40,7 +40,7 @@ public sealed class AppController(IAppService service) : ODataController
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<App> queryOptions) => Ok(service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<App> queryOptions) => Ok(value: service.GetAll());
 
     [HttpGet]
     [EnableQuery(
@@ -53,8 +53,8 @@ public sealed class AppController(IAppService service) : ODataController
     )]
     public IActionResult Get([FromRoute] int key)
     {
-        IQueryable<App> result = service.GetAll().Where(app => app.Id == key);
+        IQueryable<App> result = service.GetAll().Where(predicate: app => app.Id == key);
 
-        return Ok(SingleResult.Create(result));
+        return Ok(value: SingleResult.Create(result));
     }
 }

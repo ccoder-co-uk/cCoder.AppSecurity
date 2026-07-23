@@ -12,9 +12,9 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal class PrivilegeEventProcessingService(IPrivilegeEventService eventService) : IPrivilegeEventProcessingService
 {
-    public ValueTask RaisePrivilegeAddEventAsync(Privilege entity) => eventService.RaisePrivilegeAddEventAsync(entity);
+    public ValueTask RaisePrivilegeAddEventAsync(Privilege entity) => eventService.RaisePrivilegeAddEventAsync(entity: entity);
 
-    public ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity) => eventService.RaisePrivilegeUpdateEventAsync(entity);
+    public ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity) => eventService.RaisePrivilegeUpdateEventAsync(entity: entity);
 
-    public ValueTask RaisePrivilegeDeleteEventAsync(Privilege entity) => eventService.RaisePrivilegeDeleteEventAsync(entity);
+    public ValueTask RaisePrivilegeDeleteEventAsync(Privilege entity) => eventService.RaisePrivilegeDeleteEventAsync(entity: entity);
 }

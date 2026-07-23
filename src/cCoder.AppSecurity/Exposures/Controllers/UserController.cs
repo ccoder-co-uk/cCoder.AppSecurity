@@ -43,7 +43,7 @@ public partial class UserController : ODataController
         MaxAnyAllExpressionDepth = 6,
         MaxExpansionDepth = 6
     )]
-    public IActionResult Me() => Ok(Service.Get(authInfo.SSOUserId));
+    public IActionResult Me() => Ok(value: Service.Get(authInfo.SSOUserId));
 
     [HttpGet]
     public IActionResult GetMetadata()
@@ -52,11 +52,11 @@ public partial class UserController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-                new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
+value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
                     .Build()
                     .EDMModel.GetExtendedMetadataForType("AppSecurity", typeof(User))
             )
-            : Ok(new MetadataContainer(typeof(User), true, true));
+            : Ok(value: new MetadataContainer(typeof(User), true, true));
     }
 
     [HttpGet]
@@ -69,7 +69,7 @@ public partial class UserController : ODataController
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<User> queryOptions) => Ok(Service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<User> queryOptions) => Ok(value: Service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -85,8 +85,8 @@ public partial class UserController : ODataController
     {
         try
         {
-            IQueryable<User> result = Service.GetAll().Where(user => user.Id == key);
-            return Ok(SingleResult.Create(result));
+            IQueryable<User> result = Service.GetAll().Where(predicate: user => user.Id == key);
+            return Ok(value: SingleResult.Create(result));
         }
         catch (System.Security.SecurityException)
         {
@@ -106,9 +106,9 @@ public partial class UserController : ODataController
     public async Task<IActionResult> Post([FromBody] User entity)
     {
         if (!ModelState.IsValid)
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(ModelState);
+            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
 
-        return Ok(await Service.AddAsync(entity));
+        return Ok(value: await Service.AddAsync(entity));
     }
 
     [HttpPut]
@@ -123,26 +123,26 @@ public partial class UserController : ODataController
     public async Task<IActionResult> Put([FromRoute] string key, [FromBody] User entity)
     {
         if (!ModelState.IsValid)
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(ModelState);
+            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
 
-        return Ok(await Service.UpdateAsync(entity));
+        return Ok(value: await Service.UpdateAsync(entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     public async Task<IActionResult> Patch([FromRoute] string key, Delta<User> delta)
     {
-        User originalEntity = Service.Get(key);
+        User originalEntity = Service.Get(id: key);
         if (originalEntity == null)
             return NotFound();
 
-        delta.Patch(originalEntity);
-        return Ok(await Service.UpdateAsync(originalEntity));
+        delta.Patch(original: originalEntity);
+        return Ok(value: await Service.UpdateAsync(originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] string key)
     {
-        await Service.DeleteAsync(key);
+        await Service.DeleteAsync(id: key);
         return Ok();
     }
 }

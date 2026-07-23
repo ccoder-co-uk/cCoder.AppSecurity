@@ -19,11 +19,11 @@ public sealed class TokenCleanerHostedService(
         if (appSecurityConfiguration.IsMigrating)
             return;
 
-        await tokenCleanerOrchestrationService.RunAsync(stoppingToken);
+        await tokenCleanerOrchestrationService.RunAsync(cancellationToken: stoppingToken);
 
-        using PeriodicTimer timer = new(TimeSpan.FromMinutes(1));
+        using PeriodicTimer timer = new(period: TimeSpan.FromMinutes(1));
 
-        while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
-            await tokenCleanerOrchestrationService.RunAsync(stoppingToken);
+        while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: stoppingToken))
+            await tokenCleanerOrchestrationService.RunAsync(cancellationToken: stoppingToken);
     }
 }

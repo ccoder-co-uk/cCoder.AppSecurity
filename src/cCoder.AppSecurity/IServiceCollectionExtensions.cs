@@ -58,12 +58,12 @@ public static partial class IServiceCollectionExtensions
         this IServiceCollection services,
         Action<AppSecurityConfiguration> configure = null,
         ODataConventionModelBuilder builder = null) =>
-        services.AddConfiguredAppSecurityWeb((_, configuration) => configure?.Invoke(configuration), builder);
+        services.AddConfiguredAppSecurityWeb(configure: (_, configuration) => configure?.Invoke(configuration), builder: builder);
 
     public static void AddAppSecurityHostedServices(
         this IServiceCollection services,
         Action<AppSecurityConfiguration> configure = null) =>
-        services.AddConfiguredAppSecurityHostedServices((_, configuration) => configure?.Invoke(configuration));
+        services.AddConfiguredAppSecurityHostedServices(configure: (_, configuration) => configure?.Invoke(configuration));
 
     private static void AddAppSecurity(this IServiceCollection services)
     {
@@ -86,10 +86,10 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddAppSecurity();
         services.AddSingleton<IAnalysePlatformUsageHostedService, AnalysePlatformUsageHostedService>();
-        services.AddSingleton<IHostedService>(serviceProvider =>
+        services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
             serviceProvider.GetRequiredService<IAnalysePlatformUsageHostedService>());
         services.AddSingleton<ITokenCleanerHostedService, TokenCleanerHostedService>();
-        services.AddSingleton<IHostedService>(serviceProvider =>
+        services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
             serviceProvider.GetRequiredService<ITokenCleanerHostedService>());
     }
 

@@ -16,27 +16,27 @@ internal class UserRoleOrchestrationService(
 ) : IUserRoleOrchestrationService
 {
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
-        processingService.GetAll(ignoreFilters);
+        processingService.GetAll(ignoreFilters: ignoreFilters);
 
     public async ValueTask<UserRole> AddAsync(UserRole entity)
     {
-        var result = await processingService.AddAsync(entity);
-        await eventService.RaiseUserRoleAddEventAsync(result);
+        var result = await processingService.AddAsync(entity: entity);
+        await eventService.RaiseUserRoleAddEventAsync(entity: result);
         return result;
     }
 
     public async ValueTask DeleteAsync(UserRole entity)
     {
-        await eventService.RaiseUserRoleDeleteEventAsync(entity);
-        await processingService.DeleteAsync(entity);
+        await eventService.RaiseUserRoleDeleteEventAsync(entity: entity);
+        await processingService.DeleteAsync(entity: entity);
     }
 
     public ValueTask<IEnumerable<Result<UserRole>>> AddOrUpdate(
         IEnumerable<UserRole> items
-    ) => processingService.AddOrUpdate(items);
+    ) => processingService.AddOrUpdate(items: items);
 
     public ValueTask DeleteAllAsync(IEnumerable<UserRole> items) =>
-        processingService.DeleteAllAsync(items);
+        processingService.DeleteAllAsync(items: items);
 
-    public ValueTask<UserRole> SaveAsync(UserRole entity) => processingService.SaveAsync(entity);
+    public ValueTask<UserRole> SaveAsync(UserRole entity) => processingService.SaveAsync(entity: entity);
 }

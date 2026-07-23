@@ -9,14 +9,14 @@ using DataRole = cCoder.Data.Models.Security.Role;
 
 namespace cCoder.AppSecurity.Brokers.Events;
 
-public class RoleEventBroker(IEventHub eventHub) : IRoleEventBroker
+internal sealed class RoleEventBroker(IEventHub eventHub) : IRoleEventBroker
 {
     public ValueTask RaiseRoleAddEventAsync(EventMessage<DataRole> message) =>
-        eventHub.RaiseEventAsync("role_add", message);
+        eventHub.RaiseEventAsync(name: "role_add", message: message);
 
     public ValueTask RaiseRoleUpdateEventAsync(EventMessage<DataRole> message) =>
-        eventHub.RaiseEventAsync("role_update", message);
+        eventHub.RaiseEventAsync(name: "role_update", message: message);
 
     public ValueTask RaiseRoleDeleteEventAsync(EventMessage<DataRole> message) =>
-        eventHub.RaiseEventAsync("role_delete", message);
+        eventHub.RaiseEventAsync(name: "role_delete", message: message);
 }
