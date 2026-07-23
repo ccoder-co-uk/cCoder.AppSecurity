@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
 using DataRole = cCoder.Data.Models.Security.Role;

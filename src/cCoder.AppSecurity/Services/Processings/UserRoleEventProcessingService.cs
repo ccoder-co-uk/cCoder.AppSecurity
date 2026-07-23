@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -12,11 +16,3 @@ internal class UserRoleEventProcessingService(IUserRoleEventService eventService
 
     public ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity) => eventService.RaiseUserRoleDeleteEventAsync(entity);
 }
-
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Api.OData;
 using cCoder.Data.Models.Security;
 
@@ -28,4 +32,3 @@ internal sealed class AppSecurityMetadataTypeService : IAppSecurityMetadataTypeS
             Category = "AppSecurity",
         };
 }
-

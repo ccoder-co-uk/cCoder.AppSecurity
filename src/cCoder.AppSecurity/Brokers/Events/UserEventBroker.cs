@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Security;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
@@ -16,10 +20,3 @@ public class UserEventBroker(IEventHub eventHub) : IUserEventBroker
     public ValueTask RaiseUserDeleteEventAsync(EventMessage<User> message) =>
         eventHub.RaiseEventAsync("user_delete", message);
 }
-
-
-
-
-
-
-

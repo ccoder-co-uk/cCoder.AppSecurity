@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security.Cryptography;
 using System.Text;
 
@@ -57,8 +61,3 @@ public partial class AesThenHmacTests
         return aesThenHmac.SimpleEncrypt(plainText, cryptKey, authKey, payload);
     }
 }
-
-
-
-
-

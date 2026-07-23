@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using AppSecurity.HostedServices.AcceptanceTests.Infrastructure;
 using Xunit;
 

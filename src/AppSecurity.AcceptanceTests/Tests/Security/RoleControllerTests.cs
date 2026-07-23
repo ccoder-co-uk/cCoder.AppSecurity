@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -48,7 +52,7 @@ public sealed partial class RoleControllerTests(WebAcceptanceFixture fixture)
             AppId = app.Id,
             Name = Unique("AcceptanceRole"),
             Description = "Acceptance role",
-                Privs = privileges.Length == 0
+            Privs = privileges.Length == 0
                     ? "app_admin,role_create,role_update,role_delete,role_read"
                     : string.Join(',', privileges),
         });
@@ -157,10 +161,3 @@ public sealed partial class RoleControllerTests(WebAcceptanceFixture fixture)
         return (int)response.StatusCode;
     }
 }
-
-
-
-
-
-
-

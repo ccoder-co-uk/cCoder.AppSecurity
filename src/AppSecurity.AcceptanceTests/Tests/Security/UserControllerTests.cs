@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -49,7 +53,7 @@ public sealed partial class UserControllerTests(WebAcceptanceFixture fixture)
             AppId = app.Id,
             Name = Unique("GuestRole"),
             Description = "Acceptance guest role",
-                Privs = guestPrivileges.Length == 0
+            Privs = guestPrivileges.Length == 0
                     ? "app_admin,user_create,user_read"
                     : string.Join(',', guestPrivileges),
         });
@@ -184,10 +188,3 @@ public sealed partial class UserControllerTests(WebAcceptanceFixture fixture)
         return (int)response.StatusCode;
     }
 }
-
-
-
-
-
-
-

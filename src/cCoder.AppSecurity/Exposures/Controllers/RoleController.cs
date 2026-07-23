@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Extensions;
@@ -124,20 +128,3 @@ public partial class RoleController : ODataController
         return Ok();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

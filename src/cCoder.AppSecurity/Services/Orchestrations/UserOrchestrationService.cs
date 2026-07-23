@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -47,12 +51,3 @@ internal class UserOrchestrationService(
     public ValueTask DeleteAllAsync(IEnumerable<User> items) =>
         processingService.DeleteAllAsync(items);
 }
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -13,12 +17,3 @@ public interface IPrivilegeService
     ValueTask<Privilege> UpdateAsync(Privilege privilege);
     ValueTask DeleteAsync(string id);
 }
-
-
-
-
-
-
-
-
-

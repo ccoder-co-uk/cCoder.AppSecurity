@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Security;
 using FluentAssertions;
 using Xunit;
@@ -35,8 +39,3 @@ public sealed partial class RoleControllerTests
         await Teardown(seededContext);
     }
 }
-
-
-
-
-

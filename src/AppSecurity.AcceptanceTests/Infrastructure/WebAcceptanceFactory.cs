@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using AppSecurity.Web;
 using cCoder.AppSecurity;
 using cCoder.Data;
@@ -45,6 +49,3 @@ internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
         });
     }
 }
-
-
-

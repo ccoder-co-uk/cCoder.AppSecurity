@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Text;
 using FluentAssertions;
 using Xunit;
@@ -34,7 +38,3 @@ public partial class AesThenHmacTests
     }
 
 }
-
-
-
-

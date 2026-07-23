@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Brokers;
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Foundations;
@@ -151,4 +155,3 @@ internal class AppOrchestrationService(
         }
     }
 }
-

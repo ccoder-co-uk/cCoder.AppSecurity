@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Objects.Entities;
 using Microsoft.EntityFrameworkCore;

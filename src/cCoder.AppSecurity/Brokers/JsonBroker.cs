@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Newtonsoft.Json;
 
 
@@ -18,4 +22,3 @@ public class JsonBroker : IJsonBroker
 
     public string Serialize(object value) => JsonConvert.SerializeObject(value);
 }
-

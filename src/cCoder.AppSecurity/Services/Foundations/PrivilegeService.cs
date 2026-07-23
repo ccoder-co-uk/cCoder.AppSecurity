@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
@@ -109,16 +113,3 @@ internal class PrivilegeService(
             PortalAdminsOnly = item.PortalAdminsOnly,
         };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

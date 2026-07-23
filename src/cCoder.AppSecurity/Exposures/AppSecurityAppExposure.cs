@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -12,4 +16,3 @@ internal class AppSecurityAppExposure(IAppOrchestrationService appOrchestrationS
     public ValueTask UpdateAsync(App app) => appOrchestrationService.UpdateAsync(app);
     public ValueTask DeleteAsync(int appId) => appOrchestrationService.DeleteAsync(appId);
 }
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.AppSecurity.Exposures.EventHandlers;
 
 public interface IAppSecurityEventHandlers
@@ -7,4 +11,3 @@ public interface IAppSecurityEventHandlers
     void ListenToAppDeleteEvents();
     void ListenToSecurityAccountEvents();
 }
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
@@ -65,19 +69,3 @@ public partial class UserRoleController : ODataController
         return Ok();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using Apps.Shared;
 using Apps.Shared.Models;
@@ -88,6 +92,3 @@ public class Program
             "{ \"error\": \"" + exception.Message.Replace("\"", "\'") + "\" }");
     }
 }
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Brokers.Events;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
@@ -102,5 +106,3 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker)
             Data = packageItem.Data,
         };
 }
-
-

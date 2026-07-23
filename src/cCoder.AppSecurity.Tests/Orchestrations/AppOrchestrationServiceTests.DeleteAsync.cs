@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Brokers;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Services.Orchestrations;

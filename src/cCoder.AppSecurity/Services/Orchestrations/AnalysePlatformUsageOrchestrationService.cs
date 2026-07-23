@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Api.OData;
 using cCoder.Security.Data.EF;
 using cCoder.Security.Data.EF.Interfaces;
@@ -168,4 +172,3 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
         .OrderByDescending(item => item.Hits)
         .Take(10);
 }
-

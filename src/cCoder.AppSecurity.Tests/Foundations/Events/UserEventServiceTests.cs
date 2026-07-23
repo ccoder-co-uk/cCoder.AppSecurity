@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using Moq;
 using IUserEventBroker = cCoder.AppSecurity.Brokers.Events.IUserEventBroker;
@@ -25,13 +29,3 @@ public partial class UserEventServiceTests
         );
     }
 }
-
-
-
-
-
-
-
-
-
-

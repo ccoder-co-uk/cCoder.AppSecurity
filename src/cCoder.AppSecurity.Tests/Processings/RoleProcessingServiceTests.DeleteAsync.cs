@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Moq;
 using Xunit;
 
@@ -21,8 +25,3 @@ public partial class RoleProcessingServiceTests
     }
 
 }
-
-
-
-
-

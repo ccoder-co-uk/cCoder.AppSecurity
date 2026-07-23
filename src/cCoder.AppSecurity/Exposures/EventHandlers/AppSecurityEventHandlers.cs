@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Services.Foundations.Events;
 
 
@@ -13,4 +17,3 @@ internal class AppSecurityEventHandlers(IEventHandlerService eventHandlerService
 
     public void ListenToSecurityAccountEvents() => eventHandlerService.ListenToSecurityAccountEvents();
 }
-

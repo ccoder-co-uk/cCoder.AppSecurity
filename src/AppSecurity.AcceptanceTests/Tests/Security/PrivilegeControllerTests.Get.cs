@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using FluentAssertions;
 using Xunit;
 
@@ -41,8 +45,3 @@ public sealed partial class PrivilegeControllerTests
         await DeletePrivilegeAsync(id);
     }
 }
-
-
-
-
-

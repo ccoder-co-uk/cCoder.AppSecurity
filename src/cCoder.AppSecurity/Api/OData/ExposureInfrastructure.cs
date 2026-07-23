@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.OData.Edm;
@@ -169,9 +173,3 @@ namespace cCoder.AppSecurity.Api.OData
         public string[] Errors { get; set; }
     }
 }
-
-
-
-
-
-

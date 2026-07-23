@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using cCoder.Data.Models.Security;
 using Microsoft.EntityFrameworkCore;
@@ -93,10 +97,3 @@ public class RoleBroker(ICoreContextFactory coreContextFactory) : IRoleBroker
         return entity.AppId;
     }
 }
-
-
-
-
-
-
-

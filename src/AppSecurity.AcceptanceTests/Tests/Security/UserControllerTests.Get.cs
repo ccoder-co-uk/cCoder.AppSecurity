@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using cCoder.Data.Models.Security;
 using FluentAssertions;
@@ -77,9 +81,3 @@ public sealed partial class UserControllerTests
         await Teardown(seededContext);
     }
 }
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Services.Orchestrations;
 using cCoder.AppSecurity.Models;
 using Microsoft.Extensions.Hosting;

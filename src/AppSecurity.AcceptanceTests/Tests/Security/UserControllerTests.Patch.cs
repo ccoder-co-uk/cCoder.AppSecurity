@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
@@ -32,6 +36,3 @@ public sealed partial class UserControllerTests
         await Teardown(seededContext);
     }
 }
-
-
-

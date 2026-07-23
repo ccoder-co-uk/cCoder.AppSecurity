@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data;
 using Moq;
 using IPrivilegeEventBroker = cCoder.AppSecurity.Brokers.Events.IPrivilegeEventBroker;
@@ -25,13 +29,3 @@ public partial class PrivilegeEventServiceTests
         );
     }
 }
-
-
-
-
-
-
-
-
-
-

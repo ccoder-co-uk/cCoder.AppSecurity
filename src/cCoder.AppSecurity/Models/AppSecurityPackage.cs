@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.AppSecurity.Models;
 
 public class AppSecurityPackage
@@ -21,4 +25,3 @@ public class AppSecurityPackage
         Name = name;
     }
 }
-

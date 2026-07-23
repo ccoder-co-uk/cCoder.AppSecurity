@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.AppSecurity.Models;
 
 public class AppSecurityPackageItem
@@ -12,4 +16,3 @@ public class AppSecurityPackageItem
 
     public virtual AppSecurityPackage Package { get; set; }
 }
-

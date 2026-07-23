@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Security;
 using FluentAssertions;
 using Xunit;
@@ -20,8 +24,3 @@ public sealed partial class UserControllerTests
         actualUser!.Id.Should().NotBeNullOrWhiteSpace();
     }
 }
-
-
-
-
-

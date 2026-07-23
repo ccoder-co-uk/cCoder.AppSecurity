@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using System.Text.Json;
 using cCoder.Data;
@@ -69,10 +73,3 @@ public sealed partial class PrivilegeControllerTests(WebAcceptanceFixture fixtur
         return (int)response.StatusCode;
     }
 }
-
-
-
-
-
-
-
