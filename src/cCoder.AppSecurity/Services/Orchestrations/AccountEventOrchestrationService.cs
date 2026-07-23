@@ -12,8 +12,8 @@ namespace cCoder.AppSecurity.Services.Orchestrations;
 internal sealed partial class AccountEventOrchestrationService(
     IAppProcessingService appProcessingService,
     IUserProcessingService userProcessingService,
-    IRoleProcessingService roleProcessingService,
-    IUserRoleProcessingService userRoleProcessingService) : IAccountEventOrchestrationService
+    IAccountRoleAssignmentProcessingService accountRoleAssignmentProcessingService)
+    : IAccountEventOrchestrationService
 {
     public ValueTask ProcessSecurityAccountEventAsync(SecurityAccountEvent accountEvent) =>
         TryCatch(operation: async ValueTask () =>
@@ -34,7 +34,10 @@ internal sealed partial class AccountEventOrchestrationService(
             }
 
             User user = await AddOrUpdateUserAsync(accountEvent: accountEvent, app: app);
-            await AttachUsersRoleAsync(user: user, appId: app.Id);
+
+            await accountRoleAssignmentProcessingService.AttachUsersRoleAsync(
+                user: user,
+                appId: app.Id);
 
         });
 
@@ -83,34 +86,6 @@ internal sealed partial class AccountEventOrchestrationService(
         }
 
         return await userProcessingService.UpdateUserAsync(entity: user);
-    }
-
-    private async ValueTask AttachUsersRoleAsync(User user, int appId)
-    {
-        Role usersRole = roleProcessingService.GetAll(ignoreFilters: true)
-            .FirstOrDefault(predicate: role => role.AppId == appId && role.Name == "Users");
-
-        if (usersRole is null)
-        {
-            return;
-        }
-
-        bool roleAssigned = userRoleProcessingService.GetAll(ignoreFilters: true)
-            .Any(predicate: userRole =>
-                userRole.UserId == user.Id
-                && userRole.RoleId == usersRole.Id);
-
-        if (roleAssigned)
-        {
-            return;
-        }
-
-        await userRoleProcessingService.SaveUserRoleAsync(
-entity: new UserRole
-{
-    UserId = user.Id,
-    RoleId = usersRole.Id
-});
     }
 
     private static string NormalizeDomain(string requestDomain)
