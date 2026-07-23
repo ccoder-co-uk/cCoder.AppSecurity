@@ -17,6 +17,6 @@ public sealed partial class HostedServicesHomeTests
         string health = await GetHealthAsync();
 
         // Then
-        Assert.Equal("Healthy", health);
+        Assert.Equal(expected: "Healthy", actual: health);
     }
 }

@@ -16,23 +16,28 @@ public sealed partial class RoleControllerTests
     {
         // Given
         SeededRoleContext seededContext = await SeedDatabase();
-        Role createdRole = await CreateRoleAsync(new
+
+        Role createdRole = await CreateRoleAsync(payload: new
         {
             appId = seededContext.AppId,
-            name = Unique("Role"),
+            name = Unique(prefix: "Role"),
             description = "Acceptance role",
             privs = "app_admin",
         });
+
         int actualReadStatusCode;
 
         // When
-        int actualStatusCode = await DeleteRoleAsync(createdRole.Id);
-        actualReadStatusCode = await GetRoleStatusCodeAsync(createdRole.Id);
+        int actualStatusCode = await DeleteRoleAsync(id: createdRole.Id);
+        actualReadStatusCode = await GetRoleStatusCodeAsync(id: createdRole.Id);
 
         // Then
-        actualStatusCode.Should().Be(200);
-        actualReadStatusCode.Should().Be(404);
+        actualStatusCode.Should()
+            .Be(expected: 200);
 
-        await Teardown(seededContext);
+        actualReadStatusCode.Should()
+            .Be(expected: 404);
+
+        await Teardown(seededContext: seededContext);
     }
 }

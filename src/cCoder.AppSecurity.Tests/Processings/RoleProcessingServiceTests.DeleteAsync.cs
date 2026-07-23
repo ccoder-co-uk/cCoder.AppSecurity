@@ -15,7 +15,9 @@ public partial class RoleProcessingServiceTests
     {
         // Given
         Guid roleId = Guid.NewGuid();
-        roleServiceMock.Setup(expression: x => x.DeleteAsync(id: roleId)).Returns(value: ValueTask.CompletedTask);
+
+        roleServiceMock.Setup(expression: x => x.DeleteAsync(id: roleId))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
         await roleProcessingService.DeleteAsync(roleId: roleId);

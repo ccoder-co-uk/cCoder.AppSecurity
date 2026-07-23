@@ -74,7 +74,8 @@ value: new AppSecurityODataModelBroker()
 
             return Ok(value: SingleResult.Create(queryable: result));
         }
-        catch (System.Security.SecurityException)
+        catch (Exception exception)
+            when (exception.GetBaseException() is System.Security.SecurityException)
         {
             return NotFound();
         }
@@ -119,6 +120,7 @@ value: new AppSecurityODataModelBroker()
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
+    [ActionName("Patch")]
     public async Task<IActionResult> Put([FromRoute] string key, Delta<Privilege> updatedDelta)
     {
         Privilege originalEntity = service.Get(id: key);

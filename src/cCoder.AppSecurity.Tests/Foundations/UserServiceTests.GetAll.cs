@@ -22,13 +22,18 @@ public partial class UserServiceTests
         User user = CreateRandomUser();
         IQueryable<DataUser> users = new[] { ToExternalUser(item: user) }.AsQueryable();
 
-        userBrokerMock.Setup(expression: x => x.GetAllUsers(ignoreFilters: false)).Returns(value: users);
+        userBrokerMock.Setup(expression: x => x.GetAllUsers(ignoreFilters: false))
+            .Returns(value: users);
 
         // When
         IQueryable<User> result = userService.GetAll();
 
         // Then
-        result.Should().ContainSingle().Which.Should().BeEquivalentTo(expectation: user);
+        result.Should()
+            .ContainSingle()
+            .Which.Should()
+            .BeEquivalentTo(expectation: user);
+
         userBrokerMock.Verify(expression: x => x.GetAllUsers(ignoreFilters: false), times: Times.Once);
         userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();

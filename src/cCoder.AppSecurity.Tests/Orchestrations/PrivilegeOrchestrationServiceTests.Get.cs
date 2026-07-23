@@ -20,13 +20,17 @@ public partial class PrivilegeOrchestrationServiceTests
         // Given
         string id = "privilege";
         Privilege entity = CreateRandomPrivilege();
-        privilegeProcessingServiceMock.Setup(expression: x => x.Get(id: id)).Returns(value: entity);
+
+        privilegeProcessingServiceMock.Setup(expression: x => x.Get(id: id))
+            .Returns(value: entity);
 
         // When
         Privilege result = orchestrationService.Get(privilegeId: id);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
+
         privilegeProcessingServiceMock.Verify(expression: x => x.Get(id: id), times: Times.Once);
         privilegeProcessingServiceMock.VerifyNoOtherCalls();
         privilegeEventProcessingServiceMock.VerifyNoOtherCalls();

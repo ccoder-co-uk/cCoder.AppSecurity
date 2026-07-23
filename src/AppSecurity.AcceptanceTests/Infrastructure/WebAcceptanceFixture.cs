@@ -4,7 +4,6 @@
 
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using Web.AcceptanceTests.Models;
 using Xunit;
 
@@ -21,21 +20,23 @@ public sealed class WebAcceptanceFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+
         AcceptanceSettings settings = new()
         {
-            CoreConnectionString = AddDatabaseSuffix("CCODER_ACCEPTANCE_CORE_CONNECTION_STRING"),
-            SsoConnectionString = AddDatabaseSuffix("CCODER_ACCEPTANCE_SSO_CONNECTION_STRING"),
+            CoreConnectionString = AddDatabaseSuffix(variableName: "CCODER_ACCEPTANCE_CORE_CONNECTION_STRING"),
+            SsoConnectionString = AddDatabaseSuffix(variableName: "CCODER_ACCEPTANCE_SSO_CONNECTION_STRING"),
             DecryptionKey = "000000000000000000000000000000000000000000000000",
         };
 
-        Factory = new WebAcceptanceFactory(settings);
-        databaseManager = new AcceptanceDatabaseManager(Factory.Services);
+        Factory = new WebAcceptanceFactory(settings: settings);
+        databaseManager = new AcceptanceDatabaseManager(services: Factory.Services);
         await databaseManager.ResetDatabasesAsync();
         await SeedAsync();
-        Client = Factory.CreateClient(new WebApplicationFactoryClientOptions
+
+        Client = Factory.CreateClient(options: new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false,
-            BaseAddress = new Uri("https://localhost"),
+            BaseAddress = new Uri(uriString: "https://localhost"),
         });
     }
 
@@ -44,64 +45,55 @@ public sealed class WebAcceptanceFixture : IAsyncLifetime
         Client?.Dispose();
 
         if (databaseManager is not null)
+        {
             await databaseManager.DropDatabasesAsync();
+        }
 
         if (Factory is not null)
+        {
             await Factory.DisposeAsync();
+        }
     }
 
     private Task SeedAsync() =>
-        new AcceptanceApplicationSeeder(Factory.Services).SeedAsync();
+        new AcceptanceApplicationSeeder(services: Factory.Services).SeedAsync();
 
     private static string AddDatabaseSuffix(string variableName)
     {
+
         string connectionString =
-            Environment.GetEnvironmentVariable(variableName, EnvironmentVariableTarget.Machine)
-            ?? ReadConfiguredConnectionString(variableName);
+            Environment.GetEnvironmentVariable(variable: variableName)
+            ?? Environment.GetEnvironmentVariable(
+                variable: variableName,
+                target: EnvironmentVariableTarget.User)
+            ?? Environment.GetEnvironmentVariable(
+                variable: variableName,
+                target: EnvironmentVariableTarget.Machine)
+            ?? throw new InvalidOperationException(
+                message: $"The required {variableName} environment variable is not configured.");
 
-        if (string.IsNullOrWhiteSpace(connectionString))
-            connectionString = CreateDefaultAcceptanceConnectionString(variableName);
-
-        SqlConnectionStringBuilder builder = new(connectionString)
+        SqlConnectionStringBuilder builder = new(connectionString: connectionString)
         {
             Encrypt = true,
             TrustServerCertificate = true,
         };
+
         string databaseName = builder.InitialCatalog ?? string.Empty;
 
-        if (string.IsNullOrWhiteSpace(databaseName))
+        if (string.IsNullOrWhiteSpace(value: databaseName))
+        {
             return connectionString;
+        }
 
-        string suffix = typeof(WebAcceptanceFixture).Assembly.GetName().Name!
-            .Replace(".AcceptanceTests", string.Empty, StringComparison.Ordinal)
+        string suffix = typeof(WebAcceptanceFixture).Assembly.GetName()
+            .Name!
+            .Replace(oldValue: ".AcceptanceTests", newValue: string.Empty, comparisonType: StringComparison.Ordinal)
             .ToLowerInvariant();
 
         builder.InitialCatalog = $"{databaseName}-{suffix}";
         return builder.ConnectionString;
     }
 
-    private static string ReadConfiguredConnectionString(string variableName)
-    {
-        string connectionName = variableName.Contains("CORE", StringComparison.OrdinalIgnoreCase)
-            ? "Core"
-            : "SSO";
-
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.testing.json", optional: true)
-            .Build();
-
-        return configuration.GetConnectionString(connectionName) ?? string.Empty;
-    }
-
-    private static string CreateDefaultAcceptanceConnectionString(string variableName)
-    {
-        string databaseName = variableName.Contains("CORE", StringComparison.OrdinalIgnoreCase)
-            ? "AppSecurityAcceptanceCore"
-            : "AppSecurityAcceptanceSSO";
-
-        return $"Data Source=.;Initial Catalog={databaseName};MultipleActiveResultSets=True;Trusted_Connection=True;Trust Server Certificate=true";
-    }
 }
 
 [CollectionDefinition(Name)]

@@ -23,7 +23,7 @@ internal static class ServiceCollectionProcessingService
         ODataConventionModelBuilder builder = null)
     {
         AppSecurityConfiguration configuration = CreateConfiguration(services: services, configure: configure);
-        services.AddAppSecurityWeb(builder: builder);
+        services.AddAppSecurityWebDependencies(builder: builder);
         services.AddConfiguredApi(
 configuration: configuration,
 documentName: "AppSecurity",
@@ -38,7 +38,7 @@ builder: builder);
         Action<IServiceCollection, AppSecurityConfiguration> configure)
     {
         AppSecurityConfiguration configuration = CreateConfiguration(services: services, configure: configure);
-        services.AddAppSecurityHostedServices();
+        services.AddAppSecurityHostedServiceDependencies();
         return configuration;
     }
 

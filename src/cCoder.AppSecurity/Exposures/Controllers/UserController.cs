@@ -35,6 +35,7 @@ public sealed partial class UserController(
         MaxAnyAllExpressionDepth = 6,
         MaxExpansionDepth = 6
     )]
+    [ActionName("Me")]
     public IActionResult GetMe() =>
         Ok(value: service.Get(id: authInfo.SSOUserId));
 
@@ -88,7 +89,8 @@ value: new AppSecurityODataModelBroker()
 
             return Ok(value: SingleResult.Create(queryable: result));
         }
-        catch (System.Security.SecurityException)
+        catch (Exception exception)
+            when (exception.GetBaseException() is System.Security.SecurityException)
         {
             return NotFound();
         }
@@ -133,6 +135,7 @@ value: new AppSecurityODataModelBroker()
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
+    [ActionName("Patch")]
     public async Task<IActionResult> Put([FromRoute] string key, Delta<User> updatedDelta)
     {
         User originalEntity = service.Get(id: key);

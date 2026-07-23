@@ -23,15 +23,32 @@ public partial class UserRoleServiceTests
 
         cCoder.Data.Models.Security.UserRole submitted = null;
 
-        userRoleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>())).Returns(value: (int?)7);
-        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true)).Returns(value: new[]
+        userRoleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
+            .Returns(value: (int?)7);
+
+        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true))
+            .Returns(value: new[]
         {
-            CreateRole(roleId: userRole.RoleId, appId: 7, "user_read", "page_read")
+            CreateRole(
+                roleId: userRole.RoleId,
+                appId: 7,
+                privileges: [
+                    "user_read",
+                    "page_read",
+                ])
         }.AsQueryable());
+
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "UserRole_create"));
+
         authorizationBrokerMock
             .Setup(expression: x => x.GetCurrentUser())
-            .Returns(value: CreateCurrentUser(appId: 7, "user_read", "page_read", "userrole_create"));
+            .Returns(value: CreateCurrentUser(
+                appId: 7,
+                privileges: [
+                    "user_read",
+                    "page_read",
+                    "userrole_create",
+                ]));
 
         userRoleBrokerMock
             .Setup(expression: x => x.AddUserRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
@@ -42,16 +59,29 @@ public partial class UserRoleServiceTests
         UserRole result = await userRoleService.AddUserRoleAsync(newUserRole: userRole);
 
         // Then
-        result.Should().BeSameAs(expected: userRole);
-        submitted.Should().NotBeNull();
-        submitted.Should().NotBeSameAs(unexpected: userRole);
-        result.Should().NotBeSameAs(unexpected: submitted);
-        submitted.Should().BeEquivalentTo(expectation: userRole);
-        result.Should().BeEquivalentTo(expectation: userRole);
+        result.Should()
+            .BeSameAs(expected: userRole);
+
+        submitted.Should()
+            .NotBeNull();
+
+        submitted.Should()
+            .NotBeSameAs(unexpected: userRole);
+
+        result.Should()
+            .NotBeSameAs(unexpected: submitted);
+
+        submitted.Should()
+            .BeEquivalentTo(expectation: userRole);
+
+        result.Should()
+            .BeEquivalentTo(expectation: userRole);
+
         userRoleBrokerMock.Verify(
-expression:             x => x.AddUserRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()),
-times:             Times.Once
+expression: x => x.AddUserRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()),
+times: Times.Once
         );
+
         userRoleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()), times: Times.AtMostOnce());
         userRoleBrokerMock.VerifyNoOtherCalls();
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
@@ -67,21 +97,42 @@ times:             Times.Once
         // Given
         UserRole userRole = CreateRandomUserRole();
 
-        userRoleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>())).Returns(value: (int?)7);
-        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true)).Returns(value: new[]
+        userRoleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
+            .Returns(value: (int?)7);
+
+        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true))
+            .Returns(value: new[]
         {
-            CreateRole(roleId: userRole.RoleId, appId: 7, "app_admin", "page_read")
+            CreateRole(
+                roleId: userRole.RoleId,
+                appId: 7,
+                privileges: [
+                    "app_admin",
+                    "page_read",
+                ])
         }.AsQueryable());
+
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "UserRole_create"));
+
         authorizationBrokerMock
             .Setup(expression: x => x.GetCurrentUser())
-            .Returns(value: CreateCurrentUser(appId: 7, "userrole_create", "page_read"));
+            .Returns(value: CreateCurrentUser(
+                appId: 7,
+                privileges: [
+                    "userrole_create",
+                    "page_read",
+                ]));
 
         // When
         Func<Task> action = async () => await userRoleService.AddUserRoleAsync(newUserRole: userRole);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        await action.Should()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException>()
+            .WithMessage(expectedWildcardPattern: "The AppSecurity service failed.")
+            .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         userRoleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()), times: Times.AtMostOnce());
         userRoleBrokerMock.VerifyNoOtherCalls();
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
@@ -97,7 +148,9 @@ times:             Times.Once
         // Given
         UserRole userRole = CreateRandomUserRole();
 
-        userRoleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>())).Returns(value: (int?)7);
+        userRoleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
+            .Returns(value: (int?)7);
+
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "UserRole_create"))
             .Throws(exception: new SecurityException(message: "Access Denied!"));
@@ -106,7 +159,12 @@ times:             Times.Once
         Func<Task> action = async () => await userRoleService.AddUserRoleAsync(newUserRole: userRole);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        await action.Should()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException>()
+            .WithMessage(expectedWildcardPattern: "The AppSecurity service failed.")
+            .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         userRoleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()), times: Times.AtMostOnce());
         userRoleBrokerMock.VerifyNoOtherCalls();
         roleBrokerMock.VerifyNoOtherCalls();

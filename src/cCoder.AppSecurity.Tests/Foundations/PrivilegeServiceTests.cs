@@ -25,14 +25,16 @@ public partial class PrivilegeServiceTests
     {
         privilegeBrokerMock = new Mock<IPrivilegeBroker>(behavior: MockBehavior.Strict);
         authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
+
         privilegeService = new PrivilegeService(
-privilegeBroker:             privilegeBrokerMock.Object,
-authorizationBroker:             authorizationBrokerMock.Object
+privilegeBroker: privilegeBrokerMock.Object,
+authorizationBroker: authorizationBrokerMock.Object
         );
     }
 
     private static Privilege CreateRandomPrivilege(string id = null)
     {
+
         Privilege privilege = Builder<Privilege>
             .CreateNew()
             .With(func: x => x.Id = id ?? $"privilege-{Guid.NewGuid():N}")

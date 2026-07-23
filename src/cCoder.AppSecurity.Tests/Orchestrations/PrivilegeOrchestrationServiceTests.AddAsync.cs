@@ -19,7 +19,9 @@ public partial class PrivilegeOrchestrationServiceTests
     {
         // Given
         Privilege entity = CreateRandomPrivilege();
-        privilegeProcessingServiceMock.Setup(expression: x => x.AddPrivilegeAsync(entity: entity)).ReturnsAsync(value: entity);
+
+        privilegeProcessingServiceMock.Setup(expression: x => x.AddPrivilegeAsync(entity: entity))
+            .ReturnsAsync(value: entity);
 
         privilegeEventProcessingServiceMock
             .Setup(expression: x => x.RaisePrivilegeAddEventAsync(entity: entity))
@@ -29,7 +31,9 @@ public partial class PrivilegeOrchestrationServiceTests
         Privilege result = await orchestrationService.AddPrivilegeAsync(newPrivilege: entity);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
+
         privilegeProcessingServiceMock.Verify(expression: x => x.AddPrivilegeAsync(entity: entity), times: Times.Once);
         privilegeEventProcessingServiceMock.Verify(expression: x => x.RaisePrivilegeAddEventAsync(entity: entity), times: Times.Once);
     }

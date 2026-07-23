@@ -31,14 +31,23 @@ public partial class UserEventServiceTests
         await service.RaiseUserAddEventAsync(entity: entity);
 
         // Then
-        actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
-        actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
+        actualMessage.Should()
+            .NotBeNull();
+
+        actualMessage!.Data.Should()
+            .BeEquivalentTo(expectation: entity);
+
+        actualMessage.AuthInfo.Should()
+            .NotBeNull();
+
+        actualMessage.AuthInfo.SSOUserId.Should()
+            .Be(expected: CurrentUserId);
+
         userEventBrokerMock.Verify(
-expression:             x => x.RaiseUserAddEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.User>>()),
-times:             Times.Once
+expression: x => x.RaiseUserAddEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.User>>()),
+times: Times.Once
         );
+
         userEventBrokerMock.VerifyNoOtherCalls();
     }
 

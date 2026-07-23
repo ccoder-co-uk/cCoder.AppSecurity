@@ -17,10 +17,16 @@ public partial class UserOrchestrationServiceTests
     public async Task ShouldGetThenDeleteThenRaiseDeleteEventAsyncWhenDeleteAsync()
     {
         // Given
-        string id = Guid.NewGuid().ToString();
+        string id = Guid.NewGuid()
+            .ToString();
+
         User entity = CreateRandomUser();
-        userProcessingServiceMock.Setup(expression: x => x.Get(id: id)).Returns(value: entity);
-        userProcessingServiceMock.Setup(expression: x => x.DeleteAsync(id: id)).Returns(value: ValueTask.CompletedTask);
+
+        userProcessingServiceMock.Setup(expression: x => x.Get(id: id))
+            .Returns(value: entity);
+
+        userProcessingServiceMock.Setup(expression: x => x.DeleteAsync(id: id))
+            .Returns(value: ValueTask.CompletedTask);
 
         userEventProcessingServiceMock
             .Setup(expression: x => x.RaiseUserDeleteEventAsync(entity: entity))

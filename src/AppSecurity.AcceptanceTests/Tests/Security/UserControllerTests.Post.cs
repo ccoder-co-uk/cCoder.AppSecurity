@@ -16,11 +16,11 @@ public sealed partial class UserControllerTests
     {
         // Given
         SeededUserContext seededContext = await SeedDatabase();
-        string userId = Unique("user");
+        string userId = Unique(prefix: "user");
         User actualUser;
 
         // When
-        actualUser = await CreateUserAsync(new
+        actualUser = await CreateUserAsync(payload: new
         {
             id = userId,
             defaultCultureId = string.Empty,
@@ -30,8 +30,9 @@ public sealed partial class UserControllerTests
         });
 
         // Then
-        actualUser.Id.Should().Be(userId);
+        actualUser.Id.Should()
+            .Be(expected: userId);
 
-        await Teardown(seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }

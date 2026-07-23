@@ -25,5 +25,6 @@ public partial class PrivilegeEventProcessingServiceTests
     }
 
     private static Privilege CreateRandomPrivilege() =>
-        Builder<Privilege>.CreateNew().Build();
+        Builder<Privilege>.CreateNew()
+        .Build();
 }

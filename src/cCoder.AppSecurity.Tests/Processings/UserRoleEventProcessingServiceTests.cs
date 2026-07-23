@@ -25,5 +25,6 @@ public partial class UserRoleEventProcessingServiceTests
     }
 
     private static UserRole CreateRandomUserRole() =>
-        Builder<UserRole>.CreateNew().Build();
+        Builder<UserRole>.CreateNew()
+        .Build();
 }

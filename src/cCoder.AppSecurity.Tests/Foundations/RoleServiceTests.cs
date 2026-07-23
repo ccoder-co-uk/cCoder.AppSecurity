@@ -38,6 +38,7 @@ public partial class RoleServiceTests
 
     private static Role CreateRandomRole(Guid? id = null, int appId = 7)
     {
+
         Role role = Builder<Role>
             .CreateNew()
             .With(func: x => x.Id = id ?? Guid.NewGuid())
@@ -55,6 +56,7 @@ public partial class RoleServiceTests
 
     private static DataUser CreateCurrentUser(int appId, params string[] privileges)
     {
+
         DataRole role = new()
         {
             Id = Guid.NewGuid(),
@@ -98,17 +100,20 @@ public partial class RoleServiceTests
                     DefaultTheme = item.App.DefaultTheme,
                     ConfigJson = item.App.ConfigJson,
                 },
-                Users = item.Users?.Select(selector: ToExternalUserRole).ToArray(),
+                Users = item.Users?.Select(selector: ToExternalUserRole)
+        .ToArray(),
                 Pages = item.Pages?.Select(selector: pageRole => new DataPageRole
                 {
                     PageId = pageRole.PageId,
                     RoleId = pageRole.RoleId,
-                }).ToArray(),
+                })
+        .ToArray(),
                 Folders = item.Folders?.Select(selector: folderRole => new DataFolderRole
                 {
                     FolderId = folderRole.FolderId,
                     RoleId = folderRole.RoleId,
-                }).ToArray(),
+                })
+        .ToArray(),
             };
 
     private static DataUserRole ToExternalUserRole(UserRole item) =>

@@ -20,13 +20,17 @@ public partial class UserOrchestrationServiceTests
         // Given
         string id = "user-id";
         User entity = CreateRandomUser();
-        userProcessingServiceMock.Setup(expression: x => x.Get(id: id)).Returns(value: entity);
+
+        userProcessingServiceMock.Setup(expression: x => x.Get(id: id))
+            .Returns(value: entity);
 
         // When
         User result = orchestrationService.Get(userId: id);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
+
         userProcessingServiceMock.Verify(expression: x => x.Get(id: id), times: Times.Once);
         userProcessingServiceMock.VerifyNoOtherCalls();
         userEventProcessingServiceMock.VerifyNoOtherCalls();

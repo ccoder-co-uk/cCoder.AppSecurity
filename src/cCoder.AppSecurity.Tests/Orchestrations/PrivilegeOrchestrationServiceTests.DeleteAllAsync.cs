@@ -18,7 +18,9 @@ public partial class PrivilegeOrchestrationServiceTests
     {
         // Given
         Privilege[] entities = [CreateRandomPrivilege()];
-        privilegeProcessingServiceMock.Setup(expression: x => x.DeleteAllPrivilegeAsync(items: entities)).Returns(value: ValueTask.CompletedTask);
+
+        privilegeProcessingServiceMock.Setup(expression: x => x.DeleteAllPrivilegeAsync(items: entities))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
         await orchestrationService.DeleteAllPrivilegeAsync(deletedPrivilege: entities);

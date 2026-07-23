@@ -19,7 +19,9 @@ public partial class RoleOrchestrationServiceTests
     {
         // Given
         Role entity = CreateRandomRole();
-        roleProcessingServiceMock.Setup(expression: x => x.AddRoleAsync(entity: entity)).ReturnsAsync(value: entity);
+
+        roleProcessingServiceMock.Setup(expression: x => x.AddRoleAsync(entity: entity))
+            .ReturnsAsync(value: entity);
 
         roleEventProcessingServiceMock
             .Setup(expression: x => x.RaiseRoleAddEventAsync(entity: entity))
@@ -29,7 +31,9 @@ public partial class RoleOrchestrationServiceTests
         Role result = await orchestrationService.AddRoleAsync(newRole: entity);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
+
         roleProcessingServiceMock.Verify(expression: x => x.AddRoleAsync(entity: entity), times: Times.Once);
         roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleAddEventAsync(entity: entity), times: Times.Once);
     }
@@ -39,7 +43,9 @@ public partial class RoleOrchestrationServiceTests
     {
         // Given
         Role entity = CreateRandomRole();
-        roleProcessingServiceMock.Setup(expression: x => x.AddValidatedRoleAsync(entity: entity)).ReturnsAsync(value: entity);
+
+        roleProcessingServiceMock.Setup(expression: x => x.AddValidatedRoleAsync(entity: entity))
+            .ReturnsAsync(value: entity);
 
         roleEventProcessingServiceMock
             .Setup(expression: x => x.RaiseRoleAddEventAsync(entity: entity))
@@ -49,7 +55,9 @@ public partial class RoleOrchestrationServiceTests
         Role result = await orchestrationService.AddValidatedRoleAsync(newRole: entity);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
+
         roleProcessingServiceMock.Verify(expression: x => x.AddValidatedRoleAsync(entity: entity), times: Times.Once);
         roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleAddEventAsync(entity: entity), times: Times.Once);
     }

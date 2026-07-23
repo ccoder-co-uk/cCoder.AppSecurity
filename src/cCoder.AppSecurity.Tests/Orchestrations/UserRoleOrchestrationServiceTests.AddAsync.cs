@@ -19,7 +19,9 @@ public partial class UserRoleOrchestrationServiceTests
     {
         // Given
         UserRole entity = CreateRandomUserRole();
-        userRoleProcessingServiceMock.Setup(expression: x => x.AddUserRoleAsync(entity: entity)).ReturnsAsync(value: entity);
+
+        userRoleProcessingServiceMock.Setup(expression: x => x.AddUserRoleAsync(entity: entity))
+            .ReturnsAsync(value: entity);
 
         userRoleEventProcessingServiceMock
             .Setup(expression: x => x.RaiseUserRoleAddEventAsync(entity: entity))
@@ -29,7 +31,9 @@ public partial class UserRoleOrchestrationServiceTests
         UserRole result = await orchestrationService.AddUserRoleAsync(newUserRole: entity);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
+
         userRoleProcessingServiceMock.Verify(expression: x => x.AddUserRoleAsync(entity: entity), times: Times.Once);
         userRoleEventProcessingServiceMock.Verify(expression: x => x.RaiseUserRoleAddEventAsync(entity: entity), times: Times.Once);
     }

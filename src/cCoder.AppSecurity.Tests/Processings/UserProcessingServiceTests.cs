@@ -23,9 +23,10 @@ public partial class UserProcessingServiceTests
 
     public UserProcessingServiceTests()
     {
+
         userProcessingService = new UserProcessingService(
-service:             userServiceMock.Object,
-authInfo:             coreAuthInfoMock.Object
+service: userServiceMock.Object,
+authInfo: coreAuthInfoMock.Object
         );
     }
 

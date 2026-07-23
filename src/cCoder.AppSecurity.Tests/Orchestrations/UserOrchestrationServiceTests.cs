@@ -23,11 +23,14 @@ public partial class UserOrchestrationServiceTests
     {
         userProcessingServiceMock = new Mock<IUserProcessingService>(behavior: MockBehavior.Strict);
         userEventProcessingServiceMock = new Mock<IUserEventProcessingService>(behavior: MockBehavior.Strict);
+
         orchestrationService = new UserOrchestrationService(
-processingService:             userProcessingServiceMock.Object,
-eventService:             userEventProcessingServiceMock.Object
+processingService: userProcessingServiceMock.Object,
+eventService: userEventProcessingServiceMock.Object
         );
     }
 
-    private static User CreateRandomUser() => Builder<User>.CreateNew().Build();
+    private static User CreateRandomUser() =>
+        Builder<User>.CreateNew()
+        .Build();
 }

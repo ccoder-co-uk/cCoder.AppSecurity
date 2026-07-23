@@ -22,12 +22,14 @@ public partial class PrivilegeEventServiceTests
         authInfoMock = new Mock<IAuthInfoBroker>(behavior: MockBehavior.Strict);
         privilegeEventBrokerMock = new(behavior: MockBehavior.Strict);
         authInfoMock = new();
+
         authInfoMock
             .Setup(expression: broker => broker.GetSSOUserId())
             .Returns(value: CurrentUserId);
+
         service = new cCoder.AppSecurity.Services.Foundations.Events.PrivilegeEventService(
-privilegeEventBroker:             privilegeEventBrokerMock.Object,
-authInfoBroker:             authInfoMock.Object
+privilegeEventBroker: privilegeEventBrokerMock.Object,
+authInfoBroker: authInfoMock.Object
         );
     }
 }

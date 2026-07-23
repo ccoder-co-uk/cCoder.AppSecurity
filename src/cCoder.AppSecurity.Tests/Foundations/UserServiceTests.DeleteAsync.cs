@@ -21,11 +21,16 @@ public partial class UserServiceTests
         // Given
         User user = CreateRandomUser(id: "user-1");
 
-        userBrokerMock.Setup(expression: x => x.GetAllUsers(ignoreFilters: false)).Returns(value: new[] { ToExternalUser(item: user) }.AsQueryable());
+        userBrokerMock.Setup(expression: x => x.GetAllUsers(ignoreFilters: false))
+            .Returns(value: new[] { ToExternalUser(item: user) }.AsQueryable());
 
-        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>())).Returns(value: (int?)7);
+        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+            .Returns(value: (int?)7);
+
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "User_delete"));
-        userBrokerMock.Setup(expression: x => x.DeleteUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>())).ReturnsAsync(value: 1);
+
+        userBrokerMock.Setup(expression: x => x.DeleteUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+            .ReturnsAsync(value: 1);
 
         // When
         await userService.DeleteAsync(userId: "user-1");
@@ -45,9 +50,12 @@ public partial class UserServiceTests
         // Given
         User user = CreateRandomUser(id: "user-1");
 
-        userBrokerMock.Setup(expression: x => x.GetAllUsers(ignoreFilters: false)).Returns(value: new[] { ToExternalUser(item: user) }.AsQueryable());
+        userBrokerMock.Setup(expression: x => x.GetAllUsers(ignoreFilters: false))
+            .Returns(value: new[] { ToExternalUser(item: user) }.AsQueryable());
 
-        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>())).Returns(value: (int?)7);
+        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+            .Returns(value: (int?)7);
+
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "User_delete"))
             .Throws(exception: new SecurityException(message: "Access Denied!"));
@@ -56,7 +64,12 @@ public partial class UserServiceTests
         Func<Task> action = async () => await userService.DeleteAsync(userId: "user-1");
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        await action.Should()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException>()
+            .WithMessage(expectedWildcardPattern: "The AppSecurity service failed.")
+            .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         userBrokerMock.Verify(expression: x => x.GetAllUsers(ignoreFilters: false), times: Times.Once);
         userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();

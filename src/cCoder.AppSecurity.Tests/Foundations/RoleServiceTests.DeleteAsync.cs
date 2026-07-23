@@ -22,14 +22,26 @@ public partial class RoleServiceTests
         Guid roleId = Guid.NewGuid();
         Role role = CreateRandomRole(id: roleId, appId: 7);
 
-        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true)).Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
-        userRoleBrokerMock.Setup(expression: x => x.GetAllUserRoles(ignoreFilters: true)).Returns(value: Array.Empty<UserRole>().AsQueryable());
+        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true))
+            .Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
 
-        roleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>())).Returns(value: (int?)7);
+        userRoleBrokerMock.Setup(expression: x => x.GetAllUserRoles(ignoreFilters: true))
+            .Returns(value: Array.Empty<UserRole>()
+            .AsQueryable());
+
+        roleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+            .Returns(value: (int?)7);
+
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_delete"));
-        roleBrokerMock.Setup(expression: x => x.DeletePageRolesByRoleIdAsync(roleId: roleId)).Returns(value: ValueTask.CompletedTask);
-        roleBrokerMock.Setup(expression: x => x.DeleteFolderRolesByRoleIdAsync(roleId: roleId)).Returns(value: ValueTask.CompletedTask);
-        roleBrokerMock.Setup(expression: x => x.DeleteRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>())).ReturnsAsync(value: 1);
+
+        roleBrokerMock.Setup(expression: x => x.DeletePageRolesByRoleIdAsync(roleId: roleId))
+            .Returns(value: ValueTask.CompletedTask);
+
+        roleBrokerMock.Setup(expression: x => x.DeleteFolderRolesByRoleIdAsync(roleId: roleId))
+            .Returns(value: ValueTask.CompletedTask);
+
+        roleBrokerMock.Setup(expression: x => x.DeleteRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+            .ReturnsAsync(value: 1);
 
         // When
         await roleService.DeleteAsync(roleId: roleId);
@@ -54,8 +66,12 @@ public partial class RoleServiceTests
         Guid roleId = Guid.NewGuid();
         Role role = CreateRandomRole(id: roleId, appId: 7);
 
-        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true)).Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
-        userRoleBrokerMock.Setup(expression: x => x.GetAllUserRoles(ignoreFilters: true)).Returns(value: Array.Empty<UserRole>().AsQueryable());
+        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true))
+            .Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
+
+        userRoleBrokerMock.Setup(expression: x => x.GetAllUserRoles(ignoreFilters: true))
+            .Returns(value: Array.Empty<UserRole>()
+            .AsQueryable());
 
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_delete"))
@@ -65,7 +81,12 @@ public partial class RoleServiceTests
         Func<Task> action = async () => await roleService.DeleteAsync(roleId: roleId);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        await action.Should()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException>()
+            .WithMessage(expectedWildcardPattern: "The AppSecurity service failed.")
+            .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
         roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();

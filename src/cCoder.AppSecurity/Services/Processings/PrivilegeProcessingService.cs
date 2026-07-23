@@ -61,13 +61,13 @@ internal sealed partial class PrivilegeProcessingService(
         });
 
     public ValueTask DeleteAsync(string privilegeId) =>
-        TryCatch(operation: ValueTask () =>
+        TryCatch(operation: async ValueTask () =>
         {
             ValidateDelete(
                 privilegeId: privilegeId);
 
-            authorizationBroker.Authorize(appId: null, privilege: "privilege_delete");
-            throw new InvalidOperationException(message: "Cannot delete privileges");
+            await DeletePrivilegeValueAsync(
+                privilegeId: privilegeId);
 
         });
 
@@ -90,6 +90,13 @@ internal sealed partial class PrivilegeProcessingService(
     private ValueTask<Privilege> UpdatePrivilegeValueAsync(Privilege updatedPrivilege) =>
         UpdatePrivilegeAsync(updatedPrivilege: updatedPrivilege);
 
-    private ValueTask DeletePrivilegeValueAsync(string privilegeId) =>
-        DeleteAsync(privilegeId: privilegeId);
+    private ValueTask DeletePrivilegeValueAsync(string privilegeId)
+    {
+        authorizationBroker.Authorize(
+            appId: null,
+            privilege: "privilege_delete");
+
+        throw new InvalidOperationException(
+            message: "Cannot delete privileges");
+    }
 }

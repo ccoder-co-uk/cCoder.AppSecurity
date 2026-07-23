@@ -31,17 +31,26 @@ public partial class RoleEventServiceTests
         await service.RaiseRoleDeleteEventAsync(entity: entity);
 
         // Then
-        actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(
-expectation:             entity,
-config:             options => options.Excluding(expression: candidate => candidate.Privileges)
+        actualMessage.Should()
+            .NotBeNull();
+
+        actualMessage!.Data.Should()
+            .BeEquivalentTo(
+expectation: entity,
+config: options => options.Excluding(expression: candidate => candidate.Privileges)
         );
-        actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
+
+        actualMessage.AuthInfo.Should()
+            .NotBeNull();
+
+        actualMessage.AuthInfo.SSOUserId.Should()
+            .Be(expected: CurrentUserId);
+
         roleEventBrokerMock.Verify(
-expression:             x => x.RaiseRoleDeleteEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.Role>>()),
-times:             Times.Once
+expression: x => x.RaiseRoleDeleteEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.Role>>()),
+times: Times.Once
         );
+
         roleEventBrokerMock.VerifyNoOtherCalls();
     }
 

@@ -28,9 +28,14 @@ public partial class PrivilegeProcessingServiceTests
                 Description = "Read privileges",
             },
         ];
-        privilegeServiceMock.Setup(expression: x => x.GetAll()).Returns(value: privileges.AsQueryable());
+
+        privilegeServiceMock.Setup(expression: x => x.GetAll())
+            .Returns(value: privileges.AsQueryable());
+
         currentUser = WithPrivilege(privilege: "privilege_read");
-        Privilege[] result = privilegeProcessingService.GetAll().ToArray();
+
+        Privilege[] result = privilegeProcessingService.GetAll()
+            .ToArray();
 
         // Then
         Assert.Single(collection: result);

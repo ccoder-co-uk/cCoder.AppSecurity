@@ -18,6 +18,7 @@ public partial class PrivilegeEventProcessingServiceTests
     {
         // Given
         Privilege entity = CreateRandomPrivilege();
+
         privilegeEventServiceMock
             .Setup(expression: x => x.RaisePrivilegeAddEventAsync(entity: entity))
             .Returns(value: ValueTask.CompletedTask);

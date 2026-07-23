@@ -32,6 +32,7 @@ public partial class UserServiceTests
 
     private static User CreateRandomUser(string id = null)
     {
+
         User user = Builder<User>
             .CreateNew()
             .With(func: x => x.Id = id ?? $"user-{Guid.NewGuid():N}")
@@ -68,6 +69,7 @@ public partial class UserServiceTests
                         Description = userRole.Role.Description,
                         Privs = userRole.Role.Privs,
                     },
-                }).ToArray(),
+                })
+        .ToArray(),
             };
 }

@@ -19,8 +19,12 @@ public partial class UserProcessingServiceTests
     {
         // Given
         User currentUser = CreateRandomUser();
-        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId).Returns(value: currentUser.Id);
-        userServiceMock.Setup(expression: x => x.Get(id: currentUser.Id)).Returns(value: currentUser);
+
+        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId)
+            .Returns(value: currentUser.Id);
+
+        userServiceMock.Setup(expression: x => x.Get(id: currentUser.Id))
+            .Returns(value: currentUser);
 
         userServiceMock
             .Setup(expression: x => x.DeleteAsync(id: currentUser.Id))
@@ -38,11 +42,15 @@ public partial class UserProcessingServiceTests
     {
         // Given
         User targetUser = CreateRandomUser(id: "other-user", email: "other@example.com");
-        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId).Returns(value: "different-user");
-        userServiceMock.Setup(expression: x => x.Get(id: targetUser.Id)).Returns(value: targetUser);
+
+        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId)
+            .Returns(value: "different-user");
+
+        userServiceMock.Setup(expression: x => x.Get(id: targetUser.Id))
+            .Returns(value: targetUser);
 
         // When
-        await Assert.ThrowsAsync<SecurityException>(testCode: async () =>
+        await Assert.ThrowsAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException>(testCode: async () =>
             await userProcessingService.DeleteAsync(userId: targetUser.Id)
         );
 

@@ -18,9 +18,15 @@ public partial class UserProcessingServiceTests
     {
         // Given
         User user = CreateRandomUser(id: "test-user");
-        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId).Returns(value: user.Id);
-        userServiceMock.Setup(expression: x => x.Get(id: user.Id)).Returns(value: user);
-        userServiceMock.Setup(expression: x => x.DeleteAsync(id: user.Id)).Returns(value: ValueTask.CompletedTask);
+
+        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId)
+            .Returns(value: user.Id);
+
+        userServiceMock.Setup(expression: x => x.Get(id: user.Id))
+            .Returns(value: user);
+
+        userServiceMock.Setup(expression: x => x.DeleteAsync(id: user.Id))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
         await userProcessingService.DeleteAllUserAsync(deletedUser: new[] { user });

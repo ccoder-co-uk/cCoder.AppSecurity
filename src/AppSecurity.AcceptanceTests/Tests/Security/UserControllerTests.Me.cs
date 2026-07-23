@@ -20,7 +20,10 @@ public sealed partial class UserControllerTests
         User actualUser = await GetCurrentUserAsync();
 
         // Then
-        actualUser.Should().NotBeNull();
-        actualUser!.Id.Should().NotBeNullOrWhiteSpace();
+        actualUser.Should()
+            .NotBeNull();
+
+        actualUser!.Id.Should()
+            .NotBeNullOrWhiteSpace();
     }
 }

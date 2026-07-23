@@ -25,6 +25,7 @@ public partial class UserRoleProcessingServiceTests
             Email = "target@example.com",
             IsActive = true,
         };
+
         Role role = new()
         {
             Id = Guid.NewGuid(),
@@ -39,9 +40,15 @@ public partial class UserRoleProcessingServiceTests
                 Domain = "app.local",
             },
         };
+
         UserRole link = new() { UserId = targetUser.Id, RoleId = role.Id };
-        userRoleServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true)).Returns(value: Array.Empty<UserRole>().AsQueryable());
-        userRoleServiceMock.Setup(expression: x => x.AddUserRoleAsync(newUserRole: link, authorize: false)).ReturnsAsync(value: link);
+
+        userRoleServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: Array.Empty<UserRole>()
+            .AsQueryable());
+
+        userRoleServiceMock.Setup(expression: x => x.AddUserRoleAsync(newUserRole: link, authorize: false))
+            .ReturnsAsync(value: link);
 
         // When
         UserRole result = await userRoleProcessingService.SaveUserRoleAsync(entity: link);

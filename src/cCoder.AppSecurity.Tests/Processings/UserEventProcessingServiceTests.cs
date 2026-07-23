@@ -25,5 +25,6 @@ public partial class UserEventProcessingServiceTests
     }
 
     private static User CreateRandomUser() =>
-        Builder<User>.CreateNew().Build();
+        Builder<User>.CreateNew()
+        .Build();
 }

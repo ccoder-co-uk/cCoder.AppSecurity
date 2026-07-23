@@ -6,6 +6,7 @@ using AppSecurity.Web;
 using cCoder.AppSecurity;
 using cCoder.Data;
 using cCoder.Security.Data.EF;
+using cCoder.Security.Data.EF.Dependencies;
 using cCoder.Security.Data.EF.Interfaces;
 using cCoder.Security.Objects;
 using Microsoft.AspNetCore.Hosting;
@@ -21,12 +22,12 @@ internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("Acceptance");
+        builder.UseEnvironment(environment: "Acceptance");
 
-        builder.ConfigureServices(services =>
+        builder.ConfigureServices(configureServices: services =>
         {
             services.AddSingleton(
-                new cCoder.Data.Config
+                implementationInstance: new cCoder.Data.Config
                 {
                     ConnectionStrings = new Dictionary<string, string>
                     {
@@ -42,10 +43,11 @@ internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
                 });
 
             services.AddSingleton<ISecurityDbContextFactory>(
-                _ => new MSSQLSecurityDbContextFactory(settings.SsoConnectionString)
-            );
+                implementationFactory: _ =>
+                    new MSSQLSecurityDbContextFactory(
+                        connectionString: settings.SsoConnectionString));
 
-            services.AddCoreData(settings.CoreConnectionString);
+            services.AddCoreData(connectionString: settings.CoreConnectionString);
         });
     }
 }

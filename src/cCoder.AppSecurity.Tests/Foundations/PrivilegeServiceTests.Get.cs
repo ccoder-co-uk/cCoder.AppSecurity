@@ -20,13 +20,16 @@ public partial class PrivilegeServiceTests
         // Given
         Privilege privilege = CreateRandomPrivilege(id: "page_read");
 
-        privilegeBrokerMock.Setup(expression: x => x.GetAllPrivileges(ignoreFilters: false)).Returns(value: new[] { ToExternalPrivilege(item: privilege) }.AsQueryable());
+        privilegeBrokerMock.Setup(expression: x => x.GetAllPrivileges(ignoreFilters: false))
+            .Returns(value: new[] { ToExternalPrivilege(item: privilege) }.AsQueryable());
 
         // When
         Privilege result = privilegeService.Get(privilegeId: "page_read");
 
         // Then
-        result.Should().BeEquivalentTo(expectation: privilege);
+        result.Should()
+            .BeEquivalentTo(expectation: privilege);
+
         privilegeBrokerMock.Verify(expression: x => x.GetAllPrivileges(ignoreFilters: false), times: Times.Once);
         privilegeBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()), times: Times.AtMostOnce());
         privilegeBrokerMock.VerifyNoOtherCalls();

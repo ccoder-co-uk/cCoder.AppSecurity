@@ -22,17 +22,20 @@ public partial class PrivilegeProcessingServiceTests
 
     public PrivilegeProcessingServiceTests()
     {
+
         privilegeProcessingService = new PrivilegeProcessingService(
-service:             privilegeServiceMock.Object,
-authorizationBroker:             authorizationBrokerMock.Object
+service: privilegeServiceMock.Object,
+authorizationBroker: authorizationBrokerMock.Object
         );
     }
 
     private static User WithPrivilege(string privilege, int appId = 1)
-        => WithPrivileges(privileges: [privilege], appId: appId);
+        =>
+        WithPrivileges(privileges: [privilege], appId: appId);
 
     private static User WithPrivileges(IEnumerable<string> privileges, int appId = 1)
     {
+
         Role role = new()
         {
             Id = Guid.NewGuid(),

@@ -31,14 +31,23 @@ public partial class UserRoleEventServiceTests
         await service.RaiseUserRoleDeleteEventAsync(entity: entity);
 
         // Then
-        actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
-        actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
+        actualMessage.Should()
+            .NotBeNull();
+
+        actualMessage!.Data.Should()
+            .BeEquivalentTo(expectation: entity);
+
+        actualMessage.AuthInfo.Should()
+            .NotBeNull();
+
+        actualMessage.AuthInfo.SSOUserId.Should()
+            .Be(expected: CurrentUserId);
+
         userRoleEventBrokerMock.Verify(
-expression:             x => x.RaiseUserRoleDeleteEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.UserRole>>()),
-times:             Times.Once
+expression: x => x.RaiseUserRoleDeleteEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.UserRole>>()),
+times: Times.Once
         );
+
         userRoleEventBrokerMock.VerifyNoOtherCalls();
     }
 

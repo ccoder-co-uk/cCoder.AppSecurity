@@ -18,6 +18,7 @@ public partial class RoleEventProcessingServiceTests
     {
         // Given
         Role entity = CreateRandomRole();
+
         roleEventServiceMock
             .Setup(expression: x => x.RaiseRoleAddEventAsync(entity: entity))
             .Returns(value: ValueTask.CompletedTask);

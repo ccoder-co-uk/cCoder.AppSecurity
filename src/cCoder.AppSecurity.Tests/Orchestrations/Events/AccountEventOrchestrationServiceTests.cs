@@ -21,6 +21,7 @@ public partial class AccountEventOrchestrationServiceTests
     {
         appProcessingServiceMock = new Mock<IAppProcessingService>(behavior: MockBehavior.Strict);
         userProcessingServiceMock = new Mock<IUserProcessingService>(behavior: MockBehavior.Strict);
+
         accountRoleAssignmentProcessingServiceMock =
             new Mock<IAccountRoleAssignmentProcessingService>(
                 behavior: MockBehavior.Strict);
@@ -28,18 +29,19 @@ public partial class AccountEventOrchestrationServiceTests
         accountEventOrchestrationService = new AccountEventOrchestrationService(
             appProcessingService: appProcessingServiceMock.Object,
             userProcessingService: userProcessingServiceMock.Object,
-            accountRoleAssignmentProcessingService:
-                accountRoleAssignmentProcessingServiceMock.Object);
+            accountRoleAssignmentProcessingService: accountRoleAssignmentProcessingServiceMock.Object);
     }
 
-    private static App CreateApp() => new()
+    private static App CreateApp() =>
+        new()
     {
         Id = 123,
         Domain = "example.com",
         DefaultCultureId = "en-GB"
     };
 
-    private static Role CreateUsersRole(int appId) => new()
+    private static Role CreateUsersRole(int appId) =>
+        new()
     {
         Id = Guid.NewGuid(),
         AppId = appId,

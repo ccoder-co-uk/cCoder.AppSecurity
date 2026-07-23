@@ -23,11 +23,14 @@ public partial class PrivilegeOrchestrationServiceTests
     {
         privilegeProcessingServiceMock = new Mock<IPrivilegeProcessingService>(behavior: MockBehavior.Strict);
         privilegeEventProcessingServiceMock = new Mock<IPrivilegeEventProcessingService>(behavior: MockBehavior.Strict);
+
         orchestrationService = new PrivilegeOrchestrationService(
-processingService:             privilegeProcessingServiceMock.Object,
-eventService:             privilegeEventProcessingServiceMock.Object
+processingService: privilegeProcessingServiceMock.Object,
+eventService: privilegeEventProcessingServiceMock.Object
         );
     }
 
-    private static Privilege CreateRandomPrivilege() => Builder<Privilege>.CreateNew().Build();
+    private static Privilege CreateRandomPrivilege() =>
+        Builder<Privilege>.CreateNew()
+        .Build();
 }

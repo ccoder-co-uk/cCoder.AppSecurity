@@ -66,7 +66,7 @@ public static class WebApplicationExtensions
             context.Features.Get<IExceptionHandlerPathFeature>()?.Error;
 
         context.Response.StatusCode =
-            exception?.GetType() == typeof(SecurityException)
+            exception?.GetBaseException() is SecurityException
                 ? StatusCodes.Status401Unauthorized
                 : StatusCodes.Status500InternalServerError;
 
@@ -76,6 +76,13 @@ public static class WebApplicationExtensions
         {
             return;
         }
+
+        Exception baseException = exception.GetBaseException();
+
+        string responseMessage =
+            baseException is SecurityException
+                ? baseException.Message
+                : exception.Message;
 
         logger.LogError(
             message: "{Message}\n{StackTrace}",
@@ -87,7 +94,7 @@ public static class WebApplicationExtensions
 
         await context.Response.WriteAsync(
             text: "{ \"error\": \""
-                + exception.Message.Replace(
+                + responseMessage.Replace(
                     oldValue: "\"",
                     newValue: "\'")
                 + "\" }");

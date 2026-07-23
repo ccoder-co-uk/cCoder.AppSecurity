@@ -27,13 +27,18 @@ public sealed partial class TokenCleanerHostedServiceTests
         {
             // When
             await service.StartAsync(cancellationToken: CancellationToken.None);
-            await Task.WhenAny(task1: runCompleted.Task, task2: Task.Delay(delay: TimeSpan.FromSeconds(2)));
+
+            await Task.WhenAny(
+                task1: runCompleted.Task,
+                task2: Task.Delay(
+                    delay: TimeSpan.FromSeconds(value: 2)));
 
             // Then
             Assert.True(condition: runCompleted.Task.IsCompleted);
+
             tokenCleanerServiceMock.Verify(
-expression:                 service => service.RunAsync(cancellationToken: It.IsAny<CancellationToken>()),
-times:                 Times.Once);
+expression: service => service.RunAsync(cancellationToken: It.IsAny<CancellationToken>()),
+times: Times.Once);
         }
         finally
         {

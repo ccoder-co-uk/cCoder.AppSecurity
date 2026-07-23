@@ -23,7 +23,9 @@ public partial class RoleProcessingServiceTests
             Name = "Administrators",
             Privs = "app_update",
         };
-        roleServiceMock.Setup(expression: x => x.UpdateRoleAsync(role: expected)).ReturnsAsync(value: expected);
+
+        roleServiceMock.Setup(expression: x => x.UpdateRoleAsync(role: expected))
+            .ReturnsAsync(value: expected);
 
         // When
         Role result = await roleProcessingService.UpdateRoleAsync(updatedRole: expected);

@@ -18,6 +18,7 @@ public partial class UserEventProcessingServiceTests
     {
         // Given
         User entity = CreateRandomUser();
+
         userEventServiceMock
             .Setup(expression: x => x.RaiseUserDeleteEventAsync(entity: entity))
             .Returns(value: ValueTask.CompletedTask);

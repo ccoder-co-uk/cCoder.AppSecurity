@@ -19,7 +19,9 @@ public partial class UserOrchestrationServiceTests
     {
         // Given
         User entity = CreateRandomUser();
-        userProcessingServiceMock.Setup(expression: x => x.AddUserAsync(entity: entity)).ReturnsAsync(value: entity);
+
+        userProcessingServiceMock.Setup(expression: x => x.AddUserAsync(entity: entity))
+            .ReturnsAsync(value: entity);
 
         userEventProcessingServiceMock
             .Setup(expression: x => x.RaiseUserAddEventAsync(entity: entity))
@@ -29,7 +31,9 @@ public partial class UserOrchestrationServiceTests
         User result = await orchestrationService.AddUserAsync(newUser: entity);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
+
         userProcessingServiceMock.Verify(expression: x => x.AddUserAsync(entity: entity), times: Times.Once);
         userEventProcessingServiceMock.Verify(expression: x => x.RaiseUserAddEventAsync(entity: entity), times: Times.Once);
     }

@@ -20,13 +20,17 @@ public partial class RoleOrchestrationServiceTests
         // Given
         Guid id = Guid.NewGuid();
         Role entity = CreateRandomRole();
-        roleProcessingServiceMock.Setup(expression: x => x.Get(id: id)).Returns(value: entity);
+
+        roleProcessingServiceMock.Setup(expression: x => x.Get(id: id))
+            .Returns(value: entity);
 
         // When
         Role result = orchestrationService.Get(roleId: id);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
+
         roleProcessingServiceMock.Verify(expression: x => x.Get(id: id), times: Times.Once);
         roleProcessingServiceMock.VerifyNoOtherCalls();
         roleEventProcessingServiceMock.VerifyNoOtherCalls();

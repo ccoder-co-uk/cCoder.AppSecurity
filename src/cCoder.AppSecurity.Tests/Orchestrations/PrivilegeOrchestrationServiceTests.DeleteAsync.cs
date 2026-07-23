@@ -17,10 +17,16 @@ public partial class PrivilegeOrchestrationServiceTests
     public async Task ShouldGetThenDeleteThenRaiseDeleteEventAsyncWhenDeleteAsync()
     {
         // Given
-        string id = Guid.NewGuid().ToString();
+        string id = Guid.NewGuid()
+            .ToString();
+
         Privilege entity = CreateRandomPrivilege();
-        privilegeProcessingServiceMock.Setup(expression: x => x.Get(id: id)).Returns(value: entity);
-        privilegeProcessingServiceMock.Setup(expression: x => x.DeleteAsync(id: id)).Returns(value: ValueTask.CompletedTask);
+
+        privilegeProcessingServiceMock.Setup(expression: x => x.Get(id: id))
+            .Returns(value: entity);
+
+        privilegeProcessingServiceMock.Setup(expression: x => x.DeleteAsync(id: id))
+            .Returns(value: ValueTask.CompletedTask);
 
         privilegeEventProcessingServiceMock
             .Setup(expression: x => x.RaisePrivilegeDeleteEventAsync(entity: entity))

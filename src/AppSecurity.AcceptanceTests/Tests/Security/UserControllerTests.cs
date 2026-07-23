@@ -17,174 +17,233 @@ using Xunit;
 using Microsoft.EntityFrameworkCore;
 namespace Web.AcceptanceTests.Tests.Security;
 
-[Collection(WebAcceptanceCollection.Name)]
+[Collection(name: WebAcceptanceCollection.Name)]
 public sealed partial class UserControllerTests(WebAcceptanceFixture fixture)
 {
     private HttpClient Client { get; } = fixture.Client;
     private string BaseUrl { get; } = "/Api/Core/User";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
-    private static string Unique(string prefix) => $"{prefix}-{Guid.NewGuid():N}";
+    private static string Unique(string prefix) =>
+        $"{prefix}-{Guid.NewGuid():N}";
 
     private sealed record SeededUserContext(int AppId, Guid GuestRoleId, Guid UserRoleId, string UserId);
     private sealed record ODataEnvelope<T>(List<T> Value);
 
     private async Task<SeededUserContext> SeedDatabase(params string[] guestPrivileges)
     {
-        string userId = Unique("user");
+        string userId = Unique(prefix: "user");
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        App app = await core.AddAppAsync(new App
+        App app = await core.AddAppAsync(app: new App
         {
-            Name = Unique("AcceptanceApp"),
-            Domain = $"{Unique("user")}.local",
+            Name = Unique(prefix: "AcceptanceApp"),
+            Domain = $"{Unique(prefix: "user")}.local",
             DefaultTheme = "Default",
             DefaultCultureId = string.Empty,
-            TenantId = Unique("tenant"),
+            TenantId = Unique(prefix: "tenant"),
             ConfigJson = "{}",
         });
 
-        Role guestRole = await core.AddRoleAsync(new Role
+        Role guestRole = await core.AddRoleAsync(role: new Role
         {
             Id = Guid.NewGuid(),
             AppId = app.Id,
-            Name = Unique("GuestRole"),
+            Name = Unique(prefix: "GuestRole"),
             Description = "Acceptance guest role",
             Privs = guestPrivileges.Length == 0
                     ? "app_admin,user_create,user_read"
-                    : string.Join(',', guestPrivileges),
+                    : string.Join(separator: ',', value: guestPrivileges),
         });
 
-        await core.AddUserRoleAsync(new UserRole { RoleId = guestRole.Id, UserId = "Guest" });
+        await core.AddUserRoleAsync(userRole: new UserRole { RoleId = guestRole.Id, UserId = "Guest" });
 
-        await core.AddUserAsync(new User
+        User user = new()
         {
             Id = userId,
             DefaultCultureId = string.Empty,
             DisplayName = "Acceptance User",
             Email = $"{userId}@example.com",
             IsActive = true,
-        });
+        };
 
-        Role userRole = await core.AddRoleAsync(new Role
+        await core.AddUserAsync(user: user);
+
+        Role userRole = await core.AddRoleAsync(role: new Role
         {
             Id = Guid.NewGuid(),
             AppId = app.Id,
-            Name = Unique("VisibleUserRole"),
+            Name = Unique(prefix: "VisibleUserRole"),
             Description = "Acceptance user visibility role",
             Privs = "user_read",
         });
 
-        await core.AddUserRoleAsync(new UserRole { RoleId = userRole.Id, UserId = userId });
+        await core.AddUserRoleAsync(userRole: new UserRole { RoleId = userRole.Id, UserId = userId });
 
-        return new SeededUserContext(app.Id, guestRole.Id, userRole.Id, userId);
+        return new SeededUserContext(AppId: app.Id, GuestRoleId: guestRole.Id, UserRoleId: userRole.Id, UserId: userId);
     }
 
     private async Task<User> CreateUserAsync(object payload)
     {
-        using HttpResponseMessage response = await Client.PostAsJsonAsync(BaseUrl, payload);
+        using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri: BaseUrl, value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return JsonSerializer.Deserialize<User>(content, JsonOptions)!;
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return JsonSerializer.Deserialize<User>(json: content, options: JsonOptions)!;
     }
 
     private async Task<int> UpdateUserAsync(string id, object payload)
     {
-        using HttpResponseMessage response = await Client.PutAsJsonAsync($"{BaseUrl}('{Uri.EscapeDataString(id)}')", payload);
+        using HttpResponseMessage response = await Client.PutAsJsonAsync(requestUri: $"{BaseUrl}('{Uri.EscapeDataString(stringToEscape: id)}')", value: payload);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
     private async Task<int> PatchUserAsync(string id, object payload)
     {
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}('{Uri.EscapeDataString(id)}')")
+
+        using HttpRequestMessage request = new(method: HttpMethod.Patch, requestUri: $"{BaseUrl}('{Uri.EscapeDataString(stringToEscape: id)}')")
         {
-            Content = JsonContent.Create(payload),
+            Content = JsonContent.Create(inputValue: payload),
         };
-        using HttpResponseMessage response = await Client.SendAsync(request);
+
+        using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
     private async Task<int> DeleteUserAsync(string id)
     {
-        using HttpResponseMessage response = await Client.DeleteAsync($"{BaseUrl}('{Uri.EscapeDataString(id)}')");
+        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}('{Uri.EscapeDataString(stringToEscape: id)}')");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
     private async Task<User> GetUserAsync(string id)
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}('{Uri.EscapeDataString(id)}')");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}('{Uri.EscapeDataString(stringToEscape: id)}')");
+
         if (response.StatusCode == HttpStatusCode.NotFound)
+        {
             return null;
+        }
 
         string content = await response.Content.ReadAsStringAsync();
+
         if (!response.IsSuccessStatusCode)
+        {
             return null;
+        }
 
-        if (content.Contains("\"value\":[]", StringComparison.Ordinal))
+        if (content.Contains(value: "\"value\":[]", comparisonType: StringComparison.Ordinal))
+        {
             return null;
+        }
 
-        return JsonSerializer.Deserialize<User>(content, JsonOptions);
+        return JsonSerializer.Deserialize<User>(json: content, options: JsonOptions);
     }
 
     private async Task Teardown(SeededUserContext seededContext)
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(userRole => userRole.UserId == seededContext.UserId || userRole.RoleId == seededContext.GuestRoleId || userRole.RoleId == seededContext.UserRoleId).ToArray();
+        UserRole[] userRoles = core.Set<UserRole>()
+            .IgnoreQueryFilters()
+            .Where(predicate: userRole => userRole.UserId == seededContext.UserId || userRole.RoleId == seededContext.GuestRoleId || userRole.RoleId == seededContext.UserRoleId)
+            .ToArray();
+
         if (userRoles.Length > 0)
-            await core.DeleteAllAsync(userRoles);
+        {
+            await core.DeleteAllAsync(userRoles: userRoles);
+        }
 
-        Role[] roles = core.Set<Role>().IgnoreQueryFilters().Where(role => role.Id == seededContext.GuestRoleId || role.Id == seededContext.UserRoleId).ToArray();
+        Role[] roles = core.Set<Role>()
+            .IgnoreQueryFilters()
+            .Where(predicate: role => role.Id == seededContext.GuestRoleId || role.Id == seededContext.UserRoleId)
+            .ToArray();
+
         if (roles.Length > 0)
-            await core.DeleteAllAsync(roles);
+        {
+            await core.DeleteAllAsync(roles: roles);
+        }
 
-        User user = core.Set<User>().IgnoreQueryFilters().FirstOrDefault(found => found.Id == seededContext.UserId);
+        User user = core.Set<User>()
+            .IgnoreQueryFilters()
+            .FirstOrDefault(predicate: found => found.Id == seededContext.UserId);
+
         if (user is not null)
-            await core.DeleteAsync(user);
+        {
+            await core.DeleteAsync(user: user);
+        }
 
-        App app = core.Set<App>().IgnoreQueryFilters().FirstOrDefault(found => found.Id == seededContext.AppId);
+        App app = core.Set<App>()
+            .IgnoreQueryFilters()
+            .FirstOrDefault(predicate: found => found.Id == seededContext.AppId);
+
         if (app is not null)
-            await core.DeleteAsync(app);
+        {
+            await core.DeleteAsync(app: app);
+        }
     }
 
     private async Task<User> GetCurrentUserAsync()
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}/Me()");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/Me()");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return JsonSerializer.Deserialize<User>(content, JsonOptions);
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return JsonSerializer.Deserialize<User>(json: content, options: JsonOptions);
     }
 
     private async Task<int> GetUserCountAsync()
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}/$count");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return int.Parse(content);
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return int.Parse(s: content);
     }
 
     private async Task<IReadOnlyList<User>> GetUsersAsync(int top)
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}?$top={top}");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return JsonSerializer.Deserialize<ODataEnvelope<User>>(content, JsonOptions)!.Value;
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return JsonSerializer.Deserialize<ODataEnvelope<User>>(json: content, options: JsonOptions)!.Value;
     }
+
     private async Task<int> GetUserStatusCodeAsync(string id)
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}('{Uri.EscapeDataString(id)}')");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}('{Uri.EscapeDataString(stringToEscape: id)}')");
         return (int)response.StatusCode;
     }
 }

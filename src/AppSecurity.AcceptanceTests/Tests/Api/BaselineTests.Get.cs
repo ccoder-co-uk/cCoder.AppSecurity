@@ -16,10 +16,11 @@ public sealed partial class BaselineTests
         // Given
 
         // When
-        string response = await Client.GetStringAsync("Api/AppSecurity/Baseline");
-        using JsonDocument document = JsonDocument.Parse(response);
+        string response = await Client.GetStringAsync(requestUri: "Api/AppSecurity/Baseline");
+        using JsonDocument document = JsonDocument.Parse(json: response);
 
         // Then
-        document.RootElement.ValueKind.Should().Be(JsonValueKind.Array);
+        document.RootElement.ValueKind.Should()
+            .Be(expected: JsonValueKind.Array);
     }
 }

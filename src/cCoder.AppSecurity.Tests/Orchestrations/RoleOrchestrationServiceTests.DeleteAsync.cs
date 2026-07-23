@@ -20,8 +20,12 @@ public partial class RoleOrchestrationServiceTests
         Guid id = Guid.NewGuid();
         Role entity = CreateRandomRole();
         entity.Id = id;
-        roleProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true)).Returns(value: new[] { entity }.AsQueryable());
-        roleProcessingServiceMock.Setup(expression: x => x.DeleteAsync(id: id)).Returns(value: ValueTask.CompletedTask);
+
+        roleProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: new[] { entity }.AsQueryable());
+
+        roleProcessingServiceMock.Setup(expression: x => x.DeleteAsync(id: id))
+            .Returns(value: ValueTask.CompletedTask);
 
         roleEventProcessingServiceMock
             .Setup(expression: x => x.RaiseRoleDeleteEventAsync(entity: entity))

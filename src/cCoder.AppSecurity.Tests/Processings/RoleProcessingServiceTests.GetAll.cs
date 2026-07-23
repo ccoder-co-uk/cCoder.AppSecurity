@@ -27,7 +27,10 @@ public partial class RoleProcessingServiceTests
                 Privs = "app_read",
             },
         }.AsQueryable();
-        roleServiceMock.Setup(expression: x => x.GetAll()).Returns(value: expected);
+
+        roleServiceMock.Setup(expression: x => x.GetAll())
+            .Returns(value: expected);
+
         IQueryable<Role> result = roleProcessingService.GetAll();
 
         // Then

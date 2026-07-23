@@ -93,13 +93,16 @@ public static partial class IServiceCollectionExtensions
         services.AddEventHandlers();
     }
 
-    private static void AddAppSecurityWeb(this IServiceCollection services, ODataConventionModelBuilder builder = null)
+    internal static void AddAppSecurityWebDependencies(
+        this IServiceCollection services,
+        ODataConventionModelBuilder builder = null)
     {
         services.AddAppSecurity();
 
     }
 
-    private static void AddAppSecurityHostedServices(this IServiceCollection services)
+    internal static void AddAppSecurityHostedServiceDependencies(
+        this IServiceCollection services)
     {
         services.AddAppSecurity();
         services.AddSingleton<IAnalysePlatformUsageHostedService, AnalysePlatformUsageHostedService>();

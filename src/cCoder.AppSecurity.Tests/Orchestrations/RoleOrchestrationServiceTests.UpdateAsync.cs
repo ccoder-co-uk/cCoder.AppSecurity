@@ -19,7 +19,9 @@ public partial class RoleOrchestrationServiceTests
     {
         // Given
         Role entity = CreateRandomRole();
-        roleProcessingServiceMock.Setup(expression: x => x.UpdateRoleAsync(entity: entity)).ReturnsAsync(value: entity);
+
+        roleProcessingServiceMock.Setup(expression: x => x.UpdateRoleAsync(entity: entity))
+            .ReturnsAsync(value: entity);
 
         roleEventProcessingServiceMock
             .Setup(expression: x => x.RaiseRoleUpdateEventAsync(entity: entity))
@@ -29,7 +31,9 @@ public partial class RoleOrchestrationServiceTests
         Role result = await orchestrationService.UpdateRoleAsync(updatedRole: entity);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
+
         roleProcessingServiceMock.Verify(expression: x => x.UpdateRoleAsync(entity: entity), times: Times.Once);
         roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleUpdateEventAsync(entity: entity), times: Times.Once);
     }
@@ -39,7 +43,9 @@ public partial class RoleOrchestrationServiceTests
     {
         // Given
         Role entity = CreateRandomRole();
-        roleProcessingServiceMock.Setup(expression: x => x.UpdateValidatedRoleAsync(entity: entity)).ReturnsAsync(value: entity);
+
+        roleProcessingServiceMock.Setup(expression: x => x.UpdateValidatedRoleAsync(entity: entity))
+            .ReturnsAsync(value: entity);
 
         roleEventProcessingServiceMock
             .Setup(expression: x => x.RaiseRoleUpdateEventAsync(entity: entity))
@@ -49,7 +55,9 @@ public partial class RoleOrchestrationServiceTests
         Role result = await orchestrationService.UpdateValidatedRoleAsync(updatedRole: entity);
 
         // Then
-        result.Should().BeSameAs(expected: entity);
+        result.Should()
+            .BeSameAs(expected: entity);
+
         roleProcessingServiceMock.Verify(expression: x => x.UpdateValidatedRoleAsync(entity: entity), times: Times.Once);
         roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleUpdateEventAsync(entity: entity), times: Times.Once);
     }

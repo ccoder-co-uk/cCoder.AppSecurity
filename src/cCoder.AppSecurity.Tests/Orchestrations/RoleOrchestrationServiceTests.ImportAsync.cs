@@ -13,6 +13,7 @@ public partial class RoleOrchestrationServiceTests
     [Fact]
     public async Task ShouldAddAndUpdateRolesWhenImporting()
     {
+        // Given
         Role existingRole = new()
         {
             Id = Guid.NewGuid(),
@@ -36,7 +37,7 @@ public partial class RoleOrchestrationServiceTests
 
         roleProcessingServiceMock.Setup(expression: service =>
                 service.AddValidatedRoleAsync(
-entity:                     It.Is<Role>(role =>
+entity: It.Is<Role>(match: role =>
                         role.AppId == 7
                         && role.Id == Guid.Empty
                         && role.Name == "Guests")))
@@ -44,14 +45,18 @@ entity:                     It.Is<Role>(role =>
 
         roleProcessingServiceMock.Setup(expression: service =>
                 service.UpdateValidatedRoleAsync(
-entity:                     It.Is<Role>(role =>
+entity: It.Is<Role>(match: role =>
                         role.AppId == 7
                         && role.Id == existingRole.Id
                         && role.Name == "Users")))
             .ReturnsAsync(value: updatedRole);
 
-        await orchestrationService.ImportRoleAsync(appId: 7, roles: [newRole, updatedRole]);
+        // When
+        await orchestrationService.ImportRoleAsync(
+            appId: 7,
+            roles: [newRole, updatedRole]);
 
+        // Then
         roleProcessingServiceMock.Verify(expression: service => service.GetAll(ignoreFilters: false), times: Times.Once);
         roleProcessingServiceMock.Verify(expression: service => service.AddValidatedRoleAsync(entity: newRole), times: Times.Once);
         roleProcessingServiceMock.Verify(expression: service => service.UpdateValidatedRoleAsync(entity: updatedRole), times: Times.Once);

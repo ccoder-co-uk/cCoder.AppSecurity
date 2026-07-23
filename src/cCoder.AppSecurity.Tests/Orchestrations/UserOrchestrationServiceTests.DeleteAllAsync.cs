@@ -18,7 +18,9 @@ public partial class UserOrchestrationServiceTests
     {
         // Given
         User[] entities = [CreateRandomUser()];
-        userProcessingServiceMock.Setup(expression: x => x.DeleteAllUserAsync(items: entities)).Returns(value: ValueTask.CompletedTask);
+
+        userProcessingServiceMock.Setup(expression: x => x.DeleteAllUserAsync(items: entities))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
         await orchestrationService.DeleteAllUserAsync(deletedUser: entities);

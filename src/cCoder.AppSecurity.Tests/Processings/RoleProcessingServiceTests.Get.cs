@@ -24,7 +24,10 @@ public partial class RoleProcessingServiceTests
             Name = "Administrators",
             Privs = "app_read",
         };
-        roleServiceMock.Setup(expression: x => x.Get(id: expected.Id)).Returns(value: expected);
+
+        roleServiceMock.Setup(expression: x => x.Get(id: expected.Id))
+            .Returns(value: expected);
+
         Role result = roleProcessingService.Get(roleId: expected.Id);
 
         // Then

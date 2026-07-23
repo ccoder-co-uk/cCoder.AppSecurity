@@ -18,6 +18,7 @@ public sealed partial class HealthTests
         string actualHealth = await GetHealthAsync();
 
         // Then
-        actualHealth.Should().Be("OK");
+        actualHealth.Should()
+            .Be(expected: "OK");
     }
 }

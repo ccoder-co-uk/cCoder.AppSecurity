@@ -13,8 +13,8 @@ public sealed partial class HostedServicesHomeTests(HostedServicesAcceptanceFixt
     private HttpClient Client { get; } = fixture.Client;
 
     private Task<string> GetRootAsync() =>
-        Client.GetStringAsync("/");
+        Client.GetStringAsync(requestUri: "/");
 
     private Task<string> GetHealthAsync() =>
-        Client.GetStringAsync("/Health");
+        Client.GetStringAsync(requestUri: "/Health");
 }

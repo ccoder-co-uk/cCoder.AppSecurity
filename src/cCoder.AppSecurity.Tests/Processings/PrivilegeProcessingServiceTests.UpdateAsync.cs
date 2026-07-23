@@ -23,15 +23,20 @@ public partial class PrivilegeProcessingServiceTests
             .Setup(expression: x => x.Authorize(appId: It.IsAny<int?>(), privilege: It.IsAny<string>()))
             .Callback(action: (int? appId, string privilege) =>
             {
+
                 if (!(currentUser?.Can(appId: appId, operation: privilege) ?? false))
+                {
                     throw new SecurityException(message: "Access Denied!");
+                }
+
             });
 
         authorizationBrokerMock
             .Setup(expression: x => x.IsAdminOfApp(appId: It.IsAny<int>()))
             .Returns(valueFunction: (int appId) => currentUser?.IsAdminOfApp(appId: appId) ?? false);
 
-        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser()).Returns(valueFunction: () => ToExternalUser(user: currentUser));
+        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(valueFunction: () => ToExternalUser(user: currentUser));
 
         Privilege privilege = new();
         User user = WithPrivilege(privilege: "privilege_update");
@@ -43,7 +48,9 @@ public partial class PrivilegeProcessingServiceTests
 
         // Then
         await act.Should()
-            .ThrowAsync<InvalidOperationException>()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException>()
+            .WithMessage(expectedWildcardPattern: "The AppSecurity processing service failed.")
+            .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException, InvalidOperationException>(because: string.Empty, becauseArgs: [])
             .WithMessage(expectedWildcardPattern: "Cannot update privileges");
 
         privilegeServiceMock.VerifyNoOtherCalls();
@@ -57,15 +64,20 @@ public partial class PrivilegeProcessingServiceTests
             .Setup(expression: x => x.Authorize(appId: It.IsAny<int?>(), privilege: It.IsAny<string>()))
             .Callback(action: (int? appId, string privilege) =>
             {
+
                 if (!(currentUser?.Can(appId: appId, operation: privilege) ?? false))
+                {
                     throw new SecurityException(message: "Access Denied!");
+                }
+
             });
 
         authorizationBrokerMock
             .Setup(expression: x => x.IsAdminOfApp(appId: It.IsAny<int>()))
             .Returns(valueFunction: (int appId) => currentUser?.IsAdminOfApp(appId: appId) ?? false);
 
-        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser()).Returns(valueFunction: () => ToExternalUser(user: currentUser));
+        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(valueFunction: () => ToExternalUser(user: currentUser));
 
         Privilege privilege = new();
         User user = WithoutPrivileges();
@@ -76,7 +88,12 @@ public partial class PrivilegeProcessingServiceTests
         Func<Task> act = async () => await privilegeProcessingService.UpdatePrivilegeAsync(updatedPrivilege: privilege);
 
         // Then
-        await act.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        await act.Should()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException>()
+            .WithMessage(expectedWildcardPattern: "The AppSecurity processing service failed.")
+            .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         privilegeServiceMock.VerifyNoOtherCalls();
     }
 

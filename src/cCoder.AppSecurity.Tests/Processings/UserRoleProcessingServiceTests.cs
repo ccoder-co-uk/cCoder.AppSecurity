@@ -18,12 +18,14 @@ public partial class UserRoleProcessingServiceTests
 
     public UserRoleProcessingServiceTests()
     {
+
         userRoleProcessingService = new UserRoleProcessingService(
             service: userRoleServiceMock.Object);
     }
 
     private static User WithPrivilege(string privilege, int appId = 1)
     {
+
         Role role = new()
         {
             Id = Guid.NewGuid(),

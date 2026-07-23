@@ -18,7 +18,9 @@ public partial class RoleOrchestrationServiceTests
     {
         // Given
         Role[] entities = [CreateRandomRole()];
-        roleProcessingServiceMock.Setup(expression: x => x.DeleteAllRoleAsync(items: entities)).Returns(value: ValueTask.CompletedTask);
+
+        roleProcessingServiceMock.Setup(expression: x => x.DeleteAllRoleAsync(items: entities))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
         await orchestrationService.DeleteAllRoleAsync(deletedRole: entities);

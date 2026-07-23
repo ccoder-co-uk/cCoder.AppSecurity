@@ -19,7 +19,10 @@ public sealed partial class WebShellTests
         using HttpResponseMessage response = await GetRootAsync();
 
         // Then
-        response.StatusCode.Should().Be(HttpStatusCode.Redirect);
-        response.Headers.Location!.OriginalString.Should().Be("/tools/index.html");
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.Redirect);
+
+        response.Headers.Location!.OriginalString.Should()
+            .Be(expected: "/tools/index.html");
     }
 }

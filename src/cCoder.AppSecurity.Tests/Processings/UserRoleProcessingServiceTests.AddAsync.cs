@@ -22,17 +22,23 @@ public partial class UserRoleProcessingServiceTests
             .Setup(expression: x => x.Authorize(appId: It.IsAny<int?>(), privilege: It.IsAny<string>()))
             .Callback(action: (int? appId, string privilege) =>
             {
+
                 if (!(currentUser?.Can(appId: appId, operation: privilege) ?? false))
+                {
                     throw new SecurityException(message: "Access Denied!");
+                }
+
             });
 
         userRoleServiceMock
             .Setup(expression: x => x.IsAdminOfApp(appId: It.IsAny<int>()))
             .Returns(valueFunction: (int appId) => currentUser?.IsAdminOfApp(appId: appId) ?? false);
 
-        userRoleServiceMock.Setup(expression: x => x.GetCurrentUser()).Returns(valueFunction: () => ToExternalUser(user: currentUser));
+        userRoleServiceMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(valueFunction: () => ToExternalUser(user: currentUser));
 
         User actor = WithPrivilege(privilege: "userrole_create", appId: 1);
+
         User targetUser = new()
         {
             Id = "target-user",
@@ -41,6 +47,7 @@ public partial class UserRoleProcessingServiceTests
             Email = "target@example.com",
             IsActive = true,
         };
+
         Role role = new()
         {
             Id = Guid.NewGuid(),
@@ -55,11 +62,18 @@ public partial class UserRoleProcessingServiceTests
                 Domain = "app.local",
             },
         };
+
         UserRole link = new() { UserId = targetUser.Id, RoleId = role.Id };
         currentUser = actor;
-        userRoleServiceMock.Setup(expression: service => service.GetRole(roleId: role.Id)).Returns(value: role);
-        userRoleServiceMock.Setup(expression: service => service.GetUser(userId: targetUser.Id)).Returns(value: targetUser);
-        userRoleServiceMock.Setup(expression: x => x.AddUserRoleAsync(newUserRole: link)).ReturnsAsync(value: link);
+
+        userRoleServiceMock.Setup(expression: service => service.GetRole(roleId: role.Id))
+            .Returns(value: role);
+
+        userRoleServiceMock.Setup(expression: service => service.GetUser(userId: targetUser.Id))
+            .Returns(value: targetUser);
+
+        userRoleServiceMock.Setup(expression: x => x.AddUserRoleAsync(newUserRole: link))
+            .ReturnsAsync(value: link);
 
         // When
         UserRole result = await userRoleProcessingService.AddUserRoleAsync(newUserRole: link);
@@ -77,17 +91,23 @@ public partial class UserRoleProcessingServiceTests
             .Setup(expression: x => x.Authorize(appId: It.IsAny<int?>(), privilege: It.IsAny<string>()))
             .Callback(action: (int? appId, string privilege) =>
             {
+
                 if (!(currentUser?.Can(appId: appId, operation: privilege) ?? false))
+                {
                     throw new SecurityException(message: "Access Denied!");
+                }
+
             });
 
         userRoleServiceMock
             .Setup(expression: x => x.IsAdminOfApp(appId: It.IsAny<int?>()))
             .Returns(valueFunction: (int? appId) => currentUser?.IsAdminOfApp(appId: appId) ?? false);
 
-        userRoleServiceMock.Setup(expression: x => x.GetCurrentUser()).Returns(valueFunction: () => ToExternalUser(user: currentUser));
+        userRoleServiceMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(valueFunction: () => ToExternalUser(user: currentUser));
 
         User actor = WithPrivilege(privilege: "userrole_create,app_admin", appId: 1);
+
         User targetUser = new()
         {
             Id = "target-user",
@@ -96,6 +116,7 @@ public partial class UserRoleProcessingServiceTests
             Email = "target@example.com",
             IsActive = true,
         };
+
         Role role = new()
         {
             Id = Guid.NewGuid(),
@@ -110,11 +131,18 @@ public partial class UserRoleProcessingServiceTests
                 Domain = "app.local",
             },
         };
+
         UserRole link = new() { UserId = targetUser.Id, RoleId = role.Id };
         currentUser = actor;
-        userRoleServiceMock.Setup(expression: service => service.GetRole(roleId: role.Id)).Returns(value: role);
-        userRoleServiceMock.Setup(expression: service => service.GetUser(userId: targetUser.Id)).Returns(value: targetUser);
-        userRoleServiceMock.Setup(expression: x => x.AddUserRoleAsync(newUserRole: link)).ReturnsAsync(value: link);
+
+        userRoleServiceMock.Setup(expression: service => service.GetRole(roleId: role.Id))
+            .Returns(value: role);
+
+        userRoleServiceMock.Setup(expression: service => service.GetUser(userId: targetUser.Id))
+            .Returns(value: targetUser);
+
+        userRoleServiceMock.Setup(expression: x => x.AddUserRoleAsync(newUserRole: link))
+            .ReturnsAsync(value: link);
 
         // When
         UserRole result = await userRoleProcessingService.AddUserRoleAsync(newUserRole: link);
@@ -132,15 +160,20 @@ public partial class UserRoleProcessingServiceTests
             .Setup(expression: x => x.Authorize(appId: It.IsAny<int?>(), privilege: It.IsAny<string>()))
             .Callback(action: (int? appId, string privilege) =>
             {
+
                 if (!(currentUser?.Can(appId: appId, operation: privilege) ?? false))
+                {
                     throw new SecurityException(message: "Access Denied!");
+                }
+
             });
 
         userRoleServiceMock
             .Setup(expression: x => x.IsAdminOfApp(appId: It.IsAny<int>()))
             .Returns(valueFunction: (int appId) => currentUser?.IsAdminOfApp(appId: appId) ?? false);
 
-        userRoleServiceMock.Setup(expression: x => x.GetCurrentUser()).Returns(valueFunction: () => ToExternalUser(user: currentUser));
+        userRoleServiceMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(valueFunction: () => ToExternalUser(user: currentUser));
 
         User targetUser = new()
         {
@@ -150,6 +183,7 @@ public partial class UserRoleProcessingServiceTests
             Email = "target@example.com",
             IsActive = true,
         };
+
         Role role = new()
         {
             Id = Guid.NewGuid(),
@@ -164,13 +198,17 @@ public partial class UserRoleProcessingServiceTests
                 Domain = "app.local",
             },
         };
-        userRoleServiceMock.Setup(expression: service => service.GetRole(roleId: role.Id)).Returns(value: role);
-        userRoleServiceMock.Setup(expression: service => service.GetUser(userId: targetUser.Id)).Returns(value: targetUser);
+
+        userRoleServiceMock.Setup(expression: service => service.GetRole(roleId: role.Id))
+            .Returns(value: role);
+
+        userRoleServiceMock.Setup(expression: service => service.GetUser(userId: targetUser.Id))
+            .Returns(value: targetUser);
 
         // When
-        await Assert.ThrowsAsync<SecurityException>(testCode: async () =>
+        await Assert.ThrowsAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException>(testCode: async () =>
             await userRoleProcessingService.AddUserRoleAsync(
-newUserRole:                 new UserRole { UserId = targetUser.Id, RoleId = role.Id }
+newUserRole: new UserRole { UserId = targetUser.Id, RoleId = role.Id }
             )
         );
 
@@ -185,17 +223,23 @@ newUserRole:                 new UserRole { UserId = targetUser.Id, RoleId = rol
             .Setup(expression: x => x.Authorize(appId: It.IsAny<int?>(), privilege: It.IsAny<string>()))
             .Callback(action: (int? appId, string privilege) =>
             {
+
                 if (!(currentUser?.Can(appId: appId, operation: privilege) ?? false))
+                {
                     throw new SecurityException(message: "Access Denied!");
+                }
+
             });
 
         userRoleServiceMock
             .Setup(expression: x => x.IsAdminOfApp(appId: It.IsAny<int?>()))
             .Returns(valueFunction: (int? appId) => currentUser?.IsAdminOfApp(appId: appId) ?? false);
 
-        userRoleServiceMock.Setup(expression: x => x.GetCurrentUser()).Returns(valueFunction: () => ToExternalUser(user: currentUser));
+        userRoleServiceMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(valueFunction: () => ToExternalUser(user: currentUser));
 
         User actor = WithPrivilege(privilege: "userrole_create", appId: 1);
+
         User targetUser = new()
         {
             Id = "target-user",
@@ -204,6 +248,7 @@ newUserRole:                 new UserRole { UserId = targetUser.Id, RoleId = rol
             Email = "target@example.com",
             IsActive = true,
         };
+
         Role role = new()
         {
             Id = Guid.NewGuid(),
@@ -218,21 +263,26 @@ newUserRole:                 new UserRole { UserId = targetUser.Id, RoleId = rol
                 Domain = "app.local",
             },
         };
+
         currentUser = actor;
-        userRoleServiceMock.Setup(expression: service => service.GetRole(roleId: role.Id)).Returns(value: role);
-        userRoleServiceMock.Setup(expression: service => service.GetUser(userId: targetUser.Id)).Returns(value: targetUser);
+
+        userRoleServiceMock.Setup(expression: service => service.GetRole(roleId: role.Id))
+            .Returns(value: role);
+
+        userRoleServiceMock.Setup(expression: service => service.GetUser(userId: targetUser.Id))
+            .Returns(value: targetUser);
 
         // When
-        await Assert.ThrowsAsync<SecurityException>(testCode: async () =>
+        await Assert.ThrowsAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException>(testCode: async () =>
             await userRoleProcessingService.AddUserRoleAsync(
-newUserRole:                 new UserRole { UserId = targetUser.Id, RoleId = role.Id }
+newUserRole: new UserRole { UserId = targetUser.Id, RoleId = role.Id }
             )
         );
 
         // Then
         userRoleServiceMock.Verify(
-expression:             x => x.AddUserRoleAsync(newUserRole: It.IsAny<UserRole>()),
-times:             Times.Never
+expression: x => x.AddUserRoleAsync(newUserRole: It.IsAny<UserRole>()),
+times: Times.Never
         );
     }
 

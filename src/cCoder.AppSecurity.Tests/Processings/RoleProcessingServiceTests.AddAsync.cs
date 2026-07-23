@@ -23,6 +23,7 @@ public partial class RoleProcessingServiceTests
             Name = "Administrators",
             Privs = "app_read",
         };
+
         currentUser = new User
         {
             Id = "test-user",
@@ -50,7 +51,9 @@ public partial class RoleProcessingServiceTests
                 },
             ],
         };
-        roleServiceMock.Setup(expression: x => x.AddRoleAsync(role: expected)).ReturnsAsync(value: expected);
+
+        roleServiceMock.Setup(expression: x => x.AddRoleAsync(role: expected))
+            .ReturnsAsync(value: expected);
 
         // When
         Role actual = await roleProcessingService.AddRoleAsync(newRole: expected);

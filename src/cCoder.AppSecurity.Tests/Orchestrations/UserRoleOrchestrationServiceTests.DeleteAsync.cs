@@ -18,7 +18,9 @@ public partial class UserRoleOrchestrationServiceTests
     {
         // Given
         UserRole userRole = CreateRandomUserRole();
-        userRoleProcessingServiceMock.Setup(expression: x => x.DeleteUserRoleAsync(entity: userRole)).Returns(value: ValueTask.CompletedTask);
+
+        userRoleProcessingServiceMock.Setup(expression: x => x.DeleteUserRoleAsync(entity: userRole))
+            .Returns(value: ValueTask.CompletedTask);
 
         userRoleEventProcessingServiceMock
             .Setup(expression: x => x.RaiseUserRoleDeleteEventAsync(entity: userRole))

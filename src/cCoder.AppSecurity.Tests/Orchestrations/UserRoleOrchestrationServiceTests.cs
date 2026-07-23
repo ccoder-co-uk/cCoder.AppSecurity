@@ -23,11 +23,14 @@ public partial class UserRoleOrchestrationServiceTests
     {
         userRoleProcessingServiceMock = new Mock<IUserRoleProcessingService>(behavior: MockBehavior.Strict);
         userRoleEventProcessingServiceMock = new Mock<IUserRoleEventProcessingService>(behavior: MockBehavior.Strict);
+
         orchestrationService = new UserRoleOrchestrationService(
-processingService:             userRoleProcessingServiceMock.Object,
-eventService:             userRoleEventProcessingServiceMock.Object
+processingService: userRoleProcessingServiceMock.Object,
+eventService: userRoleEventProcessingServiceMock.Object
         );
     }
 
-    private static UserRole CreateRandomUserRole() => Builder<UserRole>.CreateNew().Build();
+    private static UserRole CreateRandomUserRole() =>
+        Builder<UserRole>.CreateNew()
+        .Build();
 }

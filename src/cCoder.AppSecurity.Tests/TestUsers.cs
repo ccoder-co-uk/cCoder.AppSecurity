@@ -15,6 +15,7 @@ internal static class TestUsers
 
     internal static User WithPrivileges(IEnumerable<string> privileges, int appId = 1)
     {
+
         Role role = new()
         {
             Id = Guid.NewGuid(),
@@ -42,6 +43,7 @@ internal static class TestUsers
 
         user.Roles = [userRole];
         role.Users = [userRole];
+
         role.App = new App
         {
             Id = appId,

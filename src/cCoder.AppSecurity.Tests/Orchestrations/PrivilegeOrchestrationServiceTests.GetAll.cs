@@ -19,13 +19,17 @@ public partial class PrivilegeOrchestrationServiceTests
     {
         // Given
         IQueryable<Privilege> entities = new[] { CreateRandomPrivilege() }.AsQueryable();
-        privilegeProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true)).Returns(value: entities);
+
+        privilegeProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: entities);
 
         // When
         IQueryable<Privilege> result = orchestrationService.GetAll(ignoreFilters: true);
 
         // Then
-        result.Should().BeSameAs(expected: entities);
+        result.Should()
+            .BeSameAs(expected: entities);
+
         privilegeProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         privilegeProcessingServiceMock.VerifyNoOtherCalls();
         privilegeEventProcessingServiceMock.VerifyNoOtherCalls();

@@ -19,6 +19,7 @@ public partial class RoleProcessingServiceTests
         // Given
         Role entity = CreateRandomRole();
         var id = entity.Id;
+
         roleServiceMock
             .Setup(expression: x => x.DeleteAsync(id: id))
             .Returns(value: ValueTask.CompletedTask);

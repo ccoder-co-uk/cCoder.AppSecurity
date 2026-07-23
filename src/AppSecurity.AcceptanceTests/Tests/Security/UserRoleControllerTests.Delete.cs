@@ -16,21 +16,26 @@ public sealed partial class UserRoleControllerTests
     {
         // Given
         SeededUserRoleContext seededContext = await SeedDatabase();
-        await CreateUserRoleAsync(new
+
+        await CreateUserRoleAsync(payload: new
         {
             userId = seededContext.UserId,
             roleId = seededContext.GuestRoleId,
         });
+
         UserRole actualUserRole;
 
         // When
-        int actualStatusCode = await DeleteUserRoleAsync(seededContext.GuestRoleId, seededContext.UserId);
-        actualUserRole = await FindUserRoleAsync(seededContext.UserId, seededContext.GuestRoleId);
+        int actualStatusCode = await DeleteUserRoleAsync(roleId: seededContext.GuestRoleId, userId: seededContext.UserId);
+        actualUserRole = await FindUserRoleAsync(userId: seededContext.UserId, roleId: seededContext.GuestRoleId);
 
         // Then
-        actualStatusCode.Should().Be(200);
-        actualUserRole.Should().BeNull();
+        actualStatusCode.Should()
+            .Be(expected: 200);
 
-        await Teardown(seededContext);
+        actualUserRole.Should()
+            .BeNull();
+
+        await Teardown(seededContext: seededContext);
     }
 }

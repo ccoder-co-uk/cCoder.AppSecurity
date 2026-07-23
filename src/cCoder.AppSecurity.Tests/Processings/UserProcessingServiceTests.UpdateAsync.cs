@@ -19,8 +19,12 @@ public partial class UserProcessingServiceTests
     {
         // Given
         User user = CreateRandomUser(id: "test-user");
-        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId).Returns(value: user.Id);
-        userServiceMock.Setup(expression: x => x.UpdateUserAsync(user: user)).ReturnsAsync(value: user);
+
+        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId)
+            .Returns(value: user.Id);
+
+        userServiceMock.Setup(expression: x => x.UpdateUserAsync(user: user))
+            .ReturnsAsync(value: user);
 
         // When
         User result = await userProcessingService.UpdateUserAsync(updatedUser: user);
@@ -34,12 +38,13 @@ public partial class UserProcessingServiceTests
     public async Task ShouldThrowSecurityExceptionWhenUpdatingDifferentUserForUpdateAsync()
     {
         // Given
-        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId).Returns(value: "different-user");
+        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId)
+            .Returns(value: "different-user");
 
         // When
-        await Assert.ThrowsAsync<SecurityException>(testCode: async () =>
+        await Assert.ThrowsAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException>(testCode: async () =>
             await userProcessingService.UpdateUserAsync(
-updatedUser:                 CreateRandomUser(id: "other-user", email: "other@example.com")
+updatedUser: CreateRandomUser(id: "other-user", email: "other@example.com")
             )
         );
 

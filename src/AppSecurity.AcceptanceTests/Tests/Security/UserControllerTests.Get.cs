@@ -23,7 +23,8 @@ public sealed partial class UserControllerTests
         int actualCount = await GetUserCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(0);
+        actualCount.Should()
+            .BeGreaterThanOrEqualTo(expected: 0);
     }
 
     [Fact]
@@ -32,10 +33,11 @@ public sealed partial class UserControllerTests
         // Given
 
         // When
-        IReadOnlyList<User> actualUsers = await GetUsersAsync(1);
+        IReadOnlyList<User> actualUsers = await GetUsersAsync(top: 1);
 
         // Then
-        actualUsers.Should().NotBeNull();
+        actualUsers.Should()
+            .NotBeNull();
     }
 
     [Fact]
@@ -45,39 +47,57 @@ public sealed partial class UserControllerTests
         SeededUserContext seededContext = await SeedDatabase();
 
         // When
-        User actualUser = await GetUserAsync(seededContext.UserId);
+        User actualUser = await GetUserAsync(id: seededContext.UserId);
 
         // Then
-        actualUser.Should().NotBeNull();
-        actualUser!.Id.Should().Be(seededContext.UserId);
+        actualUser.Should()
+            .NotBeNull();
 
-        await Teardown(seededContext);
+        actualUser!.Id.Should()
+            .Be(expected: seededContext.UserId);
+
+        await Teardown(seededContext: seededContext);
     }
 
     [Fact]
     public async Task Get_WithoutReadPrivilege_ReturnsNotFound()
     {
-        SeededUserContext seededContext = await SeedDatabase("app_admin", "user_create");
-        string hiddenUserId = Unique("hidden-user");
+        // Given
+        string[] guestPrivileges =
+        [
+            "app_admin",
+            "user_create",
+        ];
+
+        SeededUserContext seededContext = await SeedDatabase(
+            guestPrivileges: guestPrivileges);
+
+        string hiddenUserId = Unique(prefix: "hidden-user");
 
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        await core.AddUserAsync(new User
+        User hiddenUser = new()
         {
             Id = hiddenUserId,
             DefaultCultureId = string.Empty,
             DisplayName = "Hidden User",
             Email = $"{hiddenUserId}@example.com",
             IsActive = true,
-        });
+        };
 
-        User actualUser = await GetUserAsync(hiddenUserId);
+        await core.AddUserAsync(user: hiddenUser);
 
-        actualUser.Should().BeNull();
+        // When
+        User actualUser = await GetUserAsync(id: hiddenUserId);
 
-        await Teardown(seededContext);
+        // Then
+        actualUser.Should()
+            .BeNull();
+
+        await Teardown(seededContext: seededContext);
     }
 }

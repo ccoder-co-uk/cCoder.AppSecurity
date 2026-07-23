@@ -16,18 +16,20 @@ public sealed partial class PrivilegeControllerTests
         // Given
 
         // When
-        int actualStatusCode = await GetPrivilegeStatusCodeAsync($"{BaseUrl}/$count");
+        int actualStatusCode = await GetPrivilegeStatusCodeAsync(relativeUrl: $"{BaseUrl}/$count");
 
         // Then
-        actualStatusCode.Should().Be(401);
+        actualStatusCode.Should()
+            .Be(expected: 401);
     }
 
     [Fact]
     public async Task Get_ReturnsPrivilegeById()
     {
         // Given
-        string id = Unique("privilege");
-        await CreatePrivilegeAsync(new
+        string id = Unique(prefix: "privilege");
+
+        await CreatePrivilegeAsync(payload: new
         {
             id,
             type = "Acceptance",
@@ -37,11 +39,12 @@ public sealed partial class PrivilegeControllerTests
         });
 
         // When
-        int actualStatusCode = await GetPrivilegeStatusCodeAsync($"{BaseUrl}('{Uri.EscapeDataString(id)}')");
+        int actualStatusCode = await GetPrivilegeStatusCodeAsync(relativeUrl: $"{BaseUrl}('{Uri.EscapeDataString(stringToEscape: id)}')");
 
         // Then
-        actualStatusCode.Should().Be(404);
+        actualStatusCode.Should()
+            .Be(expected: 404);
 
-        await DeletePrivilegeAsync(id);
+        await DeletePrivilegeAsync(id: id);
     }
 }

@@ -23,7 +23,9 @@ public partial class PrivilegeServiceTests
 
         cCoder.Data.Models.Security.Privilege submitted = null;
 
-        privilegeBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>())).Returns(value: (int?)7);
+        privilegeBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()))
+            .Returns(value: (int?)7);
+
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Privilege_create"));
 
         privilegeBrokerMock
@@ -35,10 +37,17 @@ public partial class PrivilegeServiceTests
         Privilege result = await privilegeService.AddPrivilegeAsync(newPrivilege: privilege);
 
         // Then
-        result.Should().BeSameAs(expected: privilege);
-        submitted.Should().NotBeNull();
-        submitted.Should().NotBeSameAs(unexpected: privilege);
-        result.Should().NotBeSameAs(unexpected: submitted);
+        result.Should()
+            .BeSameAs(expected: privilege);
+
+        submitted.Should()
+            .NotBeNull();
+
+        submitted.Should()
+            .NotBeSameAs(unexpected: privilege);
+
+        result.Should()
+            .NotBeSameAs(unexpected: submitted);
 
         submitted
             .Should()
@@ -49,9 +58,10 @@ public partial class PrivilegeServiceTests
             .BeEquivalentTo(expectation: privilege, config: options => options.Excluding(expression: candidate => candidate.Id));
 
         privilegeBrokerMock.Verify(
-expression:             x => x.AddPrivilegeAsync(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()),
-times:             Times.Once
+expression: x => x.AddPrivilegeAsync(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()),
+times: Times.Once
         );
+
         privilegeBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()), times: Times.AtMostOnce());
         privilegeBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "Privilege_create"), times: Times.Once);
@@ -64,7 +74,9 @@ times:             Times.Once
         // Given
         Privilege privilege = CreateRandomPrivilege();
 
-        privilegeBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>())).Returns(value: (int?)7);
+        privilegeBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()))
+            .Returns(value: (int?)7);
+
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Privilege_create"))
             .Throws(exception: new SecurityException(message: "Access Denied!"));
@@ -73,7 +85,12 @@ times:             Times.Once
         Func<Task> action = async () => await privilegeService.AddPrivilegeAsync(newPrivilege: privilege);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        await action.Should()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException>()
+            .WithMessage(expectedWildcardPattern: "The AppSecurity service failed.")
+            .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         privilegeBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()), times: Times.AtMostOnce());
         privilegeBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "Privilege_create"), times: Times.Once);

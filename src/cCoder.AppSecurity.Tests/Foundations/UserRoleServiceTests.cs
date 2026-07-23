@@ -32,6 +32,7 @@ public partial class UserRoleServiceTests
         roleBrokerMock = new Mock<IRoleBroker>(behavior: MockBehavior.Strict);
         userBrokerMock = new Mock<IUserBroker>(behavior: MockBehavior.Strict);
         authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
+
         userRoleService = new UserRoleService(
             userRoleBroker: userRoleBrokerMock.Object,
             roleBroker: roleBrokerMock.Object,
@@ -42,6 +43,7 @@ public partial class UserRoleServiceTests
 
     private static UserRole CreateRandomUserRole(Guid? roleId = null, string userId = null)
     {
+
         UserRole userRole = new()
         {
             RoleId = roleId ?? Guid.NewGuid(),

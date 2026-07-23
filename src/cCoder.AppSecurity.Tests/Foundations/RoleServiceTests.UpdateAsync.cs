@@ -23,13 +23,22 @@ public partial class RoleServiceTests
 
         cCoder.Data.Models.Security.Role submitted = null;
 
-        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true)).Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
-        roleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>())).Returns(value: (int?)7);
+        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true))
+            .Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
+
+        roleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+            .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_update"));
+
         authorizationBrokerMock
             .Setup(expression: x => x.GetCurrentUser())
-            .Returns(value: CreateCurrentUser(appId: 7, "page_read", "page_write"));
+            .Returns(value: CreateCurrentUser(
+                appId: 7,
+                privileges: [
+                    "page_read",
+                    "page_write",
+                ]));
 
         roleBrokerMock
             .Setup(expression: x => x.UpdateRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
@@ -40,26 +49,38 @@ public partial class RoleServiceTests
         Role result = await roleService.UpdateRoleAsync(updatedRole: role);
 
         // Then
-        result.Should().BeSameAs(expected: role);
-        submitted.Should().NotBeNull();
-        submitted.Should().NotBeSameAs(unexpected: role);
-        result.Should().NotBeSameAs(unexpected: submitted);
-        submitted.Should().BeEquivalentTo(
-expectation:             role,
-config:             options => options
+        result.Should()
+            .BeSameAs(expected: role);
+
+        submitted.Should()
+            .NotBeNull();
+
+        submitted.Should()
+            .NotBeSameAs(unexpected: role);
+
+        result.Should()
+            .NotBeSameAs(unexpected: submitted);
+
+        submitted.Should()
+            .BeEquivalentTo(
+expectation: role,
+config: options => options
                 .Excluding(expression: candidate => candidate.App)
                 .Excluding(expression: candidate => candidate.Pages)
                 .Excluding(expression: candidate => candidate.Folders)
                 .Excluding(expression: candidate => candidate.Users)
         );
-        result.Should().BeEquivalentTo(
-expectation:             role,
-config:             options => options
+
+        result.Should()
+            .BeEquivalentTo(
+expectation: role,
+config: options => options
                 .Excluding(expression: candidate => candidate.App)
                 .Excluding(expression: candidate => candidate.Pages)
                 .Excluding(expression: candidate => candidate.Folders)
                 .Excluding(expression: candidate => candidate.Users)
         );
+
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
         roleBrokerMock.Verify(expression: x => x.UpdateRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.Once);
         roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
@@ -76,17 +97,30 @@ config:             options => options
         Role role = CreateRandomRole(appId: 7);
         role.Privs = "page_read,page_delete";
 
-        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true)).Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
+        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true))
+            .Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
+
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_update"));
+
         authorizationBrokerMock
             .Setup(expression: x => x.GetCurrentUser())
-            .Returns(value: CreateCurrentUser(appId: 7, "page_read", "role_update"));
+            .Returns(value: CreateCurrentUser(
+                appId: 7,
+                privileges: [
+                    "page_read",
+                    "role_update",
+                ]));
 
         // When
         Func<Task> action = async () => await roleService.UpdateRoleAsync(updatedRole: role);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        await action.Should()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException>()
+            .WithMessage(expectedWildcardPattern: "The AppSecurity service failed.")
+            .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
         roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
@@ -101,7 +135,8 @@ config:             options => options
         // Given
         Role role = CreateRandomRole(appId: 7);
 
-        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true)).Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
+        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true))
+            .Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
 
         authorizationBrokerMock
             .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_update"))
@@ -111,7 +146,12 @@ config:             options => options
         Func<Task> action = async () => await roleService.UpdateRoleAsync(updatedRole: role);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        await action.Should()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException>()
+            .WithMessage(expectedWildcardPattern: "The AppSecurity service failed.")
+            .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
         roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
@@ -127,7 +167,10 @@ config:             options => options
 
         cCoder.Data.Models.Security.Role submitted = null;
 
-        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true)).Returns(value: Array.Empty<cCoder.Data.Models.Security.Role>().AsQueryable());
+        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true))
+            .Returns(value: Array.Empty<cCoder.Data.Models.Security.Role>()
+            .AsQueryable());
+
         roleBrokerMock
             .Setup(expression: x => x.UpdateRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .Callback<cCoder.Data.Models.Security.Role>(action: candidate => submitted = candidate)
@@ -137,17 +180,27 @@ config:             options => options
         Role result = await roleService.UpdateRoleAsync(updatedRole: role);
 
         // Then
-        result.Should().BeSameAs(expected: role);
-        submitted.Should().NotBeNull();
-        submitted.Should().NotBeSameAs(unexpected: role);
-        result.Should().NotBeSameAs(unexpected: submitted);
-        submitted.Should().BeEquivalentTo(
-expectation:             role,
-config:             options => options
+        result.Should()
+            .BeSameAs(expected: role);
+
+        submitted.Should()
+            .NotBeNull();
+
+        submitted.Should()
+            .NotBeSameAs(unexpected: role);
+
+        result.Should()
+            .NotBeSameAs(unexpected: submitted);
+
+        submitted.Should()
+            .BeEquivalentTo(
+expectation: role,
+config: options => options
                 .Excluding(expression: candidate => candidate.App)
                 .Excluding(expression: candidate => candidate.Pages)
                 .Excluding(expression: candidate => candidate.Folders)
                 .Excluding(expression: candidate => candidate.Users));
+
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
         roleBrokerMock.Verify(expression: x => x.UpdateRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.Once);
         roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());

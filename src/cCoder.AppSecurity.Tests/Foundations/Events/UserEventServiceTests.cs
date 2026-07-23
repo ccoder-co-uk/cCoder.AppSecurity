@@ -22,12 +22,14 @@ public partial class UserEventServiceTests
         authInfoMock = new Mock<IAuthInfoBroker>(behavior: MockBehavior.Strict);
         userEventBrokerMock = new(behavior: MockBehavior.Strict);
         authInfoMock = new();
+
         authInfoMock
             .Setup(expression: broker => broker.GetSSOUserId())
             .Returns(value: CurrentUserId);
+
         service = new cCoder.AppSecurity.Services.Foundations.Events.UserEventService(
-userEventBroker:             userEventBrokerMock.Object,
-authInfoBroker:             authInfoMock.Object
+userEventBroker: userEventBrokerMock.Object,
+authInfoBroker: authInfoMock.Object
         );
     }
 }
