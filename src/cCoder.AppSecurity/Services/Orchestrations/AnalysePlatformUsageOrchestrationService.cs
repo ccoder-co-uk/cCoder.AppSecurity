@@ -124,7 +124,8 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
             })
             .ToArray();
 
-    private static object AnalyseUserActivity(IEnumerable<UserActivity> data) => data
+    private static object AnalyseUserActivity(IEnumerable<UserActivity> data) =>
+        data
         .GroupBy(keySelector: activity => activity.UserId)
         .Select(selector: group => new
         {
@@ -146,7 +147,8 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
         .OrderByDescending(keySelector: item => item.PageRequests + item.ApiRequests)
         .Take(count: 10);
 
-    private static object AnalysePageActivity(IEnumerable<UserActivity> data) => data
+    private static object AnalysePageActivity(IEnumerable<UserActivity> data) =>
+        data
         .Where(predicate: activity => activity.EventName.StartsWith("Page_GET/") && !activity.EventName.StartsWith("Page_GET/lib/"))
         .GroupBy(keySelector: activity => activity.EventValue.Split('?').First())
         .Select(selector: group => new
@@ -161,7 +163,8 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
         .OrderByDescending(keySelector: item => item.Hits)
         .Take(count: 10);
 
-    private static object AnalyseApiActivity(IEnumerable<UserActivity> data) => data
+    private static object AnalyseApiActivity(IEnumerable<UserActivity> data) =>
+        data
         .Where(predicate: activity => activity.EventName.StartsWith("Api_"))
         .GroupBy(keySelector: activity => activity.EventValue.Split('?').First())
         .Select(selector: group => new

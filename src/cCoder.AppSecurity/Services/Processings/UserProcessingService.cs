@@ -15,12 +15,14 @@ namespace cCoder.AppSecurity.Services.Processings;
 internal class UserProcessingService(IUserService service, ICoreAuthInfo authInfo)
     : IUserProcessingService
 {
-    public User Get(string id) => service.Get(id: id);
+    public User Get(string id) =>
+        service.Get(id: id);
 
     public User GetByEmail(string email, bool ignoreFilters = false) =>
         service.GetByEmail(email: email, ignoreFilters: ignoreFilters);
 
-    public IQueryable<User> GetAll(bool ignoreFilters = false) => service.GetAll(ignoreFilters: ignoreFilters);
+    public IQueryable<User> GetAll(bool ignoreFilters = false) =>
+        service.GetAll(ignoreFilters: ignoreFilters);
 
     public async ValueTask<User> AddAsync(User newUser)
     {

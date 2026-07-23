@@ -15,7 +15,8 @@ internal class PrivilegeOrchestrationService(
     IPrivilegeEventProcessingService eventService
 ) : IPrivilegeOrchestrationService
 {
-    public Privilege Get(string id) => processingService.Get(id: id);
+    public Privilege Get(string id) =>
+        processingService.Get(id: id);
 
     public IQueryable<Privilege> GetAll(bool ignoreFilters = false) =>
         processingService.GetAll(ignoreFilters: ignoreFilters);
@@ -43,7 +44,8 @@ internal class PrivilegeOrchestrationService(
 
     public ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdate(
         IEnumerable<Privilege> items
-    ) => processingService.AddOrUpdate(items: items);
+    ) =>
+        processingService.AddOrUpdate(items: items);
 
     public ValueTask DeleteAllAsync(IEnumerable<Privilege> items) =>
         processingService.DeleteAllAsync(items: items);

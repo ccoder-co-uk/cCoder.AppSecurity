@@ -12,7 +12,9 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal class UserRoleEventProcessingService(IUserRoleEventService eventService) : IUserRoleEventProcessingService
 {
-    public ValueTask RaiseUserRoleAddEventAsync(UserRole entity) => eventService.RaiseUserRoleAddEventAsync(entity: entity);
+    public ValueTask RaiseUserRoleAddEventAsync(UserRole entity) =>
+        eventService.RaiseUserRoleAddEventAsync(entity: entity);
 
-    public ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity) => eventService.RaiseUserRoleDeleteEventAsync(entity: entity);
+    public ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity) =>
+        eventService.RaiseUserRoleDeleteEventAsync(entity: entity);
 }

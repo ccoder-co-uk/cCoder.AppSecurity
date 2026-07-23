@@ -21,7 +21,8 @@ internal class UserRoleProcessingService(
 {
     private string CurrentUserId => authorizationBroker.GetCurrentUser()?.Id;
 
-    public IQueryable<UserRole> GetAll(bool ignoreFilters = false) => service.GetAll(ignoreFilters: ignoreFilters);
+    public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
+        service.GetAll(ignoreFilters: ignoreFilters);
 
     public async ValueTask<UserRole> AddAsync(UserRole entity)
     {

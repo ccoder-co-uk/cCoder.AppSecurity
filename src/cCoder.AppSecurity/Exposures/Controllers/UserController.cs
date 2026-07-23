@@ -43,7 +43,8 @@ public partial class UserController : ODataController
         MaxAnyAllExpressionDepth = 6,
         MaxExpansionDepth = 6
     )]
-    public IActionResult Me() => Ok(value: Service.Get(authInfo.SSOUserId));
+    public IActionResult Me() =>
+        Ok(value: Service.Get(authInfo.SSOUserId));
 
     [HttpGet]
     public IActionResult GetMetadata()
@@ -69,7 +70,8 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<User> queryOptions) => Ok(value: Service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<User> queryOptions) =>
+        Ok(value: Service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]

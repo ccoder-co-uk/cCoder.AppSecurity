@@ -15,7 +15,8 @@ internal class UserOrchestrationService(
     IUserEventProcessingService eventService
 ) : IUserOrchestrationService
 {
-    public User Get(string id) => processingService.Get(id: id);
+    public User Get(string id) =>
+        processingService.Get(id: id);
 
     public User GetByEmail(string email, bool ignoreFilters = false) =>
         processingService.GetByEmail(email: email, ignoreFilters: ignoreFilters);
@@ -46,7 +47,8 @@ internal class UserOrchestrationService(
 
     public ValueTask<IEnumerable<Result<User>>> AddOrUpdate(
         IEnumerable<User> items
-    ) => processingService.AddOrUpdate(items: items);
+    ) =>
+        processingService.AddOrUpdate(items: items);
 
     public ValueTask DeleteAllAsync(IEnumerable<User> items) =>
         processingService.DeleteAllAsync(items: items);

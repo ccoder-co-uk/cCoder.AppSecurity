@@ -9,7 +9,9 @@ namespace cCoder.AppSecurity.Services.Foundations;
 
 internal class AppService(IAppBroker appBroker) : IAppService
 {
-    public IQueryable<App> GetAll() => appBroker.GetAll();
+    public IQueryable<App> GetAll() =>
+        appBroker.GetAll();
 
-    public App GetByDomain(string domain) => appBroker.GetByDomain(domain: domain);
+    public App GetByDomain(string domain) =>
+        appBroker.GetByDomain(domain: domain);
 }

@@ -15,7 +15,8 @@ internal class RoleOrchestrationService(
     IRoleEventProcessingService eventService
 ) : IRoleOrchestrationService
 {
-    public Role Get(Guid id) => processingService.Get(id: id);
+    public Role Get(Guid id) =>
+        processingService.Get(id: id);
 
     public IQueryable<Role> GetAll(bool ignoreFilters = false) =>
         processingService.GetAll(ignoreFilters: ignoreFilters);
@@ -76,7 +77,8 @@ internal class RoleOrchestrationService(
 
     public ValueTask<IEnumerable<Result<Role>>> AddOrUpdate(
         IEnumerable<Role> items
-    ) => processingService.AddOrUpdate(items: items);
+    ) =>
+        processingService.AddOrUpdate(items: items);
 
     public async ValueTask ImportAsync(int appId, IEnumerable<Role> roles)
     {

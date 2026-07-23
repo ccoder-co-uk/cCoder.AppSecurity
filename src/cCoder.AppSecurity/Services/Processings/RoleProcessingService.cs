@@ -12,21 +12,29 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal class RoleProcessingService(IRoleService service) : IRoleProcessingService
 {
-    public Role Get(Guid id) => service.Get(id: id);
+    public Role Get(Guid id) =>
+        service.Get(id: id);
 
-    public IQueryable<Role> GetAll(bool ignoreFilters = false) => service.GetAll(ignoreFilters: ignoreFilters);
+    public IQueryable<Role> GetAll(bool ignoreFilters = false) =>
+        service.GetAll(ignoreFilters: ignoreFilters);
 
-    public ValueTask<Role> AddAsync(Role entity) => service.AddAsync(role: entity);
+    public ValueTask<Role> AddAsync(Role entity) =>
+        service.AddAsync(role: entity);
 
-    public ValueTask<Role> AddValidatedAsync(Role entity) => service.AddValidatedAsync(role: entity);
+    public ValueTask<Role> AddValidatedAsync(Role entity) =>
+        service.AddValidatedAsync(role: entity);
 
-    public ValueTask<Role> UpdateAsync(Role entity) => service.UpdateAsync(role: entity);
+    public ValueTask<Role> UpdateAsync(Role entity) =>
+        service.UpdateAsync(role: entity);
 
-    public ValueTask<Role> UpdateValidatedAsync(Role entity) => service.UpdateValidatedAsync(role: entity);
+    public ValueTask<Role> UpdateValidatedAsync(Role entity) =>
+        service.UpdateValidatedAsync(role: entity);
 
-    public ValueTask DeleteAsync(Guid id) => service.DeleteAsync(id: id);
+    public ValueTask DeleteAsync(Guid id) =>
+        service.DeleteAsync(id: id);
 
-    public ValueTask DeleteValidatedAsync(Guid id) => service.DeleteValidatedAsync(id: id);
+    public ValueTask DeleteValidatedAsync(Guid id) =>
+        service.DeleteValidatedAsync(id: id);
 
     public async ValueTask<IEnumerable<Result<Role>>> AddOrUpdate(
         IEnumerable<Role> items

@@ -35,7 +35,8 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker)
     public void ListenToAppDeleteEvents() =>
         ListenToAppDeleteEvent();
 
-    void ListenToPackageEvents() => ListenToPackageImportEvents();
+    void ListenToPackageEvents() =>
+        ListenToPackageImportEvents();
 
     public void ListenToSecurityAccountEvents()
     {

@@ -33,10 +33,12 @@ internal class UserRoleOrchestrationService(
 
     public ValueTask<IEnumerable<Result<UserRole>>> AddOrUpdate(
         IEnumerable<UserRole> items
-    ) => processingService.AddOrUpdate(items: items);
+    ) =>
+        processingService.AddOrUpdate(items: items);
 
     public ValueTask DeleteAllAsync(IEnumerable<UserRole> items) =>
         processingService.DeleteAllAsync(items: items);
 
-    public ValueTask<UserRole> SaveAsync(UserRole entity) => processingService.SaveAsync(entity: entity);
+    public ValueTask<UserRole> SaveAsync(UserRole entity) =>
+        processingService.SaveAsync(entity: entity);
 }

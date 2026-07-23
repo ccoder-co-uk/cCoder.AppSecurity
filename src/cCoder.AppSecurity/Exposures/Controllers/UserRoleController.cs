@@ -24,7 +24,8 @@ public partial class UserRoleController : ODataController
     }
 
     [HttpGet]
-    public IActionResult GetMetadata() => Ok(value: new MetadataContainer(typeof(UserRole), true, true));
+    public IActionResult GetMetadata() =>
+        Ok(value: new MetadataContainer(typeof(UserRole), true, true));
 
     [HttpGet]
     [EnableQuery(
@@ -36,7 +37,8 @@ public partial class UserRoleController : ODataController
         MaxExpansionDepth = 3
     )]
     [ActionName("Get")]
-    public IActionResult GetAll() => Ok(value: Service.GetAll());
+    public IActionResult GetAll() =>
+        Ok(value: Service.GetAll());
 
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] UserRole entity)

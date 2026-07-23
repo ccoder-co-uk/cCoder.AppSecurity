@@ -40,7 +40,8 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<App> queryOptions) => Ok(value: service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<App> queryOptions) =>
+        Ok(value: service.GetAll());
 
     [HttpGet]
     [EnableQuery(
