@@ -23,13 +23,13 @@ public partial class PrivilegeProcessingServiceTests
     public PrivilegeProcessingServiceTests()
     {
         privilegeProcessingService = new PrivilegeProcessingService(
-            privilegeServiceMock.Object,
-            authorizationBrokerMock.Object
+service:             privilegeServiceMock.Object,
+authorizationBroker:             authorizationBrokerMock.Object
         );
     }
 
     private static User WithPrivilege(string privilege, int appId = 1)
-        => WithPrivileges([privilege], appId);
+        => WithPrivileges(privileges: [privilege], appId: appId);
 
     private static User WithPrivileges(IEnumerable<string> privileges, int appId = 1)
     {
@@ -38,7 +38,7 @@ public partial class PrivilegeProcessingServiceTests
             Id = Guid.NewGuid(),
             AppId = appId,
             Name = "Test Role",
-            Privs = string.Join(',', privileges.Select(item => item.ToLowerInvariant())),
+            Privs = string.Join(separator: ',', values: privileges.Select(selector: item => item.ToLowerInvariant())),
             App = new App { Id = appId, Name = "App", Domain = "app.local" },
             Users = [],
             Pages = [],

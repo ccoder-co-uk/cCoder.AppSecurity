@@ -23,14 +23,14 @@ public partial class RoleProcessingServiceTests
             Name = "Administrators",
             Privs = "app_update",
         };
-        roleServiceMock.Setup(x => x.UpdateRoleAsync(expected)).ReturnsAsync(expected);
+        roleServiceMock.Setup(expression: x => x.UpdateRoleAsync(role: expected)).ReturnsAsync(value: expected);
 
         // When
-        Role result = await roleProcessingService.UpdateRoleAsync(expected);
+        Role result = await roleProcessingService.UpdateRoleAsync(updatedRole: expected);
 
         // Then
-        Assert.Same(expected, result);
-        roleServiceMock.Verify(x => x.UpdateRoleAsync(expected), Times.Once);
+        Assert.Same(expected: expected, actual: result);
+        roleServiceMock.Verify(expression: x => x.UpdateRoleAsync(role: expected), times: Times.Once);
     }
 
 }

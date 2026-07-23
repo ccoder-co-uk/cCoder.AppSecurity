@@ -162,10 +162,10 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IRoleService, RoleService>();
         services.AddTransient<IUserEventService, UserEventService>();
         services.AddTransient<IUserRoleEventService, UserRoleEventService>();
-        services.AddTransient<UserRoleService>();
+        services.AddTransient<IUserRoleFoundationService, UserRoleService>();
         services.AddTransient<IUserRoleService>(
             implementationFactory: serviceProvider =>
-                serviceProvider.GetRequiredService<UserRoleService>());
+                serviceProvider.GetRequiredService<IUserRoleFoundationService>());
         services.AddTransient<IUserService, UserService>();
     }
 

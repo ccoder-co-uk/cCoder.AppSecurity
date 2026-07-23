@@ -19,20 +19,20 @@ public partial class PrivilegeOrchestrationServiceTests
         // Given
         string id = Guid.NewGuid().ToString();
         Privilege entity = CreateRandomPrivilege();
-        privilegeProcessingServiceMock.Setup(x => x.Get(id)).Returns(entity);
-        privilegeProcessingServiceMock.Setup(x => x.DeleteAsync(id)).Returns(ValueTask.CompletedTask);
+        privilegeProcessingServiceMock.Setup(expression: x => x.Get(id: id)).Returns(value: entity);
+        privilegeProcessingServiceMock.Setup(expression: x => x.DeleteAsync(id: id)).Returns(value: ValueTask.CompletedTask);
 
         privilegeEventProcessingServiceMock
-            .Setup(x => x.RaisePrivilegeDeleteEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaisePrivilegeDeleteEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAsync(id);
+        await orchestrationService.DeleteAsync(privilegeId: id);
 
         // Then
-        privilegeProcessingServiceMock.Verify(x => x.Get(id), Times.Once);
-        privilegeProcessingServiceMock.Verify(x => x.DeleteAsync(id), Times.Once);
-        privilegeEventProcessingServiceMock.Verify(x => x.RaisePrivilegeDeleteEventAsync(entity), Times.Once);
+        privilegeProcessingServiceMock.Verify(expression: x => x.Get(id: id), times: Times.Once);
+        privilegeProcessingServiceMock.Verify(expression: x => x.DeleteAsync(id: id), times: Times.Once);
+        privilegeEventProcessingServiceMock.Verify(expression: x => x.RaisePrivilegeDeleteEventAsync(entity: entity), times: Times.Once);
     }
 
 }

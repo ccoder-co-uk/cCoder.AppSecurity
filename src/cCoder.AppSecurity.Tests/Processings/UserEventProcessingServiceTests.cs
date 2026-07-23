@@ -20,8 +20,8 @@ public partial class UserEventProcessingServiceTests
 
     public UserEventProcessingServiceTests()
     {
-        userEventServiceMock = new Mock<IUserEventService>(MockBehavior.Strict);
-        service = new UserEventProcessingService(userEventServiceMock.Object);
+        userEventServiceMock = new Mock<IUserEventService>(behavior: MockBehavior.Strict);
+        service = new UserEventProcessingService(eventService: userEventServiceMock.Object);
     }
 
     private static User CreateRandomUser() =>

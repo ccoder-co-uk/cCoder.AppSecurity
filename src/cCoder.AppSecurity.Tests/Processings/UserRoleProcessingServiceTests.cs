@@ -8,28 +8,18 @@ using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Services.Processings;
 using Moq;
-using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
-
-
 namespace cCoder.Core.Services.Tests.Security.Processings;
 
 public partial class UserRoleProcessingServiceTests
 {
-    private readonly Mock<IUserService> userServiceMock = new();
     private User currentUser = WithoutPrivileges();
-    private readonly Mock<IUserRoleService> userRoleServiceMock = new();
-    private readonly Mock<IRoleService> roleServiceMock = new();
-    private readonly Mock<IAuthorizationBroker> authorizationBrokerMock = new();
+    private readonly Mock<IUserRoleFoundationService> userRoleServiceMock = new();
     private readonly UserRoleProcessingService userRoleProcessingService;
 
     public UserRoleProcessingServiceTests()
     {
         userRoleProcessingService = new UserRoleProcessingService(
-            userRoleServiceMock.Object,
-            roleServiceMock.Object,
-            userServiceMock.Object,
-            authorizationBrokerMock.Object
-        );
+            service: userRoleServiceMock.Object);
     }
 
     private static User WithPrivilege(string privilege, int appId = 1)

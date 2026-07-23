@@ -2,17 +2,20 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 
-
 namespace cCoder.AppSecurity.Services.Foundations;
 
-public interface IUserRoleService
+internal interface IUserRoleFoundationService : IUserRoleService
 {
-    IQueryable<UserRole> GetAll(bool ignoreFilters = false);
-    ValueTask<UserRole> AddUserRoleAsync(UserRole newUserRole, bool authorize = true);
+    Role GetRole(Guid roleId);
 
-    ValueTask DeleteUserRoleAsync(UserRole deletedUserRole);
+    User GetUser(string userId);
+
+    User GetCurrentUser();
+
+    void Authorize(int? appId, string privilege);
+
+    bool IsAdminOfApp(int? appId);
 }

@@ -20,8 +20,8 @@ public partial class UserRoleEventProcessingServiceTests
 
     public UserRoleEventProcessingServiceTests()
     {
-        userRoleEventServiceMock = new Mock<IUserRoleEventService>(MockBehavior.Strict);
-        service = new UserRoleEventProcessingService(userRoleEventServiceMock.Object);
+        userRoleEventServiceMock = new Mock<IUserRoleEventService>(behavior: MockBehavior.Strict);
+        service = new UserRoleEventProcessingService(eventService: userRoleEventServiceMock.Object);
     }
 
     private static UserRole CreateRandomUserRole() =>

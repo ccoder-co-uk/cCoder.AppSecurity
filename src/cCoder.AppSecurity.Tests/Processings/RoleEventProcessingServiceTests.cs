@@ -20,8 +20,8 @@ public partial class RoleEventProcessingServiceTests
 
     public RoleEventProcessingServiceTests()
     {
-        roleEventServiceMock = new Mock<IRoleEventService>(MockBehavior.Strict);
-        service = new RoleEventProcessingService(roleEventServiceMock.Object);
+        roleEventServiceMock = new Mock<IRoleEventService>(behavior: MockBehavior.Strict);
+        service = new RoleEventProcessingService(eventService: roleEventServiceMock.Object);
     }
 
     private static Role CreateRandomRole() =>

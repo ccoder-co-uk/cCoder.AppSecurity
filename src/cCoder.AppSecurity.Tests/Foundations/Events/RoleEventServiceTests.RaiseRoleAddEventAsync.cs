@@ -23,24 +23,24 @@ public partial class RoleEventServiceTests
         EventMessage<cCoder.Data.Models.Security.Role> actualMessage = null;
 
         roleEventBrokerMock
-            .Setup(x => x.RaiseRoleAddEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.Role>>()))
-            .Callback<EventMessage<cCoder.Data.Models.Security.Role>>(message => actualMessage = message)
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseRoleAddEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.Role>>()))
+            .Callback<EventMessage<cCoder.Data.Models.Security.Role>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseRoleAddEventAsync(entity);
+        await service.RaiseRoleAddEventAsync(entity: entity);
 
         // Then
         actualMessage.Should().NotBeNull();
         actualMessage!.Data.Should().BeEquivalentTo(
-            entity,
-            options => options.Excluding(candidate => candidate.Privileges)
+expectation:             entity,
+config:             options => options.Excluding(expression: candidate => candidate.Privileges)
         );
         actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(CurrentUserId);
+        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
         roleEventBrokerMock.Verify(
-            x => x.RaiseRoleAddEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.Role>>()),
-            Times.Once
+expression:             x => x.RaiseRoleAddEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.Role>>()),
+times:             Times.Once
         );
         roleEventBrokerMock.VerifyNoOtherCalls();
     }

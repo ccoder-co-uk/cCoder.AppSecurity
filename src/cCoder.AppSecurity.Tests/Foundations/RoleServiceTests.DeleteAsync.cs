@@ -22,28 +22,28 @@ public partial class RoleServiceTests
         Guid roleId = Guid.NewGuid();
         Role role = CreateRandomRole(id: roleId, appId: 7);
 
-        roleBrokerMock.Setup(x => x.GetAllRoles(true)).Returns(new[] { ToExternalRole(role) }.AsQueryable());
-        userRoleBrokerMock.Setup(x => x.GetAllUserRoles(true)).Returns(Array.Empty<UserRole>().AsQueryable());
+        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true)).Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
+        userRoleBrokerMock.Setup(expression: x => x.GetAllUserRoles(ignoreFilters: true)).Returns(value: Array.Empty<UserRole>().AsQueryable());
 
-        roleBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>())).Returns((int?)7);
-        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "Role_delete"));
-        roleBrokerMock.Setup(x => x.DeletePageRolesByRoleIdAsync(roleId)).Returns(ValueTask.CompletedTask);
-        roleBrokerMock.Setup(x => x.DeleteFolderRolesByRoleIdAsync(roleId)).Returns(ValueTask.CompletedTask);
-        roleBrokerMock.Setup(x => x.DeleteRoleAsync(It.IsAny<cCoder.Data.Models.Security.Role>())).ReturnsAsync(1);
+        roleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>())).Returns(value: (int?)7);
+        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_delete"));
+        roleBrokerMock.Setup(expression: x => x.DeletePageRolesByRoleIdAsync(roleId: roleId)).Returns(value: ValueTask.CompletedTask);
+        roleBrokerMock.Setup(expression: x => x.DeleteFolderRolesByRoleIdAsync(roleId: roleId)).Returns(value: ValueTask.CompletedTask);
+        roleBrokerMock.Setup(expression: x => x.DeleteRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>())).ReturnsAsync(value: 1);
 
         // When
-        await roleService.DeleteAsync(roleId);
+        await roleService.DeleteAsync(roleId: roleId);
 
         // Then
-        roleBrokerMock.Verify(x => x.GetAllRoles(true), Times.Once);
-        roleBrokerMock.Verify(x => x.DeletePageRolesByRoleIdAsync(roleId), Times.Once);
-        roleBrokerMock.Verify(x => x.DeleteFolderRolesByRoleIdAsync(roleId), Times.Once);
-        roleBrokerMock.Verify(x => x.DeleteRoleAsync(It.IsAny<cCoder.Data.Models.Security.Role>()), Times.Once);
-        roleBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>()), Times.AtMostOnce());
+        roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
+        roleBrokerMock.Verify(expression: x => x.DeletePageRolesByRoleIdAsync(roleId: roleId), times: Times.Once);
+        roleBrokerMock.Verify(expression: x => x.DeleteFolderRolesByRoleIdAsync(roleId: roleId), times: Times.Once);
+        roleBrokerMock.Verify(expression: x => x.DeleteRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.Once);
+        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
-        userRoleBrokerMock.Verify(x => x.GetAllUserRoles(true), Times.Once);
+        userRoleBrokerMock.Verify(expression: x => x.GetAllUserRoles(ignoreFilters: true), times: Times.Once);
         userRoleBrokerMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "Role_delete"), Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_delete"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -54,23 +54,23 @@ public partial class RoleServiceTests
         Guid roleId = Guid.NewGuid();
         Role role = CreateRandomRole(id: roleId, appId: 7);
 
-        roleBrokerMock.Setup(x => x.GetAllRoles(true)).Returns(new[] { ToExternalRole(role) }.AsQueryable());
-        userRoleBrokerMock.Setup(x => x.GetAllUserRoles(true)).Returns(Array.Empty<UserRole>().AsQueryable());
+        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true)).Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
+        userRoleBrokerMock.Setup(expression: x => x.GetAllUserRoles(ignoreFilters: true)).Returns(value: Array.Empty<UserRole>().AsQueryable());
 
         authorizationBrokerMock
-            .Setup(x => x.Authorize((int?)7, "Role_delete"))
-            .Throws(new SecurityException("Access Denied!"));
+            .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_delete"))
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
-        Func<Task> action = async () => await roleService.DeleteAsync(roleId);
+        Func<Task> action = async () => await roleService.DeleteAsync(roleId: roleId);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
-        roleBrokerMock.Verify(x => x.GetAllRoles(true), Times.Once);
-        roleBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>()), Times.AtMostOnce());
+        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
+        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         userRoleBrokerMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "Role_delete"), Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_delete"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 

@@ -23,21 +23,21 @@ public partial class UserEventServiceTests
         EventMessage<cCoder.Data.Models.Security.User> actualMessage = null;
 
         userEventBrokerMock
-            .Setup(x => x.RaiseUserDeleteEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.User>>()))
-            .Callback<EventMessage<cCoder.Data.Models.Security.User>>(message => actualMessage = message)
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseUserDeleteEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.User>>()))
+            .Callback<EventMessage<cCoder.Data.Models.Security.User>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseUserDeleteEventAsync(entity);
+        await service.RaiseUserDeleteEventAsync(entity: entity);
 
         // Then
         actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(entity);
+        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
         actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(CurrentUserId);
+        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
         userEventBrokerMock.Verify(
-            x => x.RaiseUserDeleteEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.User>>()),
-            Times.Once
+expression:             x => x.RaiseUserDeleteEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.User>>()),
+times:             Times.Once
         );
         userEventBrokerMock.VerifyNoOtherCalls();
     }

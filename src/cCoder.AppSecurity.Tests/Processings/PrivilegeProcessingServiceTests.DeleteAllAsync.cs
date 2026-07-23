@@ -24,15 +24,15 @@ public partial class PrivilegeProcessingServiceTests
             Operation = "Delete",
             Description = "Description",
         };
-        currentUser = WithPrivilege("privilege_delete");
+        currentUser = WithPrivilege(privilege: "privilege_delete");
 
         // When
         Func<Task> act = async () =>
-            await privilegeProcessingService.DeleteAllPrivilegeAsync(new[] { privilege });
+            await privilegeProcessingService.DeleteAllPrivilegeAsync(deletedPrivilege: new[] { privilege });
 
         // Then
         var assertions = await act.Should().ThrowAsync<InvalidOperationException>();
-        assertions.Which.Message.Should().Be("Cannot delete privileges");
+        assertions.Which.Message.Should().Be(expected: "Cannot delete privileges");
         privilegeServiceMock.VerifyNoOtherCalls();
     }
 

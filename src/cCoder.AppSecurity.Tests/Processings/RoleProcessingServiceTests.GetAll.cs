@@ -27,11 +27,11 @@ public partial class RoleProcessingServiceTests
                 Privs = "app_read",
             },
         }.AsQueryable();
-        roleServiceMock.Setup(x => x.GetAll()).Returns(expected);
+        roleServiceMock.Setup(expression: x => x.GetAll()).Returns(value: expected);
         IQueryable<Role> result = roleProcessingService.GetAll();
 
         // Then
-        Assert.Single(result);
+        Assert.Single(collection: result);
     }
 
 }

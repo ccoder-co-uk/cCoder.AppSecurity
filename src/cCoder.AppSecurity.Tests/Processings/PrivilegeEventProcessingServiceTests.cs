@@ -20,8 +20,8 @@ public partial class PrivilegeEventProcessingServiceTests
 
     public PrivilegeEventProcessingServiceTests()
     {
-        privilegeEventServiceMock = new Mock<IPrivilegeEventService>(MockBehavior.Strict);
-        service = new PrivilegeEventProcessingService(privilegeEventServiceMock.Object);
+        privilegeEventServiceMock = new Mock<IPrivilegeEventService>(behavior: MockBehavior.Strict);
+        service = new PrivilegeEventProcessingService(eventService: privilegeEventServiceMock.Object);
     }
 
     private static Privilege CreateRandomPrivilege() =>

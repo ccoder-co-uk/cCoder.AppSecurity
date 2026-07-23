@@ -23,32 +23,32 @@ public partial class UserServiceTests
 
         cCoder.Data.Models.Security.User submitted = null;
 
-        userBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.User>())).Returns((int?)7);
-        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "User_update"));
+        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>())).Returns(value: (int?)7);
+        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "User_update"));
 
         userBrokerMock
-            .Setup(x => x.UpdateUserAsync(It.IsAny<cCoder.Data.Models.Security.User>()))
-            .Callback<cCoder.Data.Models.Security.User>(candidate => submitted = candidate)
-            .ReturnsAsync((cCoder.Data.Models.Security.User value) => value);
+            .Setup(expression: x => x.UpdateUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+            .Callback<cCoder.Data.Models.Security.User>(action: candidate => submitted = candidate)
+            .ReturnsAsync(valueFunction: (cCoder.Data.Models.Security.User value) => value);
 
         // When
-        User result = await userService.UpdateUserAsync(user);
+        User result = await userService.UpdateUserAsync(updatedUser: user);
 
         // Then
-        result.Should().BeSameAs(user);
+        result.Should().BeSameAs(expected: user);
         submitted.Should().NotBeNull();
-        submitted.Should().NotBeSameAs(user);
-        result.Should().NotBeSameAs(submitted);
+        submitted.Should().NotBeSameAs(unexpected: user);
+        result.Should().NotBeSameAs(unexpected: submitted);
         submitted.Should().BeEquivalentTo(
-            user,
-            options => options
-                .Excluding(candidate => candidate.DefaultCulture)
-                .Excluding(candidate => candidate.Roles));
-        result.Should().BeEquivalentTo(user);
-        userBrokerMock.Verify(x => x.UpdateUserAsync(It.IsAny<cCoder.Data.Models.Security.User>()), Times.Once);
-        userBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.User>()), Times.AtMostOnce());
+expectation:             user,
+config:             options => options
+                .Excluding(expression: candidate => candidate.DefaultCulture)
+                .Excluding(expression: candidate => candidate.Roles));
+        result.Should().BeEquivalentTo(expectation: user);
+        userBrokerMock.Verify(expression: x => x.UpdateUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.Once);
+        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "User_update"), Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_update"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -58,19 +58,19 @@ public partial class UserServiceTests
         // Given
         User user = CreateRandomUser();
 
-        userBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.User>())).Returns((int?)7);
+        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>())).Returns(value: (int?)7);
         authorizationBrokerMock
-            .Setup(x => x.Authorize((int?)7, "User_update"))
-            .Throws(new SecurityException("Access Denied!"));
+            .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "User_update"))
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
-        Func<Task> action = async () => await userService.UpdateUserAsync(user);
+        Func<Task> action = async () => await userService.UpdateUserAsync(updatedUser: user);
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
-        userBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.User>()), Times.AtMostOnce());
+        await action.Should().ThrowAsync<SecurityException>().WithMessage(expectedWildcardPattern: "Access Denied!");
+        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "User_update"), Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_update"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 

@@ -11,7 +11,7 @@ using cCoder.AppSecurity.Services.Foundations;
 namespace cCoder.AppSecurity.Services.Processings;
 
 internal sealed partial class UserRoleProcessingService(
-    UserRoleService service
+    IUserRoleFoundationService service
 ) : IUserRoleProcessingService
 {
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>

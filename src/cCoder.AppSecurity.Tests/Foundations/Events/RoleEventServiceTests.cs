@@ -2,7 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Data;
+using cCoder.AppSecurity.Brokers;
 using Moq;
 using IRoleEventBroker = cCoder.AppSecurity.Brokers.Events.IRoleEventBroker;
 
@@ -12,20 +12,22 @@ namespace cCoder.Core.Services.Tests.Security.Foundations.Events;
 public partial class RoleEventServiceTests
 {
     private readonly Mock<IRoleEventBroker> roleEventBrokerMock;
-    private readonly Mock<ICoreAuthInfo> authInfoMock;
+    private readonly Mock<IAuthInfoBroker> authInfoMock;
     private readonly cCoder.AppSecurity.Services.Foundations.Events.RoleEventService service;
     private const string CurrentUserId = "test-user";
 
     public RoleEventServiceTests()
     {
-        roleEventBrokerMock = new Mock<IRoleEventBroker>(MockBehavior.Strict);
-        authInfoMock = new Mock<ICoreAuthInfo>(MockBehavior.Strict);
-        roleEventBrokerMock = new(MockBehavior.Strict);
+        roleEventBrokerMock = new Mock<IRoleEventBroker>(behavior: MockBehavior.Strict);
+        authInfoMock = new Mock<IAuthInfoBroker>(behavior: MockBehavior.Strict);
+        roleEventBrokerMock = new(behavior: MockBehavior.Strict);
         authInfoMock = new();
-        authInfoMock.SetupGet(x => x.SSOUserId).Returns(CurrentUserId);
+        authInfoMock
+            .Setup(expression: broker => broker.GetSSOUserId())
+            .Returns(value: CurrentUserId);
         service = new cCoder.AppSecurity.Services.Foundations.Events.RoleEventService(
-            roleEventBrokerMock.Object,
-            authInfoMock.Object
+roleEventBroker:             roleEventBrokerMock.Object,
+authInfoBroker:             authInfoMock.Object
         );
     }
 }

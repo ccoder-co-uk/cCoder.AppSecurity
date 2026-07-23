@@ -21,11 +21,11 @@ public partial class UserOrchestrationServiceTests
 
     public UserOrchestrationServiceTests()
     {
-        userProcessingServiceMock = new Mock<IUserProcessingService>(MockBehavior.Strict);
-        userEventProcessingServiceMock = new Mock<IUserEventProcessingService>(MockBehavior.Strict);
+        userProcessingServiceMock = new Mock<IUserProcessingService>(behavior: MockBehavior.Strict);
+        userEventProcessingServiceMock = new Mock<IUserEventProcessingService>(behavior: MockBehavior.Strict);
         orchestrationService = new UserOrchestrationService(
-            userProcessingServiceMock.Object,
-            userEventProcessingServiceMock.Object
+processingService:             userProcessingServiceMock.Object,
+eventService:             userEventProcessingServiceMock.Object
         );
     }
 

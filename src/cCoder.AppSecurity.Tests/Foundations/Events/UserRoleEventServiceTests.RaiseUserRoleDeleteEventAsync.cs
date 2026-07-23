@@ -23,21 +23,21 @@ public partial class UserRoleEventServiceTests
         EventMessage<cCoder.Data.Models.Security.UserRole> actualMessage = null;
 
         userRoleEventBrokerMock
-            .Setup(x => x.RaiseUserRoleDeleteEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.UserRole>>()))
-            .Callback<EventMessage<cCoder.Data.Models.Security.UserRole>>(message => actualMessage = message)
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseUserRoleDeleteEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.UserRole>>()))
+            .Callback<EventMessage<cCoder.Data.Models.Security.UserRole>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseUserRoleDeleteEventAsync(entity);
+        await service.RaiseUserRoleDeleteEventAsync(entity: entity);
 
         // Then
         actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(entity);
+        actualMessage!.Data.Should().BeEquivalentTo(expectation: entity);
         actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(CurrentUserId);
+        actualMessage.AuthInfo.SSOUserId.Should().Be(expected: CurrentUserId);
         userRoleEventBrokerMock.Verify(
-            x => x.RaiseUserRoleDeleteEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.UserRole>>()),
-            Times.Once
+expression:             x => x.RaiseUserRoleDeleteEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.UserRole>>()),
+times:             Times.Once
         );
         userRoleEventBrokerMock.VerifyNoOtherCalls();
     }

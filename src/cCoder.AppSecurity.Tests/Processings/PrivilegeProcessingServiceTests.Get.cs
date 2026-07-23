@@ -19,18 +19,18 @@ public partial class PrivilegeProcessingServiceTests
     {
         // Given
         authorizationBrokerMock
-            .Setup(x => x.Authorize(It.IsAny<int?>(), It.IsAny<string>()))
-            .Callback((int? appId, string privilege) =>
+            .Setup(expression: x => x.Authorize(appId: It.IsAny<int?>(), privilege: It.IsAny<string>()))
+            .Callback(action: (int? appId, string privilege) =>
             {
-                if (!(currentUser?.Can(appId, privilege) ?? false))
-                    throw new SecurityException("Access Denied!");
+                if (!(currentUser?.Can(appId: appId, operation: privilege) ?? false))
+                    throw new SecurityException(message: "Access Denied!");
             });
 
         authorizationBrokerMock
-            .Setup(x => x.IsAdminOfApp(It.IsAny<int>()))
-            .Returns((int appId) => currentUser?.IsAdminOfApp(appId) ?? false);
+            .Setup(expression: x => x.IsAdminOfApp(appId: It.IsAny<int>()))
+            .Returns(valueFunction: (int appId) => currentUser?.IsAdminOfApp(appId: appId) ?? false);
 
-        authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(() => ToExternalUser(currentUser));
+        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser()).Returns(valueFunction: () => ToExternalUser(user: currentUser));
 
 
         // When
@@ -41,12 +41,12 @@ public partial class PrivilegeProcessingServiceTests
             Operation = "Read",
             Description = "Read privileges",
         };
-        privilegeServiceMock.Setup(x => x.Get(privilege.Id)).Returns(privilege);
-        currentUser = WithPrivilege("privilege_read");
-        Privilege result = privilegeProcessingService.Get(privilege.Id);
+        privilegeServiceMock.Setup(expression: x => x.Get(id: privilege.Id)).Returns(value: privilege);
+        currentUser = WithPrivilege(privilege: "privilege_read");
+        Privilege result = privilegeProcessingService.Get(privilegeId: privilege.Id);
 
         // Then
-        Assert.Same(privilege, result);
+        Assert.Same(expected: privilege, actual: result);
     }
 
     [Fact]
@@ -54,25 +54,25 @@ public partial class PrivilegeProcessingServiceTests
     {
         // Given
         authorizationBrokerMock
-            .Setup(x => x.Authorize(It.IsAny<int?>(), It.IsAny<string>()))
-            .Callback((int? appId, string privilege) =>
+            .Setup(expression: x => x.Authorize(appId: It.IsAny<int?>(), privilege: It.IsAny<string>()))
+            .Callback(action: (int? appId, string privilege) =>
             {
-                if (!(currentUser?.Can(appId, privilege) ?? false))
-                    throw new SecurityException("Access Denied!");
+                if (!(currentUser?.Can(appId: appId, operation: privilege) ?? false))
+                    throw new SecurityException(message: "Access Denied!");
             });
 
         authorizationBrokerMock
-            .Setup(x => x.IsAdminOfApp(It.IsAny<int>()))
-            .Returns((int appId) => currentUser?.IsAdminOfApp(appId) ?? false);
+            .Setup(expression: x => x.IsAdminOfApp(appId: It.IsAny<int>()))
+            .Returns(valueFunction: (int appId) => currentUser?.IsAdminOfApp(appId: appId) ?? false);
 
-        authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(() => ToExternalUser(currentUser));
+        authorizationBrokerMock.Setup(expression: x => x.GetCurrentUser()).Returns(valueFunction: () => ToExternalUser(user: currentUser));
 
 
         // When
         currentUser = WithoutPrivileges();
 
         // Then
-        Assert.Throws<SecurityException>(() => privilegeProcessingService.Get("privilege_read"));
+        Assert.Throws<SecurityException>(testCode: () => privilegeProcessingService.Get(privilegeId: "privilege_read"));
     }
 
 }

@@ -15,5 +15,5 @@ public sealed partial class AnalysePlatformUsageHostedServiceTests
     private readonly AppSecurityConfiguration appSecurityConfiguration = new();
 
     private AnalysePlatformUsageHostedService CreateService() =>
-        new(analysePlatformUsageProcessingServiceMock.Object, appSecurityConfiguration);
+        new(analysePlatformUsageProcessingService: analysePlatformUsageProcessingServiceMock.Object, appSecurityConfiguration: appSecurityConfiguration);
 }

@@ -19,14 +19,14 @@ public partial class RoleOrchestrationServiceTests
     {
         // Given
         IQueryable<Role> entities = new[] { CreateRandomRole() }.AsQueryable();
-        roleProcessingServiceMock.Setup(x => x.GetAll(true)).Returns(entities);
+        roleProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true)).Returns(value: entities);
 
         // When
-        IQueryable<Role> result = orchestrationService.GetAll(true);
+        IQueryable<Role> result = orchestrationService.GetAll(ignoreFilters: true);
 
         // Then
-        result.Should().BeSameAs(entities);
-        roleProcessingServiceMock.Verify(x => x.GetAll(true), Times.Once);
+        result.Should().BeSameAs(expected: entities);
+        roleProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         roleProcessingServiceMock.VerifyNoOtherCalls();
         roleEventProcessingServiceMock.VerifyNoOtherCalls();
     }

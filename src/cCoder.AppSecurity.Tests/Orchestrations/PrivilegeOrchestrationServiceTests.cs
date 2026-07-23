@@ -21,11 +21,11 @@ public partial class PrivilegeOrchestrationServiceTests
 
     public PrivilegeOrchestrationServiceTests()
     {
-        privilegeProcessingServiceMock = new Mock<IPrivilegeProcessingService>(MockBehavior.Strict);
-        privilegeEventProcessingServiceMock = new Mock<IPrivilegeEventProcessingService>(MockBehavior.Strict);
+        privilegeProcessingServiceMock = new Mock<IPrivilegeProcessingService>(behavior: MockBehavior.Strict);
+        privilegeEventProcessingServiceMock = new Mock<IPrivilegeEventProcessingService>(behavior: MockBehavior.Strict);
         orchestrationService = new PrivilegeOrchestrationService(
-            privilegeProcessingServiceMock.Object,
-            privilegeEventProcessingServiceMock.Object
+processingService:             privilegeProcessingServiceMock.Object,
+eventService:             privilegeEventProcessingServiceMock.Object
         );
     }
 

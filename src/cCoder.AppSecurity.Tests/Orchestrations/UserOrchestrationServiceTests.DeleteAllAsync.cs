@@ -18,13 +18,13 @@ public partial class UserOrchestrationServiceTests
     {
         // Given
         User[] entities = [CreateRandomUser()];
-        userProcessingServiceMock.Setup(x => x.DeleteAllUserAsync(entities)).Returns(ValueTask.CompletedTask);
+        userProcessingServiceMock.Setup(expression: x => x.DeleteAllUserAsync(items: entities)).Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAllUserAsync(entities);
+        await orchestrationService.DeleteAllUserAsync(deletedUser: entities);
 
         // Then
-        userProcessingServiceMock.Verify(x => x.DeleteAllUserAsync(entities), Times.Once);
+        userProcessingServiceMock.Verify(expression: x => x.DeleteAllUserAsync(items: entities), times: Times.Once);
         userProcessingServiceMock.VerifyNoOtherCalls();
         userEventProcessingServiceMock.VerifyNoOtherCalls();
     }

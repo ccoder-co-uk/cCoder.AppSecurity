@@ -18,18 +18,18 @@ public partial class UserRoleOrchestrationServiceTests
     {
         // Given
         UserRole userRole = CreateRandomUserRole();
-        userRoleProcessingServiceMock.Setup(x => x.DeleteUserRoleAsync(userRole)).Returns(ValueTask.CompletedTask);
+        userRoleProcessingServiceMock.Setup(expression: x => x.DeleteUserRoleAsync(entity: userRole)).Returns(value: ValueTask.CompletedTask);
 
         userRoleEventProcessingServiceMock
-            .Setup(x => x.RaiseUserRoleDeleteEventAsync(userRole))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseUserRoleDeleteEventAsync(entity: userRole))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteUserRoleAsync(userRole);
+        await orchestrationService.DeleteUserRoleAsync(deletedUserRole: userRole);
 
         // Then
-        userRoleProcessingServiceMock.Verify(x => x.DeleteUserRoleAsync(userRole), Times.Once);
-        userRoleEventProcessingServiceMock.Verify(x => x.RaiseUserRoleDeleteEventAsync(userRole), Times.Once);
+        userRoleProcessingServiceMock.Verify(expression: x => x.DeleteUserRoleAsync(entity: userRole), times: Times.Once);
+        userRoleEventProcessingServiceMock.Verify(expression: x => x.RaiseUserRoleDeleteEventAsync(entity: userRole), times: Times.Once);
     }
 
 }

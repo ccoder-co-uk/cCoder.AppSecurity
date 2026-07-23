@@ -20,20 +20,20 @@ public partial class RoleOrchestrationServiceTests
         Guid id = Guid.NewGuid();
         Role entity = CreateRandomRole();
         entity.Id = id;
-        roleProcessingServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { entity }.AsQueryable());
-        roleProcessingServiceMock.Setup(x => x.DeleteAsync(id)).Returns(ValueTask.CompletedTask);
+        roleProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true)).Returns(value: new[] { entity }.AsQueryable());
+        roleProcessingServiceMock.Setup(expression: x => x.DeleteAsync(id: id)).Returns(value: ValueTask.CompletedTask);
 
         roleEventProcessingServiceMock
-            .Setup(x => x.RaiseRoleDeleteEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseRoleDeleteEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAsync(id);
+        await orchestrationService.DeleteAsync(roleId: id);
 
         // Then
-        roleProcessingServiceMock.Verify(x => x.GetAll(true), Times.Once);
-        roleProcessingServiceMock.Verify(x => x.DeleteAsync(id), Times.Once);
-        roleEventProcessingServiceMock.Verify(x => x.RaiseRoleDeleteEventAsync(entity), Times.Once);
+        roleProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
+        roleProcessingServiceMock.Verify(expression: x => x.DeleteAsync(id: id), times: Times.Once);
+        roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleDeleteEventAsync(entity: entity), times: Times.Once);
     }
 
 }

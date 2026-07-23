@@ -23,11 +23,11 @@ public partial class PrivilegeServiceTests
 
     public PrivilegeServiceTests()
     {
-        privilegeBrokerMock = new Mock<IPrivilegeBroker>(MockBehavior.Strict);
-        authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
+        privilegeBrokerMock = new Mock<IPrivilegeBroker>(behavior: MockBehavior.Strict);
+        authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
         privilegeService = new PrivilegeService(
-            privilegeBrokerMock.Object,
-            authorizationBrokerMock.Object
+privilegeBroker:             privilegeBrokerMock.Object,
+authorizationBroker:             authorizationBrokerMock.Object
         );
     }
 
@@ -35,11 +35,11 @@ public partial class PrivilegeServiceTests
     {
         Privilege privilege = Builder<Privilege>
             .CreateNew()
-            .With(x => x.Id = id ?? $"privilege-{Guid.NewGuid():N}")
-            .With(x => x.Type = "page")
-            .With(x => x.Operation = "read")
-            .With(x => x.Description = $"Description-{Guid.NewGuid():N}")
-            .With(x => x.PortalAdminsOnly = false)
+            .With(func: x => x.Id = id ?? $"privilege-{Guid.NewGuid():N}")
+            .With(func: x => x.Type = "page")
+            .With(func: x => x.Operation = "read")
+            .With(func: x => x.Description = $"Description-{Guid.NewGuid():N}")
+            .With(func: x => x.PortalAdminsOnly = false)
             .Build();
 
         return privilege;

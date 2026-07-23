@@ -20,14 +20,14 @@ public partial class UserProcessingServiceTests
         // Given
         User[] users = [CreateRandomUser()];
         IQueryable<User> queryableUsers = users.AsQueryable();
-        userServiceMock.Setup(x => x.GetAll()).Returns(queryableUsers);
+        userServiceMock.Setup(expression: x => x.GetAll()).Returns(value: queryableUsers);
 
         // When
         IQueryable<User> result = userProcessingService.GetAll();
 
         // Then
-        result.Should().BeSameAs(queryableUsers);
-        userServiceMock.Verify(x => x.GetAll(), Times.Once);
+        result.Should().BeSameAs(expected: queryableUsers);
+        userServiceMock.Verify(expression: x => x.GetAll(), times: Times.Once);
         userServiceMock.VerifyNoOtherCalls();
         coreAuthInfoMock.VerifyNoOtherCalls();
     }

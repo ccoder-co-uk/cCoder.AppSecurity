@@ -15,5 +15,5 @@ public sealed partial class TokenCleanerHostedServiceTests
     private readonly AppSecurityConfiguration appSecurityConfiguration = new();
 
     private TokenCleanerHostedService CreateService() =>
-        new(tokenCleanerServiceMock.Object, appSecurityConfiguration);
+        new(tokenCleanerService: tokenCleanerServiceMock.Object, appSecurityConfiguration: appSecurityConfiguration);
 }

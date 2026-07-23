@@ -19,18 +19,18 @@ public partial class UserProcessingServiceTests
     {
         // Given
         User currentUser = CreateRandomUser();
-        coreAuthInfoMock.SetupGet(x => x.SSOUserId).Returns(currentUser.Id);
-        userServiceMock.Setup(x => x.Get(currentUser.Id)).Returns(currentUser);
+        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId).Returns(value: currentUser.Id);
+        userServiceMock.Setup(expression: x => x.Get(id: currentUser.Id)).Returns(value: currentUser);
 
         userServiceMock
-            .Setup(x => x.DeleteAsync(currentUser.Id))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.DeleteAsync(id: currentUser.Id))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await userProcessingService.DeleteAsync(currentUser.Id);
+        await userProcessingService.DeleteAsync(userId: currentUser.Id);
 
         // Then
-        userServiceMock.Verify(x => x.DeleteAsync(currentUser.Id), Times.Once);
+        userServiceMock.Verify(expression: x => x.DeleteAsync(id: currentUser.Id), times: Times.Once);
     }
 
     [Fact]
@@ -38,12 +38,12 @@ public partial class UserProcessingServiceTests
     {
         // Given
         User targetUser = CreateRandomUser(id: "other-user", email: "other@example.com");
-        coreAuthInfoMock.SetupGet(x => x.SSOUserId).Returns("different-user");
-        userServiceMock.Setup(x => x.Get(targetUser.Id)).Returns(targetUser);
+        coreAuthInfoMock.SetupGet(expression: x => x.SSOUserId).Returns(value: "different-user");
+        userServiceMock.Setup(expression: x => x.Get(id: targetUser.Id)).Returns(value: targetUser);
 
         // When
-        await Assert.ThrowsAsync<SecurityException>(async () =>
-            await userProcessingService.DeleteAsync(targetUser.Id)
+        await Assert.ThrowsAsync<SecurityException>(testCode: async () =>
+            await userProcessingService.DeleteAsync(userId: targetUser.Id)
         );
 
         // Then

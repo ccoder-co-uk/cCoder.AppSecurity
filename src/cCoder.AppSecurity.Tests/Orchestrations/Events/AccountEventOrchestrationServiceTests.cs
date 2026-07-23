@@ -19,8 +19,8 @@ public partial class AccountEventOrchestrationServiceTests
 
     public AccountEventOrchestrationServiceTests()
     {
-        appProcessingServiceMock = new Mock<IAppProcessingService>(MockBehavior.Strict);
-        userProcessingServiceMock = new Mock<IUserProcessingService>(MockBehavior.Strict);
+        appProcessingServiceMock = new Mock<IAppProcessingService>(behavior: MockBehavior.Strict);
+        userProcessingServiceMock = new Mock<IUserProcessingService>(behavior: MockBehavior.Strict);
         accountRoleAssignmentProcessingServiceMock =
             new Mock<IAccountRoleAssignmentProcessingService>(
                 behavior: MockBehavior.Strict);

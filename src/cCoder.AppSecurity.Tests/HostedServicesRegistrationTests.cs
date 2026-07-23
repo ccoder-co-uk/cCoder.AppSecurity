@@ -27,12 +27,12 @@ public partial class HostedServicesRegistrationTests
         // Then
         Assert.Contains(
             collection: services,
-            predicate: descriptor => descriptor.ServiceType == typeof(ITokenCleanerHostedService)
+            filter: descriptor => descriptor.ServiceType == typeof(ITokenCleanerHostedService)
                 && descriptor.ImplementationType == typeof(TokenCleanerHostedService));
 
         Assert.Contains(
             collection: services,
-            predicate: descriptor => descriptor.ServiceType == typeof(IAnalysePlatformUsageHostedService)
+            filter: descriptor => descriptor.ServiceType == typeof(IAnalysePlatformUsageHostedService)
                 && descriptor.ImplementationType == typeof(AnalysePlatformUsageHostedService));
 
         Assert.Equal(
@@ -42,12 +42,12 @@ public partial class HostedServicesRegistrationTests
 
         Assert.Contains(
             collection: services,
-            predicate: descriptor => descriptor.ServiceType == typeof(ITokenCleanerService)
+            filter: descriptor => descriptor.ServiceType == typeof(ITokenCleanerService)
                 && descriptor.ImplementationType?.Name == "TokenCleanerService");
 
         Assert.Contains(
             collection: services,
-            predicate: descriptor => descriptor.ServiceType == typeof(IAnalysePlatformUsageProcessingService)
+            filter: descriptor => descriptor.ServiceType == typeof(IAnalysePlatformUsageProcessingService)
                 && descriptor.ImplementationType?.Name == "AnalysePlatformUsageProcessingService");
     }
 }

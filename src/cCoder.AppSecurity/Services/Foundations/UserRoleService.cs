@@ -19,7 +19,7 @@ internal sealed partial class UserRoleService(
     IRoleBroker roleBroker,
     IUserBroker userBroker,
     IAuthorizationBroker authorizationBroker
-) : IUserRoleService
+) : IUserRoleFoundationService
 {
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: IQueryable<UserRole> () =>
@@ -93,6 +93,25 @@ internal sealed partial class UserRoleService(
     internal bool IsAdminOfApp(int? appId) =>
         authorizationBroker.IsAdminOfApp(
             appId: appId);
+
+    Role IUserRoleFoundationService.GetRole(Guid roleId) =>
+        GetRole(roleId: roleId);
+
+    User IUserRoleFoundationService.GetUser(string userId) =>
+        GetUser(userId: userId);
+
+    User IUserRoleFoundationService.GetCurrentUser() =>
+        GetCurrentUser();
+
+    void IUserRoleFoundationService.Authorize(
+        int? appId,
+        string privilege) =>
+        Authorize(
+            appId: appId,
+            privilege: privilege);
+
+    bool IUserRoleFoundationService.IsAdminOfApp(int? appId) =>
+        IsAdminOfApp(appId: appId);
 
     private void AuthorizeAssignedRolePrivileges(int? appId, Guid roleId)
     {

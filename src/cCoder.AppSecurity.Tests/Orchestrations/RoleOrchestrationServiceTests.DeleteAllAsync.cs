@@ -18,13 +18,13 @@ public partial class RoleOrchestrationServiceTests
     {
         // Given
         Role[] entities = [CreateRandomRole()];
-        roleProcessingServiceMock.Setup(x => x.DeleteAllRoleAsync(entities)).Returns(ValueTask.CompletedTask);
+        roleProcessingServiceMock.Setup(expression: x => x.DeleteAllRoleAsync(items: entities)).Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAllRoleAsync(entities);
+        await orchestrationService.DeleteAllRoleAsync(deletedRole: entities);
 
         // Then
-        roleProcessingServiceMock.Verify(x => x.DeleteAllRoleAsync(entities), Times.Once);
+        roleProcessingServiceMock.Verify(expression: x => x.DeleteAllRoleAsync(items: entities), times: Times.Once);
         roleProcessingServiceMock.VerifyNoOtherCalls();
         roleEventProcessingServiceMock.VerifyNoOtherCalls();
     }
