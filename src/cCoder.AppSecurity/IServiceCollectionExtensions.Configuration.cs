@@ -57,7 +57,15 @@ builder: builder);
         IServiceCollection services,
         Action<IServiceCollection, AppSecurityConfiguration> configure)
     {
-        AppSecurityConfiguration configuration = new();
+        AppSecurityConfiguration configuration = new()
+        {
+            ConnectionStrings = new Dictionary<string, string>(),
+            Settings = new Dictionary<string, string>(),
+            Services = new Dictionary<string, string>(),
+            RootPath = "Api/AppSecurity",
+            IncludeLegacyCoreContext = true,
+            EventProviders = [],
+        };
         configure?.Invoke(arg1: services, arg2: configuration);
         services.AddSingleton(implementationInstance: configuration);
         services.AddEventProviders(eventProviders: configuration.EventProviders);

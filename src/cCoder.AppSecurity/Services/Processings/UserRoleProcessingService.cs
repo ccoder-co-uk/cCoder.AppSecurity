@@ -62,7 +62,9 @@ internal class UserRoleProcessingService(
             return existingUserRole;
         }
 
-        return await service.AddUserRoleAsync(entity, authorize: false);
+        return await service.AddUserRoleAsync(
+            newUserRole: entity,
+            authorize: false);
     }
 
     public async ValueTask DeleteUserRoleAsync(UserRole deletedUserRole)

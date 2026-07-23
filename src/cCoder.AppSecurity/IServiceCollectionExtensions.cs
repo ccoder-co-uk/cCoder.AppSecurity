@@ -17,6 +17,7 @@ using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Packaging;
 using cCoder.Data.Models.Security;
 using cCoder.Eventing;
+using cCoder.Eventing.Models;
 using cCoder.Security.Objects.Events;
 using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.OData.Batch;
@@ -54,6 +55,15 @@ namespace cCoder.AppSecurity;
 
 public static partial class IServiceCollectionExtensions
 {
+    public static AppSecurityConfiguration WithEventProviders(
+        this AppSecurityConfiguration configuration,
+        params EventProvider[] eventProviders)
+    {
+        configuration.EventProviders = eventProviders ?? [];
+
+        return configuration;
+    }
+
     public static void AddAppSecurityWeb(
         this IServiceCollection services,
         Action<AppSecurityConfiguration> configure = null,
