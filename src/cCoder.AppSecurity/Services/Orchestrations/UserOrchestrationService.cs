@@ -79,17 +79,6 @@ internal sealed partial class UserOrchestrationService(
 
         });
 
-    public ValueTask<IEnumerable<Result<User>>> AddOrUpdateUser(
-        IEnumerable<User> items
-    ) =>
-        TryCatch(operation: ValueTask<IEnumerable<Result<User>>> () =>
-        {
-            ValidateAddOrUpdateUser(
-                items: items);
-
-            return processingService.AddOrUpdateUser(items: items);
-        });
-
     public ValueTask DeleteAllUserAsync(IEnumerable<User> deletedUser) =>
         TryCatch(operation: ValueTask () =>
         {

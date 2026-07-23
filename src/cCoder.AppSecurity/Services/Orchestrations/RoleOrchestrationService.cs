@@ -119,17 +119,6 @@ internal sealed partial class RoleOrchestrationService(
 
         });
 
-    public ValueTask<IEnumerable<Result<Role>>> AddOrUpdateRole(
-        IEnumerable<Role> items
-    ) =>
-        TryCatch(operation: ValueTask<IEnumerable<Result<Role>>> () =>
-        {
-            ValidateAddOrUpdateRole(
-                items: items);
-
-            return processingService.AddOrUpdateRole(items: items);
-        });
-
     public ValueTask ImportRoleAsync(int appId, IEnumerable<Role> roles) =>
         TryCatch(operation: async ValueTask () =>
         {

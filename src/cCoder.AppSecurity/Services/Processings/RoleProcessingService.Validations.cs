@@ -48,11 +48,6 @@ internal sealed partial class RoleProcessingService
             roleId,
         ]);
 
-    private static void ValidateAddOrUpdateRole(IEnumerable<Role> items) =>
-        ValidationRulesEngine.Validate(inputs: [
-            items,
-        ]);
-
     private static void ValidateDeleteAllRole(IEnumerable<Role> deletedRole) =>
         ValidationRulesEngine.Validate(inputs: [
             deletedRole,

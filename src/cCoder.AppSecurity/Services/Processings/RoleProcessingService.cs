@@ -84,48 +84,6 @@ internal sealed partial class RoleProcessingService(IRoleService service) : IRol
             return service.DeleteValidatedAsync(id: roleId);
         });
 
-    public ValueTask<IEnumerable<Result<Role>>> AddOrUpdateRole(
-        IEnumerable<Role> items
-    ) =>
-        TryCatch(operation: async ValueTask<IEnumerable<Result<Role>>> () =>
-        {
-            ValidateAddOrUpdateRole(
-                items: items);
-
-            List<Result<Role>> results = [];
-
-            foreach (Role item in items)
-            {
-                try
-                {
-                    bool isAdd = item.Id == Guid.Empty;
-
-                    results.Add(
-    item: new Result<Role>
-    {
-        Success = true,
-        Item = isAdd ? await AddRoleValueAsync(newRole: item) : await UpdateRoleValueAsync(updatedRole: item),
-        Message = isAdd ? "Added Successfully" : "Updated Successfully",
-    }
-                    );
-                }
-                catch (Exception ex)
-                {
-                    results.Add(
-    item: new Result<Role>
-    {
-        Success = false,
-        Item = item,
-        Message = ex.Message,
-    }
-                    );
-                }
-            }
-
-            return results;
-
-        });
-
     public ValueTask DeleteAllRoleAsync(IEnumerable<Role> deletedRole) =>
         TryCatch(operation: async ValueTask () =>
         {

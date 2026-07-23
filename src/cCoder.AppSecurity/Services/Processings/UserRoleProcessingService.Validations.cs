@@ -33,8 +33,4 @@ internal sealed partial class UserRoleProcessingService
             deletedUserRole,
         ]);
 
-    private static void ValidateAddOrUpdateUserRole(IEnumerable<UserRole> items) =>
-        ValidationRulesEngine.Validate(inputs: [
-            items,
-        ]);
 }

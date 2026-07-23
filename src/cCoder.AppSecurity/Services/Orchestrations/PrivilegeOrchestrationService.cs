@@ -69,17 +69,6 @@ internal sealed partial class PrivilegeOrchestrationService(
 
         });
 
-    public ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdatePrivilege(
-        IEnumerable<Privilege> items
-    ) =>
-        TryCatch(operation: ValueTask<IEnumerable<Result<Privilege>>> () =>
-        {
-            ValidateAddOrUpdatePrivilege(
-                items: items);
-
-            return processingService.AddOrUpdatePrivilege(items: items);
-        });
-
     public ValueTask DeleteAllPrivilegeAsync(IEnumerable<Privilege> deletedPrivilege) =>
         TryCatch(operation: ValueTask () =>
         {

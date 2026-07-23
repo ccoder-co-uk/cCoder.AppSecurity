@@ -33,11 +33,6 @@ internal sealed partial class PrivilegeOrchestrationService
             privilegeId,
         ]);
 
-    private static void ValidateAddOrUpdatePrivilege(IEnumerable<Privilege> items) =>
-        ValidationRulesEngine.Validate(inputs: [
-            items,
-        ]);
-
     private static void ValidateDeleteAllPrivilege(IEnumerable<Privilege> deletedPrivilege) =>
         ValidationRulesEngine.Validate(inputs: [
             deletedPrivilege,

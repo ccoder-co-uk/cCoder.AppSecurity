@@ -47,17 +47,6 @@ internal sealed partial class UserRoleOrchestrationService(
 
         });
 
-    public ValueTask<IEnumerable<Result<UserRole>>> AddOrUpdateUserRole(
-        IEnumerable<UserRole> items
-    ) =>
-        TryCatch(operation: ValueTask<IEnumerable<Result<UserRole>>> () =>
-        {
-            ValidateAddOrUpdateUserRole(
-                items: items);
-
-            return processingService.AddOrUpdateUserRole(items: items);
-        });
-
     public ValueTask DeleteAllUserRoleAsync(IEnumerable<UserRole> deletedUserRole) =>
         TryCatch(operation: ValueTask () =>
         {

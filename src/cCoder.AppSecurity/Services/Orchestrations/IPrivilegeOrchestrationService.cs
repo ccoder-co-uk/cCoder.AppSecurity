@@ -16,8 +16,5 @@ public interface IPrivilegeOrchestrationService
     ValueTask<Privilege> AddPrivilegeAsync(Privilege entity);
     ValueTask<Privilege> UpdatePrivilegeAsync(Privilege entity);
     ValueTask DeleteAsync(string id);
-    ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdatePrivilege(
-        IEnumerable<Privilege> items
-    );
     ValueTask DeleteAllPrivilegeAsync(IEnumerable<Privilege> items);
 }

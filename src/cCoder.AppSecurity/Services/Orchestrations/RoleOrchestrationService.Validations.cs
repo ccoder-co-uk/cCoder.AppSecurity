@@ -48,11 +48,6 @@ internal sealed partial class RoleOrchestrationService
             roleId,
         ]);
 
-    private static void ValidateAddOrUpdateRole(IEnumerable<Role> items) =>
-        ValidationRulesEngine.Validate(inputs: [
-            items,
-        ]);
-
     private static void ValidateImportRole(int appId, IEnumerable<Role> roles) =>
         ValidationRulesEngine.Validate(inputs: [
             appId,

@@ -120,69 +120,6 @@ internal sealed partial class UserRoleProcessingService(
 
         });
 
-    public ValueTask<IEnumerable<Result<UserRole>>> AddOrUpdateUserRole(
-        IEnumerable<UserRole> items
-    ) =>
-        TryCatch(operation: async ValueTask<IEnumerable<Result<UserRole>>> () =>
-        {
-            ValidateAddOrUpdateUserRole(
-                items: items);
-
-            UserRole[] itemArray = [.. items];
-
-            var leftIds = itemArray.Select(selector: item => item.UserId)
-                .Distinct()
-                .ToArray();
-
-            UserRole[] existingItems = [.. GetAllValue()
-                .Where(predicate: item => leftIds.Contains(value: item.UserId))];
-
-            List<Result<UserRole>> results = [];
-
-            foreach (var group in itemArray.GroupBy(keySelector: item => item.UserId))
-            {
-                UserRole[] groupItems = [.. group];
-
-                UserRole[] existingGroupItems =
-                [
-                    .. existingItems.Where(predicate: item => Equals(objA: item.UserId, objB: group.Key)),
-                ];
-
-                await DeleteAllUserRoleValueAsync(deletedUserRole: existingGroupItems);
-
-                foreach (UserRole item in groupItems)
-                {
-                    try
-                    {
-                        results.Add(
-    item: new Result<UserRole>
-    {
-        Id = $"{item.UserId}:{item.RoleId}",
-        Success = true,
-        Item = await AddUserRoleValueAsync(newUserRole: item),
-        Message = "Added Successfully",
-    }
-                        );
-                    }
-                    catch (Exception ex)
-                    {
-                        results.Add(
-    item: new Result<UserRole>
-    {
-        Id = $"{item.UserId}:{item.RoleId}",
-        Success = false,
-        Item = item,
-        Message = ex.Message,
-    }
-                        );
-                    }
-                }
-            }
-
-            return results;
-
-        });
-
     private IQueryable<UserRole> GetAllValue(bool ignoreFilters = false) =>
         GetAll(ignoreFilters: ignoreFilters);
 

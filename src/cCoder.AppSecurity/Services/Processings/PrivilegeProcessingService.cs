@@ -71,48 +71,6 @@ internal sealed partial class PrivilegeProcessingService(
 
         });
 
-    public ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdatePrivilege(
-        IEnumerable<Privilege> items
-    ) =>
-        TryCatch(operation: async ValueTask<IEnumerable<Result<Privilege>>> () =>
-        {
-            ValidateAddOrUpdatePrivilege(
-                items: items);
-
-            List<Result<Privilege>> results = [];
-
-            foreach (Privilege item in items)
-            {
-                try
-                {
-                    bool isAdd = string.IsNullOrWhiteSpace(value: item.Id);
-
-                    results.Add(
-    item: new Result<Privilege>
-    {
-        Success = true,
-        Item = isAdd ? await AddPrivilegeValueAsync(newPrivilege: item) : await UpdatePrivilegeValueAsync(updatedPrivilege: item),
-        Message = isAdd ? "Added Successfully" : "Updated Successfully",
-    }
-                    );
-                }
-                catch (Exception ex)
-                {
-                    results.Add(
-    item: new Result<Privilege>
-    {
-        Success = false,
-        Item = item,
-        Message = ex.Message,
-    }
-                    );
-                }
-            }
-
-            return results;
-
-        });
-
     public ValueTask DeleteAllPrivilegeAsync(IEnumerable<Privilege> deletedPrivilege) =>
         TryCatch(operation: async ValueTask () =>
         {

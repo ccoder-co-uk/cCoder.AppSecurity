@@ -23,11 +23,6 @@ internal sealed partial class UserRoleOrchestrationService
             deletedUserRole,
         ]);
 
-    private static void ValidateAddOrUpdateUserRole(IEnumerable<UserRole> items) =>
-        ValidationRulesEngine.Validate(inputs: [
-            items,
-        ]);
-
     private static void ValidateDeleteAllUserRole(IEnumerable<UserRole> deletedUserRole) =>
         ValidationRulesEngine.Validate(inputs: [
             deletedUserRole,

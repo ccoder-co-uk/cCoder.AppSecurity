@@ -82,48 +82,6 @@ internal sealed partial class UserProcessingService(IUserService service, ICoreA
             : throw new SecurityException(message: "Access Denied!");
         });
 
-    public ValueTask<IEnumerable<Result<User>>> AddOrUpdateUser(
-        IEnumerable<User> items
-    ) =>
-        TryCatch(operation: async ValueTask<IEnumerable<Result<User>>> () =>
-        {
-            ValidateAddOrUpdateUser(
-                items: items);
-
-            List<Result<User>> results = [];
-
-            foreach (User item in items)
-            {
-                try
-                {
-                    bool isAdd = string.IsNullOrWhiteSpace(value: item.Id);
-
-                    results.Add(
-    item: new Result<User>
-    {
-        Success = true,
-        Item = isAdd ? await AddUserValueAsync(newUser: item) : await UpdateUserValueAsync(updatedUser: item),
-        Message = isAdd ? "Added Successfully" : "Updated Successfully",
-    }
-                    );
-                }
-                catch (Exception ex)
-                {
-                    results.Add(
-    item: new Result<User>
-    {
-        Success = false,
-        Item = item,
-        Message = ex.Message,
-    }
-                    );
-                }
-            }
-
-            return results;
-
-        });
-
     public ValueTask DeleteAllUserAsync(IEnumerable<User> deletedUser) =>
         TryCatch(operation: async ValueTask () =>
         {

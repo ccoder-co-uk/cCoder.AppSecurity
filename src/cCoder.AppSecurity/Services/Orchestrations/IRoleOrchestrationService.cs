@@ -19,9 +19,6 @@ public interface IRoleOrchestrationService
     ValueTask<Role> UpdateValidatedRoleAsync(Role entity);
     ValueTask DeleteAsync(Guid id);
     ValueTask DeleteValidatedAsync(Guid id);
-    ValueTask<IEnumerable<Result<Role>>> AddOrUpdateRole(
-        IEnumerable<Role> items
-    );
     ValueTask ImportRoleAsync(int appId, IEnumerable<Role> roles);
     ValueTask DeleteAllRoleAsync(IEnumerable<Role> items);
 }

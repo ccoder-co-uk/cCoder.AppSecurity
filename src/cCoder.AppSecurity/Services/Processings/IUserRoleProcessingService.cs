@@ -14,9 +14,6 @@ public interface IUserRoleProcessingService
     IQueryable<UserRole> GetAll(bool ignoreFilters = false);
     ValueTask<UserRole> AddUserRoleAsync(UserRole entity);
     ValueTask DeleteUserRoleAsync(UserRole entity);
-    ValueTask<IEnumerable<Result<UserRole>>> AddOrUpdateUserRole(
-        IEnumerable<UserRole> items
-    );
     ValueTask DeleteAllUserRoleAsync(IEnumerable<UserRole> items);
     ValueTask<UserRole> SaveUserRoleAsync(UserRole entity);
 }

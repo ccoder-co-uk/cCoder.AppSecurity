@@ -39,11 +39,6 @@ internal sealed partial class UserOrchestrationService
             userId,
         ]);
 
-    private static void ValidateAddOrUpdateUser(IEnumerable<User> items) =>
-        ValidationRulesEngine.Validate(inputs: [
-            items,
-        ]);
-
     private static void ValidateDeleteAllUser(IEnumerable<User> deletedUser) =>
         ValidationRulesEngine.Validate(inputs: [
             deletedUser,
