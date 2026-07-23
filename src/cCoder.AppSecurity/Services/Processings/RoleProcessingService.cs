@@ -10,73 +10,132 @@ using cCoder.AppSecurity.Services.Foundations;
 
 namespace cCoder.AppSecurity.Services.Processings;
 
-internal class RoleProcessingService(IRoleService service) : IRoleProcessingService
+internal sealed partial class RoleProcessingService(IRoleService service) : IRoleProcessingService
 {
     public Role Get(Guid roleId) =>
-        service.Get(id: roleId);
+        TryCatch(operation: Role () =>
+        {
+            ValidateGet(
+                roleId: roleId);
+
+            return service.Get(id: roleId);
+        });
 
     public IQueryable<Role> GetAll(bool ignoreFilters = false) =>
-        service.GetAll(ignoreFilters: ignoreFilters);
+        TryCatch(operation: IQueryable<Role> () =>
+        {
+            ValidateGetAll(
+                ignoreFilters: ignoreFilters);
+
+            return service.GetAll(ignoreFilters: ignoreFilters);
+        });
 
     public ValueTask<Role> AddRoleAsync(Role newRole) =>
-        service.AddRoleAsync(role: newRole);
+        TryCatch(operation: ValueTask<Role> () =>
+        {
+            ValidateAddRole(
+                newRole: newRole);
+
+            return service.AddRoleAsync(role: newRole);
+        });
 
     public ValueTask<Role> AddValidatedRoleAsync(Role newRole) =>
-        service.AddValidatedRoleAsync(role: newRole);
+        TryCatch(operation: ValueTask<Role> () =>
+        {
+            ValidateAddValidatedRole(
+                newRole: newRole);
+
+            return service.AddValidatedRoleAsync(role: newRole);
+        });
 
     public ValueTask<Role> UpdateRoleAsync(Role updatedRole) =>
-        service.UpdateRoleAsync(role: updatedRole);
+        TryCatch(operation: ValueTask<Role> () =>
+        {
+            ValidateUpdateRole(
+                updatedRole: updatedRole);
+
+            return service.UpdateRoleAsync(role: updatedRole);
+        });
 
     public ValueTask<Role> UpdateValidatedRoleAsync(Role updatedRole) =>
-        service.UpdateValidatedRoleAsync(role: updatedRole);
+        TryCatch(operation: ValueTask<Role> () =>
+        {
+            ValidateUpdateValidatedRole(
+                updatedRole: updatedRole);
+
+            return service.UpdateValidatedRoleAsync(role: updatedRole);
+        });
 
     public ValueTask DeleteAsync(Guid roleId) =>
-        service.DeleteAsync(id: roleId);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateDelete(
+                roleId: roleId);
+
+            return service.DeleteAsync(id: roleId);
+        });
 
     public ValueTask DeleteValidatedAsync(Guid roleId) =>
-        service.DeleteValidatedAsync(id: roleId);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateDeleteValidated(
+                roleId: roleId);
 
-    public async ValueTask<IEnumerable<Result<Role>>> AddOrUpdateRole(
+            return service.DeleteValidatedAsync(id: roleId);
+        });
+
+    public ValueTask<IEnumerable<Result<Role>>> AddOrUpdateRole(
         IEnumerable<Role> items
-    )
-    {
-        List<Result<Role>> results = [];
-
-        foreach (Role item in items)
+    ) =>
+        TryCatch(operation: async ValueTask<IEnumerable<Result<Role>>> () =>
         {
-            try
-            {
-                bool isAdd = item.Id == Guid.Empty;
+            ValidateAddOrUpdateRole(
+                items: items);
 
-                results.Add(
-item: new Result<Role>
-{
-    Success = true,
-    Item = isAdd ? await AddRoleAsync(newRole: item) : await UpdateRoleAsync(updatedRole: item),
-    Message = isAdd ? "Added Successfully" : "Updated Successfully",
-}
-                );
-            }
-            catch (Exception ex)
-            {
-                results.Add(
-item: new Result<Role>
-{
-    Success = false,
-    Item = item,
-    Message = ex.Message,
-}
-                );
-            }
-        }
+            List<Result<Role>> results = [];
 
-        return results;
-    }
-    public async ValueTask DeleteAllRoleAsync(IEnumerable<Role> deletedRole)
+            foreach (Role item in items)
+            {
+                try
+                {
+                    bool isAdd = item.Id == Guid.Empty;
+
+                    results.Add(
+    item: new Result<Role>
     {
-        foreach (Role item in deletedRole)
-        {
-            await DeleteAsync(roleId: item.Id);
-        }
+        Success = true,
+        Item = isAdd ? await AddRoleAsync(newRole: item) : await UpdateRoleAsync(updatedRole: item),
+        Message = isAdd ? "Added Successfully" : "Updated Successfully",
     }
+                    );
+                }
+                catch (Exception ex)
+                {
+                    results.Add(
+    item: new Result<Role>
+    {
+        Success = false,
+        Item = item,
+        Message = ex.Message,
+    }
+                    );
+                }
+            }
+
+            return results;
+
+        });
+
+    public ValueTask DeleteAllRoleAsync(IEnumerable<Role> deletedRole) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDeleteAllRole(
+                deletedRole: deletedRole);
+
+            foreach (Role item in deletedRole)
+            {
+                await DeleteAsync(roleId: item.Id);
+            }
+
+        });
 }

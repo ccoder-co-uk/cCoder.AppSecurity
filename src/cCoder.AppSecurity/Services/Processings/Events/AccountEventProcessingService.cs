@@ -7,9 +7,15 @@ using cCoder.Security.Objects.Events;
 
 namespace cCoder.AppSecurity.Services.Processings.Events;
 
-internal class AccountEventProcessingService(IAccountEventOrchestrationService orchestrationService)
+internal sealed partial class AccountEventProcessingService(IAccountEventOrchestrationService orchestrationService)
     : IAccountEventProcessingService
 {
     public ValueTask ProcessSecurityAccountEventAsync(SecurityAccountEvent accountEvent) =>
-        orchestrationService.ProcessSecurityAccountEventAsync(accountEvent: accountEvent);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateProcessSecurityAccountEvent(
+                accountEvent: accountEvent);
+
+            return orchestrationService.ProcessSecurityAccountEventAsync(accountEvent: accountEvent);
+        });
 }

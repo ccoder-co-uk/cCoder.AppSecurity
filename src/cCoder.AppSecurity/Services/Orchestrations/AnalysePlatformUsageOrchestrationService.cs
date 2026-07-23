@@ -11,43 +11,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
-internal sealed class AnalysePlatformUsageOrchestrationService(
+internal sealed partial class AnalysePlatformUsageOrchestrationService(
     ISecurityDbContextFactory ssoDbFactory)
     : IAnalysePlatformUsageOrchestrationService
 {
-    public async Task RunAsync(CancellationToken cancellationToken = default)
-    {
-        using var sso = ssoDbFactory.CreateDbContext();
-
-        List<DateTime> datesWithData = sso.UserEvents
-            .IgnoreQueryFilters()
-            .Select(selector: userEvent => userEvent.CreatedOn.Date)
-            .Distinct()
-            .OrderByDescending(keySelector: date => date)
-            .ToList();
-
-        if (datesWithData.FirstOrDefault() == DateTime.Today)
+    public Task RunAsync(CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async Task () =>
         {
-            datesWithData.RemoveAt(index: 0);
-        }
+            ValidateRun(
+                cancellationToken: cancellationToken);
 
-        string[] tenants = sso.Tenants
-            .IgnoreQueryFilters()
-            .Select(selector: tenant => tenant.Id)
-            .ToArray();
+            using var sso = ssoDbFactory.CreateDbContext();
 
-        foreach (DateTime date in datesWithData)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
+            List<DateTime> datesWithData = sso.UserEvents
+                .IgnoreQueryFilters()
+                .Select(selector: userEvent => userEvent.CreatedOn.Date)
+                .Distinct()
+                .OrderByDescending(keySelector: date => date)
+                .ToList();
 
-            IEnumerable<TenantAnalysis> reports = GenerateDailyReports(tenants: tenants, forDate: date, sso: sso);
-            sso.AddRange(entities: reports);
-            await sso.SaveChangesAsync(cancellationToken: cancellationToken);
-        }
+            if (datesWithData.FirstOrDefault() == DateTime.Today)
+            {
+                datesWithData.RemoveAt(index: 0);
+            }
 
-        string sql = $"DELETE UserEvents WHERE CreatedOn < '{DateTime.Today.AddDays(value: -2):yyyy-MM-dd}'";
-        sso.Database.ExecuteSqlRaw(sql: sql);
-    }
+            string[] tenants = sso.Tenants
+                .IgnoreQueryFilters()
+                .Select(selector: tenant => tenant.Id)
+                .ToArray();
+
+            foreach (DateTime date in datesWithData)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                IEnumerable<TenantAnalysis> reports = GenerateDailyReports(tenants: tenants, forDate: date, sso: sso);
+                sso.AddRange(entities: reports);
+                await sso.SaveChangesAsync(cancellationToken: cancellationToken);
+            }
+
+            string sql = $"DELETE UserEvents WHERE CreatedOn < '{DateTime.Today.AddDays(value: -2):yyyy-MM-dd}'";
+            sso.Database.ExecuteSqlRaw(sql: sql);
+
+        });
 
     private static IEnumerable<TenantAnalysis> GenerateDailyReports(string[] tenants, DateTime forDate, SecurityDbContext sso)
     {

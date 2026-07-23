@@ -10,43 +10,82 @@ using cCoder.AppSecurity.Services.Processings;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
-internal class PrivilegeOrchestrationService(
+internal sealed partial class PrivilegeOrchestrationService(
     IPrivilegeProcessingService processingService,
     IPrivilegeEventProcessingService eventService
 ) : IPrivilegeOrchestrationService
 {
     public Privilege Get(string privilegeId) =>
-        processingService.Get(id: privilegeId);
+        TryCatch(operation: Privilege () =>
+        {
+            ValidateGet(
+                privilegeId: privilegeId);
+
+            return processingService.Get(id: privilegeId);
+        });
 
     public IQueryable<Privilege> GetAll(bool ignoreFilters = false) =>
-        processingService.GetAll(ignoreFilters: ignoreFilters);
+        TryCatch(operation: IQueryable<Privilege> () =>
+        {
+            ValidateGetAll(
+                ignoreFilters: ignoreFilters);
 
-    public async ValueTask<Privilege> AddPrivilegeAsync(Privilege newPrivilege)
-    {
-        var result = await processingService.AddPrivilegeAsync(entity: newPrivilege);
-        await eventService.RaisePrivilegeAddEventAsync(entity: result);
-        return result;
-    }
+            return processingService.GetAll(ignoreFilters: ignoreFilters);
+        });
 
-    public async ValueTask<Privilege> UpdatePrivilegeAsync(Privilege updatedPrivilege)
-    {
-        var result = await processingService.UpdatePrivilegeAsync(entity: updatedPrivilege);
-        await eventService.RaisePrivilegeUpdateEventAsync(entity: result);
-        return result;
-    }
+    public ValueTask<Privilege> AddPrivilegeAsync(Privilege newPrivilege) =>
+        TryCatch(operation: async ValueTask<Privilege> () =>
+        {
+            ValidateAddPrivilege(
+                newPrivilege: newPrivilege);
 
-    public async ValueTask DeleteAsync(string privilegeId)
-    {
-        var entity = processingService.Get(id: privilegeId);
-        await eventService.RaisePrivilegeDeleteEventAsync(entity: entity);
-        await processingService.DeleteAsync(id: privilegeId);
-    }
+            var result = await processingService.AddPrivilegeAsync(entity: newPrivilege);
+            await eventService.RaisePrivilegeAddEventAsync(entity: result);
+            return result;
+
+        });
+
+    public ValueTask<Privilege> UpdatePrivilegeAsync(Privilege updatedPrivilege) =>
+        TryCatch(operation: async ValueTask<Privilege> () =>
+        {
+            ValidateUpdatePrivilege(
+                updatedPrivilege: updatedPrivilege);
+
+            var result = await processingService.UpdatePrivilegeAsync(entity: updatedPrivilege);
+            await eventService.RaisePrivilegeUpdateEventAsync(entity: result);
+            return result;
+
+        });
+
+    public ValueTask DeleteAsync(string privilegeId) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDelete(
+                privilegeId: privilegeId);
+
+            var entity = processingService.Get(id: privilegeId);
+            await eventService.RaisePrivilegeDeleteEventAsync(entity: entity);
+            await processingService.DeleteAsync(id: privilegeId);
+
+        });
 
     public ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdatePrivilege(
         IEnumerable<Privilege> items
     ) =>
-        processingService.AddOrUpdatePrivilege(items: items);
+        TryCatch(operation: ValueTask<IEnumerable<Result<Privilege>>> () =>
+        {
+            ValidateAddOrUpdatePrivilege(
+                items: items);
+
+            return processingService.AddOrUpdatePrivilege(items: items);
+        });
 
     public ValueTask DeleteAllPrivilegeAsync(IEnumerable<Privilege> deletedPrivilege) =>
-        processingService.DeleteAllPrivilegeAsync(items: deletedPrivilege);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateDeleteAllPrivilege(
+                deletedPrivilege: deletedPrivilege);
+
+            return processingService.DeleteAllPrivilegeAsync(items: deletedPrivilege);
+        });
 }

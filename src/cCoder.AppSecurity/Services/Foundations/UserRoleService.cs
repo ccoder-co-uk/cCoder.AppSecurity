@@ -13,47 +13,64 @@ using IUserRoleBroker = cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker;
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
-internal class UserRoleService(
+internal sealed partial class UserRoleService(
     IUserRoleBroker userRoleBroker,
     IRoleBroker roleBroker,
     IAuthorizationBroker authorizationBroker
 ) : IUserRoleService
 {
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
-        userRoleBroker.GetAllUserRoles(ignoreFilters: ignoreFilters);
-
-    public async ValueTask<UserRole> AddUserRoleAsync(UserRole newUserRole, bool authorize = true)
-    {
-        DataUserRole internalUserRole = new()
+        TryCatch(operation: IQueryable<UserRole> () =>
         {
-            RoleId = newUserRole.RoleId,
-            UserId = newUserRole.UserId
-        };
+            ValidateGetAll(
+                ignoreFilters: ignoreFilters);
 
-        if (authorize)
+            return userRoleBroker.GetAllUserRoles(ignoreFilters: ignoreFilters);
+        });
+
+    public ValueTask<UserRole> AddUserRoleAsync(UserRole newUserRole, bool authorize = true) =>
+        TryCatch(operation: async ValueTask<UserRole> () =>
         {
-            int? appId = userRoleBroker.GetAppId(entity: internalUserRole);
-            authorizationBroker.Authorize(appId: appId, privilege: $"{nameof(UserRole)}_create");
-            AuthorizeAssignedRolePrivileges(appId: appId, roleId: newUserRole.RoleId);
-        }
+            ValidateAddUserRole(
+                newUserRole: newUserRole,
+                authorize: authorize);
 
-        DataUserRole result = await userRoleBroker.AddUserRoleAsync(entity: internalUserRole);
-        newUserRole.RoleId = result.RoleId;
-        newUserRole.UserId = result.UserId;
-        return newUserRole;
-    }
+            DataUserRole internalUserRole = new()
+            {
+                RoleId = newUserRole.RoleId,
+                UserId = newUserRole.UserId
+            };
 
-    public async ValueTask DeleteUserRoleAsync(UserRole deletedUserRole)
-    {
-        DataUserRole internalUserRole = ToExternalUserRole(item: deletedUserRole);
+            if (authorize)
+            {
+                int? appId = userRoleBroker.GetAppId(entity: internalUserRole);
+                authorizationBroker.Authorize(appId: appId, privilege: $"{nameof(UserRole)}_create");
+                AuthorizeAssignedRolePrivileges(appId: appId, roleId: newUserRole.RoleId);
+            }
 
-        authorizationBroker.Authorize(
-appId: userRoleBroker.GetAppId(entity: internalUserRole),
-privilege: $"{nameof(UserRole)}_delete"
-        );
+            DataUserRole result = await userRoleBroker.AddUserRoleAsync(entity: internalUserRole);
+            newUserRole.RoleId = result.RoleId;
+            newUserRole.UserId = result.UserId;
+            return newUserRole;
 
-        _ = await userRoleBroker.DeleteUserRoleAsync(entity: internalUserRole);
-    }
+        });
+
+    public ValueTask DeleteUserRoleAsync(UserRole deletedUserRole) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDeleteUserRole(
+                deletedUserRole: deletedUserRole);
+
+            DataUserRole internalUserRole = ToExternalUserRole(item: deletedUserRole);
+
+            authorizationBroker.Authorize(
+    appId: userRoleBroker.GetAppId(entity: internalUserRole),
+    privilege: $"{nameof(UserRole)}_delete"
+            );
+
+            _ = await userRoleBroker.DeleteUserRoleAsync(entity: internalUserRole);
+
+        });
 
     private void AuthorizeAssignedRolePrivileges(int? appId, Guid roleId)
     {

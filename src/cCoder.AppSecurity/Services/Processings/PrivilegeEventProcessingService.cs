@@ -10,14 +10,32 @@ using cCoder.AppSecurity.Services.Foundations.Events;
 
 namespace cCoder.AppSecurity.Services.Processings;
 
-internal class PrivilegeEventProcessingService(IPrivilegeEventService eventService) : IPrivilegeEventProcessingService
+internal sealed partial class PrivilegeEventProcessingService(IPrivilegeEventService eventService) : IPrivilegeEventProcessingService
 {
     public ValueTask RaisePrivilegeAddEventAsync(Privilege entity) =>
-        eventService.RaisePrivilegeAddEventAsync(entity: entity);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateRaisePrivilegeAddEvent(
+                entity: entity);
+
+            return eventService.RaisePrivilegeAddEventAsync(entity: entity);
+        });
 
     public ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity) =>
-        eventService.RaisePrivilegeUpdateEventAsync(entity: entity);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateRaisePrivilegeUpdateEvent(
+                entity: entity);
+
+            return eventService.RaisePrivilegeUpdateEventAsync(entity: entity);
+        });
 
     public ValueTask RaisePrivilegeDeleteEventAsync(Privilege entity) =>
-        eventService.RaisePrivilegeDeleteEventAsync(entity: entity);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateRaisePrivilegeDeleteEvent(
+                entity: entity);
+
+            return eventService.RaisePrivilegeDeleteEventAsync(entity: entity);
+        });
 }

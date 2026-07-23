@@ -140,6 +140,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     public async Task<IActionResult> Patch([FromRoute] string key, Delta<User> delta)
     {
         User originalEntity = Service.Get(id: key);
+
         if (originalEntity == null)
         {
             return NotFound();

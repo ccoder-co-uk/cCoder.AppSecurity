@@ -121,6 +121,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     public async Task<IActionResult> Patch([FromRoute] string key, Delta<Privilege> delta)
     {
         Privilege originalEntity = Service.Get(id: key);
+
         if (originalEntity == null)
         {
             return NotFound();

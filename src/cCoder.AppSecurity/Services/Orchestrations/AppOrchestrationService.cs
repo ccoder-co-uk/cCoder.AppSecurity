@@ -10,40 +10,55 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
-internal class AppOrchestrationService(
+internal sealed partial class AppOrchestrationService(
     IAuthorizationBroker authorizationBroker,
     IPrivilegeService privilegeService,
     IRoleOrchestrationService roleOrchestrationService
 ) : IAppOrchestrationService
 {
-    public async ValueTask AddAppAsync(App newApp)
-    {
-        EnsureDefaultRoles(app: newApp);
-        StampRoles(app: newApp);
-        await UpsertRolesAsync(roles: newApp.Roles ?? []);
-    }
-
-    public async ValueTask UpdateAppAsync(App updatedApp)
-    {
-        if (updatedApp?.Roles == null || updatedApp.Roles.Count == 0)
+    public ValueTask AddAppAsync(App newApp) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            return;
-        }
+            ValidateAddApp(
+                newApp: newApp);
 
-        StampRoles(app: updatedApp);
-        await UpsertRolesAsync(roles: updatedApp.Roles);
-    }
+            EnsureDefaultRoles(app: newApp);
+            StampRoles(app: newApp);
+            await UpsertRolesAsync(roles: newApp.Roles ?? []);
 
-    public async ValueTask DeleteAsync(int appId)
-    {
-        Role[] rolesToDelete = [.. roleOrchestrationService.GetAll(ignoreFilters: true)
-            .Where(predicate: role => role.AppId == appId)];
+        });
 
-        foreach (Role role in rolesToDelete)
+    public ValueTask UpdateAppAsync(App updatedApp) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            await roleOrchestrationService.DeleteValidatedAsync(id: role.Id);
-        }
-    }
+            ValidateUpdateApp(
+                updatedApp: updatedApp);
+
+            if (updatedApp?.Roles == null || updatedApp.Roles.Count == 0)
+            {
+                return;
+            }
+
+            StampRoles(app: updatedApp);
+            await UpsertRolesAsync(roles: updatedApp.Roles);
+
+        });
+
+    public ValueTask DeleteAsync(int appId) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDelete(
+                appId: appId);
+
+            Role[] rolesToDelete = [.. roleOrchestrationService.GetAll(ignoreFilters: true)
+                .Where(predicate: role => role.AppId == appId)];
+
+            foreach (Role role in rolesToDelete)
+            {
+                await roleOrchestrationService.DeleteValidatedAsync(id: role.Id);
+            }
+
+        });
 
     private static void StampRoles(App app)
     {

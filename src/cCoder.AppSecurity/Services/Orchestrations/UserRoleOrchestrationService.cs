@@ -10,35 +10,69 @@ using cCoder.AppSecurity.Services.Processings;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
-internal class UserRoleOrchestrationService(
+internal sealed partial class UserRoleOrchestrationService(
     IUserRoleProcessingService processingService,
     IUserRoleEventProcessingService eventService
 ) : IUserRoleOrchestrationService
 {
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
-        processingService.GetAll(ignoreFilters: ignoreFilters);
+        TryCatch(operation: IQueryable<UserRole> () =>
+        {
+            ValidateGetAll(
+                ignoreFilters: ignoreFilters);
 
-    public async ValueTask<UserRole> AddUserRoleAsync(UserRole newUserRole)
-    {
-        var result = await processingService.AddUserRoleAsync(entity: newUserRole);
-        await eventService.RaiseUserRoleAddEventAsync(entity: result);
-        return result;
-    }
+            return processingService.GetAll(ignoreFilters: ignoreFilters);
+        });
 
-    public async ValueTask DeleteUserRoleAsync(UserRole deletedUserRole)
-    {
-        await eventService.RaiseUserRoleDeleteEventAsync(entity: deletedUserRole);
-        await processingService.DeleteUserRoleAsync(entity: deletedUserRole);
-    }
+    public ValueTask<UserRole> AddUserRoleAsync(UserRole newUserRole) =>
+        TryCatch(operation: async ValueTask<UserRole> () =>
+        {
+            ValidateAddUserRole(
+                newUserRole: newUserRole);
+
+            var result = await processingService.AddUserRoleAsync(entity: newUserRole);
+            await eventService.RaiseUserRoleAddEventAsync(entity: result);
+            return result;
+
+        });
+
+    public ValueTask DeleteUserRoleAsync(UserRole deletedUserRole) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDeleteUserRole(
+                deletedUserRole: deletedUserRole);
+
+            await eventService.RaiseUserRoleDeleteEventAsync(entity: deletedUserRole);
+            await processingService.DeleteUserRoleAsync(entity: deletedUserRole);
+
+        });
 
     public ValueTask<IEnumerable<Result<UserRole>>> AddOrUpdateUserRole(
         IEnumerable<UserRole> items
     ) =>
-        processingService.AddOrUpdateUserRole(items: items);
+        TryCatch(operation: ValueTask<IEnumerable<Result<UserRole>>> () =>
+        {
+            ValidateAddOrUpdateUserRole(
+                items: items);
+
+            return processingService.AddOrUpdateUserRole(items: items);
+        });
 
     public ValueTask DeleteAllUserRoleAsync(IEnumerable<UserRole> deletedUserRole) =>
-        processingService.DeleteAllUserRoleAsync(items: deletedUserRole);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateDeleteAllUserRole(
+                deletedUserRole: deletedUserRole);
+
+            return processingService.DeleteAllUserRoleAsync(items: deletedUserRole);
+        });
 
     public ValueTask<UserRole> SaveUserRoleAsync(UserRole entity) =>
-        processingService.SaveUserRoleAsync(entity: entity);
+        TryCatch(operation: ValueTask<UserRole> () =>
+        {
+            ValidateSaveUserRole(
+                entity: entity);
+
+            return processingService.SaveUserRoleAsync(entity: entity);
+        });
 }

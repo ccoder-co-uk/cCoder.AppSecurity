@@ -14,8 +14,10 @@ internal class AppSecurityAppExposure(IAppOrchestrationService appOrchestrationS
 {
     public ValueTask AddAsync(App newApp) =>
         appOrchestrationService.AddAppAsync(app: newApp);
+
     public ValueTask UpdateAsync(App updatedApp) =>
         appOrchestrationService.UpdateAppAsync(app: updatedApp);
+
     public ValueTask DeleteAsync(int appId) =>
         appOrchestrationService.DeleteAsync(appId: appId);
 }

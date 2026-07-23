@@ -7,11 +7,22 @@ using cCoder.Data.Models.CMS;
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
-internal class AppService(IAppBroker appBroker) : IAppService
+internal sealed partial class AppService(IAppBroker appBroker) : IAppService
 {
     public IQueryable<App> GetAll() =>
-        appBroker.GetAll();
+        TryCatch(operation: IQueryable<App> () =>
+        {
+            ValidateGetAll();
+
+            return appBroker.GetAll();
+        });
 
     public App GetByDomain(string domain) =>
-        appBroker.GetByDomain(domain: domain);
+        TryCatch(operation: App () =>
+        {
+            ValidateGetByDomain(
+                domain: domain);
+
+            return appBroker.GetByDomain(domain: domain);
+        });
 }

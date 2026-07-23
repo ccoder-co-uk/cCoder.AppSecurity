@@ -15,41 +15,56 @@ using IUserEventBroker = cCoder.AppSecurity.Brokers.Events.IUserEventBroker;
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-internal class UserEventService(IUserEventBroker userEventBroker, ICoreAuthInfo authInfo)
+internal sealed partial class UserEventService(IUserEventBroker userEventBroker, ICoreAuthInfo authInfo)
     : IUserEventService
 {
-    public async ValueTask RaiseUserAddEventAsync(User entity)
-    {
-        EventMessage<DataUser> message = new()
+    public ValueTask RaiseUserAddEventAsync(User entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUser(item: entity),
-        };
+            ValidateRaiseUserAddEvent(
+                entity: entity);
 
-        await userEventBroker.RaiseUserAddEventAsync(message: message);
-    }
+            EventMessage<DataUser> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                Data = ToExternalUser(item: entity),
+            };
 
-    public async ValueTask RaiseUserUpdateEventAsync(User entity)
-    {
-        EventMessage<DataUser> message = new()
+            await userEventBroker.RaiseUserAddEventAsync(message: message);
+
+        });
+
+    public ValueTask RaiseUserUpdateEventAsync(User entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUser(item: entity),
-        };
+            ValidateRaiseUserUpdateEvent(
+                entity: entity);
 
-        await userEventBroker.RaiseUserUpdateEventAsync(message: message);
-    }
+            EventMessage<DataUser> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                Data = ToExternalUser(item: entity),
+            };
 
-    public async ValueTask RaiseUserDeleteEventAsync(User entity)
-    {
-        EventMessage<DataUser> message = new()
+            await userEventBroker.RaiseUserUpdateEventAsync(message: message);
+
+        });
+
+    public ValueTask RaiseUserDeleteEventAsync(User entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUser(item: entity),
-        };
+            ValidateRaiseUserDeleteEvent(
+                entity: entity);
 
-        await userEventBroker.RaiseUserDeleteEventAsync(message: message);
-    }
+            EventMessage<DataUser> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                Data = ToExternalUser(item: entity),
+            };
+
+            await userEventBroker.RaiseUserDeleteEventAsync(message: message);
+
+        });
 
     static DataUser ToExternalUser(User item) =>
         new()

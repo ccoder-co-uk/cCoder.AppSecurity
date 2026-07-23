@@ -11,30 +11,42 @@ using cCoder.AppSecurity.Services.Orchestrations;
 
 namespace cCoder.AppSecurity.Services.Aggregations;
 
-internal class AppSecurityMigrationAggregationService(
+internal sealed partial class AppSecurityMigrationAggregationService(
     IRoleOrchestrationService roleOrchestrationService,
     IJsonBroker jsonBroker
 ) : IAppSecurityMigrationAggregationService
 {
-    public async ValueTask ImportPackageAppSecurityPackageAsync(int appId, AppSecurityPackage package)
-    {
-        if (package.Items is null || package.Items.Count == 0)
+    public ValueTask ImportPackageAppSecurityPackageAsync(int appId, AppSecurityPackage package) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            return;
-        }
+            ValidateImportPackageAppSecurityPackage(
+                appId: appId,
+                package: package);
 
-        foreach (AppSecurityPackageItem item in package.Items.Where(predicate: item => item.Type == "Core/Role"))
-        {
-            Role[] items = item.Data.StartsWith(value: "{")
-                ? [jsonBroker.ParseJson<Role>(json: item.Data)]
-                : jsonBroker.ParseJson<Role[]>(json: item.Data);
+            if (package.Items is null || package.Items.Count == 0)
+            {
+                return;
+            }
 
-            await roleOrchestrationService.ImportRoleAsync(appId: appId, roles: items);
-        }
-    }
+            foreach (AppSecurityPackageItem item in package.Items.Where(predicate: item => item.Type == "Core/Role"))
+            {
+                Role[] items = item.Data.StartsWith(value: "{")
+                    ? [jsonBroker.ParseJson<Role>(json: item.Data)]
+                    : jsonBroker.ParseJson<Role[]>(json: item.Data);
+
+                await roleOrchestrationService.ImportRoleAsync(appId: appId, roles: items);
+            }
+
+        });
 
     public AppSecurityPackage ExportPackage(int appId, string packageName) =>
-        packageName == "Roles"
+        TryCatch(operation: AppSecurityPackage () =>
+        {
+            ValidateExportPackage(
+                appId: appId,
+                packageName: packageName);
+
+            return packageName == "Roles"
             ? new AppSecurityPackage(name: "Roles")
             {
                 Items =
@@ -52,4 +64,5 @@ internal class AppSecurityMigrationAggregationService(
                 ],
             }
             : new AppSecurityPackage(name: packageName) { Items = [] };
+        });
 }

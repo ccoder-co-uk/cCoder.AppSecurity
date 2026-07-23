@@ -8,10 +8,14 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
-internal sealed class AppSecurityMetadataTypeService : IAppSecurityMetadataTypeService
+internal sealed partial class AppSecurityMetadataTypeService : IAppSecurityMetadataTypeService
 {
     public IEnumerable<MetadataContainerSet> GetKnownMetadata() =>
-    [
+        TryCatch(operation: IEnumerable<MetadataContainerSet> () =>
+        {
+            ValidateGetKnownMetadata();
+
+            return [
         new MetadataContainerSet
         {
             Name = "AppSecurity",
@@ -25,6 +29,7 @@ internal sealed class AppSecurityMetadataTypeService : IAppSecurityMetadataTypeS
             ],
         },
     ];
+        });
 
     private static ExtendedMetadataContainer Entity<T>() =>
         new(typeof(T), isEntity: true, hasEndpoint: true)

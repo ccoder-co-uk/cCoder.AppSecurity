@@ -19,144 +19,185 @@ using IUserRoleBroker = cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker;
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
-internal class RoleService(
+internal sealed partial class RoleService(
     IRoleBroker roleBroker,
     IUserRoleBroker userRoleBroker,
     IAuthorizationBroker authorizationBroker)
     : IRoleService
 {
-    public Role Get(Guid roleId)
-    {
-        Role role = GetAll()
-            .FirstOrDefault(predicate: i => i.Id == roleId);
-
-        if (role is not null)
+    public Role Get(Guid roleId) =>
+        TryCatch(operation: Role () =>
         {
-            return role;
-        }
+            ValidateGet(
+                roleId: roleId);
 
-        Role unrestrictedRole = GetAll(ignoreFilters: true)
-            .FirstOrDefault(predicate: i => i.Id == roleId);
+            Role role = GetAll()
+                .FirstOrDefault(predicate: i => i.Id == roleId);
 
-        if (unrestrictedRole is not null)
-        {
-            throw new SecurityException(message: "Access Denied!");
-        }
+            if (role is not null)
+            {
+                return role;
+            }
 
-        return null;
-    }
+            Role unrestrictedRole = GetAll(ignoreFilters: true)
+                .FirstOrDefault(predicate: i => i.Id == roleId);
+
+            if (unrestrictedRole is not null)
+            {
+                throw new SecurityException(message: "Access Denied!");
+            }
+
+            return null;
+
+        });
 
     public IQueryable<Role> GetAll(bool ignoreFilters = false) =>
-        roleBroker.GetAllRoles(ignoreFilters: ignoreFilters);
-
-    public async ValueTask<Role> AddRoleAsync(Role newRole)
-    {
-        DataRole internalRole = new()
+        TryCatch(operation: IQueryable<Role> () =>
         {
-            Id = newRole.Id,
-            AppId = newRole.AppId,
-            Name = newRole.Name,
-            Description = newRole.Description,
-            Privs = newRole.Privs
-        };
+            ValidateGetAll(
+                ignoreFilters: ignoreFilters);
 
-        AuthorizeMutationOrAllowBootstrap(appId: newRole.AppId, privilege: $"{nameof(Role)}_create", assignedPrivileges: newRole.Privs);
-        DataRole result = await roleBroker.AddRoleAsync(entity: internalRole);
-        newRole.Id = result.Id;
-        newRole.AppId = result.AppId;
-        newRole.Name = result.Name;
-        newRole.Description = result.Description;
-        newRole.Privs = result.Privs;
-        return newRole;
-    }
+            return roleBroker.GetAllRoles(ignoreFilters: ignoreFilters);
+        });
 
-    public async ValueTask<Role> AddValidatedRoleAsync(Role newRole)
-    {
-        DataRole internalRole = new()
+    public ValueTask<Role> AddRoleAsync(Role newRole) =>
+        TryCatch(operation: async ValueTask<Role> () =>
         {
-            Id = newRole.Id,
-            AppId = newRole.AppId,
-            Name = newRole.Name,
-            Description = newRole.Description,
-            Privs = newRole.Privs
-        };
+            ValidateAddRole(
+                newRole: newRole);
 
-        DataRole result = await roleBroker.AddRoleAsync(entity: internalRole);
-        newRole.Id = result.Id;
-        newRole.AppId = result.AppId;
-        newRole.Name = result.Name;
-        newRole.Description = result.Description;
-        newRole.Privs = result.Privs;
-        return newRole;
-    }
+            DataRole internalRole = new()
+            {
+                Id = newRole.Id,
+                AppId = newRole.AppId,
+                Name = newRole.Name,
+                Description = newRole.Description,
+                Privs = newRole.Privs
+            };
 
-    public async ValueTask<Role> UpdateRoleAsync(Role updatedRole)
-    {
-        DataRole internalRole = new()
+            AuthorizeMutationOrAllowBootstrap(appId: newRole.AppId, privilege: $"{nameof(Role)}_create", assignedPrivileges: newRole.Privs);
+            DataRole result = await roleBroker.AddRoleAsync(entity: internalRole);
+            newRole.Id = result.Id;
+            newRole.AppId = result.AppId;
+            newRole.Name = result.Name;
+            newRole.Description = result.Description;
+            newRole.Privs = result.Privs;
+            return newRole;
+
+        });
+
+    public ValueTask<Role> AddValidatedRoleAsync(Role newRole) =>
+        TryCatch(operation: async ValueTask<Role> () =>
         {
-            Id = updatedRole.Id,
-            AppId = updatedRole.AppId,
-            Name = updatedRole.Name,
-            Description = updatedRole.Description,
-            Privs = updatedRole.Privs
-        };
+            ValidateAddValidatedRole(
+                newRole: newRole);
 
-        AuthorizeMutationOrAllowBootstrap(appId: updatedRole.AppId, privilege: $"{nameof(Role)}_update", assignedPrivileges: updatedRole.Privs);
-        DataRole result = await roleBroker.UpdateRoleAsync(entity: internalRole);
-        updatedRole.Id = result.Id;
-        updatedRole.AppId = result.AppId;
-        updatedRole.Name = result.Name;
-        updatedRole.Description = result.Description;
-        updatedRole.Privs = result.Privs;
-        return updatedRole;
-    }
+            DataRole internalRole = new()
+            {
+                Id = newRole.Id,
+                AppId = newRole.AppId,
+                Name = newRole.Name,
+                Description = newRole.Description,
+                Privs = newRole.Privs
+            };
 
-    public async ValueTask<Role> UpdateValidatedRoleAsync(Role updatedRole)
-    {
-        DataRole internalRole = new()
+            DataRole result = await roleBroker.AddRoleAsync(entity: internalRole);
+            newRole.Id = result.Id;
+            newRole.AppId = result.AppId;
+            newRole.Name = result.Name;
+            newRole.Description = result.Description;
+            newRole.Privs = result.Privs;
+            return newRole;
+
+        });
+
+    public ValueTask<Role> UpdateRoleAsync(Role updatedRole) =>
+        TryCatch(operation: async ValueTask<Role> () =>
         {
-            Id = updatedRole.Id,
-            AppId = updatedRole.AppId,
-            Name = updatedRole.Name,
-            Description = updatedRole.Description,
-            Privs = updatedRole.Privs
-        };
+            ValidateUpdateRole(
+                updatedRole: updatedRole);
 
-        DataRole result = await roleBroker.UpdateRoleAsync(entity: internalRole);
-        updatedRole.Id = result.Id;
-        updatedRole.AppId = result.AppId;
-        updatedRole.Name = result.Name;
-        updatedRole.Description = result.Description;
-        updatedRole.Privs = result.Privs;
-        return updatedRole;
-    }
+            DataRole internalRole = new()
+            {
+                Id = updatedRole.Id,
+                AppId = updatedRole.AppId,
+                Name = updatedRole.Name,
+                Description = updatedRole.Description,
+                Privs = updatedRole.Privs
+            };
 
-    public async ValueTask DeleteAsync(Guid roleId)
-    {
-        Role role = GetAll(ignoreFilters: true)
-            .FirstOrDefault(predicate: foundRole => foundRole.Id == roleId);
+            AuthorizeMutationOrAllowBootstrap(appId: updatedRole.AppId, privilege: $"{nameof(Role)}_update", assignedPrivileges: updatedRole.Privs);
+            DataRole result = await roleBroker.UpdateRoleAsync(entity: internalRole);
+            updatedRole.Id = result.Id;
+            updatedRole.AppId = result.AppId;
+            updatedRole.Name = result.Name;
+            updatedRole.Description = result.Description;
+            updatedRole.Privs = result.Privs;
+            return updatedRole;
 
-        if (role is null)
+        });
+
+    public ValueTask<Role> UpdateValidatedRoleAsync(Role updatedRole) =>
+        TryCatch(operation: async ValueTask<Role> () =>
         {
-            return;
-        }
+            ValidateUpdateValidatedRole(
+                updatedRole: updatedRole);
 
-        authorizationBroker.Authorize(appId: role.AppId, privilege: $"{nameof(Role)}_delete");
-        await DeleteRoleAsync(deletedRole: role);
-    }
+            DataRole internalRole = new()
+            {
+                Id = updatedRole.Id,
+                AppId = updatedRole.AppId,
+                Name = updatedRole.Name,
+                Description = updatedRole.Description,
+                Privs = updatedRole.Privs
+            };
 
-    public async ValueTask DeleteValidatedAsync(Guid roleId)
-    {
-        Role role = GetAll(ignoreFilters: true)
-            .FirstOrDefault(predicate: foundRole => foundRole.Id == roleId);
+            DataRole result = await roleBroker.UpdateRoleAsync(entity: internalRole);
+            updatedRole.Id = result.Id;
+            updatedRole.AppId = result.AppId;
+            updatedRole.Name = result.Name;
+            updatedRole.Description = result.Description;
+            updatedRole.Privs = result.Privs;
+            return updatedRole;
 
-        if (role is null)
+        });
+
+    public ValueTask DeleteAsync(Guid roleId) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            return;
-        }
+            ValidateDelete(
+                roleId: roleId);
 
-        await DeleteRoleAsync(deletedRole: role);
-    }
+            Role role = GetAll(ignoreFilters: true)
+                .FirstOrDefault(predicate: foundRole => foundRole.Id == roleId);
+
+            if (role is null)
+            {
+                return;
+            }
+
+            authorizationBroker.Authorize(appId: role.AppId, privilege: $"{nameof(Role)}_delete");
+            await DeleteRoleAsync(deletedRole: role);
+
+        });
+
+    public ValueTask DeleteValidatedAsync(Guid roleId) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDeleteValidated(
+                roleId: roleId);
+
+            Role role = GetAll(ignoreFilters: true)
+                .FirstOrDefault(predicate: foundRole => foundRole.Id == roleId);
+
+            if (role is null)
+            {
+                return;
+            }
+
+            await DeleteRoleAsync(deletedRole: role);
+
+        });
 
     private async ValueTask DeleteRoleAsync(Role deletedRole)
     {

@@ -9,27 +9,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
-internal sealed class TokenCleanerOrchestrationService(
+internal sealed partial class TokenCleanerOrchestrationService(
     ISecurityDbContextFactory ssoDbFactory,
     ILogger<TokenCleanerOrchestrationService> log)
     : ITokenCleanerOrchestrationService
 {
-    public async Task RunAsync(CancellationToken cancellationToken = default)
-    {
-        using var sso = ssoDbFactory.CreateDbContext();
-
-        Token[] expiredTokens = sso.Tokens
-            .IgnoreQueryFilters()
-            .Where(predicate: token => token.Expires < DateTimeOffset.UtcNow)
-            .ToArray();
-
-        if (expiredTokens.Length == 0)
+    public Task RunAsync(CancellationToken cancellationToken = default) =>
+        TryCatch(operation: async Task () =>
         {
-            return;
-        }
+            ValidateRun(
+                cancellationToken: cancellationToken);
 
-        sso.RemoveRange(entities: expiredTokens);
-        await sso.SaveChangesAsync(cancellationToken: cancellationToken);
-        log.LogDebug(message: "{Count} Expired tokens removed", args: expiredTokens.Length);
-    }
+            using var sso = ssoDbFactory.CreateDbContext();
+
+            Token[] expiredTokens = sso.Tokens
+                .IgnoreQueryFilters()
+                .Where(predicate: token => token.Expires < DateTimeOffset.UtcNow)
+                .ToArray();
+
+            if (expiredTokens.Length == 0)
+            {
+                return;
+            }
+
+            sso.RemoveRange(entities: expiredTokens);
+            await sso.SaveChangesAsync(cancellationToken: cancellationToken);
+            log.LogDebug(message: "{Count} Expired tokens removed", args: expiredTokens.Length);
+
+        });
 }

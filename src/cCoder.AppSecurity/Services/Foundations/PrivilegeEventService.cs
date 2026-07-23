@@ -13,43 +13,58 @@ using IPrivilegeEventBroker = cCoder.AppSecurity.Brokers.Events.IPrivilegeEventB
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-internal class PrivilegeEventService(
+internal sealed partial class PrivilegeEventService(
     IPrivilegeEventBroker privilegeEventBroker,
     ICoreAuthInfo authInfo
 ) : IPrivilegeEventService
 {
-    public async ValueTask RaisePrivilegeAddEventAsync(Privilege entity)
-    {
-        EventMessage<DataPrivilege> message = new()
+    public ValueTask RaisePrivilegeAddEventAsync(Privilege entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalPrivilege(item: entity),
-        };
+            ValidateRaisePrivilegeAddEvent(
+                entity: entity);
 
-        await privilegeEventBroker.RaisePrivilegeAddEventAsync(message: message);
-    }
+            EventMessage<DataPrivilege> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                Data = ToExternalPrivilege(item: entity),
+            };
 
-    public async ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity)
-    {
-        EventMessage<DataPrivilege> message = new()
+            await privilegeEventBroker.RaisePrivilegeAddEventAsync(message: message);
+
+        });
+
+    public ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalPrivilege(item: entity),
-        };
+            ValidateRaisePrivilegeUpdateEvent(
+                entity: entity);
 
-        await privilegeEventBroker.RaisePrivilegeUpdateEventAsync(message: message);
-    }
+            EventMessage<DataPrivilege> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                Data = ToExternalPrivilege(item: entity),
+            };
 
-    public async ValueTask RaisePrivilegeDeleteEventAsync(Privilege entity)
-    {
-        EventMessage<DataPrivilege> message = new()
+            await privilegeEventBroker.RaisePrivilegeUpdateEventAsync(message: message);
+
+        });
+
+    public ValueTask RaisePrivilegeDeleteEventAsync(Privilege entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalPrivilege(item: entity),
-        };
+            ValidateRaisePrivilegeDeleteEvent(
+                entity: entity);
 
-        await privilegeEventBroker.RaisePrivilegeDeleteEventAsync(message: message);
-    }
+            EventMessage<DataPrivilege> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                Data = ToExternalPrivilege(item: entity),
+            };
+
+            await privilegeEventBroker.RaisePrivilegeDeleteEventAsync(message: message);
+
+        });
 
     static DataPrivilege ToExternalPrivilege(Privilege item) =>
         new()

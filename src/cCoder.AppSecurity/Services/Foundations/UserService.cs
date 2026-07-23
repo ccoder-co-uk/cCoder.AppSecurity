@@ -15,85 +15,118 @@ using IUserBroker = cCoder.AppSecurity.Brokers.Storages.IUserBroker;
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
-internal class UserService(IUserBroker userBroker, IAuthorizationBroker authorizationBroker)
+internal sealed partial class UserService(IUserBroker userBroker, IAuthorizationBroker authorizationBroker)
     : IUserService
 {
-    public User Get(string userId)
-    {
-        User user = GetAll()
-            .FirstOrDefault(predicate: i => i.Id == userId);
-
-        if (user is not null)
+    public User Get(string userId) =>
+        TryCatch(operation: User () =>
         {
-            return user;
-        }
+            ValidateGet(
+                userId: userId);
 
-        User unrestrictedUser = GetAll(ignoreFilters: true)
-            .FirstOrDefault(predicate: i => i.Id == userId);
+            User user = GetAll()
+                .FirstOrDefault(predicate: i => i.Id == userId);
 
-        if (unrestrictedUser is not null)
-        {
-            throw new SecurityException(message: "Access Denied!");
-        }
+            if (user is not null)
+            {
+                return user;
+            }
 
-        return null;
-    }
+            User unrestrictedUser = GetAll(ignoreFilters: true)
+                .FirstOrDefault(predicate: i => i.Id == userId);
+
+            if (unrestrictedUser is not null)
+            {
+                throw new SecurityException(message: "Access Denied!");
+            }
+
+            return null;
+
+        });
 
     public User GetByEmail(string email, bool ignoreFilters = false) =>
-        ToLocalUser(item: userBroker.GetUserByEmail(email: email, ignoreFilters: ignoreFilters));
+        TryCatch(operation: User () =>
+        {
+            ValidateGetByEmail(
+                email: email,
+                ignoreFilters: ignoreFilters);
+
+            return ToLocalUser(item: userBroker.GetUserByEmail(email: email, ignoreFilters: ignoreFilters));
+        });
 
     public IQueryable<User> GetAll(bool ignoreFilters = false) =>
-        userBroker.GetAllUsers(ignoreFilters: ignoreFilters);
-
-    public async ValueTask<User> AddUserAsync(User newUser)
-    {
-        DataUser internalUser = new()
+        TryCatch(operation: IQueryable<User> () =>
         {
-            Id = newUser.Id,
-            DefaultCultureId = newUser.DefaultCultureId,
-            DisplayName = newUser.DisplayName,
-            Email = newUser.Email,
-            IsActive = newUser.IsActive
-        };
+            ValidateGetAll(
+                ignoreFilters: ignoreFilters);
 
-        authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_create");
-        DataUser result = await userBroker.AddUserAsync(entity: internalUser);
-        newUser.Id = result.Id;
-        newUser.DefaultCultureId = result.DefaultCultureId;
-        newUser.DisplayName = result.DisplayName;
-        newUser.Email = result.Email;
-        newUser.IsActive = result.IsActive;
-        return newUser;
-    }
+            return userBroker.GetAllUsers(ignoreFilters: ignoreFilters);
+        });
 
-    public async ValueTask<User> UpdateUserAsync(User updatedUser)
-    {
-        DataUser internalUser = new()
+    public ValueTask<User> AddUserAsync(User newUser) =>
+        TryCatch(operation: async ValueTask<User> () =>
         {
-            Id = updatedUser.Id,
-            DefaultCultureId = updatedUser.DefaultCultureId,
-            DisplayName = updatedUser.DisplayName,
-            Email = updatedUser.Email,
-            IsActive = updatedUser.IsActive
-        };
+            ValidateAddUser(
+                newUser: newUser);
 
-        authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_update");
-        DataUser result = await userBroker.UpdateUserAsync(entity: internalUser);
-        updatedUser.Id = result.Id;
-        updatedUser.DefaultCultureId = result.DefaultCultureId;
-        updatedUser.DisplayName = result.DisplayName;
-        updatedUser.Email = result.Email;
-        updatedUser.IsActive = result.IsActive;
-        return updatedUser;
-    }
+            DataUser internalUser = new()
+            {
+                Id = newUser.Id,
+                DefaultCultureId = newUser.DefaultCultureId,
+                DisplayName = newUser.DisplayName,
+                Email = newUser.Email,
+                IsActive = newUser.IsActive
+            };
 
-    public async ValueTask DeleteAsync(string userId)
-    {
-        User user = Get(userId: userId);
-        DataUser internalUser = ToExternalUser(item: user);
-        authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_delete");
-        _ = await userBroker.DeleteUserAsync(entity: internalUser);
-    }
+            authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_create");
+            DataUser result = await userBroker.AddUserAsync(entity: internalUser);
+            newUser.Id = result.Id;
+            newUser.DefaultCultureId = result.DefaultCultureId;
+            newUser.DisplayName = result.DisplayName;
+            newUser.Email = result.Email;
+            newUser.IsActive = result.IsActive;
+            return newUser;
+
+        });
+
+    public ValueTask<User> UpdateUserAsync(User updatedUser) =>
+        TryCatch(operation: async ValueTask<User> () =>
+        {
+            ValidateUpdateUser(
+                updatedUser: updatedUser);
+
+            DataUser internalUser = new()
+            {
+                Id = updatedUser.Id,
+                DefaultCultureId = updatedUser.DefaultCultureId,
+                DisplayName = updatedUser.DisplayName,
+                Email = updatedUser.Email,
+                IsActive = updatedUser.IsActive
+            };
+
+            authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_update");
+            DataUser result = await userBroker.UpdateUserAsync(entity: internalUser);
+            updatedUser.Id = result.Id;
+            updatedUser.DefaultCultureId = result.DefaultCultureId;
+            updatedUser.DisplayName = result.DisplayName;
+            updatedUser.Email = result.Email;
+            updatedUser.IsActive = result.IsActive;
+            return updatedUser;
+
+        });
+
+    public ValueTask DeleteAsync(string userId) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDelete(
+                userId: userId);
+
+            User user = Get(userId: userId);
+            DataUser internalUser = ToExternalUser(item: user);
+            authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_delete");
+            _ = await userBroker.DeleteUserAsync(entity: internalUser);
+
+        });
 
     static User ToLocalUser(DataUser item) =>
         new()

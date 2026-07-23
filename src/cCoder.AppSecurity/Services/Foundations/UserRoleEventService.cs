@@ -15,30 +15,40 @@ using IUserRoleEventBroker = cCoder.AppSecurity.Brokers.Events.IUserRoleEventBro
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-internal class UserRoleEventService(IUserRoleEventBroker userRoleEventBroker, ICoreAuthInfo authInfo)
+internal sealed partial class UserRoleEventService(IUserRoleEventBroker userRoleEventBroker, ICoreAuthInfo authInfo)
     : IUserRoleEventService
 {
-    public async ValueTask RaiseUserRoleAddEventAsync(UserRole entity)
-    {
-        EventMessage<DataUserRole> message = new()
+    public ValueTask RaiseUserRoleAddEventAsync(UserRole entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUserRole(item: entity),
-        };
+            ValidateRaiseUserRoleAddEvent(
+                entity: entity);
 
-        await userRoleEventBroker.RaiseUserRoleAddEventAsync(message: message);
-    }
+            EventMessage<DataUserRole> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                Data = ToExternalUserRole(item: entity),
+            };
 
-    public async ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity)
-    {
-        EventMessage<DataUserRole> message = new()
+            await userRoleEventBroker.RaiseUserRoleAddEventAsync(message: message);
+
+        });
+
+    public ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUserRole(item: entity),
-        };
+            ValidateRaiseUserRoleDeleteEvent(
+                entity: entity);
 
-        await userRoleEventBroker.RaiseUserRoleDeleteEventAsync(message: message);
-    }
+            EventMessage<DataUserRole> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                Data = ToExternalUserRole(item: entity),
+            };
+
+            await userRoleEventBroker.RaiseUserRoleDeleteEventAsync(message: message);
+
+        });
 
     static DataUserRole ToExternalUserRole(UserRole item) =>
         new()

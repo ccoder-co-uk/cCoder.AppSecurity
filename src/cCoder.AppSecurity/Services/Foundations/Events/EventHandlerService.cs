@@ -15,37 +15,54 @@ using DataPackageItem = cCoder.Data.Models.Packaging.PackageItem;
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-internal class EventHandlerService(IEventHubBroker eventHubBroker)
+internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker)
     : IEventHandlerService
 {
-    public void ListenToAllEvents()
-    {
-        ListenToAppCreateAndUpdateEvents();
-        ListenToAppDeleteEvents();
-        ListenToPackageEvents();
-        ListenToSecurityAccountEvents();
-    }
+    public void ListenToAllEvents() =>
+        TryCatch(operation: void () =>
+        {
+            ValidateListenToAllEvents();
 
-    public void ListenToAppCreateAndUpdateEvents()
-    {
-        ListenToAppAddEvents();
-        ListenToAppUpdateEvents();
-    }
+            ListenToAppCreateAndUpdateEvents();
+            ListenToAppDeleteEvents();
+            ListenToPackageEvents();
+            ListenToSecurityAccountEvents();
+
+        });
+
+    public void ListenToAppCreateAndUpdateEvents() =>
+        TryCatch(operation: void () =>
+        {
+            ValidateListenToAppCreateAndUpdateEvents();
+
+            ListenToAppAddEvents();
+            ListenToAppUpdateEvents();
+
+        });
 
     public void ListenToAppDeleteEvents() =>
-        ListenToAppDeleteEvent();
+        TryCatch(operation: void () =>
+        {
+            ValidateListenToAppDeleteEvents();
+
+            ListenToAppDeleteEvent();
+        });
 
     void ListenToPackageEvents() =>
         ListenToPackageImportEvents();
 
-    public void ListenToSecurityAccountEvents()
-    {
-        ListenToSecurityRegistrationCreatedEvent();
-        ListenToSecurityRegistrationConfirmedEvent();
-        ListenToSecurityInvitationCreatedEvent();
-        ListenToSecurityInvitationAcceptedEvent();
-        ListenToSecurityPasswordResetRequestedEvent();
-    }
+    public void ListenToSecurityAccountEvents() =>
+        TryCatch(operation: void () =>
+        {
+            ValidateListenToSecurityAccountEvents();
+
+            ListenToSecurityRegistrationCreatedEvent();
+            ListenToSecurityRegistrationConfirmedEvent();
+            ListenToSecurityInvitationCreatedEvent();
+            ListenToSecurityInvitationAcceptedEvent();
+            ListenToSecurityPasswordResetRequestedEvent();
+
+        });
 
     void ListenToAppAddEvents() =>
         eventHubBroker.ListenToEvent<App, Services.Orchestrations.IAppOrchestrationService>(

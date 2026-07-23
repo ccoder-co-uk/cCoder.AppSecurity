@@ -12,82 +12,128 @@ using cCoder.Data;
 
 namespace cCoder.AppSecurity.Services.Processings;
 
-internal class UserProcessingService(IUserService service, ICoreAuthInfo authInfo)
+internal sealed partial class UserProcessingService(IUserService service, ICoreAuthInfo authInfo)
     : IUserProcessingService
 {
     public User Get(string userId) =>
-        service.Get(id: userId);
+        TryCatch(operation: User () =>
+        {
+            ValidateGet(
+                userId: userId);
+
+            return service.Get(id: userId);
+        });
 
     public User GetByEmail(string email, bool ignoreFilters = false) =>
-        service.GetByEmail(email: email, ignoreFilters: ignoreFilters);
+        TryCatch(operation: User () =>
+        {
+            ValidateGetByEmail(
+                email: email,
+                ignoreFilters: ignoreFilters);
+
+            return service.GetByEmail(email: email, ignoreFilters: ignoreFilters);
+        });
 
     public IQueryable<User> GetAll(bool ignoreFilters = false) =>
-        service.GetAll(ignoreFilters: ignoreFilters);
+        TryCatch(operation: IQueryable<User> () =>
+        {
+            ValidateGetAll(
+                ignoreFilters: ignoreFilters);
 
-    public async ValueTask<User> AddUserAsync(User newUser)
-    {
-        User existingUser = service
-            .GetAll(ignoreFilters: true)
-            .FirstOrDefault(predicate: u => u.Id == newUser.Id || u.Email == newUser.Email);
+            return service.GetAll(ignoreFilters: ignoreFilters);
+        });
 
-        return existingUser != null ? existingUser : await service.AddUserAsync(user: newUser);
-    }
+    public ValueTask<User> AddUserAsync(User newUser) =>
+        TryCatch(operation: async ValueTask<User> () =>
+        {
+            ValidateAddUser(
+                newUser: newUser);
 
-    public ValueTask DeleteAsync(string userId)
-    {
-        User dbVersion = Get(userId: userId);
+            User existingUser = service
+                .GetAll(ignoreFilters: true)
+                .FirstOrDefault(predicate: u => u.Id == newUser.Id || u.Email == newUser.Email);
 
-        return authInfo.SSOUserId == dbVersion.Id
-            ? service.DeleteAsync(id: userId)
-            : throw new SecurityException(message: "Access Denied!");
-    }
+            return existingUser != null ? existingUser : await service.AddUserAsync(user: newUser);
+
+        });
+
+    public ValueTask DeleteAsync(string userId) =>
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateDelete(
+                userId: userId);
+
+            User dbVersion = Get(userId: userId);
+
+            return authInfo.SSOUserId == dbVersion.Id
+                ? service.DeleteAsync(id: userId)
+                : throw new SecurityException(message: "Access Denied!");
+
+        });
 
     public ValueTask<User> UpdateUserAsync(User updatedUser) =>
-        authInfo.SSOUserId == updatedUser.Id
+        TryCatch(operation: ValueTask<User> () =>
+        {
+            ValidateUpdateUser(
+                updatedUser: updatedUser);
+
+            return authInfo.SSOUserId == updatedUser.Id
             ? service.UpdateUserAsync(user: updatedUser)
             : throw new SecurityException(message: "Access Denied!");
+        });
 
-    public async ValueTask<IEnumerable<Result<User>>> AddOrUpdateUser(
+    public ValueTask<IEnumerable<Result<User>>> AddOrUpdateUser(
         IEnumerable<User> items
-    )
-    {
-        List<Result<User>> results = [];
-
-        foreach (User item in items)
+    ) =>
+        TryCatch(operation: async ValueTask<IEnumerable<Result<User>>> () =>
         {
-            try
-            {
-                bool isAdd = string.IsNullOrWhiteSpace(value: item.Id);
+            ValidateAddOrUpdateUser(
+                items: items);
 
-                results.Add(
-item: new Result<User>
-{
-    Success = true,
-    Item = isAdd ? await AddUserAsync(newUser: item) : await UpdateUserAsync(updatedUser: item),
-    Message = isAdd ? "Added Successfully" : "Updated Successfully",
-}
-                );
-            }
-            catch (Exception ex)
-            {
-                results.Add(
-item: new Result<User>
-{
-    Success = false,
-    Item = item,
-    Message = ex.Message,
-}
-                );
-            }
-        }
+            List<Result<User>> results = [];
 
-        return results;
-    }
-    public async ValueTask DeleteAllUserAsync(IEnumerable<User> deletedUser)
+            foreach (User item in items)
+            {
+                try
+                {
+                    bool isAdd = string.IsNullOrWhiteSpace(value: item.Id);
+
+                    results.Add(
+    item: new Result<User>
     {
-        foreach (User item in deletedUser)
-        {
-            await DeleteAsync(userId: item.Id);
-        }
+        Success = true,
+        Item = isAdd ? await AddUserAsync(newUser: item) : await UpdateUserAsync(updatedUser: item),
+        Message = isAdd ? "Added Successfully" : "Updated Successfully",
     }
+                    );
+                }
+                catch (Exception ex)
+                {
+                    results.Add(
+    item: new Result<User>
+    {
+        Success = false,
+        Item = item,
+        Message = ex.Message,
+    }
+                    );
+                }
+            }
+
+            return results;
+
+        });
+
+    public ValueTask DeleteAllUserAsync(IEnumerable<User> deletedUser) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDeleteAllUser(
+                deletedUser: deletedUser);
+
+            foreach (User item in deletedUser)
+            {
+                await DeleteAsync(userId: item.Id);
+            }
+
+        });
 }

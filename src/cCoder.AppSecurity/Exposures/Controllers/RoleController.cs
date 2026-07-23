@@ -121,6 +121,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<Role> delta)
     {
         Role originalEntity = Service.Get(id: key);
+
         if (originalEntity == null)
         {
             return NotFound();

@@ -9,29 +9,34 @@ using cCoder.Security.Objects.Events;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
-internal class AccountEventOrchestrationService(
+internal sealed partial class AccountEventOrchestrationService(
     IAppProcessingService appProcessingService,
     IUserProcessingService userProcessingService,
     IRoleProcessingService roleProcessingService,
     IUserRoleProcessingService userRoleProcessingService) : IAccountEventOrchestrationService
 {
-    public async ValueTask ProcessSecurityAccountEventAsync(SecurityAccountEvent accountEvent)
-    {
-        if (accountEvent?.User is null)
+    public ValueTask ProcessSecurityAccountEventAsync(SecurityAccountEvent accountEvent) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            return;
-        }
+            ValidateProcessSecurityAccountEvent(
+                accountEvent: accountEvent);
 
-        App app = ResolveApp(requestDomain: accountEvent.RequestDomain);
+            if (accountEvent?.User is null)
+            {
+                return;
+            }
 
-        if (app is null)
-        {
-            return;
-        }
+            App app = ResolveApp(requestDomain: accountEvent.RequestDomain);
 
-        User user = await AddOrUpdateUserAsync(accountEvent: accountEvent, app: app);
-        await AttachUsersRoleAsync(user: user, appId: app.Id);
-    }
+            if (app is null)
+            {
+                return;
+            }
+
+            User user = await AddOrUpdateUserAsync(accountEvent: accountEvent, app: app);
+            await AttachUsersRoleAsync(user: user, appId: app.Id);
+
+        });
 
     private App ResolveApp(string requestDomain)
     {

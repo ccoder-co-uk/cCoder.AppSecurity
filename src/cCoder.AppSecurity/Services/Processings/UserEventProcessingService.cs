@@ -10,14 +10,32 @@ using cCoder.AppSecurity.Services.Foundations.Events;
 
 namespace cCoder.AppSecurity.Services.Processings;
 
-internal class UserEventProcessingService(IUserEventService eventService) : IUserEventProcessingService
+internal sealed partial class UserEventProcessingService(IUserEventService eventService) : IUserEventProcessingService
 {
     public ValueTask RaiseUserAddEventAsync(User entity) =>
-        eventService.RaiseUserAddEventAsync(entity: entity);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateRaiseUserAddEvent(
+                entity: entity);
+
+            return eventService.RaiseUserAddEventAsync(entity: entity);
+        });
 
     public ValueTask RaiseUserUpdateEventAsync(User entity) =>
-        eventService.RaiseUserUpdateEventAsync(entity: entity);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateRaiseUserUpdateEvent(
+                entity: entity);
+
+            return eventService.RaiseUserUpdateEventAsync(entity: entity);
+        });
 
     public ValueTask RaiseUserDeleteEventAsync(User entity) =>
-        eventService.RaiseUserDeleteEventAsync(entity: entity);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateRaiseUserDeleteEvent(
+                entity: entity);
+
+            return eventService.RaiseUserDeleteEventAsync(entity: entity);
+        });
 }

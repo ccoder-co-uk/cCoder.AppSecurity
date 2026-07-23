@@ -10,11 +10,23 @@ using cCoder.AppSecurity.Services.Foundations.Events;
 
 namespace cCoder.AppSecurity.Services.Processings;
 
-internal class UserRoleEventProcessingService(IUserRoleEventService eventService) : IUserRoleEventProcessingService
+internal sealed partial class UserRoleEventProcessingService(IUserRoleEventService eventService) : IUserRoleEventProcessingService
 {
     public ValueTask RaiseUserRoleAddEventAsync(UserRole entity) =>
-        eventService.RaiseUserRoleAddEventAsync(entity: entity);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateRaiseUserRoleAddEvent(
+                entity: entity);
+
+            return eventService.RaiseUserRoleAddEventAsync(entity: entity);
+        });
 
     public ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity) =>
-        eventService.RaiseUserRoleDeleteEventAsync(entity: entity);
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateRaiseUserRoleDeleteEvent(
+                entity: entity);
+
+            return eventService.RaiseUserRoleDeleteEventAsync(entity: entity);
+        });
 }
