@@ -3,10 +3,16 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Models.Exceptions;
+using AppSecurityOrchestrationDependencyException =
+    cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException;
+using AppSecurityOrchestrationServiceException =
+    cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException;
+using AppSecurityOrchestrationValidationException =
+    cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException;
 
-namespace cCoder.AppSecurity.Services.Orchestrations;
+namespace cCoder.AppSecurity.Services.Processings;
 
-internal sealed partial class AnalysePlatformUsageOrchestrationService
+internal sealed partial class AnalysePlatformUsageProcessingService
 {
     private static void TryCatch(Action operation)
     {

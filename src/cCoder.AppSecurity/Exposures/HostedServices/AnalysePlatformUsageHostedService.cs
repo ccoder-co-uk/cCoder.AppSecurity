@@ -2,7 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Services.Orchestrations;
+using cCoder.AppSecurity.Services.Processings;
 using cCoder.AppSecurity.Models;
 using Microsoft.Extensions.Hosting;
 
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 namespace cCoder.AppSecurity.Exposures.HostedServices;
 
 public sealed class AnalysePlatformUsageHostedService(
-    IAnalysePlatformUsageOrchestrationService analysePlatformUsageOrchestrationService,
+    IAnalysePlatformUsageProcessingService analysePlatformUsageProcessingService,
     AppSecurityConfiguration appSecurityConfiguration)
     : BackgroundService, IAnalysePlatformUsageHostedService
 {
@@ -21,13 +21,13 @@ public sealed class AnalysePlatformUsageHostedService(
             return;
         }
 
-        await analysePlatformUsageOrchestrationService.RunAsync(cancellationToken: stoppingToken);
+        await analysePlatformUsageProcessingService.RunAsync(cancellationToken: stoppingToken);
 
         using PeriodicTimer timer = new(period: TimeSpan.FromDays(days: 1));
 
         while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: stoppingToken))
         {
-            await analysePlatformUsageOrchestrationService.RunAsync(cancellationToken: stoppingToken);
+            await analysePlatformUsageProcessingService.RunAsync(cancellationToken: stoppingToken);
         }
     }
 }

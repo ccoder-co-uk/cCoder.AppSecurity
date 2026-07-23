@@ -2,9 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-namespace cCoder.AppSecurity.Services.Orchestrations;
+using cCoder.Security.Data.EF;
 
-public interface IAnalysePlatformUsageOrchestrationService
+namespace cCoder.AppSecurity.Brokers.Security;
+
+internal interface ISecurityDbContextBroker
 {
-    Task RunAsync(CancellationToken cancellationToken = default);
+    SecurityDbContext CreateSecurityDbContext();
 }

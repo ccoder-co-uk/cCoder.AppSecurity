@@ -4,16 +4,16 @@
 
 using cCoder.AppSecurity.Api.OData;
 using cCoder.Security.Data.EF;
-using cCoder.Security.Data.EF.Interfaces;
+using cCoder.AppSecurity.Services.Foundations;
 using cCoder.Security.Objects.Entities;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace cCoder.AppSecurity.Services.Orchestrations;
+namespace cCoder.AppSecurity.Services.Processings;
 
-internal sealed partial class AnalysePlatformUsageOrchestrationService(
-    ISecurityDbContextFactory ssoDbFactory)
-    : IAnalysePlatformUsageOrchestrationService
+internal sealed partial class AnalysePlatformUsageProcessingService(
+    IAnalysePlatformUsageService analysePlatformUsageService)
+    : IAnalysePlatformUsageProcessingService
 {
     public Task RunAsync(CancellationToken cancellationToken = default) =>
         TryCatch(operation: async Task () =>
@@ -21,7 +21,8 @@ internal sealed partial class AnalysePlatformUsageOrchestrationService(
             ValidateRun(
                 cancellationToken: cancellationToken);
 
-            using var sso = ssoDbFactory.CreateDbContext();
+            using var sso =
+                analysePlatformUsageService.CreateSecurityDbContext();
 
             List<DateTime> datesWithData = sso.UserEvents
                 .IgnoreQueryFilters()

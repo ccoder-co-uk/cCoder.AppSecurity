@@ -26,12 +26,14 @@ using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi;
 using AuthorizationBroker = cCoder.AppSecurity.Brokers.AuthorizationBroker;
 using AuthInfoBroker = cCoder.AppSecurity.Brokers.AuthInfoBroker;
+using SecurityDbContextBroker = cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker;
 using TokenBroker = cCoder.AppSecurity.Brokers.Tokens.TokenBroker;
 using UIBaselineBroker = cCoder.AppSecurity.Brokers.UIBaselineBroker;
 using AppBroker = cCoder.AppSecurity.Brokers.Storages.AppBroker;
 using EventHubBroker = cCoder.AppSecurity.Brokers.Events.EventHubBroker;
 using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
 using IAuthInfoBroker = cCoder.AppSecurity.Brokers.IAuthInfoBroker;
+using ISecurityDbContextBroker = cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker;
 using ITokenBroker = cCoder.AppSecurity.Brokers.Tokens.ITokenBroker;
 using IUIBaselineBroker = cCoder.AppSecurity.Brokers.IUIBaselineBroker;
 using IAppBroker = cCoder.AppSecurity.Brokers.Storages.IAppBroker;
@@ -125,6 +127,7 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddTransient<IAuthorizationBroker, AuthorizationBroker>();
         services.AddTransient<IAuthInfoBroker, AuthInfoBroker>();
+        services.AddTransient<ISecurityDbContextBroker, SecurityDbContextBroker>();
         services.AddTransient<ITokenBroker, TokenBroker>();
         services.AddTransient<IUIBaselineBroker, UIBaselineBroker>();
         services.AddTransient<IEventHubBroker, EventHubBroker>();
@@ -144,6 +147,7 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddTransient<IUIBaselineService, UIBaselineService>();
         services.AddTransient<ITokenCleanerService, TokenCleanerService>();
+        services.AddTransient<IAnalysePlatformUsageService, AnalysePlatformUsageService>();
         services.AddTransient<IAppSecurityAppExposure, AppSecurityAppExposure>();
         services.AddTransient<IAppSecurityPackageManager, AppSecurityPackageManager>();
         services.AddTransient<Services.Foundations.Events.IEventHandlerService, Services.Foundations.Events.EventHandlerService>();
@@ -163,7 +167,6 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddTransient<IAppOrchestrationService, AppOrchestrationService>();
         services.AddTransient<IAccountEventOrchestrationService, AccountEventOrchestrationService>();
-        services.AddTransient<IAnalysePlatformUsageOrchestrationService, AnalysePlatformUsageOrchestrationService>();
         services.AddTransient<IPrivilegeOrchestrationService, PrivilegeOrchestrationService>();
         services.AddTransient<IRoleOrchestrationService, RoleOrchestrationService>();
         services.AddTransient<IUserOrchestrationService, UserOrchestrationService>();
@@ -183,6 +186,7 @@ public static partial class IServiceCollectionExtensions
     private static void AddProcessings(this IServiceCollection services)
     {
         services.AddTransient<IAppProcessingService, AppProcessingService>();
+        services.AddTransient<IAnalysePlatformUsageProcessingService, AnalysePlatformUsageProcessingService>();
         services.AddTransient<IPrivilegeEventProcessingService, PrivilegeEventProcessingService>();
         services.AddTransient<IPrivilegeProcessingService, PrivilegeProcessingService>();
         services.AddTransient<IRoleEventProcessingService, RoleEventProcessingService>();
