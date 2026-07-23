@@ -14,22 +14,22 @@ public partial class AccountEventOrchestrationServiceTests
 {
     private readonly Mock<IAppProcessingService> appProcessingServiceMock;
     private readonly Mock<IUserProcessingService> userProcessingServiceMock;
-    private readonly Mock<IRoleProcessingService> roleProcessingServiceMock;
-    private readonly Mock<IUserRoleProcessingService> userRoleProcessingServiceMock;
+    private readonly Mock<IAccountRoleAssignmentProcessingService> accountRoleAssignmentProcessingServiceMock;
     private readonly AccountEventOrchestrationService accountEventOrchestrationService;
 
     public AccountEventOrchestrationServiceTests()
     {
         appProcessingServiceMock = new Mock<IAppProcessingService>(MockBehavior.Strict);
         userProcessingServiceMock = new Mock<IUserProcessingService>(MockBehavior.Strict);
-        roleProcessingServiceMock = new Mock<IRoleProcessingService>(MockBehavior.Strict);
-        userRoleProcessingServiceMock = new Mock<IUserRoleProcessingService>(MockBehavior.Strict);
+        accountRoleAssignmentProcessingServiceMock =
+            new Mock<IAccountRoleAssignmentProcessingService>(
+                behavior: MockBehavior.Strict);
 
         accountEventOrchestrationService = new AccountEventOrchestrationService(
-            appProcessingServiceMock.Object,
-            userProcessingServiceMock.Object,
-            roleProcessingServiceMock.Object,
-            userRoleProcessingServiceMock.Object);
+            appProcessingService: appProcessingServiceMock.Object,
+            userProcessingService: userProcessingServiceMock.Object,
+            accountRoleAssignmentProcessingService:
+                accountRoleAssignmentProcessingServiceMock.Object);
     }
 
     private static App CreateApp() => new()

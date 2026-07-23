@@ -16,7 +16,7 @@ public sealed partial class TokenCleanerHostedServiceTests
         // Given
         TaskCompletionSource runCompleted = new();
 
-        tokenCleanerOrchestrationServiceMock
+        tokenCleanerServiceMock
             .Setup(service => service.RunAsync(It.IsAny<CancellationToken>()))
             .Callback(() => runCompleted.TrySetResult())
             .Returns(Task.CompletedTask);
@@ -31,7 +31,7 @@ public sealed partial class TokenCleanerHostedServiceTests
 
             // Then
             Assert.True(runCompleted.Task.IsCompleted);
-            tokenCleanerOrchestrationServiceMock.Verify(
+            tokenCleanerServiceMock.Verify(
                 service => service.RunAsync(It.IsAny<CancellationToken>()),
                 Times.Once);
         }

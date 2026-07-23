@@ -16,7 +16,7 @@ public sealed partial class AnalysePlatformUsageHostedServiceTests
         // Given
         TaskCompletionSource runCompleted = new();
 
-        analysePlatformUsageOrchestrationServiceMock
+        analysePlatformUsageProcessingServiceMock
             .Setup(service => service.RunAsync(It.IsAny<CancellationToken>()))
             .Callback(() => runCompleted.TrySetResult())
             .Returns(Task.CompletedTask);
@@ -31,7 +31,7 @@ public sealed partial class AnalysePlatformUsageHostedServiceTests
 
             // Then
             Assert.True(runCompleted.Task.IsCompleted);
-            analysePlatformUsageOrchestrationServiceMock.Verify(
+            analysePlatformUsageProcessingServiceMock.Verify(
                 service => service.RunAsync(It.IsAny<CancellationToken>()),
                 Times.Once);
         }
