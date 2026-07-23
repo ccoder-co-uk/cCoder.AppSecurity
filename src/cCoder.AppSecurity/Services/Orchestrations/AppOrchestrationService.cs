@@ -2,7 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Brokers;
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.Data.Models.CMS;
@@ -11,9 +10,9 @@ using cCoder.Data.Models.Security;
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
 internal sealed partial class AppOrchestrationService(
-    IAuthorizationBroker authorizationBroker,
+    IAuthorizationService authorizationService,
     IPrivilegeService privilegeService,
-    IRoleOrchestrationService roleOrchestrationService
+    IRoleService roleService
 ) : IAppOrchestrationService
 {
     public ValueTask AddAppAsync(App newApp) =>
@@ -50,12 +49,12 @@ internal sealed partial class AppOrchestrationService(
             ValidateDelete(
                 appId: appId);
 
-            Role[] rolesToDelete = [.. roleOrchestrationService.GetAll(ignoreFilters: true)
+            Role[] rolesToDelete = [.. roleService.GetAll(ignoreFilters: true)
                 .Where(predicate: role => role.AppId == appId)];
 
             foreach (Role role in rolesToDelete)
             {
-                await roleOrchestrationService.DeleteValidatedAsync(id: role.Id);
+                await roleService.DeleteValidatedAsync(id: role.Id);
             }
 
         });
@@ -78,7 +77,7 @@ internal sealed partial class AppOrchestrationService(
         Guid[] roleIds = [.. roleArray.Select(selector: role => role.Id)];
 
         HashSet<Guid> existingRoleIds =
-            [.. roleOrchestrationService.GetAll(ignoreFilters: true)
+            [.. roleService.GetAll(ignoreFilters: true)
                 .Where(predicate: foundRole => roleIds.Contains(value: foundRole.Id))
                 .Select(selector: foundRole => foundRole.Id)];
 
@@ -86,11 +85,11 @@ internal sealed partial class AppOrchestrationService(
         {
             if (existingRoleIds.Contains(item: role.Id))
             {
-                _ = await roleOrchestrationService.UpdateValidatedRoleAsync(entity: role);
+                _ = await roleService.UpdateValidatedRoleAsync(role: role);
             }
             else
             {
-                _ = await roleOrchestrationService.AddValidatedRoleAsync(entity: role);
+                _ = await roleService.AddValidatedRoleAsync(role: role);
             }
         }
     }
@@ -108,7 +107,7 @@ internal sealed partial class AppOrchestrationService(
     {
         app.Roles ??= [];
 
-        string currentUserId = authorizationBroker.GetCurrentUser()?.Id;
+        string currentUserId = authorizationService.GetCurrentUser()?.Id;
         Privilege[] privileges = [.. privilegeService.GetAll(ignoreFilters: true)];
 
         string[] administratorPrivileges =

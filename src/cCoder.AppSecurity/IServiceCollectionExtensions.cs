@@ -146,6 +146,7 @@ public static partial class IServiceCollectionExtensions
     private static void AddFoundations(this IServiceCollection services)
     {
         services.AddTransient<IUIBaselineService, UIBaselineService>();
+        services.AddTransient<IAuthorizationService, AuthorizationService>();
         services.AddTransient<ITokenCleanerService, TokenCleanerService>();
         services.AddTransient<IAnalysePlatformUsageService, AnalysePlatformUsageService>();
         services.AddTransient<IAppSecurityAppExposure, AppSecurityAppExposure>();
