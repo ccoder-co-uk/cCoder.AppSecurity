@@ -22,7 +22,7 @@ internal sealed partial class UserRoleService(
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: IQueryable<UserRole> () =>
         {
-            ValidateGetAll(
+            ValidateAllOnGet(
                 ignoreFilters: ignoreFilters);
 
             return userRoleBroker.GetAllUserRoles(ignoreFilters: ignoreFilters);
@@ -31,7 +31,7 @@ internal sealed partial class UserRoleService(
     public ValueTask<UserRole> AddUserRoleAsync(UserRole newUserRole, bool authorize = true) =>
         TryCatch(operation: async ValueTask<UserRole> () =>
         {
-            ValidateAddUserRole(
+            ValidateUserRoleOnAdd(
                 newUserRole: newUserRole,
                 authorize: authorize);
 
@@ -58,7 +58,7 @@ internal sealed partial class UserRoleService(
     public ValueTask DeleteUserRoleAsync(UserRole deletedUserRole) =>
         TryCatch(operation: async ValueTask () =>
         {
-            ValidateDeleteUserRole(
+            ValidateUserRoleOnDelete(
                 deletedUserRole: deletedUserRole);
 
             DataUserRole internalUserRole = ToExternalUserRole(item: deletedUserRole);

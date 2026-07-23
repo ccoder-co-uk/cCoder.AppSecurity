@@ -8,18 +8,18 @@ namespace cCoder.AppSecurity.Services.Foundations;
 
 internal sealed partial class UserRoleService
 {
-    private static void ValidateGetAll(bool ignoreFilters = false) =>
+    private static void ValidateAllOnGet(bool ignoreFilters = false) =>
         ValidationRulesEngine.Validate(inputs: [
             ignoreFilters,
         ]);
 
-    private static void ValidateAddUserRole(UserRole newUserRole, bool authorize = true) =>
+    private static void ValidateUserRoleOnAdd(UserRole newUserRole, bool authorize = true) =>
         ValidationRulesEngine.Validate(inputs: [
             newUserRole,
             authorize,
         ]);
 
-    private static void ValidateDeleteUserRole(UserRole deletedUserRole) =>
+    private static void ValidateUserRoleOnDelete(UserRole deletedUserRole) =>
         ValidationRulesEngine.Validate(inputs: [
             deletedUserRole,
         ]);

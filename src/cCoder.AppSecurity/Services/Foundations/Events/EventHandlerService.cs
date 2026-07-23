@@ -23,10 +23,10 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
         {
             ValidateListenToAllEvents();
 
-            ListenToAppCreateAndUpdateEvents();
-            ListenToAppDeleteEvents();
+            ListenToAppCreateAndUpdateEventsValue();
+            ListenToAppDeleteEventsValue();
             ListenToPackageEvents();
-            ListenToSecurityAccountEvents();
+            ListenToSecurityAccountEventsValue();
 
         });
 
@@ -124,4 +124,13 @@ handler: (service, accountEvent) => service.ProcessSecurityAccountEventAsync(acc
             Type = packageItem.Type,
             Data = packageItem.Data,
         };
+
+    private void ListenToAppCreateAndUpdateEventsValue() =>
+        ListenToAppCreateAndUpdateEvents();
+
+    private void ListenToAppDeleteEventsValue() =>
+        ListenToAppDeleteEvents();
+
+    private void ListenToSecurityAccountEventsValue() =>
+        ListenToSecurityAccountEvents();
 }

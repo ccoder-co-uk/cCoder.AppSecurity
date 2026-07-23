@@ -12,7 +12,7 @@ internal sealed partial class AppService(IAppBroker appBroker) : IAppService
     public IQueryable<App> GetAll() =>
         TryCatch(operation: IQueryable<App> () =>
         {
-            ValidateGetAll();
+            ValidateAllOnGet();
 
             return appBroker.GetAll();
         });
@@ -20,7 +20,7 @@ internal sealed partial class AppService(IAppBroker appBroker) : IAppService
     public App GetByDomain(string domain) =>
         TryCatch(operation: App () =>
         {
-            ValidateGetByDomain(
+            ValidateByDomainOnGet(
                 domain: domain);
 
             return appBroker.GetByDomain(domain: domain);

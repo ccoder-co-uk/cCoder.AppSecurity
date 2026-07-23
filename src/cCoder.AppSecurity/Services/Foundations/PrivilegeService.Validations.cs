@@ -8,27 +8,27 @@ namespace cCoder.AppSecurity.Services.Foundations;
 
 internal sealed partial class PrivilegeService
 {
-    private static void ValidateGet(string privilegeId) =>
+    private static void ValidatePrivilegeOnGet(string privilegeId) =>
         ValidationRulesEngine.Validate(inputs: [
             privilegeId,
         ]);
 
-    private static void ValidateGetAll(bool ignoreFilters = false) =>
+    private static void ValidateAllOnGet(bool ignoreFilters = false) =>
         ValidationRulesEngine.Validate(inputs: [
             ignoreFilters,
         ]);
 
-    private static void ValidateAddPrivilege(Privilege newPrivilege) =>
+    private static void ValidatePrivilegeOnAdd(Privilege newPrivilege) =>
         ValidationRulesEngine.Validate(inputs: [
             newPrivilege,
         ]);
 
-    private static void ValidateUpdatePrivilege(Privilege updatedPrivilege) =>
+    private static void ValidatePrivilegeOnUpdate(Privilege updatedPrivilege) =>
         ValidationRulesEngine.Validate(inputs: [
             updatedPrivilege,
         ]);
 
-    private static void ValidateDelete(string privilegeId) =>
+    private static void ValidatePrivilegeOnDelete(string privilegeId) =>
         ValidationRulesEngine.Validate(inputs: [
             privilegeId,
         ]);

@@ -104,7 +104,7 @@ internal sealed partial class RoleProcessingService(IRoleService service) : IRol
     item: new Result<Role>
     {
         Success = true,
-        Item = isAdd ? await AddRoleAsync(newRole: item) : await UpdateRoleAsync(updatedRole: item),
+        Item = isAdd ? await AddRoleValueAsync(newRole: item) : await UpdateRoleValueAsync(updatedRole: item),
         Message = isAdd ? "Added Successfully" : "Updated Successfully",
     }
                     );
@@ -134,8 +134,17 @@ internal sealed partial class RoleProcessingService(IRoleService service) : IRol
 
             foreach (Role item in deletedRole)
             {
-                await DeleteAsync(roleId: item.Id);
+                await DeleteRoleValueAsync(roleId: item.Id);
             }
 
         });
+
+    private ValueTask<Role> AddRoleValueAsync(Role newRole) =>
+        AddRoleAsync(newRole: newRole);
+
+    private ValueTask<Role> UpdateRoleValueAsync(Role updatedRole) =>
+        UpdateRoleAsync(updatedRole: updatedRole);
+
+    private ValueTask DeleteRoleValueAsync(Guid roleId) =>
+        DeleteAsync(roleId: roleId);
 }

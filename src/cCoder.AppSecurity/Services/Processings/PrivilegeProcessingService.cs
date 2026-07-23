@@ -91,7 +91,7 @@ internal sealed partial class PrivilegeProcessingService(
     item: new Result<Privilege>
     {
         Success = true,
-        Item = isAdd ? await AddPrivilegeAsync(newPrivilege: item) : await UpdatePrivilegeAsync(updatedPrivilege: item),
+        Item = isAdd ? await AddPrivilegeValueAsync(newPrivilege: item) : await UpdatePrivilegeValueAsync(updatedPrivilege: item),
         Message = isAdd ? "Added Successfully" : "Updated Successfully",
     }
                     );
@@ -121,8 +121,17 @@ internal sealed partial class PrivilegeProcessingService(
 
             foreach (Privilege item in deletedPrivilege)
             {
-                await DeleteAsync(privilegeId: item.Id);
+                await DeletePrivilegeValueAsync(privilegeId: item.Id);
             }
 
         });
+
+    private ValueTask<Privilege> AddPrivilegeValueAsync(Privilege newPrivilege) =>
+        AddPrivilegeAsync(newPrivilege: newPrivilege);
+
+    private ValueTask<Privilege> UpdatePrivilegeValueAsync(Privilege updatedPrivilege) =>
+        UpdatePrivilegeAsync(updatedPrivilege: updatedPrivilege);
+
+    private ValueTask DeletePrivilegeValueAsync(string privilegeId) =>
+        DeleteAsync(privilegeId: privilegeId);
 }

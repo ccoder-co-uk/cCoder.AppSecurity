@@ -21,10 +21,10 @@ internal sealed partial class PrivilegeService(
     public Privilege Get(string privilegeId) =>
         TryCatch(operation: Privilege () =>
         {
-            ValidateGet(
+            ValidatePrivilegeOnGet(
                 privilegeId: privilegeId);
 
-            Privilege privilege = GetAll()
+            Privilege privilege = GetAllValue()
                 .FirstOrDefault(predicate: i => i.Id == privilegeId);
 
             if (privilege is not null)
@@ -32,7 +32,7 @@ internal sealed partial class PrivilegeService(
                 return privilege;
             }
 
-            Privilege unrestrictedPrivilege = GetAll(ignoreFilters: true)
+            Privilege unrestrictedPrivilege = GetAllValue(ignoreFilters: true)
                 .FirstOrDefault(predicate: i => i.Id == privilegeId);
 
             if (unrestrictedPrivilege is not null)
@@ -47,7 +47,7 @@ internal sealed partial class PrivilegeService(
     public IQueryable<Privilege> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: IQueryable<Privilege> () =>
         {
-            ValidateGetAll(
+            ValidateAllOnGet(
                 ignoreFilters: ignoreFilters);
 
             return privilegeBroker.GetAllPrivileges(ignoreFilters: ignoreFilters)
@@ -58,7 +58,7 @@ internal sealed partial class PrivilegeService(
     public ValueTask<Privilege> AddPrivilegeAsync(Privilege newPrivilege) =>
         TryCatch(operation: async ValueTask<Privilege> () =>
         {
-            ValidateAddPrivilege(
+            ValidatePrivilegeOnAdd(
                 newPrivilege: newPrivilege);
 
             DataPrivilege internalPrivilege = new()
@@ -88,7 +88,7 @@ internal sealed partial class PrivilegeService(
     public ValueTask<Privilege> UpdatePrivilegeAsync(Privilege updatedPrivilege) =>
         TryCatch(operation: async ValueTask<Privilege> () =>
         {
-            ValidateUpdatePrivilege(
+            ValidatePrivilegeOnUpdate(
                 updatedPrivilege: updatedPrivilege);
 
             DataPrivilege internalPrivilege = new()
@@ -118,10 +118,10 @@ internal sealed partial class PrivilegeService(
     public ValueTask DeleteAsync(string privilegeId) =>
         TryCatch(operation: async ValueTask () =>
         {
-            ValidateDelete(
+            ValidatePrivilegeOnDelete(
                 privilegeId: privilegeId);
 
-            Privilege privilege = Get(privilegeId: privilegeId);
+            Privilege privilege = GetValue(privilegeId: privilegeId);
             DataPrivilege internalPrivilege = ToExternalPrivilege(item: privilege);
 
             authorizationBroker.Authorize(
@@ -152,4 +152,10 @@ internal sealed partial class PrivilegeService(
             Description = item.Description,
             PortalAdminsOnly = item.PortalAdminsOnly,
         };
+
+    private Privilege GetValue(string privilegeId) =>
+        Get(privilegeId: privilegeId);
+
+    private IQueryable<Privilege> GetAllValue(bool ignoreFilters = false) =>
+        GetAll(ignoreFilters: ignoreFilters);
 }

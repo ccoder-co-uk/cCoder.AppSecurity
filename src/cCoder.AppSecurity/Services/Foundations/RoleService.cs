@@ -28,10 +28,10 @@ internal sealed partial class RoleService(
     public Role Get(Guid roleId) =>
         TryCatch(operation: Role () =>
         {
-            ValidateGet(
+            ValidateRoleOnGet(
                 roleId: roleId);
 
-            Role role = GetAll()
+            Role role = GetAllValue()
                 .FirstOrDefault(predicate: i => i.Id == roleId);
 
             if (role is not null)
@@ -39,7 +39,7 @@ internal sealed partial class RoleService(
                 return role;
             }
 
-            Role unrestrictedRole = GetAll(ignoreFilters: true)
+            Role unrestrictedRole = GetAllValue(ignoreFilters: true)
                 .FirstOrDefault(predicate: i => i.Id == roleId);
 
             if (unrestrictedRole is not null)
@@ -54,7 +54,7 @@ internal sealed partial class RoleService(
     public IQueryable<Role> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: IQueryable<Role> () =>
         {
-            ValidateGetAll(
+            ValidateAllOnGet(
                 ignoreFilters: ignoreFilters);
 
             return roleBroker.GetAllRoles(ignoreFilters: ignoreFilters);
@@ -63,7 +63,7 @@ internal sealed partial class RoleService(
     public ValueTask<Role> AddRoleAsync(Role newRole) =>
         TryCatch(operation: async ValueTask<Role> () =>
         {
-            ValidateAddRole(
+            ValidateRoleOnAdd(
                 newRole: newRole);
 
             DataRole internalRole = new()
@@ -89,7 +89,7 @@ internal sealed partial class RoleService(
     public ValueTask<Role> AddValidatedRoleAsync(Role newRole) =>
         TryCatch(operation: async ValueTask<Role> () =>
         {
-            ValidateAddValidatedRole(
+            ValidateValidatedRoleOnAdd(
                 newRole: newRole);
 
             DataRole internalRole = new()
@@ -114,7 +114,7 @@ internal sealed partial class RoleService(
     public ValueTask<Role> UpdateRoleAsync(Role updatedRole) =>
         TryCatch(operation: async ValueTask<Role> () =>
         {
-            ValidateUpdateRole(
+            ValidateRoleOnUpdate(
                 updatedRole: updatedRole);
 
             DataRole internalRole = new()
@@ -140,7 +140,7 @@ internal sealed partial class RoleService(
     public ValueTask<Role> UpdateValidatedRoleAsync(Role updatedRole) =>
         TryCatch(operation: async ValueTask<Role> () =>
         {
-            ValidateUpdateValidatedRole(
+            ValidateValidatedRoleOnUpdate(
                 updatedRole: updatedRole);
 
             DataRole internalRole = new()
@@ -165,10 +165,10 @@ internal sealed partial class RoleService(
     public ValueTask DeleteAsync(Guid roleId) =>
         TryCatch(operation: async ValueTask () =>
         {
-            ValidateDelete(
+            ValidateRoleOnDelete(
                 roleId: roleId);
 
-            Role role = GetAll(ignoreFilters: true)
+            Role role = GetAllValue(ignoreFilters: true)
                 .FirstOrDefault(predicate: foundRole => foundRole.Id == roleId);
 
             if (role is null)
@@ -184,10 +184,10 @@ internal sealed partial class RoleService(
     public ValueTask DeleteValidatedAsync(Guid roleId) =>
         TryCatch(operation: async ValueTask () =>
         {
-            ValidateDeleteValidated(
+            ValidateValidatedOnDelete(
                 roleId: roleId);
 
-            Role role = GetAll(ignoreFilters: true)
+            Role role = GetAllValue(ignoreFilters: true)
                 .FirstOrDefault(predicate: foundRole => foundRole.Id == roleId);
 
             if (role is null)
@@ -385,4 +385,7 @@ internal sealed partial class RoleService(
             FolderId = item.FolderId,
             RoleId = item.RoleId,
         };
+
+    private IQueryable<Role> GetAllValue(bool ignoreFilters = false) =>
+        GetAll(ignoreFilters: ignoreFilters);
 }

@@ -21,10 +21,10 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
     public User Get(string userId) =>
         TryCatch(operation: User () =>
         {
-            ValidateGet(
+            ValidateUserOnGet(
                 userId: userId);
 
-            User user = GetAll()
+            User user = GetAllValue()
                 .FirstOrDefault(predicate: i => i.Id == userId);
 
             if (user is not null)
@@ -32,7 +32,7 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
                 return user;
             }
 
-            User unrestrictedUser = GetAll(ignoreFilters: true)
+            User unrestrictedUser = GetAllValue(ignoreFilters: true)
                 .FirstOrDefault(predicate: i => i.Id == userId);
 
             if (unrestrictedUser is not null)
@@ -47,7 +47,7 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
     public User GetByEmail(string email, bool ignoreFilters = false) =>
         TryCatch(operation: User () =>
         {
-            ValidateGetByEmail(
+            ValidateByEmailOnGet(
                 email: email,
                 ignoreFilters: ignoreFilters);
 
@@ -57,7 +57,7 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
     public IQueryable<User> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: IQueryable<User> () =>
         {
-            ValidateGetAll(
+            ValidateAllOnGet(
                 ignoreFilters: ignoreFilters);
 
             return userBroker.GetAllUsers(ignoreFilters: ignoreFilters);
@@ -66,7 +66,7 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
     public ValueTask<User> AddUserAsync(User newUser) =>
         TryCatch(operation: async ValueTask<User> () =>
         {
-            ValidateAddUser(
+            ValidateUserOnAdd(
                 newUser: newUser);
 
             DataUser internalUser = new()
@@ -92,7 +92,7 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
     public ValueTask<User> UpdateUserAsync(User updatedUser) =>
         TryCatch(operation: async ValueTask<User> () =>
         {
-            ValidateUpdateUser(
+            ValidateUserOnUpdate(
                 updatedUser: updatedUser);
 
             DataUser internalUser = new()
@@ -118,10 +118,10 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
     public ValueTask DeleteAsync(string userId) =>
         TryCatch(operation: async ValueTask () =>
         {
-            ValidateDelete(
+            ValidateUserOnDelete(
                 userId: userId);
 
-            User user = Get(userId: userId);
+            User user = GetValue(userId: userId);
             DataUser internalUser = ToExternalUser(item: user);
             authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_delete");
             _ = await userBroker.DeleteUserAsync(entity: internalUser);
@@ -185,4 +185,10 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
                 Privs = item.Role.Privs,
             },
         };
+
+    private User GetValue(string userId) =>
+        Get(userId: userId);
+
+    private IQueryable<User> GetAllValue(bool ignoreFilters = false) =>
+        GetAll(ignoreFilters: ignoreFilters);
 }
