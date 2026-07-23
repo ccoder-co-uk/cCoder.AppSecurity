@@ -26,10 +26,12 @@ using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi;
 using AuthorizationBroker = cCoder.AppSecurity.Brokers.AuthorizationBroker;
 using AuthInfoBroker = cCoder.AppSecurity.Brokers.AuthInfoBroker;
+using UIBaselineBroker = cCoder.AppSecurity.Brokers.UIBaselineBroker;
 using AppBroker = cCoder.AppSecurity.Brokers.Storages.AppBroker;
 using EventHubBroker = cCoder.AppSecurity.Brokers.Events.EventHubBroker;
 using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
 using IAuthInfoBroker = cCoder.AppSecurity.Brokers.IAuthInfoBroker;
+using IUIBaselineBroker = cCoder.AppSecurity.Brokers.IUIBaselineBroker;
 using IAppBroker = cCoder.AppSecurity.Brokers.Storages.IAppBroker;
 using IEventHubBroker = cCoder.AppSecurity.Brokers.Events.IEventHubBroker;
 using IJsonBroker = cCoder.AppSecurity.Brokers.IJsonBroker;
@@ -121,6 +123,7 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddTransient<IAuthorizationBroker, AuthorizationBroker>();
         services.AddTransient<IAuthInfoBroker, AuthInfoBroker>();
+        services.AddTransient<IUIBaselineBroker, UIBaselineBroker>();
         services.AddTransient<IEventHubBroker, EventHubBroker>();
         services.AddTransient<IJsonBroker, JsonBroker>();
         services.AddTransient<IRoleEventBroker, RoleEventBroker>();
@@ -136,6 +139,7 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddFoundations(this IServiceCollection services)
     {
+        services.AddTransient<IUIBaselineService, UIBaselineService>();
         services.AddTransient<IAppSecurityAppExposure, AppSecurityAppExposure>();
         services.AddTransient<IAppSecurityPackageManager, AppSecurityPackageManager>();
         services.AddTransient<Services.Foundations.Events.IEventHandlerService, Services.Foundations.Events.EventHandlerService>();
