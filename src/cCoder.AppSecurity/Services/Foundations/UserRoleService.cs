@@ -8,6 +8,7 @@ using cCoder.Data.Models.Security;
 using DataUserRole = cCoder.Data.Models.Security.UserRole;
 using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
 using IRoleBroker = cCoder.AppSecurity.Brokers.IRoleBroker;
+using IUserBroker = cCoder.AppSecurity.Brokers.Storages.IUserBroker;
 using IUserRoleBroker = cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker;
 
 
@@ -16,6 +17,7 @@ namespace cCoder.AppSecurity.Services.Foundations;
 internal sealed partial class UserRoleService(
     IUserRoleBroker userRoleBroker,
     IRoleBroker roleBroker,
+    IUserBroker userBroker,
     IAuthorizationBroker authorizationBroker
 ) : IUserRoleService
 {
@@ -71,6 +73,26 @@ internal sealed partial class UserRoleService(
             _ = await userRoleBroker.DeleteUserRoleAsync(entity: internalUserRole);
 
         });
+
+    internal Role GetRole(Guid roleId) =>
+        roleBroker.GetAllRoles(ignoreFilters: true)
+            .FirstOrDefault(predicate: role => role.Id == roleId);
+
+    internal User GetUser(string userId) =>
+        userBroker.GetAllUsers(ignoreFilters: true)
+            .FirstOrDefault(predicate: user => user.Id == userId);
+
+    internal User GetCurrentUser() =>
+        authorizationBroker.GetCurrentUser();
+
+    internal void Authorize(int? appId, string privilege) =>
+        authorizationBroker.Authorize(
+            appId: appId,
+            privilege: privilege);
+
+    internal bool IsAdminOfApp(int? appId) =>
+        authorizationBroker.IsAdminOfApp(
+            appId: appId);
 
     private void AuthorizeAssignedRolePrivileges(int? appId, Guid roleId)
     {

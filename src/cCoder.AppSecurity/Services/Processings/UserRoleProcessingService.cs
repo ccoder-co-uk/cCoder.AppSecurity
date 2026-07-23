@@ -3,20 +3,15 @@
 // ---------------------------------------------------------------
 
 using System.Security;
-using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Services.Foundations;
-using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
 
 
 namespace cCoder.AppSecurity.Services.Processings;
 
 internal sealed partial class UserRoleProcessingService(
-    IUserRoleService service,
-    IRoleService roleService,
-    IUserService userService,
-    IAuthorizationBroker authorizationBroker
+    UserRoleService service
 ) : IUserRoleProcessingService
 {
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
@@ -34,27 +29,29 @@ internal sealed partial class UserRoleProcessingService(
             ValidateAddUserRole(
                 newUserRole: newUserRole);
 
-            Role role = roleService
-                .GetAll(ignoreFilters: true)
-                .FirstOrDefault(predicate: r => r.Id == newUserRole.RoleId);
+            Role role = service.GetRole(
+                roleId: newUserRole.RoleId);
 
-            User user = userService
-                .GetAll(ignoreFilters: true)
-                .FirstOrDefault(predicate: u => u.Id == newUserRole.UserId);
+            User user = service.GetUser(
+                userId: newUserRole.UserId);
 
             if (role == null || user == null || role.Users?.Any(predicate: u => u.UserId == user.Id) == true)
             {
                 throw new SecurityException(message: "Access Denied!");
             }
 
-            authorizationBroker.Authorize(appId: role.AppId, privilege: "userrole_create");
+            service.Authorize(
+                appId: role.AppId,
+                privilege: "userrole_create");
 
-            if (role.Privileges.Contains(item: "app_admin") && !authorizationBroker.IsAdminOfApp(appId: role.AppId))
+            if (role.Privileges.Contains(item: "app_admin")
+                && !service.IsAdminOfApp(appId: role.AppId))
             {
                 throw new SecurityException(message: "Access Denied!");
             }
 
-            return await service.AddUserRoleAsync(userRole: newUserRole);
+            return await service.AddUserRoleAsync(
+                newUserRole: newUserRole);
 
         });
 
@@ -76,7 +73,7 @@ internal sealed partial class UserRoleProcessingService(
             }
 
             return await service.AddUserRoleAsync(
-                userRole: entity,
+                newUserRole: entity,
                 authorize: false);
 
         });
@@ -96,14 +93,16 @@ internal sealed partial class UserRoleProcessingService(
                 throw new SecurityException(message: "Access Denied!");
             }
 
-            int appId = roleService
-                .GetAll(ignoreFilters: true)
-                .Where(predicate: role => role.Id == dbVersion.RoleId)
-                .Select(selector: role => role.AppId)
-                .FirstOrDefault();
+            int appId = service.GetRole(
+                roleId: dbVersion.RoleId)
+                .AppId;
 
-            authorizationBroker.Authorize(appId: appId, privilege: "userrole_delete");
-            await service.DeleteUserRoleAsync(userRole: dbVersion);
+            service.Authorize(
+                appId: appId,
+                privilege: "userrole_delete");
+
+            await service.DeleteUserRoleAsync(
+                deletedUserRole: dbVersion);
 
         });
 
@@ -133,5 +132,5 @@ internal sealed partial class UserRoleProcessingService(
         DeleteAllUserRoleAsync(deletedUserRole: deletedUserRole);
 
     private string GetCurrentUserId() =>
-        authorizationBroker.GetCurrentUser()?.Id;
+        service.GetCurrentUser()?.Id;
 }
