@@ -72,6 +72,7 @@ internal class UserEventService(IUserEventBroker userEventBroker, ICoreAuthInfo 
                     Description = userRole.Role.Description,
                     Privs = userRole.Role.Privs,
                 },
-            }).ToArray(),
+            })
+                .ToArray(),
         };
 }

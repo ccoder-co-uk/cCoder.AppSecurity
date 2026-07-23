@@ -54,7 +54,8 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     )]
     public IActionResult Get([FromRoute] int key)
     {
-        IQueryable<App> result = service.GetAll().Where(predicate: app => app.Id == key);
+        IQueryable<App> result = service.GetAll()
+            .Where(predicate: app => app.Id == key);
 
         return Ok(value: SingleResult.Create(queryable: result));
     }

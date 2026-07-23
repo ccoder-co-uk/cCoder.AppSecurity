@@ -68,7 +68,9 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     {
         try
         {
-            IQueryable<Privilege> result = Service.GetAll().Where(predicate: privilege => privilege.Id == key);
+            IQueryable<Privilege> result = Service.GetAll()
+                .Where(predicate: privilege => privilege.Id == key);
+
             return Ok(value: SingleResult.Create(queryable: result));
         }
         catch (System.Security.SecurityException)

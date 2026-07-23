@@ -20,13 +20,17 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
 {
     public User Get(string id)
     {
-        User user = GetAll().FirstOrDefault(predicate: i => i.Id == id);
+        User user = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == id);
+
         if (user is not null)
         {
             return user;
         }
 
-        User unrestrictedUser = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
+        User unrestrictedUser = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == id);
+
         if (unrestrictedUser is not null)
         {
             throw new SecurityException(message: "Access Denied!");
@@ -51,6 +55,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
             Email = user.Email,
             IsActive = user.IsActive
         };
+
         authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_create");
         DataUser result = await userBroker.AddUserAsync(entity: internalUser);
         user.Id = result.Id;
@@ -71,6 +76,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
             Email = user.Email,
             IsActive = user.IsActive
         };
+
         authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_update");
         DataUser result = await userBroker.UpdateUserAsync(entity: internalUser);
         user.Id = result.Id;
@@ -98,7 +104,8 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
             Email = item.Email,
             IsActive = item.IsActive,
             DefaultCulture = item.DefaultCulture,
-            Roles = item.Roles?.Select(selector: ToLocalUserRole).ToArray(),
+            Roles = item.Roles?.Select(selector: ToLocalUserRole)
+                .ToArray(),
         };
 
     static DataUser ToExternalUser(User item) =>
@@ -110,7 +117,8 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
             Email = item.Email,
             IsActive = item.IsActive,
             DefaultCulture = item.DefaultCulture as cCoder.Data.Models.CMS.Culture,
-            Roles = item.Roles?.Select(selector: ToExternalUserRole).ToArray(),
+            Roles = item.Roles?.Select(selector: ToExternalUserRole)
+                .ToArray(),
         };
 
     static UserRole ToLocalUserRole(DataUserRole item) =>

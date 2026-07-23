@@ -51,7 +51,8 @@ internal class RoleOrchestrationService(
 
     public async ValueTask DeleteAsync(Guid id)
     {
-        var entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == id);
+        var entity = processingService.GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == id);
 
         if (entity is null)
         {
@@ -64,7 +65,8 @@ internal class RoleOrchestrationService(
 
     public async ValueTask DeleteValidatedAsync(Guid id)
     {
-        var entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == id);
+        var entity = processingService.GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: item => item.Id == id);
 
         if (entity is null)
         {

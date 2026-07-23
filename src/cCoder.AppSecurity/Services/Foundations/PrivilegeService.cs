@@ -20,13 +20,17 @@ internal class PrivilegeService(
 {
     public Privilege Get(string id)
     {
-        Privilege privilege = GetAll().FirstOrDefault(predicate: i => i.Id == id);
+        Privilege privilege = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == id);
+
         if (privilege is not null)
         {
             return privilege;
         }
 
-        Privilege unrestrictedPrivilege = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
+        Privilege unrestrictedPrivilege = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == id);
+
         if (unrestrictedPrivilege is not null)
         {
             throw new SecurityException(message: "Access Denied!");
@@ -50,10 +54,12 @@ internal class PrivilegeService(
             Description = privilege.Description,
             PortalAdminsOnly = privilege.PortalAdminsOnly
         };
+
         authorizationBroker.Authorize(
 appId: privilegeBroker.GetAppId(entity: internalPrivilege),
 privilege: $"{nameof(Privilege)}_create"
         );
+
         DataPrivilege result = await privilegeBroker.AddPrivilegeAsync(entity: internalPrivilege);
         privilege.Id = result.Id;
         privilege.Type = result.Type;
@@ -73,10 +79,12 @@ privilege: $"{nameof(Privilege)}_create"
             Description = privilege.Description,
             PortalAdminsOnly = privilege.PortalAdminsOnly
         };
+
         authorizationBroker.Authorize(
 appId: privilegeBroker.GetAppId(entity: internalPrivilege),
 privilege: $"{nameof(Privilege)}_update"
         );
+
         DataPrivilege result = await privilegeBroker.UpdatePrivilegeAsync(entity: internalPrivilege);
         privilege.Id = result.Id;
         privilege.Type = result.Type;
@@ -90,10 +98,12 @@ privilege: $"{nameof(Privilege)}_update"
     {
         Privilege privilege = Get(id: id);
         DataPrivilege internalPrivilege = ToExternalPrivilege(item: privilege);
+
         authorizationBroker.Authorize(
 appId: privilegeBroker.GetAppId(entity: internalPrivilege),
 privilege: $"{nameof(Privilege)}_delete"
         );
+
         _ = await privilegeBroker.DeletePrivilegeAsync(entity: internalPrivilege);
     }
 

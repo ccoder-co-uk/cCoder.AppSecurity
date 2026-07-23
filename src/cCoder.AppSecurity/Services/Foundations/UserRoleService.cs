@@ -29,6 +29,7 @@ internal class UserRoleService(
             RoleId = userRole.RoleId,
             UserId = userRole.UserId
         };
+
         if (authorize)
         {
             int? appId = userRoleBroker.GetAppId(entity: internalUserRole);
@@ -45,10 +46,12 @@ internal class UserRoleService(
     public async ValueTask DeleteAsync(UserRole userRole)
     {
         DataUserRole internalUserRole = ToExternalUserRole(item: userRole);
+
         authorizationBroker.Authorize(
 appId: userRoleBroker.GetAppId(entity: internalUserRole),
 privilege: $"{nameof(UserRole)}_delete"
         );
+
         _ = await userRoleBroker.DeleteUserRoleAsync(entity: internalUserRole);
     }
 
@@ -59,7 +62,8 @@ privilege: $"{nameof(UserRole)}_delete"
             return;
         }
 
-        Role role = roleBroker.GetAllRoles(ignoreFilters: true).FirstOrDefault(predicate: foundRole => foundRole.Id == roleId);
+        Role role = roleBroker.GetAllRoles(ignoreFilters: true)
+            .FirstOrDefault(predicate: foundRole => foundRole.Id == roleId);
 
         if (role is null)
         {
@@ -74,6 +78,7 @@ privilege: $"{nameof(UserRole)}_delete"
         }
 
         User currentUser = authorizationBroker.GetCurrentUser();
+
         HashSet<string> grantedPrivileges = currentUser?.Roles?
             .Where(predicate: userRole => userRole.Role?.AppId == appId.Value)
             .SelectMany(selector: userRole => ToPrivilegeSet(privileges: userRole.Role.Privs))

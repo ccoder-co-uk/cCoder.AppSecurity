@@ -85,16 +85,19 @@ internal class RoleEventService(IRoleEventBroker roleEventBroker, ICoreAuthInfo 
                     IsActive = userRole.User.IsActive,
                     DefaultCulture = userRole.User.DefaultCulture as cCoder.Data.Models.CMS.Culture,
                 },
-            }).ToArray(),
+            })
+                .ToArray(),
             Pages = item.Pages?.Select(selector: pageRole => new DataPageRole
             {
                 PageId = pageRole.PageId,
                 RoleId = pageRole.RoleId,
-            }).ToArray(),
+            })
+                .ToArray(),
             Folders = item.Folders?.Select(selector: folderRole => new DataFolderRole
             {
                 FolderId = folderRole.FolderId,
                 RoleId = folderRole.RoleId,
-            }).ToArray(),
+            })
+                .ToArray(),
         };
 }

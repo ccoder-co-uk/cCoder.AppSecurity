@@ -24,15 +24,21 @@ internal sealed class PrivilegeBroker(ICoreContextFactory coreContextFactory) : 
     public IQueryable<Privilege> GetAllPrivileges(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return ignoreFilters
-            ? coreDataContext.Set<Privilege>().IgnoreQueryFilters()
+            ? coreDataContext.Set<Privilege>()
+                .IgnoreQueryFilters()
             : coreDataContext.Set<Privilege>();
     }
 
     public async ValueTask<Privilege> AddPrivilegeAsync(Privilege entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Privilege result = (await coreDataContext.Set<Privilege>().AddAsync(entity: entity)).Entity;
+
+        Privilege result = (await coreDataContext.Set<Privilege>()
+            .AddAsync(entity: entity))
+            .Entity;
+
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -40,7 +46,11 @@ internal sealed class PrivilegeBroker(ICoreContextFactory coreContextFactory) : 
     public async ValueTask<Privilege> UpdatePrivilegeAsync(Privilege entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Privilege result = coreDataContext.Set<Privilege>().Update(entity: entity).Entity;
+
+        Privilege result = coreDataContext.Set<Privilege>()
+            .Update(entity: entity)
+            .Entity;
+
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -48,7 +58,10 @@ internal sealed class PrivilegeBroker(ICoreContextFactory coreContextFactory) : 
     public async ValueTask<int> DeletePrivilegeAsync(Privilege entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Set<Privilege>().Remove(entity: entity);
+
+        coreDataContext.Set<Privilege>()
+            .Remove(entity: entity);
+
         return await coreDataContext.SaveChangesAsync();
     }
 
@@ -60,7 +73,10 @@ internal sealed class PrivilegeBroker(ICoreContextFactory coreContextFactory) : 
         }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Set<Privilege>().RemoveRange(entities: items);
+
+        coreDataContext.Set<Privilege>()
+            .RemoveRange(entities: items);
+
         _ = await coreDataContext.SaveChangesAsync();
     }
 

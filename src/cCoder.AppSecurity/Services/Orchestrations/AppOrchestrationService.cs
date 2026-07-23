@@ -36,7 +36,8 @@ internal class AppOrchestrationService(
 
     public async ValueTask DeleteAsync(int appId)
     {
-        Role[] rolesToDelete = [.. roleOrchestrationService.GetAll(ignoreFilters: true).Where(predicate: role => role.AppId == appId)];
+        Role[] rolesToDelete = [.. roleOrchestrationService.GetAll(ignoreFilters: true)
+            .Where(predicate: role => role.AppId == appId)];
 
         foreach (Role role in rolesToDelete)
         {
@@ -58,7 +59,9 @@ internal class AppOrchestrationService(
         Role[] roleArray =
             [.. roles.OrderBy(keySelector: GetBootstrapOrder)
                 .ThenBy(keySelector: role => role.Name, comparer: StringComparer.OrdinalIgnoreCase)];
+
         Guid[] roleIds = [.. roleArray.Select(selector: role => role.Id)];
+
         HashSet<Guid> existingRoleIds =
             [.. roleOrchestrationService.GetAll(ignoreFilters: true)
                 .Where(predicate: foundRole => roleIds.Contains(value: foundRole.Id))

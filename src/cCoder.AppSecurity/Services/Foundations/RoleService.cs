@@ -27,13 +27,17 @@ internal class RoleService(
 {
     public Role Get(Guid id)
     {
-        Role role = GetAll().FirstOrDefault(predicate: i => i.Id == id);
+        Role role = GetAll()
+            .FirstOrDefault(predicate: i => i.Id == id);
+
         if (role is not null)
         {
             return role;
         }
 
-        Role unrestrictedRole = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
+        Role unrestrictedRole = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: i => i.Id == id);
+
         if (unrestrictedRole is not null)
         {
             throw new SecurityException(message: "Access Denied!");
@@ -55,6 +59,7 @@ internal class RoleService(
             Description = role.Description,
             Privs = role.Privs
         };
+
         AuthorizeMutationOrAllowBootstrap(appId: role.AppId, privilege: $"{nameof(Role)}_create", assignedPrivileges: role.Privs);
         DataRole result = await roleBroker.AddRoleAsync(entity: internalRole);
         role.Id = result.Id;
@@ -75,6 +80,7 @@ internal class RoleService(
             Description = role.Description,
             Privs = role.Privs
         };
+
         DataRole result = await roleBroker.AddRoleAsync(entity: internalRole);
         role.Id = result.Id;
         role.AppId = result.AppId;
@@ -94,6 +100,7 @@ internal class RoleService(
             Description = role.Description,
             Privs = role.Privs
         };
+
         AuthorizeMutationOrAllowBootstrap(appId: role.AppId, privilege: $"{nameof(Role)}_update", assignedPrivileges: role.Privs);
         DataRole result = await roleBroker.UpdateRoleAsync(entity: internalRole);
         role.Id = result.Id;
@@ -114,6 +121,7 @@ internal class RoleService(
             Description = role.Description,
             Privs = role.Privs
         };
+
         DataRole result = await roleBroker.UpdateRoleAsync(entity: internalRole);
         role.Id = result.Id;
         role.AppId = result.AppId;
@@ -125,7 +133,8 @@ internal class RoleService(
 
     public async ValueTask DeleteAsync(Guid id)
     {
-        Role role = GetAll(ignoreFilters: true).FirstOrDefault(predicate: foundRole => foundRole.Id == id);
+        Role role = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: foundRole => foundRole.Id == id);
 
         if (role is null)
         {
@@ -138,7 +147,8 @@ internal class RoleService(
 
     public async ValueTask DeleteValidatedAsync(Guid id)
     {
-        Role role = GetAll(ignoreFilters: true).FirstOrDefault(predicate: foundRole => foundRole.Id == id);
+        Role role = GetAll(ignoreFilters: true)
+            .FirstOrDefault(predicate: foundRole => foundRole.Id == id);
 
         if (role is null)
         {
@@ -150,7 +160,8 @@ internal class RoleService(
 
     private async ValueTask DeleteRoleAsync(Role role)
     {
-        DataUserRole[] userRoles = [.. userRoleBroker.GetAllUserRoles(ignoreFilters: true).Where(predicate: userRole => userRole.RoleId == role.Id)];
+        DataUserRole[] userRoles = [.. userRoleBroker.GetAllUserRoles(ignoreFilters: true)
+            .Where(predicate: userRole => userRole.RoleId == role.Id)];
 
         if (userRoles.Length > 0)
         {
@@ -188,6 +199,7 @@ internal class RoleService(
         }
 
         User currentUser = authorizationBroker.GetCurrentUser();
+
         HashSet<string> grantedPrivileges = currentUser?.Roles?
             .Where(predicate: userRole => userRole.Role?.AppId == appId.Value)
             .SelectMany(selector: userRole => ToPrivilegeSet(privileges: userRole.Role.Privs))
@@ -222,9 +234,12 @@ internal class RoleService(
             Description = item.Description,
             Privs = item.Privs,
             App = item.App == null ? null : ToLocalApp(item: item.App),
-            Users = item.Users?.Select(selector: ToLocalUserRole).ToArray(),
-            Pages = item.Pages?.Select(selector: ToLocalPageRole).ToArray(),
-            Folders = item.Folders?.Select(selector: ToLocalFolderRole).ToArray(),
+            Users = item.Users?.Select(selector: ToLocalUserRole)
+                .ToArray(),
+            Pages = item.Pages?.Select(selector: ToLocalPageRole)
+                .ToArray(),
+            Folders = item.Folders?.Select(selector: ToLocalFolderRole)
+                .ToArray(),
         };
 
     static DataRole ToExternalRole(Role item) =>
@@ -236,9 +251,12 @@ internal class RoleService(
             Description = item.Description,
             Privs = item.Privs,
             App = null,
-            Users = item.Users?.Select(selector: ToExternalUserRole).ToArray(),
-            Pages = item.Pages?.Select(selector: ToExternalPageRole).ToArray(),
-            Folders = item.Folders?.Select(selector: ToExternalFolderRole).ToArray(),
+            Users = item.Users?.Select(selector: ToExternalUserRole)
+                .ToArray(),
+            Pages = item.Pages?.Select(selector: ToExternalPageRole)
+                .ToArray(),
+            Folders = item.Folders?.Select(selector: ToExternalFolderRole)
+                .ToArray(),
         };
 
     static App ToLocalApp(DataApp item) =>

@@ -36,6 +36,7 @@ internal class UserProcessingService(IUserService service, ICoreAuthInfo authInf
     public ValueTask DeleteAsync(string id)
     {
         User dbVersion = Get(id: id);
+
         return authInfo.SSOUserId == dbVersion.Id
             ? service.DeleteAsync(id: id)
             : throw new SecurityException(message: "Access Denied!");

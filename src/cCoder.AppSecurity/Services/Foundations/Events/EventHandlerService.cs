@@ -95,7 +95,8 @@ handler: (service, accountEvent) => service.ProcessAsync(accountEvent: accountEv
             Description = package.Description,
             Category = package.Category,
             SourceApi = package.SourceApi,
-            Items = package.Items?.Select(selector: ToLocalPackageItem).ToArray(),
+            Items = package.Items?.Select(selector: ToLocalPackageItem)
+                .ToArray(),
         };
 
     static AppSecurityPackageItem ToLocalPackageItem(DataPackageItem packageItem) =>

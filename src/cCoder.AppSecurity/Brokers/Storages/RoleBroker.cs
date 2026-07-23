@@ -26,6 +26,7 @@ internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRole
     public IQueryable<Role> GetAllRoles(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return ignoreFilters
             ? coreDataContext.Roles.IgnoreQueryFilters()
             : coreDataContext.Roles;
@@ -50,6 +51,7 @@ internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRole
     public async ValueTask DeleteFolderRolesByRoleIdAsync(Guid roleId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         FolderRole[] folderRoles = [.. coreDataContext.FolderRoles
             .IgnoreQueryFilters()
             .Where(predicate: folderRole => folderRole.RoleId == roleId)];
@@ -66,6 +68,7 @@ internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRole
     public async ValueTask DeletePageRolesByRoleIdAsync(Guid roleId)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         PageRole[] pageRoles = [.. coreDataContext.PageRoles
             .IgnoreQueryFilters()
             .Where(predicate: pageRole => pageRole.RoleId == roleId)];

@@ -79,7 +79,8 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
                 TenantId = tenant,
                 Key = "System",
                 Name = "User Activity (Daily)",
-                Value = AnalyseTenantUserActivity(tenantId: tenant, reportDate: forDate, sso: sso).ToJsonForOdata(),
+                Value = AnalyseTenantUserActivity(tenantId: tenant, reportDate: forDate, sso: sso)
+                    .ToJsonForOdata(),
                 CreatedOn = forDate
             });
         }
@@ -150,7 +151,8 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
     private static object AnalysePageActivity(IEnumerable<UserActivity> data) =>
         data
         .Where(predicate: activity => activity.EventName.StartsWith(value: "Page_GET/") && !activity.EventName.StartsWith(value: "Page_GET/lib/"))
-        .GroupBy(keySelector: activity => activity.EventValue.Split(separator: '?').First())
+        .GroupBy(keySelector: activity => activity.EventValue.Split(separator: '?')
+            .First())
         .Select(selector: group => new
         {
             Page = group.Key,
@@ -166,7 +168,8 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
     private static object AnalyseApiActivity(IEnumerable<UserActivity> data) =>
         data
         .Where(predicate: activity => activity.EventName.StartsWith(value: "Api_"))
-        .GroupBy(keySelector: activity => activity.EventValue.Split(separator: '?').First())
+        .GroupBy(keySelector: activity => activity.EventValue.Split(separator: '?')
+            .First())
         .Select(selector: group => new
         {
             Endpoint = group.Key,

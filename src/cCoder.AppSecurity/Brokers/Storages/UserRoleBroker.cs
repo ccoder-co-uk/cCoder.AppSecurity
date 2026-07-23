@@ -24,6 +24,7 @@ internal sealed class UserRoleBroker(ICoreContextFactory coreContextFactory) : I
     public IQueryable<UserRole> GetAllUserRoles(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return ignoreFilters
             ? coreDataContext.UserRoles.IgnoreQueryFilters()
             : coreDataContext.UserRoles;
@@ -59,6 +60,7 @@ internal sealed class UserRoleBroker(ICoreContextFactory coreContextFactory) : I
     public int? GetAppId(UserRole entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return coreDataContext.Roles
 
             .Where(predicate: role => role.Id == entity.RoleId)
