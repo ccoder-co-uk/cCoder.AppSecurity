@@ -76,7 +76,7 @@ public static partial class IServiceCollectionExtensions
         Action<AppSecurityConfiguration> configure = null) =>
         services.AddConfiguredAppSecurityHostedServices(configure: (_, configuration) => configure?.Invoke(obj: configuration));
 
-    private static void AddAppSecurity(this IServiceCollection services)
+    internal static void AddAppSecurity(this IServiceCollection services)
     {
         services.AddEventingTypes();
         services.AddBrokers();

@@ -14,18 +14,9 @@ using Microsoft.OpenApi;
 
 namespace cCoder.AppSecurity;
 
-public static partial class IServiceCollectionExtensions
+internal static class ServiceCollectionProcessingService
 {
-    private static AppSecurityConfiguration AddConfiguredAppSecurity(
-        this IServiceCollection services,
-        Action<IServiceCollection, AppSecurityConfiguration> configure)
-    {
-        AppSecurityConfiguration configuration = CreateConfiguration(services: services, configure: configure);
-        IServiceCollectionExtensions.AddAppSecurity(services: services);
-        return configuration;
-    }
-
-    private static AppSecurityConfiguration AddConfiguredAppSecurityWeb(
+    internal static AppSecurityConfiguration AddConfiguredAppSecurityWeb(
         this IServiceCollection services,
         Action<IServiceCollection, AppSecurityConfiguration> configure,
         ODataConventionModelBuilder builder = null)
@@ -41,7 +32,7 @@ builder: builder);
         return configuration;
     }
 
-    private static AppSecurityConfiguration AddConfiguredAppSecurityHostedServices(
+    internal static AppSecurityConfiguration AddConfiguredAppSecurityHostedServices(
         this IServiceCollection services,
         Action<IServiceCollection, AppSecurityConfiguration> configure)
     {
