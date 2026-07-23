@@ -47,7 +47,9 @@ internal sealed class UserRoleBroker(ICoreContextFactory coreContextFactory) : I
     public async ValueTask DeleteAllUserRolesAsync(IEnumerable<UserRole> items)
     {
         if (items == null || !items.Any())
+        {
             return;
+        }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.UserRoles.RemoveRange(entities: items);

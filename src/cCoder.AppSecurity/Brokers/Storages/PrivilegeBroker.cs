@@ -55,7 +55,9 @@ internal sealed class PrivilegeBroker(ICoreContextFactory coreContextFactory) : 
     public async ValueTask DeleteAllPrivilegesAsync(IEnumerable<Privilege> items)
     {
         if (items == null || !items.Any())
+        {
             return;
+        }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.Set<Privilege>().RemoveRange(entities: items);

@@ -55,7 +55,9 @@ internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRole
             .Where(predicate: folderRole => folderRole.RoleId == roleId)];
 
         if (folderRoles.Length == 0)
+        {
             return;
+        }
 
         coreDataContext.FolderRoles.RemoveRange(entities: folderRoles);
         await coreDataContext.SaveChangesAsync();
@@ -69,7 +71,9 @@ internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRole
             .Where(predicate: pageRole => pageRole.RoleId == roleId)];
 
         if (pageRoles.Length == 0)
+        {
             return;
+        }
 
         coreDataContext.PageRoles.RemoveRange(entities: pageRoles);
         await coreDataContext.SaveChangesAsync();
@@ -85,7 +89,9 @@ internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRole
     public async ValueTask DeleteAllRolesAsync(IEnumerable<Role> items)
     {
         if (items == null || !items.Any())
+        {
             return;
+        }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.Roles.RemoveRange(entities: items);

@@ -24,7 +24,9 @@ internal sealed class TokenCleanerOrchestrationService(
             .ToArray();
 
         if (expiredTokens.Length == 0)
+        {
             return;
+        }
 
         sso.RemoveRange(entities: expiredTokens);
         await sso.SaveChangesAsync(cancellationToken: cancellationToken);

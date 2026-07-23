@@ -106,7 +106,9 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     public async Task<IActionResult> Post([FromBody] User entity)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
         return Ok(value: await Service.AddAsync(entity));
     }
@@ -123,7 +125,9 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     public async Task<IActionResult> Put([FromRoute] string key, [FromBody] User entity)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
         return Ok(value: await Service.UpdateAsync(entity));
     }
@@ -133,7 +137,9 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     {
         User originalEntity = Service.Get(id: key);
         if (originalEntity == null)
+        {
             return NotFound();
+        }
 
         delta.Patch(original: originalEntity);
         return Ok(value: await Service.UpdateAsync(originalEntity));

@@ -85,6 +85,8 @@ item: new Result<Privilege>
     public async ValueTask DeleteAllAsync(IEnumerable<Privilege> items)
     {
         foreach (Privilege item in items)
+        {
             await DeleteAsync(id: item.Id);
+        }
     }
 }

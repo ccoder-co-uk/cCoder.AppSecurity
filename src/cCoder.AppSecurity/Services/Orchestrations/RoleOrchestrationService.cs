@@ -53,7 +53,9 @@ internal class RoleOrchestrationService(
         var entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == id);
 
         if (entity is null)
+        {
             return;
+        }
 
         await eventService.RaiseRoleDeleteEventAsync(entity: entity);
         await processingService.DeleteAsync(id: id);
@@ -64,7 +66,9 @@ internal class RoleOrchestrationService(
         var entity = processingService.GetAll(ignoreFilters: true).FirstOrDefault(predicate: item => item.Id == id);
 
         if (entity is null)
+        {
             return;
+        }
 
         await eventService.RaiseRoleDeleteEventAsync(entity: entity);
         await processingService.DeleteValidatedAsync(id: id);
@@ -88,9 +92,13 @@ internal class RoleOrchestrationService(
             role.Id = dbVersions.FirstOrDefault(predicate: existing => existing.Name == role.Name)?.Id ?? Guid.Empty;
 
             if (role.Id == Guid.Empty)
+            {
                 await processingService.AddValidatedAsync(entity: role);
+            }
             else
+            {
                 await processingService.UpdateValidatedAsync(entity: role);
+            }
         }
     }
 

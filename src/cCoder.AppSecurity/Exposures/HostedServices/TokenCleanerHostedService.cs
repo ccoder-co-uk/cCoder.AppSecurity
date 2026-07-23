@@ -17,13 +17,17 @@ public sealed class TokenCleanerHostedService(
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         if (appSecurityConfiguration.IsMigrating)
+        {
             return;
+        }
 
         await tokenCleanerOrchestrationService.RunAsync(cancellationToken: stoppingToken);
 
         using PeriodicTimer timer = new(period: TimeSpan.FromMinutes(1));
 
         while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: stoppingToken))
+        {
             await tokenCleanerOrchestrationService.RunAsync(cancellationToken: stoppingToken);
+        }
     }
 }

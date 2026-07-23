@@ -22,11 +22,15 @@ internal class PrivilegeService(
     {
         Privilege privilege = GetAll().FirstOrDefault(predicate: i => i.Id == id);
         if (privilege is not null)
+        {
             return privilege;
+        }
 
         Privilege unrestrictedPrivilege = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
         if (unrestrictedPrivilege is not null)
+        {
             throw new SecurityException(message: "Access Denied!");
+        }
 
         return null;
     }

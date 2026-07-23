@@ -55,17 +55,23 @@ privilege: $"{nameof(UserRole)}_delete"
     private void AuthorizeAssignedRolePrivileges(int? appId, Guid roleId)
     {
         if (!appId.HasValue)
+        {
             return;
+        }
 
         Role role = roleBroker.GetAllRoles(ignoreFilters: true).FirstOrDefault(predicate: foundRole => foundRole.Id == roleId);
 
         if (role is null)
+        {
             return;
+        }
 
         string[] assignedPrivilegeSet = ToPrivilegeSet(privileges: role.Privs);
 
         if (assignedPrivilegeSet.Length == 0)
+        {
             return;
+        }
 
         User currentUser = authorizationBroker.GetCurrentUser();
         HashSet<string> grantedPrivileges = currentUser?.Roles?
@@ -75,7 +81,9 @@ privilege: $"{nameof(UserRole)}_delete"
             ?? [];
 
         if (assignedPrivilegeSet.Any(predicate: assignedPrivilege => !grantedPrivileges.Contains(assignedPrivilege)))
+        {
             throw new System.Security.SecurityException(message: "Access Denied!");
+        }
     }
 
     private static string[] ToPrivilegeSet(string privileges) =>

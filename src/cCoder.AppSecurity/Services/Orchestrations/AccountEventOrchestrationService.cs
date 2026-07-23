@@ -18,12 +18,16 @@ internal class AccountEventOrchestrationService(
     public async ValueTask ProcessAsync(SecurityAccountEvent accountEvent)
     {
         if (accountEvent?.User is null)
+        {
             return;
+        }
 
         App app = ResolveApp(requestDomain: accountEvent.RequestDomain);
 
         if (app is null)
+        {
             return;
+        }
 
         User user = await AddOrUpdateUserAsync(accountEvent: accountEvent, app: app);
         await AttachUsersRoleAsync(user: user, appId: app.Id);
@@ -32,7 +36,9 @@ internal class AccountEventOrchestrationService(
     private App ResolveApp(string requestDomain)
     {
         if (string.IsNullOrWhiteSpace(value: requestDomain))
+        {
             return null;
+        }
 
         string normalizedDomain = NormalizeDomain(requestDomain: requestDomain);
 
@@ -67,7 +73,9 @@ internal class AccountEventOrchestrationService(
         user.IsActive = !accountEvent.User.LockoutEnabled;
 
         if (!string.IsNullOrWhiteSpace(value: accountEvent.Culture))
+        {
             user.DefaultCultureId = accountEvent.Culture;
+        }
 
         return await userProcessingService.UpdateAsync(entity: user);
     }
@@ -78,7 +86,9 @@ internal class AccountEventOrchestrationService(
             .FirstOrDefault(predicate: role => role.AppId == appId && role.Name == "Users");
 
         if (usersRole is null)
+        {
             return;
+        }
 
         bool roleAssigned = userRoleProcessingService.GetAll(ignoreFilters: true)
             .Any(predicate: userRole =>
@@ -86,7 +96,9 @@ internal class AccountEventOrchestrationService(
                 && userRole.RoleId == usersRole.Id);
 
         if (roleAssigned)
+        {
             return;
+        }
 
         await userRoleProcessingService.SaveAsync(
 entity: new UserRole
@@ -99,7 +111,9 @@ entity: new UserRole
     private static string NormalizeDomain(string requestDomain)
     {
         if (Uri.TryCreate(uriString: requestDomain, uriKind: UriKind.Absolute, result: out Uri absoluteUri))
+        {
             return absoluteUri.Host;
+        }
 
         int portSeparatorIndex = requestDomain.IndexOf(value: ':');
 

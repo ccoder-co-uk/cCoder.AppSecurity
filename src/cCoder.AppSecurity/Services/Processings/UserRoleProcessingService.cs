@@ -34,12 +34,16 @@ internal class UserRoleProcessingService(
             .FirstOrDefault(predicate: u => u.Id == entity.UserId);
 
         if (role == null || user == null || role.Users?.Any(predicate: u => u.UserId == user.Id) == true)
+        {
             throw new SecurityException(message: "Access Denied!");
+        }
 
         authorizationBroker.Authorize(appId: role.AppId, privilege: "userrole_create");
 
         if (role.Privileges.Contains(item: "app_admin") && !authorizationBroker.IsAdminOfApp(appId: role.AppId))
+        {
             throw new SecurityException(message: "Access Denied!");
+        }
 
         return await service.AddAsync(userRole: entity);
     }
@@ -53,7 +57,9 @@ internal class UserRoleProcessingService(
                 && userRole.RoleId == entity.RoleId);
 
         if (existingUserRole != null)
+        {
             return existingUserRole;
+        }
 
         return await service.AddAsync(entity, authorize: false);
     }
@@ -65,7 +71,9 @@ internal class UserRoleProcessingService(
             .FirstOrDefault(predicate: ur => ur.RoleId == link.RoleId && ur.UserId == link.UserId);
 
         if (dbVersion == null || CurrentUserId == null)
+        {
             throw new SecurityException(message: "Access Denied!");
+        }
 
         int appId = roleService
             .GetAll(ignoreFilters: true)

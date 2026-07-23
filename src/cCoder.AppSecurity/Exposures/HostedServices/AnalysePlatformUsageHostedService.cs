@@ -17,13 +17,17 @@ public sealed class AnalysePlatformUsageHostedService(
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         if (appSecurityConfiguration.IsMigrating)
+        {
             return;
+        }
 
         await analysePlatformUsageOrchestrationService.RunAsync(cancellationToken: stoppingToken);
 
         using PeriodicTimer timer = new(period: TimeSpan.FromDays(1));
 
         while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: stoppingToken))
+        {
             await analysePlatformUsageOrchestrationService.RunAsync(cancellationToken: stoppingToken);
+        }
     }
 }

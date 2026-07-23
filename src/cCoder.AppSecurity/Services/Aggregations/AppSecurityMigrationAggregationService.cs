@@ -19,7 +19,9 @@ internal class AppSecurityMigrationAggregationService(
     public async ValueTask ImportPackageAsync(int appId, AppSecurityPackage package)
     {
         if (package.Items is null || package.Items.Count == 0)
+        {
             return;
+        }
 
         foreach (AppSecurityPackageItem item in package.Items.Where(predicate: item => item.Type == "Core/Role"))
         {

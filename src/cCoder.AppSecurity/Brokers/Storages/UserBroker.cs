@@ -67,7 +67,9 @@ internal sealed class UserBroker(ICoreContextFactory coreContextFactory) : IUser
     public async ValueTask DeleteAllUsersAsync(IEnumerable<User> items)
     {
         if (items == null || !items.Any())
+        {
             return;
+        }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.Users.RemoveRange(entities: items);

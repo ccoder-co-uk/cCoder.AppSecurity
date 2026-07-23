@@ -67,6 +67,8 @@ item: new Result<Role>
     public async ValueTask DeleteAllAsync(IEnumerable<Role> items)
     {
         foreach (Role item in items)
+        {
             await DeleteAsync(id: item.Id);
+        }
     }
 }

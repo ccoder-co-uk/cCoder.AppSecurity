@@ -88,7 +88,9 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     public async Task<IActionResult> Post([FromBody] Role entity)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
         return Ok(value: await Service.AddAsync(entity));
     }
@@ -105,7 +107,9 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] Role entity)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
         return Ok(value: await Service.UpdateAsync(entity));
     }
@@ -115,7 +119,9 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     {
         Role originalEntity = Service.Get(id: key);
         if (originalEntity == null)
+        {
             return NotFound();
+        }
 
         delta.Patch(original: originalEntity);
         return Ok(value: await Service.UpdateAsync(originalEntity));

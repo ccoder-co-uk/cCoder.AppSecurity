@@ -27,7 +27,9 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
             .ToList();
 
         if (datesWithData.FirstOrDefault() == DateTime.Today)
+        {
             datesWithData.RemoveAt(index: 0);
+        }
 
         string[] tenants = sso.Tenants
             .IgnoreQueryFilters()
@@ -52,7 +54,9 @@ internal sealed class AnalysePlatformUsageOrchestrationService(
         List<TenantAnalysis> results = [];
 
         foreach (string tenant in tenants)
+        {
             results.AddRange(collection: GenerateUserActivityReport(tenant, forDate, sso));
+        }
 
         return results;
     }

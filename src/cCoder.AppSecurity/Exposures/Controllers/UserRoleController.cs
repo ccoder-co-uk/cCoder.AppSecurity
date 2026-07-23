@@ -42,7 +42,9 @@ public partial class UserRoleController : ODataController
     public async Task<IActionResult> Post([FromBody] UserRole entity)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
         return Ok(value: await Service.AddAsync(entity));
     }
@@ -51,7 +53,9 @@ public partial class UserRoleController : ODataController
     public async Task<IActionResult> DeleteAll([FromBody] ODataCollection<UserRole> items)
     {
         if (!ModelState.IsValid)
+        {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
         await Service.DeleteAllAsync(items: items.Value);
         return Ok();

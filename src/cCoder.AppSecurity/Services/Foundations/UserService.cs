@@ -22,11 +22,15 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
     {
         User user = GetAll().FirstOrDefault(predicate: i => i.Id == id);
         if (user is not null)
+        {
             return user;
+        }
 
         User unrestrictedUser = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
         if (unrestrictedUser is not null)
+        {
             throw new SecurityException(message: "Access Denied!");
+        }
 
         return null;
     }

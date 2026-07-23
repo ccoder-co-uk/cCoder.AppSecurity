@@ -83,6 +83,8 @@ item: new Result<User>
     public async ValueTask DeleteAllAsync(IEnumerable<User> items)
     {
         foreach (User item in items)
+        {
             await DeleteAsync(id: item.Id);
+        }
     }
 }

@@ -29,11 +29,15 @@ internal class RoleService(
     {
         Role role = GetAll().FirstOrDefault(predicate: i => i.Id == id);
         if (role is not null)
+        {
             return role;
+        }
 
         Role unrestrictedRole = GetAll(ignoreFilters: true).FirstOrDefault(predicate: i => i.Id == id);
         if (unrestrictedRole is not null)
+        {
             throw new SecurityException(message: "Access Denied!");
+        }
 
         return null;
     }
@@ -124,7 +128,9 @@ internal class RoleService(
         Role role = GetAll(ignoreFilters: true).FirstOrDefault(predicate: foundRole => foundRole.Id == id);
 
         if (role is null)
+        {
             return;
+        }
 
         authorizationBroker.Authorize(appId: role.AppId, privilege: $"{nameof(Role)}_delete");
         await DeleteRoleAsync(role: role);
@@ -135,7 +141,9 @@ internal class RoleService(
         Role role = GetAll(ignoreFilters: true).FirstOrDefault(predicate: foundRole => foundRole.Id == id);
 
         if (role is null)
+        {
             return;
+        }
 
         await DeleteRoleAsync(role: role);
     }
@@ -145,7 +153,9 @@ internal class RoleService(
         DataUserRole[] userRoles = [.. userRoleBroker.GetAllUserRoles(ignoreFilters: true).Where(predicate: userRole => userRole.RoleId == role.Id)];
 
         if (userRoles.Length > 0)
+        {
             await userRoleBroker.DeleteAllUserRolesAsync(items: userRoles);
+        }
 
         await roleBroker.DeletePageRolesByRoleIdAsync(roleId: role.Id);
         await roleBroker.DeleteFolderRolesByRoleIdAsync(roleId: role.Id);
@@ -166,12 +176,16 @@ internal class RoleService(
     private void AuthorizeAssignedPrivileges(int? appId, string assignedPrivileges)
     {
         if (!appId.HasValue)
+        {
             return;
+        }
 
         string[] assignedPrivilegeSet = ToPrivilegeSet(privileges: assignedPrivileges);
 
         if (assignedPrivilegeSet.Length == 0)
+        {
             return;
+        }
 
         User currentUser = authorizationBroker.GetCurrentUser();
         HashSet<string> grantedPrivileges = currentUser?.Roles?
@@ -181,7 +195,9 @@ internal class RoleService(
             ?? [];
 
         if (assignedPrivilegeSet.Any(predicate: assignedPrivilege => !grantedPrivileges.Contains(assignedPrivilege)))
+        {
             throw new SecurityException(message: "Access Denied!");
+        }
     }
 
     private bool HasAnyRoles(int? appId) =>
