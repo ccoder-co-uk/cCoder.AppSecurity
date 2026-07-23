@@ -8,5 +8,5 @@ namespace cCoder.AppSecurity.Services.Orchestrations;
 
 public interface IAccountEventOrchestrationService
 {
-    ValueTask ProcessAsync(SecurityAccountEvent accountEvent);
+    ValueTask ProcessSecurityAccountEventAsync(SecurityAccountEvent accountEvent);
 }

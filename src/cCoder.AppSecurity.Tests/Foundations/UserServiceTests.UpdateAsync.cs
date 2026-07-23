@@ -32,7 +32,7 @@ public partial class UserServiceTests
             .ReturnsAsync((cCoder.Data.Models.Security.User value) => value);
 
         // When
-        User result = await userService.UpdateAsync(user);
+        User result = await userService.UpdateUserAsync(user);
 
         // Then
         result.Should().BeSameAs(user);
@@ -64,7 +64,7 @@ public partial class UserServiceTests
             .Throws(new SecurityException("Access Denied!"));
 
         // When
-        Func<Task> action = async () => await userService.UpdateAsync(user);
+        Func<Task> action = async () => await userService.UpdateUserAsync(user);
 
         // Then
         await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");

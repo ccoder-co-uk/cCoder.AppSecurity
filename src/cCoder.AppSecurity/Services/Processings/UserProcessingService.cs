@@ -24,13 +24,13 @@ internal class UserProcessingService(IUserService service, ICoreAuthInfo authInf
     public IQueryable<User> GetAll(bool ignoreFilters = false) =>
         service.GetAll(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<User> AddAsync(User newUser)
+    public async ValueTask<User> AddUserAsync(User newUser)
     {
         User existingUser = service
             .GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: u => u.Id == newUser.Id || u.Email == newUser.Email);
 
-        return existingUser != null ? existingUser : await service.AddAsync(user: newUser);
+        return existingUser != null ? existingUser : await service.AddUserAsync(user: newUser);
     }
 
     public ValueTask DeleteAsync(string id)
@@ -42,12 +42,12 @@ internal class UserProcessingService(IUserService service, ICoreAuthInfo authInf
             : throw new SecurityException(message: "Access Denied!");
     }
 
-    public ValueTask<User> UpdateAsync(User entity) =>
+    public ValueTask<User> UpdateUserAsync(User entity) =>
         authInfo.SSOUserId == entity.Id
-            ? service.UpdateAsync(user: entity)
+            ? service.UpdateUserAsync(user: entity)
             : throw new SecurityException(message: "Access Denied!");
 
-    public async ValueTask<IEnumerable<Result<User>>> AddOrUpdate(
+    public async ValueTask<IEnumerable<Result<User>>> AddOrUpdateUser(
         IEnumerable<User> items
     )
     {
@@ -63,7 +63,7 @@ internal class UserProcessingService(IUserService service, ICoreAuthInfo authInf
 item: new Result<User>
 {
     Success = true,
-    Item = isAdd ? await AddAsync(newUser: item) : await UpdateAsync(entity: item),
+    Item = isAdd ? await AddUserAsync(newUser: item) : await UpdateUserAsync(entity: item),
     Message = isAdd ? "Added Successfully" : "Updated Successfully",
 }
                 );
@@ -83,7 +83,7 @@ item: new Result<User>
 
         return results;
     }
-    public async ValueTask DeleteAllAsync(IEnumerable<User> items)
+    public async ValueTask DeleteAllUserAsync(IEnumerable<User> items)
     {
         foreach (User item in items)
         {

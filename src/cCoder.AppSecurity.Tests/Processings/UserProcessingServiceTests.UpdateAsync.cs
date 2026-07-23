@@ -20,14 +20,14 @@ public partial class UserProcessingServiceTests
         // Given
         User user = CreateRandomUser(id: "test-user");
         coreAuthInfoMock.SetupGet(x => x.SSOUserId).Returns(user.Id);
-        userServiceMock.Setup(x => x.UpdateAsync(user)).ReturnsAsync(user);
+        userServiceMock.Setup(x => x.UpdateUserAsync(user)).ReturnsAsync(user);
 
         // When
-        User result = await userProcessingService.UpdateAsync(user);
+        User result = await userProcessingService.UpdateUserAsync(user);
 
         // Then
         Assert.Same(user, result);
-        userServiceMock.Verify(x => x.UpdateAsync(user), Times.Once);
+        userServiceMock.Verify(x => x.UpdateUserAsync(user), Times.Once);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public partial class UserProcessingServiceTests
 
         // When
         await Assert.ThrowsAsync<SecurityException>(async () =>
-            await userProcessingService.UpdateAsync(
+            await userProcessingService.UpdateUserAsync(
                 CreateRandomUser(id: "other-user", email: "other@example.com")
             )
         );

@@ -18,13 +18,13 @@ public partial class PrivilegeOrchestrationServiceTests
     {
         // Given
         Privilege[] entities = [CreateRandomPrivilege()];
-        privilegeProcessingServiceMock.Setup(x => x.DeleteAllAsync(entities)).Returns(ValueTask.CompletedTask);
+        privilegeProcessingServiceMock.Setup(x => x.DeleteAllPrivilegeAsync(entities)).Returns(ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAllAsync(entities);
+        await orchestrationService.DeleteAllPrivilegeAsync(entities);
 
         // Then
-        privilegeProcessingServiceMock.Verify(x => x.DeleteAllAsync(entities), Times.Once);
+        privilegeProcessingServiceMock.Verify(x => x.DeleteAllPrivilegeAsync(entities), Times.Once);
         privilegeProcessingServiceMock.VerifyNoOtherCalls();
         privilegeEventProcessingServiceMock.VerifyNoOtherCalls();
     }

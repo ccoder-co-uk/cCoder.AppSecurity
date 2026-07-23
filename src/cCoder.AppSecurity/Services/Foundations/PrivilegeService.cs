@@ -44,7 +44,7 @@ internal class PrivilegeService(
             .Select(selector: ToLocalPrivilege)
             .AsQueryable();
 
-    public async ValueTask<Privilege> AddAsync(Privilege privilege)
+    public async ValueTask<Privilege> AddPrivilegeAsync(Privilege privilege)
     {
         DataPrivilege internalPrivilege = new()
         {
@@ -69,7 +69,7 @@ privilege: $"{nameof(Privilege)}_create"
         return privilege;
     }
 
-    public async ValueTask<Privilege> UpdateAsync(Privilege privilege)
+    public async ValueTask<Privilege> UpdatePrivilegeAsync(Privilege privilege)
     {
         DataPrivilege internalPrivilege = new()
         {

@@ -21,16 +21,16 @@ internal class PrivilegeOrchestrationService(
     public IQueryable<Privilege> GetAll(bool ignoreFilters = false) =>
         processingService.GetAll(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<Privilege> AddAsync(Privilege entity)
+    public async ValueTask<Privilege> AddPrivilegeAsync(Privilege entity)
     {
-        var result = await processingService.AddAsync(entity: entity);
+        var result = await processingService.AddPrivilegeAsync(entity: entity);
         await eventService.RaisePrivilegeAddEventAsync(entity: result);
         return result;
     }
 
-    public async ValueTask<Privilege> UpdateAsync(Privilege entity)
+    public async ValueTask<Privilege> UpdatePrivilegeAsync(Privilege entity)
     {
-        var result = await processingService.UpdateAsync(entity: entity);
+        var result = await processingService.UpdatePrivilegeAsync(entity: entity);
         await eventService.RaisePrivilegeUpdateEventAsync(entity: result);
         return result;
     }
@@ -42,11 +42,11 @@ internal class PrivilegeOrchestrationService(
         await processingService.DeleteAsync(id: id);
     }
 
-    public ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdate(
+    public ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdatePrivilege(
         IEnumerable<Privilege> items
     ) =>
-        processingService.AddOrUpdate(items: items);
+        processingService.AddOrUpdatePrivilege(items: items);
 
-    public ValueTask DeleteAllAsync(IEnumerable<Privilege> items) =>
-        processingService.DeleteAllAsync(items: items);
+    public ValueTask DeleteAllPrivilegeAsync(IEnumerable<Privilege> items) =>
+        processingService.DeleteAllPrivilegeAsync(items: items);
 }

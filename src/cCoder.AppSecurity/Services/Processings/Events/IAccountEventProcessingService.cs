@@ -8,5 +8,5 @@ namespace cCoder.AppSecurity.Services.Processings.Events;
 
 internal interface IAccountEventProcessingService
 {
-    ValueTask ProcessAsync(SecurityAccountEvent accountEvent);
+    ValueTask ProcessSecurityAccountEventAsync(SecurityAccountEvent accountEvent);
 }

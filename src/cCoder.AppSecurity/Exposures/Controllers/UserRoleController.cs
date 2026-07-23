@@ -48,7 +48,7 @@ public partial class UserRoleController : ODataController
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddAsync(entity: entity));
+        return Ok(value: await Service.AddUserRoleAsync(entity: entity));
     }
 
     [HttpPost]
@@ -59,14 +59,14 @@ public partial class UserRoleController : ODataController
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        await Service.DeleteAllAsync(items: items.Value);
+        await Service.DeleteAllUserRoleAsync(items: items.Value);
         return Ok();
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid keyRoleId, [FromRoute] string keyUserId)
     {
-        await Service.DeleteAsync(entity: new UserRole
+        await Service.DeleteUserRoleAsync(entity: new UserRole
         {
             RoleId = keyRoleId,
             UserId = keyUserId,

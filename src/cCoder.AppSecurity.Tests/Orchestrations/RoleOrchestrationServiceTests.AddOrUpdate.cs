@@ -20,14 +20,14 @@ public partial class RoleOrchestrationServiceTests
         // Given
         Role[] entities = [CreateRandomRole()];
         Result<Role>[] expectedResults = [];
-        roleProcessingServiceMock.Setup(x => x.AddOrUpdate(entities)).ReturnsAsync(expectedResults);
+        roleProcessingServiceMock.Setup(x => x.AddOrUpdateRole(entities)).ReturnsAsync(expectedResults);
 
         // When
-        IEnumerable<Result<Role>> result = await orchestrationService.AddOrUpdate(entities);
+        IEnumerable<Result<Role>> result = await orchestrationService.AddOrUpdateRole(entities);
 
         // Then
         result.Should().BeSameAs(expectedResults);
-        roleProcessingServiceMock.Verify(x => x.AddOrUpdate(entities), Times.Once);
+        roleProcessingServiceMock.Verify(x => x.AddOrUpdateRole(entities), Times.Once);
         roleProcessingServiceMock.VerifyNoOtherCalls();
         roleEventProcessingServiceMock.VerifyNoOtherCalls();
     }

@@ -28,13 +28,13 @@ internal class PrivilegeProcessingService(
         return service.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<Privilege> AddAsync(Privilege entity)
+    public ValueTask<Privilege> AddPrivilegeAsync(Privilege entity)
     {
         authorizationBroker.Authorize(appId: null, privilege: "privilege_create");
         throw new InvalidOperationException(message: "Cannot add privileges");
     }
 
-    public ValueTask<Privilege> UpdateAsync(Privilege entity)
+    public ValueTask<Privilege> UpdatePrivilegeAsync(Privilege entity)
     {
         authorizationBroker.Authorize(appId: null, privilege: "privilege_update");
         throw new InvalidOperationException(message: "Cannot update privileges");
@@ -46,7 +46,7 @@ internal class PrivilegeProcessingService(
         throw new InvalidOperationException(message: "Cannot delete privileges");
     }
 
-    public async ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdate(
+    public async ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdatePrivilege(
         IEnumerable<Privilege> items
     )
     {
@@ -62,7 +62,7 @@ internal class PrivilegeProcessingService(
 item: new Result<Privilege>
 {
     Success = true,
-    Item = isAdd ? await AddAsync(entity: item) : await UpdateAsync(entity: item),
+    Item = isAdd ? await AddPrivilegeAsync(entity: item) : await UpdatePrivilegeAsync(entity: item),
     Message = isAdd ? "Added Successfully" : "Updated Successfully",
 }
                 );
@@ -82,7 +82,7 @@ item: new Result<Privilege>
 
         return results;
     }
-    public async ValueTask DeleteAllAsync(IEnumerable<Privilege> items)
+    public async ValueTask DeleteAllPrivilegeAsync(IEnumerable<Privilege> items)
     {
         foreach (Privilege item in items)
         {

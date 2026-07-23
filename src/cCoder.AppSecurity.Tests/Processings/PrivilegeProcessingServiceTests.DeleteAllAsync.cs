@@ -28,7 +28,7 @@ public partial class PrivilegeProcessingServiceTests
 
         // When
         Func<Task> act = async () =>
-            await privilegeProcessingService.DeleteAllAsync(new[] { privilege });
+            await privilegeProcessingService.DeleteAllPrivilegeAsync(new[] { privilege });
 
         // Then
         var assertions = await act.Should().ThrowAsync<InvalidOperationException>();

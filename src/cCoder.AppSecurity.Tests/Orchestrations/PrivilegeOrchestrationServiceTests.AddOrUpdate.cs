@@ -20,14 +20,14 @@ public partial class PrivilegeOrchestrationServiceTests
         // Given
         Privilege[] entities = [CreateRandomPrivilege()];
         Result<Privilege>[] expectedResults = [];
-        privilegeProcessingServiceMock.Setup(x => x.AddOrUpdate(entities)).ReturnsAsync(expectedResults);
+        privilegeProcessingServiceMock.Setup(x => x.AddOrUpdatePrivilege(entities)).ReturnsAsync(expectedResults);
 
         // When
-        IEnumerable<Result<Privilege>> result = await orchestrationService.AddOrUpdate(entities);
+        IEnumerable<Result<Privilege>> result = await orchestrationService.AddOrUpdatePrivilege(entities);
 
         // Then
         result.Should().BeSameAs(expectedResults);
-        privilegeProcessingServiceMock.Verify(x => x.AddOrUpdate(entities), Times.Once);
+        privilegeProcessingServiceMock.Verify(x => x.AddOrUpdatePrivilege(entities), Times.Once);
         privilegeProcessingServiceMock.VerifyNoOtherCalls();
         privilegeEventProcessingServiceMock.VerifyNoOtherCalls();
     }

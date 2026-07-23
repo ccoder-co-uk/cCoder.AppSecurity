@@ -95,7 +95,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddAsync(entity: entity));
+        return Ok(value: await Service.AddPrivilegeAsync(entity: entity));
     }
 
     [HttpPut]
@@ -114,7 +114,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.UpdateAsync(entity: entity));
+        return Ok(value: await Service.UpdatePrivilegeAsync(entity: entity));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
@@ -127,7 +127,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         }
 
         delta.Patch(original: originalEntity);
-        return Ok(value: await Service.UpdateAsync(entity: originalEntity));
+        return Ok(value: await Service.UpdatePrivilegeAsync(entity: originalEntity));
     }
 
     [HttpDelete]

@@ -13,11 +13,11 @@ public interface IUserOrchestrationService
     User Get(string id);
     User GetByEmail(string email, bool ignoreFilters = false);
     IQueryable<User> GetAll(bool ignoreFilters = false);
-    ValueTask<User> AddAsync(User entity);
-    ValueTask<User> UpdateAsync(User entity);
+    ValueTask<User> AddUserAsync(User entity);
+    ValueTask<User> UpdateUserAsync(User entity);
     ValueTask DeleteAsync(string id);
-    ValueTask<IEnumerable<Result<User>>> AddOrUpdate(
+    ValueTask<IEnumerable<Result<User>>> AddOrUpdateUser(
         IEnumerable<User> items
     );
-    ValueTask DeleteAllAsync(IEnumerable<User> items);
+    ValueTask DeleteAllUserAsync(IEnumerable<User> items);
 }

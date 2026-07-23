@@ -25,13 +25,13 @@ public partial class AccountEventProcessingServiceTests
         };
 
         accountEventOrchestrationServiceMock
-            .Setup(service => service.ProcessAsync(accountEvent))
+            .Setup(service => service.ProcessSecurityAccountEventAsync(accountEvent))
             .Returns(ValueTask.CompletedTask);
 
-        await accountEventProcessingService.ProcessAsync(accountEvent);
+        await accountEventProcessingService.ProcessSecurityAccountEventAsync(accountEvent);
 
         accountEventOrchestrationServiceMock.Verify(
-            service => service.ProcessAsync(accountEvent),
+            service => service.ProcessSecurityAccountEventAsync(accountEvent),
             Times.Once);
     }
 }

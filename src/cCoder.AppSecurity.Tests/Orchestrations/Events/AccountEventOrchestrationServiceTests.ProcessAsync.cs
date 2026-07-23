@@ -36,7 +36,7 @@ public partial class AccountEventOrchestrationServiceTests
             .Setup(service => service.GetAll(true))
             .Returns(Array.Empty<User>().AsQueryable());
         userProcessingServiceMock
-            .Setup(service => service.AddAsync(It.Is<User>(user =>
+            .Setup(service => service.AddUserAsync(It.Is<User>(user =>
                 user.Id == accountEvent.User.Id
                 && user.DefaultCultureId == accountEvent.Culture
                 && user.DisplayName == accountEvent.User.DisplayName
@@ -50,18 +50,18 @@ public partial class AccountEventOrchestrationServiceTests
             .Setup(service => service.GetAll(true))
             .Returns(Array.Empty<UserRole>().AsQueryable());
         userRoleProcessingServiceMock
-            .Setup(service => service.SaveAsync(It.Is<UserRole>(userRole =>
+            .Setup(service => service.SaveUserRoleAsync(It.Is<UserRole>(userRole =>
                 userRole.UserId == accountEvent.User.Id
                 && userRole.RoleId == usersRole.Id)))
             .ReturnsAsync((UserRole userRole) => userRole);
 
-        await accountEventOrchestrationService.ProcessAsync(accountEvent);
+        await accountEventOrchestrationService.ProcessSecurityAccountEventAsync(accountEvent);
 
         userProcessingServiceMock.Verify(
-            service => service.AddAsync(It.IsAny<User>()),
+            service => service.AddUserAsync(It.IsAny<User>()),
             Times.Once);
         userRoleProcessingServiceMock.Verify(
-            service => service.SaveAsync(It.IsAny<UserRole>()),
+            service => service.SaveUserRoleAsync(It.IsAny<UserRole>()),
             Times.Once);
     }
 }

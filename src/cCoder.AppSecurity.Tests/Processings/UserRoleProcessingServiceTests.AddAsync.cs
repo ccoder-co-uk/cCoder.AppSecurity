@@ -59,14 +59,14 @@ public partial class UserRoleProcessingServiceTests
         currentUser = actor;
         roleServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { role }.AsQueryable());
         userServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { targetUser }.AsQueryable());
-        userRoleServiceMock.Setup(x => x.AddAsync(link)).ReturnsAsync(link);
+        userRoleServiceMock.Setup(x => x.AddUserRoleAsync(link)).ReturnsAsync(link);
 
         // When
-        UserRole result = await userRoleProcessingService.AddAsync(link);
+        UserRole result = await userRoleProcessingService.AddUserRoleAsync(link);
 
         // Then
         Assert.Same(link, result);
-        userRoleServiceMock.Verify(x => x.AddAsync(link), Times.Once);
+        userRoleServiceMock.Verify(x => x.AddUserRoleAsync(link), Times.Once);
     }
 
     [Fact]
@@ -114,14 +114,14 @@ public partial class UserRoleProcessingServiceTests
         currentUser = actor;
         roleServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { role }.AsQueryable());
         userServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { targetUser }.AsQueryable());
-        userRoleServiceMock.Setup(x => x.AddAsync(link)).ReturnsAsync(link);
+        userRoleServiceMock.Setup(x => x.AddUserRoleAsync(link)).ReturnsAsync(link);
 
         // When
-        UserRole result = await userRoleProcessingService.AddAsync(link);
+        UserRole result = await userRoleProcessingService.AddUserRoleAsync(link);
 
         // Then
         Assert.Same(link, result);
-        userRoleServiceMock.Verify(x => x.AddAsync(link), Times.Once);
+        userRoleServiceMock.Verify(x => x.AddUserRoleAsync(link), Times.Once);
     }
 
     [Fact]
@@ -169,7 +169,7 @@ public partial class UserRoleProcessingServiceTests
 
         // When
         await Assert.ThrowsAsync<SecurityException>(async () =>
-            await userRoleProcessingService.AddAsync(
+            await userRoleProcessingService.AddUserRoleAsync(
                 new UserRole { UserId = targetUser.Id, RoleId = role.Id }
             )
         );
@@ -224,14 +224,14 @@ public partial class UserRoleProcessingServiceTests
 
         // When
         await Assert.ThrowsAsync<SecurityException>(async () =>
-            await userRoleProcessingService.AddAsync(
+            await userRoleProcessingService.AddUserRoleAsync(
                 new UserRole { UserId = targetUser.Id, RoleId = role.Id }
             )
         );
 
         // Then
         userRoleServiceMock.Verify(
-            x => x.AddAsync(It.IsAny<UserRole>()),
+            x => x.AddUserRoleAsync(It.IsAny<UserRole>()),
             Times.Never
         );
     }

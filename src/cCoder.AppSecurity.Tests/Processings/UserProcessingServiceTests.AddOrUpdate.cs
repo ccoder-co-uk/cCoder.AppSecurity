@@ -23,11 +23,11 @@ public partial class UserProcessingServiceTests
 
         userServiceMock.Setup(x => x.GetAll(true)).Returns(allUsers);
 
-        userServiceMock.Setup(x => x.AddAsync(user)).ReturnsAsync(user);
+        userServiceMock.Setup(x => x.AddUserAsync(user)).ReturnsAsync(user);
 
         // When
         Result<User>[] results = (
-            await userProcessingService.AddOrUpdate(new[] { user })
+            await userProcessingService.AddOrUpdateUser(new[] { user })
         ).ToArray();
 
         // Then
@@ -36,7 +36,7 @@ public partial class UserProcessingServiceTests
         results[0].Item.Should().BeSameAs(user);
         results[0].Message.Should().Be("Added Successfully");
         userServiceMock.Verify(x => x.GetAll(true), Times.Once);
-        userServiceMock.Verify(x => x.AddAsync(user), Times.Once);
+        userServiceMock.Verify(x => x.AddUserAsync(user), Times.Once);
         userServiceMock.VerifyNoOtherCalls();
         coreAuthInfoMock.VerifyNoOtherCalls();
     }

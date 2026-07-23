@@ -32,7 +32,7 @@ public partial class PrivilegeServiceTests
             .ReturnsAsync((cCoder.Data.Models.Security.Privilege value) => value);
 
         // When
-        Privilege result = await privilegeService.AddAsync(privilege);
+        Privilege result = await privilegeService.AddPrivilegeAsync(privilege);
 
         // Then
         result.Should().BeSameAs(privilege);
@@ -70,7 +70,7 @@ public partial class PrivilegeServiceTests
             .Throws(new SecurityException("Access Denied!"));
 
         // When
-        Func<Task> action = async () => await privilegeService.AddAsync(privilege);
+        Func<Task> action = async () => await privilegeService.AddPrivilegeAsync(privilege);
 
         // Then
         await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");

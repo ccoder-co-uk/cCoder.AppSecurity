@@ -34,10 +34,10 @@ public partial class UserRoleProcessingServiceTests
         };
         currentUser = actor;
         userRoleServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { link }.AsQueryable());
-        userRoleServiceMock.Setup(x => x.DeleteAsync(link)).Returns(ValueTask.CompletedTask);
+        userRoleServiceMock.Setup(x => x.DeleteUserRoleAsync(link)).Returns(ValueTask.CompletedTask);
 
         // When
-        await userRoleProcessingService.DeleteAsync(
+        await userRoleProcessingService.DeleteUserRoleAsync(
             new UserRole { UserId = link.UserId, RoleId = link.RoleId }
         );
 
@@ -45,7 +45,7 @@ public partial class UserRoleProcessingServiceTests
         userRoleServiceMock.Verify(x => x.GetAll(true), Times.Once);
         userRoleServiceMock.Verify(
             x =>
-                x.DeleteAsync(
+                x.DeleteUserRoleAsync(
                     It.Is<UserRole>(item =>
                         item.UserId == link.UserId && item.RoleId == link.RoleId
                     )

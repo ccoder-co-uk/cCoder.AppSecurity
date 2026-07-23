@@ -24,16 +24,16 @@ internal class UserOrchestrationService(
     public IQueryable<User> GetAll(bool ignoreFilters = false) =>
         processingService.GetAll(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<User> AddAsync(User entity)
+    public async ValueTask<User> AddUserAsync(User entity)
     {
-        var result = await processingService.AddAsync(entity: entity);
+        var result = await processingService.AddUserAsync(entity: entity);
         await eventService.RaiseUserAddEventAsync(entity: result);
         return result;
     }
 
-    public async ValueTask<User> UpdateAsync(User entity)
+    public async ValueTask<User> UpdateUserAsync(User entity)
     {
-        var result = await processingService.UpdateAsync(entity: entity);
+        var result = await processingService.UpdateUserAsync(entity: entity);
         await eventService.RaiseUserUpdateEventAsync(entity: result);
         return result;
     }
@@ -45,11 +45,11 @@ internal class UserOrchestrationService(
         await processingService.DeleteAsync(id: id);
     }
 
-    public ValueTask<IEnumerable<Result<User>>> AddOrUpdate(
+    public ValueTask<IEnumerable<Result<User>>> AddOrUpdateUser(
         IEnumerable<User> items
     ) =>
-        processingService.AddOrUpdate(items: items);
+        processingService.AddOrUpdateUser(items: items);
 
-    public ValueTask DeleteAllAsync(IEnumerable<User> items) =>
-        processingService.DeleteAllAsync(items: items);
+    public ValueTask DeleteAllUserAsync(IEnumerable<User> items) =>
+        processingService.DeleteAllUserAsync(items: items);
 }

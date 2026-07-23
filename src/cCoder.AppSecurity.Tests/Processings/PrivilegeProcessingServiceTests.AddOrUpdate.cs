@@ -31,7 +31,7 @@ public partial class PrivilegeProcessingServiceTests
 
         // When
         Result<Privilege>[] results = (
-            await privilegeProcessingService.AddOrUpdate(new[] { privilege })
+            await privilegeProcessingService.AddOrUpdatePrivilege(new[] { privilege })
         ).ToArray();
 
         // Then

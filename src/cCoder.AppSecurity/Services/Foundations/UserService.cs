@@ -45,7 +45,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
     public IQueryable<User> GetAll(bool ignoreFilters = false) =>
         userBroker.GetAllUsers(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<User> AddAsync(User user)
+    public async ValueTask<User> AddUserAsync(User user)
     {
         DataUser internalUser = new()
         {
@@ -66,7 +66,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
         return user;
     }
 
-    public async ValueTask<User> UpdateAsync(User user)
+    public async ValueTask<User> UpdateUserAsync(User user)
     {
         DataUser internalUser = new()
         {

@@ -39,7 +39,7 @@ public partial class UserRoleServiceTests
             .ReturnsAsync((cCoder.Data.Models.Security.UserRole value) => value);
 
         // When
-        UserRole result = await userRoleService.AddAsync(userRole);
+        UserRole result = await userRoleService.AddUserRoleAsync(userRole);
 
         // Then
         result.Should().BeSameAs(userRole);
@@ -78,7 +78,7 @@ public partial class UserRoleServiceTests
             .Returns(CreateCurrentUser(7, "userrole_create", "page_read"));
 
         // When
-        Func<Task> action = async () => await userRoleService.AddAsync(userRole);
+        Func<Task> action = async () => await userRoleService.AddUserRoleAsync(userRole);
 
         // Then
         await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
@@ -103,7 +103,7 @@ public partial class UserRoleServiceTests
             .Throws(new SecurityException("Access Denied!"));
 
         // When
-        Func<Task> action = async () => await userRoleService.AddAsync(userRole);
+        Func<Task> action = async () => await userRoleService.AddUserRoleAsync(userRole);
 
         // Then
         await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");

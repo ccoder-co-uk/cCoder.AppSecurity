@@ -50,14 +50,14 @@ public partial class RoleProcessingServiceTests
                 },
             ],
         };
-        roleServiceMock.Setup(x => x.AddAsync(expected)).ReturnsAsync(expected);
+        roleServiceMock.Setup(x => x.AddRoleAsync(expected)).ReturnsAsync(expected);
 
         // When
-        Role actual = await roleProcessingService.AddAsync(expected);
+        Role actual = await roleProcessingService.AddRoleAsync(expected);
 
         // Then
         Assert.Same(expected, actual);
-        roleServiceMock.Verify(x => x.AddAsync(expected), Times.Once);
+        roleServiceMock.Verify(x => x.AddRoleAsync(expected), Times.Once);
     }
 
 }

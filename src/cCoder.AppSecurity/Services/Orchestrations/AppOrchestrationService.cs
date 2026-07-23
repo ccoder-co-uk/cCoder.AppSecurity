@@ -16,14 +16,14 @@ internal class AppOrchestrationService(
     IRoleOrchestrationService roleOrchestrationService
 ) : IAppOrchestrationService
 {
-    public async ValueTask AddAsync(App app)
+    public async ValueTask AddAppAsync(App app)
     {
         EnsureDefaultRoles(app: app);
         StampRoles(app: app);
         await UpsertRolesAsync(roles: app.Roles ?? []);
     }
 
-    public async ValueTask UpdateAsync(App app)
+    public async ValueTask UpdateAppAsync(App app)
     {
         if (app?.Roles == null || app.Roles.Count == 0)
         {
@@ -71,11 +71,11 @@ internal class AppOrchestrationService(
         {
             if (existingRoleIds.Contains(item: role.Id))
             {
-                _ = await roleOrchestrationService.UpdateValidatedAsync(entity: role);
+                _ = await roleOrchestrationService.UpdateValidatedRoleAsync(entity: role);
             }
             else
             {
-                _ = await roleOrchestrationService.AddValidatedAsync(entity: role);
+                _ = await roleOrchestrationService.AddValidatedRoleAsync(entity: role);
             }
         }
     }

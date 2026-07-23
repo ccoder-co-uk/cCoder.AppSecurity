@@ -21,30 +21,30 @@ internal class RoleOrchestrationService(
     public IQueryable<Role> GetAll(bool ignoreFilters = false) =>
         processingService.GetAll(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<Role> AddAsync(Role entity)
+    public async ValueTask<Role> AddRoleAsync(Role entity)
     {
-        var result = await processingService.AddAsync(entity: entity);
+        var result = await processingService.AddRoleAsync(entity: entity);
         await eventService.RaiseRoleAddEventAsync(entity: result);
         return result;
     }
 
-    public async ValueTask<Role> AddValidatedAsync(Role entity)
+    public async ValueTask<Role> AddValidatedRoleAsync(Role entity)
     {
-        var result = await processingService.AddValidatedAsync(entity: entity);
+        var result = await processingService.AddValidatedRoleAsync(entity: entity);
         await eventService.RaiseRoleAddEventAsync(entity: result);
         return result;
     }
 
-    public async ValueTask<Role> UpdateAsync(Role entity)
+    public async ValueTask<Role> UpdateRoleAsync(Role entity)
     {
-        var result = await processingService.UpdateAsync(entity: entity);
+        var result = await processingService.UpdateRoleAsync(entity: entity);
         await eventService.RaiseRoleUpdateEventAsync(entity: result);
         return result;
     }
 
-    public async ValueTask<Role> UpdateValidatedAsync(Role entity)
+    public async ValueTask<Role> UpdateValidatedRoleAsync(Role entity)
     {
-        var result = await processingService.UpdateValidatedAsync(entity: entity);
+        var result = await processingService.UpdateValidatedRoleAsync(entity: entity);
         await eventService.RaiseRoleUpdateEventAsync(entity: result);
         return result;
     }
@@ -77,12 +77,12 @@ internal class RoleOrchestrationService(
         await processingService.DeleteValidatedAsync(id: id);
     }
 
-    public ValueTask<IEnumerable<Result<Role>>> AddOrUpdate(
+    public ValueTask<IEnumerable<Result<Role>>> AddOrUpdateRole(
         IEnumerable<Role> items
     ) =>
-        processingService.AddOrUpdate(items: items);
+        processingService.AddOrUpdateRole(items: items);
 
-    public async ValueTask ImportAsync(int appId, IEnumerable<Role> roles)
+    public async ValueTask ImportRoleAsync(int appId, IEnumerable<Role> roles)
     {
         var dbVersions = processingService
             .GetAll(ignoreFilters: false)
@@ -97,15 +97,15 @@ internal class RoleOrchestrationService(
 
             if (role.Id == Guid.Empty)
             {
-                await processingService.AddValidatedAsync(entity: role);
+                await processingService.AddValidatedRoleAsync(entity: role);
             }
             else
             {
-                await processingService.UpdateValidatedAsync(entity: role);
+                await processingService.UpdateValidatedRoleAsync(entity: role);
             }
         }
     }
 
-    public ValueTask DeleteAllAsync(IEnumerable<Role> items) =>
-        processingService.DeleteAllAsync(items: items);
+    public ValueTask DeleteAllRoleAsync(IEnumerable<Role> items) =>
+        processingService.DeleteAllRoleAsync(items: items);
 }

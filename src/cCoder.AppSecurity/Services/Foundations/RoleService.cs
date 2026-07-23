@@ -49,7 +49,7 @@ internal class RoleService(
     public IQueryable<Role> GetAll(bool ignoreFilters = false) =>
         roleBroker.GetAllRoles(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<Role> AddAsync(Role role)
+    public async ValueTask<Role> AddRoleAsync(Role role)
     {
         DataRole internalRole = new()
         {
@@ -70,7 +70,7 @@ internal class RoleService(
         return role;
     }
 
-    public async ValueTask<Role> AddValidatedAsync(Role role)
+    public async ValueTask<Role> AddValidatedRoleAsync(Role role)
     {
         DataRole internalRole = new()
         {
@@ -90,7 +90,7 @@ internal class RoleService(
         return role;
     }
 
-    public async ValueTask<Role> UpdateAsync(Role role)
+    public async ValueTask<Role> UpdateRoleAsync(Role role)
     {
         DataRole internalRole = new()
         {
@@ -111,7 +111,7 @@ internal class RoleService(
         return role;
     }
 
-    public async ValueTask<Role> UpdateValidatedAsync(Role role)
+    public async ValueTask<Role> UpdateValidatedRoleAsync(Role role)
     {
         DataRole internalRole = new()
         {

@@ -12,6 +12,6 @@ namespace cCoder.AppSecurity.Services.Foundations;
 public interface IUserRoleService
 {
     IQueryable<UserRole> GetAll(bool ignoreFilters = false);
-    ValueTask<UserRole> AddAsync(UserRole userRole, bool authorize = true);
-    ValueTask DeleteAsync(UserRole userRole);
+    ValueTask<UserRole> AddUserRoleAsync(UserRole userRole, bool authorize = true);
+    ValueTask DeleteUserRoleAsync(UserRole userRole);
 }

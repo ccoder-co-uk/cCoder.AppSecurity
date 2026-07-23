@@ -19,18 +19,18 @@ public partial class UserOrchestrationServiceTests
     {
         // Given
         User entity = CreateRandomUser();
-        userProcessingServiceMock.Setup(x => x.UpdateAsync(entity)).ReturnsAsync(entity);
+        userProcessingServiceMock.Setup(x => x.UpdateUserAsync(entity)).ReturnsAsync(entity);
 
         userEventProcessingServiceMock
             .Setup(x => x.RaiseUserUpdateEventAsync(entity))
             .Returns(ValueTask.CompletedTask);
 
         // When
-        User result = await orchestrationService.UpdateAsync(entity);
+        User result = await orchestrationService.UpdateUserAsync(entity);
 
         // Then
         result.Should().BeSameAs(entity);
-        userProcessingServiceMock.Verify(x => x.UpdateAsync(entity), Times.Once);
+        userProcessingServiceMock.Verify(x => x.UpdateUserAsync(entity), Times.Once);
         userEventProcessingServiceMock.Verify(x => x.RaiseUserUpdateEventAsync(entity), Times.Once);
     }
 

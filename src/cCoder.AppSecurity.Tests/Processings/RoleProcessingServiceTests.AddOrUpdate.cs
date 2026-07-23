@@ -20,11 +20,11 @@ public partial class RoleProcessingServiceTests
         // Given
         Role entity = CreateRandomRole();
         entity.Id = Guid.Empty;
-        roleServiceMock.Setup(x => x.AddAsync(entity)).ReturnsAsync(entity);
+        roleServiceMock.Setup(x => x.AddRoleAsync(entity)).ReturnsAsync(entity);
 
         // When
         Result<Role>[] results = (
-            await roleProcessingService.AddOrUpdate(new[] { entity })
+            await roleProcessingService.AddOrUpdateRole(new[] { entity })
         ).ToArray();
 
         // Then
@@ -32,7 +32,7 @@ public partial class RoleProcessingServiceTests
         results[0].Success.Should().BeTrue();
         results[0].Item.Should().BeSameAs(entity);
         results[0].Message.Should().Be("Added Successfully");
-        roleServiceMock.Verify(x => x.AddAsync(entity), Times.Once);
+        roleServiceMock.Verify(x => x.AddRoleAsync(entity), Times.Once);
         roleServiceMock.VerifyNoOtherCalls();
     }
 

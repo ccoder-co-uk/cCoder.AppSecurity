@@ -22,7 +22,7 @@ internal class UserRoleService(
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
         userRoleBroker.GetAllUserRoles(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<UserRole> AddAsync(UserRole userRole, bool authorize = true)
+    public async ValueTask<UserRole> AddUserRoleAsync(UserRole userRole, bool authorize = true)
     {
         DataUserRole internalUserRole = new()
         {
@@ -43,7 +43,7 @@ internal class UserRoleService(
         return userRole;
     }
 
-    public async ValueTask DeleteAsync(UserRole userRole)
+    public async ValueTask DeleteUserRoleAsync(UserRole userRole)
     {
         DataUserRole internalUserRole = ToExternalUserRole(item: userRole);
 

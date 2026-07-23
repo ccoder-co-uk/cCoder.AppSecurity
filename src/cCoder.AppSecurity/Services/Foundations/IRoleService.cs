@@ -13,10 +13,10 @@ public interface IRoleService
 {
     Role Get(Guid id);
     IQueryable<Role> GetAll(bool ignoreFilters = false);
-    ValueTask<Role> AddAsync(Role role);
-    ValueTask<Role> AddValidatedAsync(Role role);
-    ValueTask<Role> UpdateAsync(Role role);
-    ValueTask<Role> UpdateValidatedAsync(Role role);
+    ValueTask<Role> AddRoleAsync(Role role);
+    ValueTask<Role> AddValidatedRoleAsync(Role role);
+    ValueTask<Role> UpdateRoleAsync(Role role);
+    ValueTask<Role> UpdateValidatedRoleAsync(Role role);
     ValueTask DeleteAsync(Guid id);
     ValueTask DeleteValidatedAsync(Guid id);
 }

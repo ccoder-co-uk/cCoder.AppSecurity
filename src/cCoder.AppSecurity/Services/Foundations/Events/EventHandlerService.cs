@@ -50,12 +50,12 @@ internal class EventHandlerService(IEventHubBroker eventHubBroker)
     void ListenToAppAddEvents() =>
         eventHubBroker.ListenToEvent<App, Services.Orchestrations.IAppOrchestrationService>(
 eventName: "app_add",
-handler: (service, app) => service.AddAsync(app: app));
+handler: (service, app) => service.AddAppAsync(app: app));
 
     void ListenToAppUpdateEvents() =>
         eventHubBroker.ListenToEvent<App, Services.Orchestrations.IAppOrchestrationService>(
 eventName: "app_update",
-handler: (service, app) => service.UpdateAsync(app: app));
+handler: (service, app) => service.UpdateAppAsync(app: app));
 
     void ListenToAppDeleteEvent() =>
         eventHubBroker.ListenToEvent<App, Services.Orchestrations.IAppOrchestrationService>(
@@ -65,7 +65,7 @@ handler: (service, app) => service.DeleteAsync(appId: app.Id));
     void ListenToPackageImportEvents() =>
         eventHubBroker.ListenToEvent<(int appId, Package package), IAppSecurityMigrationAggregationService>(
 eventName: "package_import",
-handler: (service, args) => service.ImportPackageAsync(appId: args.appId, package: ToLocalPackage(package: args.package)));
+handler: (service, args) => service.ImportPackageAppSecurityPackageAsync(appId: args.appId, package: ToLocalPackage(package: args.package)));
 
     void ListenToSecurityRegistrationCreatedEvent() =>
         ListenToSecurityAccountEvent(eventName: SecurityAccountEventNames.RegistrationCreated);
@@ -85,7 +85,7 @@ handler: (service, args) => service.ImportPackageAsync(appId: args.appId, packag
     void ListenToSecurityAccountEvent(string eventName) =>
         eventHubBroker.ListenToEvent<SecurityAccountEvent, IAccountEventProcessingService>(
 eventName: eventName,
-handler: (service, accountEvent) => service.ProcessAsync(accountEvent: accountEvent));
+handler: (service, accountEvent) => service.ProcessSecurityAccountEventAsync(accountEvent: accountEvent));
 
     static AppSecurityPackage ToLocalPackage(Package package) =>
         package == null ? null : new AppSecurityPackage(name: package.Name)

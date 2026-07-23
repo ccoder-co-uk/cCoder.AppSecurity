@@ -20,14 +20,14 @@ public partial class UserOrchestrationServiceTests
         // Given
         User[] entities = [CreateRandomUser()];
         Result<User>[] expectedResults = [];
-        userProcessingServiceMock.Setup(x => x.AddOrUpdate(entities)).ReturnsAsync(expectedResults);
+        userProcessingServiceMock.Setup(x => x.AddOrUpdateUser(entities)).ReturnsAsync(expectedResults);
 
         // When
-        IEnumerable<Result<User>> result = await orchestrationService.AddOrUpdate(entities);
+        IEnumerable<Result<User>> result = await orchestrationService.AddOrUpdateUser(entities);
 
         // Then
         result.Should().BeSameAs(expectedResults);
-        userProcessingServiceMock.Verify(x => x.AddOrUpdate(entities), Times.Once);
+        userProcessingServiceMock.Verify(x => x.AddOrUpdateUser(entities), Times.Once);
         userProcessingServiceMock.VerifyNoOtherCalls();
         userEventProcessingServiceMock.VerifyNoOtherCalls();
     }

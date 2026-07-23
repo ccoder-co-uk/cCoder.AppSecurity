@@ -16,7 +16,7 @@ internal class AppSecurityMigrationAggregationService(
     IJsonBroker jsonBroker
 ) : IAppSecurityMigrationAggregationService
 {
-    public async ValueTask ImportPackageAsync(int appId, AppSecurityPackage package)
+    public async ValueTask ImportPackageAppSecurityPackageAsync(int appId, AppSecurityPackage package)
     {
         if (package.Items is null || package.Items.Count == 0)
         {
@@ -29,7 +29,7 @@ internal class AppSecurityMigrationAggregationService(
                 ? [jsonBroker.ParseJson<Role>(json: item.Data)]
                 : jsonBroker.ParseJson<Role[]>(json: item.Data);
 
-            await roleOrchestrationService.ImportAsync(appId: appId, roles: items);
+            await roleOrchestrationService.ImportRoleAsync(appId: appId, roles: items);
         }
     }
 

@@ -11,7 +11,7 @@ namespace cCoder.AppSecurity.Services.Aggregations;
 
 public interface IAppSecurityMigrationAggregationService
 {
-    ValueTask ImportPackageAsync(int appId, AppSecurityPackage package);
+    ValueTask ImportPackageAppSecurityPackageAsync(int appId, AppSecurityPackage package);
 
     AppSecurityPackage ExportPackage(int appId, string packageName);
 }

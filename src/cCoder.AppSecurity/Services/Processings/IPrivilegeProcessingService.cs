@@ -13,11 +13,11 @@ public interface IPrivilegeProcessingService
 {
     Privilege Get(string id);
     IQueryable<Privilege> GetAll(bool ignoreFilters = false);
-    ValueTask<Privilege> AddAsync(Privilege entity);
-    ValueTask<Privilege> UpdateAsync(Privilege entity);
+    ValueTask<Privilege> AddPrivilegeAsync(Privilege entity);
+    ValueTask<Privilege> UpdatePrivilegeAsync(Privilege entity);
     ValueTask DeleteAsync(string id);
-    ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdate(
+    ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdatePrivilege(
         IEnumerable<Privilege> items
     );
-    ValueTask DeleteAllAsync(IEnumerable<Privilege> items);
+    ValueTask DeleteAllPrivilegeAsync(IEnumerable<Privilege> items);
 }

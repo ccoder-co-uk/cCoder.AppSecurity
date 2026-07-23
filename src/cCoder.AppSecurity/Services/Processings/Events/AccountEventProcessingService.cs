@@ -10,6 +10,6 @@ namespace cCoder.AppSecurity.Services.Processings.Events;
 internal class AccountEventProcessingService(IAccountEventOrchestrationService orchestrationService)
     : IAccountEventProcessingService
 {
-    public ValueTask ProcessAsync(SecurityAccountEvent accountEvent) =>
-        orchestrationService.ProcessAsync(accountEvent: accountEvent);
+    public ValueTask ProcessSecurityAccountEventAsync(SecurityAccountEvent accountEvent) =>
+        orchestrationService.ProcessSecurityAccountEventAsync(accountEvent: accountEvent);
 }

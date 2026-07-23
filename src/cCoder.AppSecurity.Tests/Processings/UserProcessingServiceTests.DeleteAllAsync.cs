@@ -23,7 +23,7 @@ public partial class UserProcessingServiceTests
         userServiceMock.Setup(x => x.DeleteAsync(user.Id)).Returns(ValueTask.CompletedTask);
 
         // When
-        await userProcessingService.DeleteAllAsync(new[] { user });
+        await userProcessingService.DeleteAllUserAsync(new[] { user });
 
         // Then
         userServiceMock.Verify(x => x.Get(user.Id), Times.Once);

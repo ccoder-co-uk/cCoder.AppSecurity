@@ -24,7 +24,7 @@ public partial class RoleProcessingServiceTests
             .Returns(ValueTask.CompletedTask);
 
         // When
-        await roleProcessingService.DeleteAllAsync(new[] { entity });
+        await roleProcessingService.DeleteAllRoleAsync(new[] { entity });
 
         // Then
         roleServiceMock.Verify(x => x.DeleteAsync(id), Times.Once);

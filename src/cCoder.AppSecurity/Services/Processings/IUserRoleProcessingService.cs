@@ -12,11 +12,11 @@ namespace cCoder.AppSecurity.Services.Processings;
 public interface IUserRoleProcessingService
 {
     IQueryable<UserRole> GetAll(bool ignoreFilters = false);
-    ValueTask<UserRole> AddAsync(UserRole entity);
-    ValueTask DeleteAsync(UserRole entity);
-    ValueTask<IEnumerable<Result<UserRole>>> AddOrUpdate(
+    ValueTask<UserRole> AddUserRoleAsync(UserRole entity);
+    ValueTask DeleteUserRoleAsync(UserRole entity);
+    ValueTask<IEnumerable<Result<UserRole>>> AddOrUpdateUserRole(
         IEnumerable<UserRole> items
     );
-    ValueTask DeleteAllAsync(IEnumerable<UserRole> items);
-    ValueTask<UserRole> SaveAsync(UserRole entity);
+    ValueTask DeleteAllUserRoleAsync(IEnumerable<UserRole> items);
+    ValueTask<UserRole> SaveUserRoleAsync(UserRole entity);
 }

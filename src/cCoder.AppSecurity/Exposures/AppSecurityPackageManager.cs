@@ -15,7 +15,7 @@ internal class AppSecurityPackageManager(
 ) : IAppSecurityPackageManager
 {
     public ValueTask ImportPackageAsync(int appId, AppSecurityPackage package) =>
-        appSecurityMigrationAggregationService.ImportPackageAsync(appId: appId, package: package);
+        appSecurityMigrationAggregationService.ImportPackageAppSecurityPackageAsync(appId: appId, package: package);
 
     public AppSecurityPackage ExportPackage(int appId, string packageName) =>
         appSecurityMigrationAggregationService.ExportPackage(appId: appId, packageName: packageName);

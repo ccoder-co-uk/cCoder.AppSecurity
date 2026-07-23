@@ -15,7 +15,7 @@ internal class AccountEventOrchestrationService(
     IRoleProcessingService roleProcessingService,
     IUserRoleProcessingService userRoleProcessingService) : IAccountEventOrchestrationService
 {
-    public async ValueTask ProcessAsync(SecurityAccountEvent accountEvent)
+    public async ValueTask ProcessSecurityAccountEventAsync(SecurityAccountEvent accountEvent)
     {
         if (accountEvent?.User is null)
         {
@@ -65,7 +65,7 @@ internal class AccountEventOrchestrationService(
                 IsActive = !accountEvent.User.LockoutEnabled
             };
 
-            return await userProcessingService.AddAsync(entity: user);
+            return await userProcessingService.AddUserAsync(entity: user);
         }
 
         user.DisplayName = accountEvent.User.DisplayName;
@@ -77,7 +77,7 @@ internal class AccountEventOrchestrationService(
             user.DefaultCultureId = accountEvent.Culture;
         }
 
-        return await userProcessingService.UpdateAsync(entity: user);
+        return await userProcessingService.UpdateUserAsync(entity: user);
     }
 
     private async ValueTask AttachUsersRoleAsync(User user, int appId)
@@ -100,7 +100,7 @@ internal class AccountEventOrchestrationService(
             return;
         }
 
-        await userRoleProcessingService.SaveAsync(
+        await userRoleProcessingService.SaveUserRoleAsync(
 entity: new UserRole
 {
     UserId = user.Id,

@@ -37,7 +37,7 @@ public partial class RoleServiceTests
             .ReturnsAsync((cCoder.Data.Models.Security.Role value) => value);
 
         // When
-        Role result = await roleService.UpdateAsync(role);
+        Role result = await roleService.UpdateRoleAsync(role);
 
         // Then
         result.Should().BeSameAs(role);
@@ -83,7 +83,7 @@ public partial class RoleServiceTests
             .Returns(CreateCurrentUser(7, "page_read", "role_update"));
 
         // When
-        Func<Task> action = async () => await roleService.UpdateAsync(role);
+        Func<Task> action = async () => await roleService.UpdateRoleAsync(role);
 
         // Then
         await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
@@ -108,7 +108,7 @@ public partial class RoleServiceTests
             .Throws(new SecurityException("Access Denied!"));
 
         // When
-        Func<Task> action = async () => await roleService.UpdateAsync(role);
+        Func<Task> action = async () => await roleService.UpdateRoleAsync(role);
 
         // Then
         await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
@@ -134,7 +134,7 @@ public partial class RoleServiceTests
             .ReturnsAsync((cCoder.Data.Models.Security.Role value) => value);
 
         // When
-        Role result = await roleService.UpdateAsync(role);
+        Role result = await roleService.UpdateRoleAsync(role);
 
         // Then
         result.Should().BeSameAs(role);

@@ -25,7 +25,7 @@ public partial class UserRoleProcessingServiceTests
 
         // When
         Func<Task> act = async () =>
-            await userRoleProcessingService.AddOrUpdate(new[] { link });
+            await userRoleProcessingService.AddOrUpdateUserRole(new[] { link });
 
         // Then
         await act.Should().NotThrowAsync();

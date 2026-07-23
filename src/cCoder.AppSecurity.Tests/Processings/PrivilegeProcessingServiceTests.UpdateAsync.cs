@@ -39,7 +39,7 @@ public partial class PrivilegeProcessingServiceTests
         currentUser = user;
 
         // When
-        Func<Task> act = async () => await privilegeProcessingService.UpdateAsync(privilege);
+        Func<Task> act = async () => await privilegeProcessingService.UpdatePrivilegeAsync(privilege);
 
         // Then
         await act.Should()
@@ -73,7 +73,7 @@ public partial class PrivilegeProcessingServiceTests
         currentUser = user;
 
         // When
-        Func<Task> act = async () => await privilegeProcessingService.UpdateAsync(privilege);
+        Func<Task> act = async () => await privilegeProcessingService.UpdatePrivilegeAsync(privilege);
 
         // Then
         await act.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");

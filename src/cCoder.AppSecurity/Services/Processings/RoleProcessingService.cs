@@ -18,17 +18,17 @@ internal class RoleProcessingService(IRoleService service) : IRoleProcessingServ
     public IQueryable<Role> GetAll(bool ignoreFilters = false) =>
         service.GetAll(ignoreFilters: ignoreFilters);
 
-    public ValueTask<Role> AddAsync(Role entity) =>
-        service.AddAsync(role: entity);
+    public ValueTask<Role> AddRoleAsync(Role entity) =>
+        service.AddRoleAsync(role: entity);
 
-    public ValueTask<Role> AddValidatedAsync(Role entity) =>
-        service.AddValidatedAsync(role: entity);
+    public ValueTask<Role> AddValidatedRoleAsync(Role entity) =>
+        service.AddValidatedRoleAsync(role: entity);
 
-    public ValueTask<Role> UpdateAsync(Role entity) =>
-        service.UpdateAsync(role: entity);
+    public ValueTask<Role> UpdateRoleAsync(Role entity) =>
+        service.UpdateRoleAsync(role: entity);
 
-    public ValueTask<Role> UpdateValidatedAsync(Role entity) =>
-        service.UpdateValidatedAsync(role: entity);
+    public ValueTask<Role> UpdateValidatedRoleAsync(Role entity) =>
+        service.UpdateValidatedRoleAsync(role: entity);
 
     public ValueTask DeleteAsync(Guid id) =>
         service.DeleteAsync(id: id);
@@ -36,7 +36,7 @@ internal class RoleProcessingService(IRoleService service) : IRoleProcessingServ
     public ValueTask DeleteValidatedAsync(Guid id) =>
         service.DeleteValidatedAsync(id: id);
 
-    public async ValueTask<IEnumerable<Result<Role>>> AddOrUpdate(
+    public async ValueTask<IEnumerable<Result<Role>>> AddOrUpdateRole(
         IEnumerable<Role> items
     )
     {
@@ -52,7 +52,7 @@ internal class RoleProcessingService(IRoleService service) : IRoleProcessingServ
 item: new Result<Role>
 {
     Success = true,
-    Item = isAdd ? await AddAsync(entity: item) : await UpdateAsync(entity: item),
+    Item = isAdd ? await AddRoleAsync(entity: item) : await UpdateRoleAsync(entity: item),
     Message = isAdd ? "Added Successfully" : "Updated Successfully",
 }
                 );
@@ -72,7 +72,7 @@ item: new Result<Role>
 
         return results;
     }
-    public async ValueTask DeleteAllAsync(IEnumerable<Role> items)
+    public async ValueTask DeleteAllRoleAsync(IEnumerable<Role> items)
     {
         foreach (Role item in items)
         {

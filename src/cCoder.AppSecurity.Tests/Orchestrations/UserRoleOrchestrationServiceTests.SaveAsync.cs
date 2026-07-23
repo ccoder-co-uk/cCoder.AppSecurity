@@ -18,12 +18,12 @@ public partial class UserRoleOrchestrationServiceTests
     public async Task ShouldReturnProcessingResultWhenSaveAsync()
     {
         UserRole entity = CreateRandomUserRole();
-        userRoleProcessingServiceMock.Setup(x => x.SaveAsync(entity)).ReturnsAsync(entity);
+        userRoleProcessingServiceMock.Setup(x => x.SaveUserRoleAsync(entity)).ReturnsAsync(entity);
 
-        UserRole result = await orchestrationService.SaveAsync(entity);
+        UserRole result = await orchestrationService.SaveUserRoleAsync(entity);
 
         result.Should().BeSameAs(entity);
-        userRoleProcessingServiceMock.Verify(x => x.SaveAsync(entity), Times.Once);
+        userRoleProcessingServiceMock.Verify(x => x.SaveUserRoleAsync(entity), Times.Once);
         userRoleProcessingServiceMock.VerifyNoOtherCalls();
         userRoleEventProcessingServiceMock.VerifyNoOtherCalls();
     }

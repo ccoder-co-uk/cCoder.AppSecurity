@@ -35,7 +35,7 @@ public partial class RoleOrchestrationServiceTests
             .Returns(new[] { existingRole }.AsQueryable());
 
         roleProcessingServiceMock.Setup(service =>
-                service.AddValidatedAsync(
+                service.AddValidatedRoleAsync(
                     It.Is<Role>(role =>
                         role.AppId == 7
                         && role.Id == Guid.Empty
@@ -43,18 +43,18 @@ public partial class RoleOrchestrationServiceTests
             .ReturnsAsync(newRole);
 
         roleProcessingServiceMock.Setup(service =>
-                service.UpdateValidatedAsync(
+                service.UpdateValidatedRoleAsync(
                     It.Is<Role>(role =>
                         role.AppId == 7
                         && role.Id == existingRole.Id
                         && role.Name == "Users")))
             .ReturnsAsync(updatedRole);
 
-        await orchestrationService.ImportAsync(7, [newRole, updatedRole]);
+        await orchestrationService.ImportRoleAsync(7, [newRole, updatedRole]);
 
         roleProcessingServiceMock.Verify(service => service.GetAll(false), Times.Once);
-        roleProcessingServiceMock.Verify(service => service.AddValidatedAsync(newRole), Times.Once);
-        roleProcessingServiceMock.Verify(service => service.UpdateValidatedAsync(updatedRole), Times.Once);
+        roleProcessingServiceMock.Verify(service => service.AddValidatedRoleAsync(newRole), Times.Once);
+        roleProcessingServiceMock.Verify(service => service.UpdateValidatedRoleAsync(updatedRole), Times.Once);
         roleProcessingServiceMock.VerifyNoOtherCalls();
         roleEventProcessingServiceMock.VerifyNoOtherCalls();
     }

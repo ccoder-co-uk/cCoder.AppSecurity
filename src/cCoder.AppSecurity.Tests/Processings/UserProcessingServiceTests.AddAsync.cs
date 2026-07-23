@@ -19,14 +19,14 @@ public partial class UserProcessingServiceTests
         // Given
         User newUser = CreateRandomUser(id: "new-user", email: "new@example.com");
         userServiceMock.Setup(x => x.GetAll(true)).Returns(Enumerable.Empty<User>().AsQueryable());
-        userServiceMock.Setup(x => x.AddAsync(newUser)).ReturnsAsync(newUser);
+        userServiceMock.Setup(x => x.AddUserAsync(newUser)).ReturnsAsync(newUser);
 
         // When
-        User result = await userProcessingService.AddAsync(newUser);
+        User result = await userProcessingService.AddUserAsync(newUser);
 
         // Then
         Assert.Same(newUser, result);
-        userServiceMock.Verify(x => x.AddAsync(newUser), Times.Once);
+        userServiceMock.Verify(x => x.AddUserAsync(newUser), Times.Once);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public partial class UserProcessingServiceTests
         userServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { existingUser }.AsQueryable());
 
         // When
-        User result = await userProcessingService.AddAsync(newUser);
+        User result = await userProcessingService.AddUserAsync(newUser);
 
         // Then
         Assert.Same(existingUser, result);
@@ -53,7 +53,7 @@ public partial class UserProcessingServiceTests
         userServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { existingUser }.AsQueryable());
 
         // When
-        User result = await userProcessingService.AddAsync(newUser);
+        User result = await userProcessingService.AddUserAsync(newUser);
 
         // Then
         Assert.Same(existingUser, result);
