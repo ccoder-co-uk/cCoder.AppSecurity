@@ -4,10 +4,10 @@
 
 using cCoder.AppSecurity.Brokers.Events;
 using cCoder.AppSecurity.Models;
+using cCoder.AppSecurity.Services.Orchestrations;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Services.Aggregations;
-using cCoder.AppSecurity.Services.Processings.Events;
 using cCoder.Data.Models.Packaging;
 using cCoder.Security.Objects.Events;
 using DataPackageItem = cCoder.Data.Models.Packaging.PackageItem;
@@ -100,9 +100,10 @@ handler: (service, args) => service.ImportPackageAppSecurityPackageAsync(appId: 
         ListenToSecurityAccountEvent(eventName: SecurityAccountEventNames.PasswordResetRequested);
 
     void ListenToSecurityAccountEvent(string eventName) =>
-        eventHubBroker.ListenToEvent<SecurityAccountEvent, IAccountEventProcessingService>(
-eventName: eventName,
-handler: (service, accountEvent) => service.ProcessSecurityAccountEventAsync(accountEvent: accountEvent));
+        eventHubBroker.ListenToEvent<SecurityAccountEvent, IAccountEventOrchestrationService>(
+            eventName: eventName,
+            handler: (service, accountEvent) =>
+                service.ProcessSecurityAccountEventAsync(accountEvent: accountEvent));
 
     static AppSecurityPackage ToLocalPackage(Package package) =>
         package == null ? null : new AppSecurityPackage(name: package.Name)

@@ -12,7 +12,6 @@ using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Services.Foundations.Events;
 using cCoder.AppSecurity.Services.Orchestrations;
 using cCoder.AppSecurity.Services.Processings;
-using cCoder.AppSecurity.Services.Processings.Events;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Packaging;
 using cCoder.Data.Models.Security;
@@ -182,7 +181,6 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IRoleEventProcessingService, RoleEventProcessingService>();
         services.AddTransient<IRoleProcessingService, RoleProcessingService>();
         services.AddTransient<IUserEventProcessingService, UserEventProcessingService>();
-        services.AddTransient<IAccountEventProcessingService, AccountEventProcessingService>();
         services.AddTransient<IUserProcessingService, UserProcessingService>();
         services.AddTransient<IUserRoleEventProcessingService, UserRoleEventProcessingService>();
         services.AddTransient<IUserRoleProcessingService, UserRoleProcessingService>();
