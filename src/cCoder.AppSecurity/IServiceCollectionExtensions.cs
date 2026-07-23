@@ -147,6 +147,7 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddTransient<IUIBaselineService, UIBaselineService>();
         services.AddTransient<IAuthorizationService, AuthorizationService>();
+        services.AddTransient<IJsonService, JsonService>();
         services.AddTransient<ITokenCleanerService, TokenCleanerService>();
         services.AddTransient<IAnalysePlatformUsageService, AnalysePlatformUsageService>();
         services.AddTransient<IAppSecurityAppExposure, AppSecurityAppExposure>();
@@ -188,6 +189,7 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddTransient<IAppProcessingService, AppProcessingService>();
         services.AddTransient<IAnalysePlatformUsageProcessingService, AnalysePlatformUsageProcessingService>();
+        services.AddTransient<IJsonProcessingService, JsonProcessingService>();
         services.AddTransient<IPrivilegeEventProcessingService, PrivilegeEventProcessingService>();
         services.AddTransient<IPrivilegeProcessingService, PrivilegeProcessingService>();
         services.AddTransient<IRoleEventProcessingService, RoleEventProcessingService>();
