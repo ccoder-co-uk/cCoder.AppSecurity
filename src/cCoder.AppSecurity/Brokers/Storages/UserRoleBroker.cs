@@ -30,30 +30,30 @@ internal sealed class UserRoleBroker(ICoreContextFactory coreContextFactory) : I
             : coreDataContext.UserRoles;
     }
 
-    public async ValueTask<UserRole> AddUserRoleAsync(UserRole entity)
+    public async ValueTask<UserRole> AddUserRoleAsync(UserRole newUserRole)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        UserRole result = (await coreDataContext.UserRoles.AddAsync(entity: entity)).Entity;
+        UserRole result = (await coreDataContext.UserRoles.AddAsync(entity: newUserRole)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteUserRoleAsync(UserRole entity)
+    public async ValueTask<int> DeleteUserRoleAsync(UserRole deletedUserRole)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.UserRoles.Remove(entity: entity);
+        coreDataContext.UserRoles.Remove(entity: deletedUserRole);
         return await coreDataContext.SaveChangesAsync();
     }
 
-    public async ValueTask DeleteAllUserRolesAsync(IEnumerable<UserRole> items)
+    public async ValueTask DeleteAllUserRolesAsync(IEnumerable<UserRole> deletedUserRole)
     {
-        if (items == null || !items.Any())
+        if (deletedUserRole == null || !deletedUserRole.Any())
         {
             return;
         }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.UserRoles.RemoveRange(entities: items);
+        coreDataContext.UserRoles.RemoveRange(entities: deletedUserRole);
         _ = await coreDataContext.SaveChangesAsync();
     }
 

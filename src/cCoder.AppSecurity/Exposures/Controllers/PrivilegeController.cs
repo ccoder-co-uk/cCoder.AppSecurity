@@ -88,14 +88,14 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] Privilege entity)
+    public async Task<IActionResult> Post([FromBody] Privilege newPrivilege)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddPrivilegeAsync(entity: entity));
+        return Ok(value: await Service.AddPrivilegeAsync(entity: newPrivilege));
     }
 
     [HttpPut]
@@ -107,14 +107,14 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] string key, [FromBody] Privilege entity)
+    public async Task<IActionResult> Put([FromRoute] string key, [FromBody] Privilege updatedPrivilege)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.UpdatePrivilegeAsync(entity: entity));
+        return Ok(value: await Service.UpdatePrivilegeAsync(entity: updatedPrivilege));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]

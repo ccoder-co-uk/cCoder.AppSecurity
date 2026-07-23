@@ -22,30 +22,30 @@ internal class UserRoleService(
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
         userRoleBroker.GetAllUserRoles(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<UserRole> AddUserRoleAsync(UserRole userRole, bool authorize = true)
+    public async ValueTask<UserRole> AddUserRoleAsync(UserRole newUserRole, bool authorize = true)
     {
         DataUserRole internalUserRole = new()
         {
-            RoleId = userRole.RoleId,
-            UserId = userRole.UserId
+            RoleId = newUserRole.RoleId,
+            UserId = newUserRole.UserId
         };
 
         if (authorize)
         {
             int? appId = userRoleBroker.GetAppId(entity: internalUserRole);
             authorizationBroker.Authorize(appId: appId, privilege: $"{nameof(UserRole)}_create");
-            AuthorizeAssignedRolePrivileges(appId: appId, roleId: userRole.RoleId);
+            AuthorizeAssignedRolePrivileges(appId: appId, roleId: newUserRole.RoleId);
         }
 
         DataUserRole result = await userRoleBroker.AddUserRoleAsync(entity: internalUserRole);
-        userRole.RoleId = result.RoleId;
-        userRole.UserId = result.UserId;
-        return userRole;
+        newUserRole.RoleId = result.RoleId;
+        newUserRole.UserId = result.UserId;
+        return newUserRole;
     }
 
-    public async ValueTask DeleteUserRoleAsync(UserRole userRole)
+    public async ValueTask DeleteUserRoleAsync(UserRole deletedUserRole)
     {
-        DataUserRole internalUserRole = ToExternalUserRole(item: userRole);
+        DataUserRole internalUserRole = ToExternalUserRole(item: deletedUserRole);
 
         authorizationBroker.Authorize(
 appId: userRoleBroker.GetAppId(entity: internalUserRole),

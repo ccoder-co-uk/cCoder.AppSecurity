@@ -107,14 +107,14 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] User entity)
+    public async Task<IActionResult> Post([FromBody] User newUser)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddUserAsync(entity: entity));
+        return Ok(value: await Service.AddUserAsync(entity: newUser));
     }
 
     [HttpPut]
@@ -126,14 +126,14 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] string key, [FromBody] User entity)
+    public async Task<IActionResult> Put([FromRoute] string key, [FromBody] User updatedUser)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.UpdateUserAsync(entity: entity));
+        return Ok(value: await Service.UpdateUserAsync(entity: updatedUser));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]

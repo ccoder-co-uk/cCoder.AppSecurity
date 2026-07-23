@@ -24,15 +24,15 @@ internal class UserRoleProcessingService(
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
         service.GetAll(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<UserRole> AddUserRoleAsync(UserRole entity)
+    public async ValueTask<UserRole> AddUserRoleAsync(UserRole newUserRole)
     {
         Role role = roleService
             .GetAll(ignoreFilters: true)
-            .FirstOrDefault(predicate: r => r.Id == entity.RoleId);
+            .FirstOrDefault(predicate: r => r.Id == newUserRole.RoleId);
 
         User user = userService
             .GetAll(ignoreFilters: true)
-            .FirstOrDefault(predicate: u => u.Id == entity.UserId);
+            .FirstOrDefault(predicate: u => u.Id == newUserRole.UserId);
 
         if (role == null || user == null || role.Users?.Any(predicate: u => u.UserId == user.Id) == true)
         {
@@ -46,7 +46,7 @@ internal class UserRoleProcessingService(
             throw new SecurityException(message: "Access Denied!");
         }
 
-        return await service.AddUserRoleAsync(userRole: entity);
+        return await service.AddUserRoleAsync(userRole: newUserRole);
     }
 
     public async ValueTask<UserRole> SaveUserRoleAsync(UserRole entity)
@@ -65,11 +65,11 @@ internal class UserRoleProcessingService(
         return await service.AddUserRoleAsync(entity, authorize: false);
     }
 
-    public async ValueTask DeleteUserRoleAsync(UserRole link)
+    public async ValueTask DeleteUserRoleAsync(UserRole deletedUserRole)
     {
         UserRole dbVersion = service
             .GetAll(ignoreFilters: true)
-            .FirstOrDefault(predicate: ur => ur.RoleId == link.RoleId && ur.UserId == link.UserId);
+            .FirstOrDefault(predicate: ur => ur.RoleId == deletedUserRole.RoleId && ur.UserId == deletedUserRole.UserId);
 
         if (dbVersion == null || CurrentUserId == null)
         {
@@ -86,11 +86,11 @@ internal class UserRoleProcessingService(
         await service.DeleteUserRoleAsync(userRole: dbVersion);
     }
 
-    public async ValueTask DeleteAllUserRoleAsync(IEnumerable<UserRole> items)
+    public async ValueTask DeleteAllUserRoleAsync(IEnumerable<UserRole> deletedUserRole)
     {
-        foreach (UserRole item in items)
+        foreach (UserRole item in deletedUserRole)
         {
-            await DeleteUserRoleAsync(link: item);
+            await DeleteUserRoleAsync(deletedUserRole: item);
         }
     }
 
@@ -117,7 +117,7 @@ internal class UserRoleProcessingService(
                 .. existingItems.Where(predicate: item => Equals(objA: item.UserId, objB: group.Key)),
             ];
 
-            await DeleteAllUserRoleAsync(items: existingGroupItems);
+            await DeleteAllUserRoleAsync(deletedUserRole: existingGroupItems);
             foreach (UserRole item in groupItems)
             {
                 try
@@ -127,7 +127,7 @@ item: new Result<UserRole>
 {
     Id = $"{item.UserId}:{item.RoleId}",
     Success = true,
-    Item = await AddUserRoleAsync(entity: item),
+    Item = await AddUserRoleAsync(newUserRole: item),
     Message = "Added Successfully",
 }
                     );

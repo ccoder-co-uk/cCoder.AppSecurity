@@ -12,29 +12,29 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal class RoleProcessingService(IRoleService service) : IRoleProcessingService
 {
-    public Role Get(Guid id) =>
-        service.Get(id: id);
+    public Role Get(Guid roleId) =>
+        service.Get(id: roleId);
 
     public IQueryable<Role> GetAll(bool ignoreFilters = false) =>
         service.GetAll(ignoreFilters: ignoreFilters);
 
-    public ValueTask<Role> AddRoleAsync(Role entity) =>
-        service.AddRoleAsync(role: entity);
+    public ValueTask<Role> AddRoleAsync(Role newRole) =>
+        service.AddRoleAsync(role: newRole);
 
-    public ValueTask<Role> AddValidatedRoleAsync(Role entity) =>
-        service.AddValidatedRoleAsync(role: entity);
+    public ValueTask<Role> AddValidatedRoleAsync(Role newRole) =>
+        service.AddValidatedRoleAsync(role: newRole);
 
-    public ValueTask<Role> UpdateRoleAsync(Role entity) =>
-        service.UpdateRoleAsync(role: entity);
+    public ValueTask<Role> UpdateRoleAsync(Role updatedRole) =>
+        service.UpdateRoleAsync(role: updatedRole);
 
-    public ValueTask<Role> UpdateValidatedRoleAsync(Role entity) =>
-        service.UpdateValidatedRoleAsync(role: entity);
+    public ValueTask<Role> UpdateValidatedRoleAsync(Role updatedRole) =>
+        service.UpdateValidatedRoleAsync(role: updatedRole);
 
-    public ValueTask DeleteAsync(Guid id) =>
-        service.DeleteAsync(id: id);
+    public ValueTask DeleteAsync(Guid roleId) =>
+        service.DeleteAsync(id: roleId);
 
-    public ValueTask DeleteValidatedAsync(Guid id) =>
-        service.DeleteValidatedAsync(id: id);
+    public ValueTask DeleteValidatedAsync(Guid roleId) =>
+        service.DeleteValidatedAsync(id: roleId);
 
     public async ValueTask<IEnumerable<Result<Role>>> AddOrUpdateRole(
         IEnumerable<Role> items
@@ -52,7 +52,7 @@ internal class RoleProcessingService(IRoleService service) : IRoleProcessingServ
 item: new Result<Role>
 {
     Success = true,
-    Item = isAdd ? await AddRoleAsync(entity: item) : await UpdateRoleAsync(entity: item),
+    Item = isAdd ? await AddRoleAsync(newRole: item) : await UpdateRoleAsync(updatedRole: item),
     Message = isAdd ? "Added Successfully" : "Updated Successfully",
 }
                 );
@@ -72,11 +72,11 @@ item: new Result<Role>
 
         return results;
     }
-    public async ValueTask DeleteAllRoleAsync(IEnumerable<Role> items)
+    public async ValueTask DeleteAllRoleAsync(IEnumerable<Role> deletedRole)
     {
-        foreach (Role item in items)
+        foreach (Role item in deletedRole)
         {
-            await DeleteAsync(id: item.Id);
+            await DeleteAsync(roleId: item.Id);
         }
     }
 }

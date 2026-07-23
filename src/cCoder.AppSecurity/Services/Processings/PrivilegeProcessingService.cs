@@ -16,10 +16,10 @@ internal class PrivilegeProcessingService(
     IAuthorizationBroker authorizationBroker
 ) : IPrivilegeProcessingService
 {
-    public Privilege Get(string id)
+    public Privilege Get(string privilegeId)
     {
         authorizationBroker.Authorize(appId: null, privilege: "privilege_read");
-        return service.Get(id: id);
+        return service.Get(id: privilegeId);
     }
 
     public IQueryable<Privilege> GetAll(bool ignoreFilters = false)
@@ -28,19 +28,19 @@ internal class PrivilegeProcessingService(
         return service.GetAll(ignoreFilters: ignoreFilters);
     }
 
-    public ValueTask<Privilege> AddPrivilegeAsync(Privilege entity)
+    public ValueTask<Privilege> AddPrivilegeAsync(Privilege newPrivilege)
     {
         authorizationBroker.Authorize(appId: null, privilege: "privilege_create");
         throw new InvalidOperationException(message: "Cannot add privileges");
     }
 
-    public ValueTask<Privilege> UpdatePrivilegeAsync(Privilege entity)
+    public ValueTask<Privilege> UpdatePrivilegeAsync(Privilege updatedPrivilege)
     {
         authorizationBroker.Authorize(appId: null, privilege: "privilege_update");
         throw new InvalidOperationException(message: "Cannot update privileges");
     }
 
-    public ValueTask DeleteAsync(string id)
+    public ValueTask DeleteAsync(string privilegeId)
     {
         authorizationBroker.Authorize(appId: null, privilege: "privilege_delete");
         throw new InvalidOperationException(message: "Cannot delete privileges");
@@ -62,7 +62,7 @@ internal class PrivilegeProcessingService(
 item: new Result<Privilege>
 {
     Success = true,
-    Item = isAdd ? await AddPrivilegeAsync(entity: item) : await UpdatePrivilegeAsync(entity: item),
+    Item = isAdd ? await AddPrivilegeAsync(newPrivilege: item) : await UpdatePrivilegeAsync(updatedPrivilege: item),
     Message = isAdd ? "Added Successfully" : "Updated Successfully",
 }
                 );
@@ -82,11 +82,11 @@ item: new Result<Privilege>
 
         return results;
     }
-    public async ValueTask DeleteAllPrivilegeAsync(IEnumerable<Privilege> items)
+    public async ValueTask DeleteAllPrivilegeAsync(IEnumerable<Privilege> deletedPrivilege)
     {
-        foreach (Privilege item in items)
+        foreach (Privilege item in deletedPrivilege)
         {
-            await DeleteAsync(id: item.Id);
+            await DeleteAsync(privilegeId: item.Id);
         }
     }
 }

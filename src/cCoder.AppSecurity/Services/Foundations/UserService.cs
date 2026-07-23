@@ -18,10 +18,10 @@ namespace cCoder.AppSecurity.Services.Foundations;
 internal class UserService(IUserBroker userBroker, IAuthorizationBroker authorizationBroker)
     : IUserService
 {
-    public User Get(string id)
+    public User Get(string userId)
     {
         User user = GetAll()
-            .FirstOrDefault(predicate: i => i.Id == id);
+            .FirstOrDefault(predicate: i => i.Id == userId);
 
         if (user is not null)
         {
@@ -29,7 +29,7 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
         }
 
         User unrestrictedUser = GetAll(ignoreFilters: true)
-            .FirstOrDefault(predicate: i => i.Id == id);
+            .FirstOrDefault(predicate: i => i.Id == userId);
 
         if (unrestrictedUser is not null)
         {
@@ -45,51 +45,51 @@ internal class UserService(IUserBroker userBroker, IAuthorizationBroker authoriz
     public IQueryable<User> GetAll(bool ignoreFilters = false) =>
         userBroker.GetAllUsers(ignoreFilters: ignoreFilters);
 
-    public async ValueTask<User> AddUserAsync(User user)
+    public async ValueTask<User> AddUserAsync(User newUser)
     {
         DataUser internalUser = new()
         {
-            Id = user.Id,
-            DefaultCultureId = user.DefaultCultureId,
-            DisplayName = user.DisplayName,
-            Email = user.Email,
-            IsActive = user.IsActive
+            Id = newUser.Id,
+            DefaultCultureId = newUser.DefaultCultureId,
+            DisplayName = newUser.DisplayName,
+            Email = newUser.Email,
+            IsActive = newUser.IsActive
         };
 
         authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_create");
         DataUser result = await userBroker.AddUserAsync(entity: internalUser);
-        user.Id = result.Id;
-        user.DefaultCultureId = result.DefaultCultureId;
-        user.DisplayName = result.DisplayName;
-        user.Email = result.Email;
-        user.IsActive = result.IsActive;
-        return user;
+        newUser.Id = result.Id;
+        newUser.DefaultCultureId = result.DefaultCultureId;
+        newUser.DisplayName = result.DisplayName;
+        newUser.Email = result.Email;
+        newUser.IsActive = result.IsActive;
+        return newUser;
     }
 
-    public async ValueTask<User> UpdateUserAsync(User user)
+    public async ValueTask<User> UpdateUserAsync(User updatedUser)
     {
         DataUser internalUser = new()
         {
-            Id = user.Id,
-            DefaultCultureId = user.DefaultCultureId,
-            DisplayName = user.DisplayName,
-            Email = user.Email,
-            IsActive = user.IsActive
+            Id = updatedUser.Id,
+            DefaultCultureId = updatedUser.DefaultCultureId,
+            DisplayName = updatedUser.DisplayName,
+            Email = updatedUser.Email,
+            IsActive = updatedUser.IsActive
         };
 
         authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_update");
         DataUser result = await userBroker.UpdateUserAsync(entity: internalUser);
-        user.Id = result.Id;
-        user.DefaultCultureId = result.DefaultCultureId;
-        user.DisplayName = result.DisplayName;
-        user.Email = result.Email;
-        user.IsActive = result.IsActive;
-        return user;
+        updatedUser.Id = result.Id;
+        updatedUser.DefaultCultureId = result.DefaultCultureId;
+        updatedUser.DisplayName = result.DisplayName;
+        updatedUser.Email = result.Email;
+        updatedUser.IsActive = result.IsActive;
+        return updatedUser;
     }
 
-    public async ValueTask DeleteAsync(string id)
+    public async ValueTask DeleteAsync(string userId)
     {
-        User user = Get(id: id);
+        User user = Get(userId: userId);
         DataUser internalUser = ToExternalUser(item: user);
         authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_delete");
         _ = await userBroker.DeleteUserAsync(entity: internalUser);

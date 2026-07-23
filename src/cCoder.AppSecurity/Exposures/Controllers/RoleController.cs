@@ -88,14 +88,14 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] Role entity)
+    public async Task<IActionResult> Post([FromBody] Role newRole)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddRoleAsync(entity: entity));
+        return Ok(value: await Service.AddRoleAsync(entity: newRole));
     }
 
     [HttpPut]
@@ -107,14 +107,14 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] Role entity)
+    public async Task<IActionResult> Put([FromRoute] Guid key, [FromBody] Role updatedRole)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.UpdateRoleAsync(entity: entity));
+        return Ok(value: await Service.UpdateRoleAsync(entity: updatedRole));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]

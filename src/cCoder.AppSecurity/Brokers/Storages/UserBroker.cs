@@ -42,38 +42,38 @@ internal sealed class UserBroker(ICoreContextFactory coreContextFactory) : IUser
         return users.FirstOrDefault(predicate: user => user.Email == email);
     }
 
-    public async ValueTask<User> AddUserAsync(User entity)
+    public async ValueTask<User> AddUserAsync(User newUser)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        User result = (await coreDataContext.Users.AddAsync(entity: entity)).Entity;
+        User result = (await coreDataContext.Users.AddAsync(entity: newUser)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<User> UpdateUserAsync(User entity)
+    public async ValueTask<User> UpdateUserAsync(User updatedUser)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        User result = coreDataContext.Users.Update(entity: entity).Entity;
+        User result = coreDataContext.Users.Update(entity: updatedUser).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteUserAsync(User entity)
+    public async ValueTask<int> DeleteUserAsync(User deletedUser)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Users.Remove(entity: entity);
+        coreDataContext.Users.Remove(entity: deletedUser);
         return await coreDataContext.SaveChangesAsync();
     }
 
-    public async ValueTask DeleteAllUsersAsync(IEnumerable<User> items)
+    public async ValueTask DeleteAllUsersAsync(IEnumerable<User> deletedUser)
     {
-        if (items == null || !items.Any())
+        if (deletedUser == null || !deletedUser.Any())
         {
             return;
         }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Users.RemoveRange(entities: items);
+        coreDataContext.Users.RemoveRange(entities: deletedUser);
         _ = await coreDataContext.SaveChangesAsync();
     }
 

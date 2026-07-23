@@ -16,22 +16,22 @@ internal class AppOrchestrationService(
     IRoleOrchestrationService roleOrchestrationService
 ) : IAppOrchestrationService
 {
-    public async ValueTask AddAppAsync(App app)
+    public async ValueTask AddAppAsync(App newApp)
     {
-        EnsureDefaultRoles(app: app);
-        StampRoles(app: app);
-        await UpsertRolesAsync(roles: app.Roles ?? []);
+        EnsureDefaultRoles(app: newApp);
+        StampRoles(app: newApp);
+        await UpsertRolesAsync(roles: newApp.Roles ?? []);
     }
 
-    public async ValueTask UpdateAppAsync(App app)
+    public async ValueTask UpdateAppAsync(App updatedApp)
     {
-        if (app?.Roles == null || app.Roles.Count == 0)
+        if (updatedApp?.Roles == null || updatedApp.Roles.Count == 0)
         {
             return;
         }
 
-        StampRoles(app: app);
-        await UpsertRolesAsync(roles: app.Roles);
+        StampRoles(app: updatedApp);
+        await UpsertRolesAsync(roles: updatedApp.Roles);
     }
 
     public async ValueTask DeleteAsync(int appId)

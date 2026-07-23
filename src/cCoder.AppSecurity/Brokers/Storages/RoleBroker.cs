@@ -32,18 +32,18 @@ internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRole
             : coreDataContext.Roles;
     }
 
-    public async ValueTask<Role> AddRoleAsync(Role entity)
+    public async ValueTask<Role> AddRoleAsync(Role newRole)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Role result = (await coreDataContext.Roles.AddAsync(entity: entity)).Entity;
+        Role result = (await coreDataContext.Roles.AddAsync(entity: newRole)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<Role> UpdateRoleAsync(Role entity)
+    public async ValueTask<Role> UpdateRoleAsync(Role updatedRole)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        Role result = coreDataContext.Roles.Update(entity: entity).Entity;
+        Role result = coreDataContext.Roles.Update(entity: updatedRole).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
@@ -82,22 +82,22 @@ internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRole
         await coreDataContext.SaveChangesAsync();
     }
 
-    public async ValueTask<int> DeleteRoleAsync(Role entity)
+    public async ValueTask<int> DeleteRoleAsync(Role deletedRole)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Roles.Remove(entity: entity);
+        coreDataContext.Roles.Remove(entity: deletedRole);
         return await coreDataContext.SaveChangesAsync();
     }
 
-    public async ValueTask DeleteAllRolesAsync(IEnumerable<Role> items)
+    public async ValueTask DeleteAllRolesAsync(IEnumerable<Role> deletedRole)
     {
-        if (items == null || !items.Any())
+        if (deletedRole == null || !deletedRole.Any())
         {
             return;
         }
 
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Roles.RemoveRange(entities: items);
+        coreDataContext.Roles.RemoveRange(entities: deletedRole);
         _ = await coreDataContext.SaveChangesAsync();
     }
 

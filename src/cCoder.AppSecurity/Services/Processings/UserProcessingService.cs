@@ -15,8 +15,8 @@ namespace cCoder.AppSecurity.Services.Processings;
 internal class UserProcessingService(IUserService service, ICoreAuthInfo authInfo)
     : IUserProcessingService
 {
-    public User Get(string id) =>
-        service.Get(id: id);
+    public User Get(string userId) =>
+        service.Get(id: userId);
 
     public User GetByEmail(string email, bool ignoreFilters = false) =>
         service.GetByEmail(email: email, ignoreFilters: ignoreFilters);
@@ -33,18 +33,18 @@ internal class UserProcessingService(IUserService service, ICoreAuthInfo authInf
         return existingUser != null ? existingUser : await service.AddUserAsync(user: newUser);
     }
 
-    public ValueTask DeleteAsync(string id)
+    public ValueTask DeleteAsync(string userId)
     {
-        User dbVersion = Get(id: id);
+        User dbVersion = Get(userId: userId);
 
         return authInfo.SSOUserId == dbVersion.Id
-            ? service.DeleteAsync(id: id)
+            ? service.DeleteAsync(id: userId)
             : throw new SecurityException(message: "Access Denied!");
     }
 
-    public ValueTask<User> UpdateUserAsync(User entity) =>
-        authInfo.SSOUserId == entity.Id
-            ? service.UpdateUserAsync(user: entity)
+    public ValueTask<User> UpdateUserAsync(User updatedUser) =>
+        authInfo.SSOUserId == updatedUser.Id
+            ? service.UpdateUserAsync(user: updatedUser)
             : throw new SecurityException(message: "Access Denied!");
 
     public async ValueTask<IEnumerable<Result<User>>> AddOrUpdateUser(
@@ -63,7 +63,7 @@ internal class UserProcessingService(IUserService service, ICoreAuthInfo authInf
 item: new Result<User>
 {
     Success = true,
-    Item = isAdd ? await AddUserAsync(newUser: item) : await UpdateUserAsync(entity: item),
+    Item = isAdd ? await AddUserAsync(newUser: item) : await UpdateUserAsync(updatedUser: item),
     Message = isAdd ? "Added Successfully" : "Updated Successfully",
 }
                 );
@@ -83,11 +83,11 @@ item: new Result<User>
 
         return results;
     }
-    public async ValueTask DeleteAllUserAsync(IEnumerable<User> items)
+    public async ValueTask DeleteAllUserAsync(IEnumerable<User> deletedUser)
     {
-        foreach (User item in items)
+        foreach (User item in deletedUser)
         {
-            await DeleteAsync(id: item.Id);
+            await DeleteAsync(userId: item.Id);
         }
     }
 }

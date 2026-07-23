@@ -41,25 +41,25 @@ public partial class UserRoleController : ODataController
         Ok(value: Service.GetAll());
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] UserRole entity)
+    public async Task<IActionResult> Post([FromBody] UserRole newUserRole)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddUserRoleAsync(entity: entity));
+        return Ok(value: await Service.AddUserRoleAsync(entity: newUserRole));
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteAll([FromBody] ODataCollection<UserRole> items)
+    public async Task<IActionResult> DeleteAll([FromBody] ODataCollection<UserRole> deletedUserRole)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        await Service.DeleteAllUserRoleAsync(items: items.Value);
+        await Service.DeleteAllUserRoleAsync(items: deletedUserRole.Value);
         return Ok();
     }
 

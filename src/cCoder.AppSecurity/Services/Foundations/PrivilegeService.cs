@@ -18,10 +18,10 @@ internal class PrivilegeService(
     IAuthorizationBroker authorizationBroker
 ) : IPrivilegeService
 {
-    public Privilege Get(string id)
+    public Privilege Get(string privilegeId)
     {
         Privilege privilege = GetAll()
-            .FirstOrDefault(predicate: i => i.Id == id);
+            .FirstOrDefault(predicate: i => i.Id == privilegeId);
 
         if (privilege is not null)
         {
@@ -29,7 +29,7 @@ internal class PrivilegeService(
         }
 
         Privilege unrestrictedPrivilege = GetAll(ignoreFilters: true)
-            .FirstOrDefault(predicate: i => i.Id == id);
+            .FirstOrDefault(predicate: i => i.Id == privilegeId);
 
         if (unrestrictedPrivilege is not null)
         {
@@ -44,15 +44,15 @@ internal class PrivilegeService(
             .Select(selector: ToLocalPrivilege)
             .AsQueryable();
 
-    public async ValueTask<Privilege> AddPrivilegeAsync(Privilege privilege)
+    public async ValueTask<Privilege> AddPrivilegeAsync(Privilege newPrivilege)
     {
         DataPrivilege internalPrivilege = new()
         {
-            Id = privilege.Id,
-            Type = privilege.Type,
-            Operation = privilege.Operation,
-            Description = privilege.Description,
-            PortalAdminsOnly = privilege.PortalAdminsOnly
+            Id = newPrivilege.Id,
+            Type = newPrivilege.Type,
+            Operation = newPrivilege.Operation,
+            Description = newPrivilege.Description,
+            PortalAdminsOnly = newPrivilege.PortalAdminsOnly
         };
 
         authorizationBroker.Authorize(
@@ -61,23 +61,23 @@ privilege: $"{nameof(Privilege)}_create"
         );
 
         DataPrivilege result = await privilegeBroker.AddPrivilegeAsync(entity: internalPrivilege);
-        privilege.Id = result.Id;
-        privilege.Type = result.Type;
-        privilege.Operation = result.Operation;
-        privilege.Description = result.Description;
-        privilege.PortalAdminsOnly = result.PortalAdminsOnly;
-        return privilege;
+        newPrivilege.Id = result.Id;
+        newPrivilege.Type = result.Type;
+        newPrivilege.Operation = result.Operation;
+        newPrivilege.Description = result.Description;
+        newPrivilege.PortalAdminsOnly = result.PortalAdminsOnly;
+        return newPrivilege;
     }
 
-    public async ValueTask<Privilege> UpdatePrivilegeAsync(Privilege privilege)
+    public async ValueTask<Privilege> UpdatePrivilegeAsync(Privilege updatedPrivilege)
     {
         DataPrivilege internalPrivilege = new()
         {
-            Id = privilege.Id,
-            Type = privilege.Type,
-            Operation = privilege.Operation,
-            Description = privilege.Description,
-            PortalAdminsOnly = privilege.PortalAdminsOnly
+            Id = updatedPrivilege.Id,
+            Type = updatedPrivilege.Type,
+            Operation = updatedPrivilege.Operation,
+            Description = updatedPrivilege.Description,
+            PortalAdminsOnly = updatedPrivilege.PortalAdminsOnly
         };
 
         authorizationBroker.Authorize(
@@ -86,17 +86,17 @@ privilege: $"{nameof(Privilege)}_update"
         );
 
         DataPrivilege result = await privilegeBroker.UpdatePrivilegeAsync(entity: internalPrivilege);
-        privilege.Id = result.Id;
-        privilege.Type = result.Type;
-        privilege.Operation = result.Operation;
-        privilege.Description = result.Description;
-        privilege.PortalAdminsOnly = result.PortalAdminsOnly;
-        return privilege;
+        updatedPrivilege.Id = result.Id;
+        updatedPrivilege.Type = result.Type;
+        updatedPrivilege.Operation = result.Operation;
+        updatedPrivilege.Description = result.Description;
+        updatedPrivilege.PortalAdminsOnly = result.PortalAdminsOnly;
+        return updatedPrivilege;
     }
 
-    public async ValueTask DeleteAsync(string id)
+    public async ValueTask DeleteAsync(string privilegeId)
     {
-        Privilege privilege = Get(id: id);
+        Privilege privilege = Get(privilegeId: privilegeId);
         DataPrivilege internalPrivilege = ToExternalPrivilege(item: privilege);
 
         authorizationBroker.Authorize(
