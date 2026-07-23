@@ -18,15 +18,10 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
-public partial class RoleController : ODataController
+public sealed partial class RoleController(
+    IRoleOrchestrationService service)
+    : ODataController
 {
-    protected IRoleOrchestrationService Service { get; }
-
-    public RoleController(IRoleOrchestrationService service)
-    {
-        Service = service;
-    }
-
     [HttpGet]
     public IActionResult GetMetadata()
     {
@@ -52,7 +47,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     )]
     [ActionName("Get")]
     public IActionResult GetAll(ODataQueryOptions<Role> queryOptions) =>
-        Ok(value: Service.GetAll());
+        Ok(value: service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -68,7 +63,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     {
         try
         {
-            IQueryable<Role> result = Service.GetAll()
+            IQueryable<Role> result = service.GetAll()
                 .Where(predicate: role => role.Id == key);
 
             return Ok(value: SingleResult.Create(queryable: result));
@@ -95,7 +90,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddRoleAsync(entity: newRole));
+        return Ok(value: await service.AddRoleAsync(entity: newRole));
     }
 
     [HttpPut]
@@ -114,27 +109,27 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.UpdateRoleAsync(entity: updatedRole));
+        return Ok(value: await service.UpdateRoleAsync(entity: updatedRole));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Patch([FromRoute] Guid key, Delta<Role> delta)
+    public async Task<IActionResult> Put([FromRoute] Guid key, Delta<Role> updatedDelta)
     {
-        Role originalEntity = Service.Get(id: key);
+        Role originalEntity = service.Get(id: key);
 
         if (originalEntity == null)
         {
             return NotFound();
         }
 
-        delta.Patch(original: originalEntity);
-        return Ok(value: await Service.UpdateRoleAsync(entity: originalEntity));
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdateRoleAsync(entity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid key)
     {
-        await Service.DeleteAsync(id: key);
+        await service.DeleteAsync(id: key);
         return Ok();
     }
 }

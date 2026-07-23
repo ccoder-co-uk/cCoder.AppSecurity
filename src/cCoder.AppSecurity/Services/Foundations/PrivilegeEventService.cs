@@ -5,8 +5,8 @@
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
-using cCoder.Data;
 using cCoder.Eventing.Models;
+using cCoder.AppSecurity.Brokers;
 using DataPrivilege = cCoder.Data.Models.Security.Privilege;
 using IPrivilegeEventBroker = cCoder.AppSecurity.Brokers.Events.IPrivilegeEventBroker;
 
@@ -15,7 +15,7 @@ namespace cCoder.AppSecurity.Services.Foundations.Events;
 
 internal sealed partial class PrivilegeEventService(
     IPrivilegeEventBroker privilegeEventBroker,
-    ICoreAuthInfo authInfo
+    IAuthInfoBroker authInfoBroker
 ) : IPrivilegeEventService
 {
     public ValueTask RaisePrivilegeAddEventAsync(Privilege entity) =>
@@ -26,7 +26,7 @@ internal sealed partial class PrivilegeEventService(
 
             EventMessage<DataPrivilege> message = new()
             {
-                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
                 Data = ToExternalPrivilege(item: entity),
             };
 
@@ -42,7 +42,7 @@ internal sealed partial class PrivilegeEventService(
 
             EventMessage<DataPrivilege> message = new()
             {
-                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
                 Data = ToExternalPrivilege(item: entity),
             };
 
@@ -58,7 +58,7 @@ internal sealed partial class PrivilegeEventService(
 
             EventMessage<DataPrivilege> message = new()
             {
-                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
                 Data = ToExternalPrivilege(item: entity),
             };
 

@@ -25,10 +25,14 @@ internal sealed class PrivilegeBroker(ICoreContextFactory coreContextFactory) : 
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
-        return ignoreFilters
-            ? coreDataContext.Set<Privilege>()
-                .IgnoreQueryFilters()
-            : coreDataContext.Set<Privilege>();
+        Dictionary<bool, Func<IQueryable<Privilege>>> queries = new()
+        {
+            [false] = () => coreDataContext.Set<Privilege>(),
+            [true] = () => coreDataContext.Set<Privilege>()
+                .IgnoreQueryFilters(),
+        };
+
+        return queries[ignoreFilters]();
     }
 
     public async ValueTask<Privilege> AddPrivilegeAsync(Privilege newPrivilege)
@@ -67,11 +71,6 @@ internal sealed class PrivilegeBroker(ICoreContextFactory coreContextFactory) : 
 
     public async ValueTask DeleteAllPrivilegesAsync(IEnumerable<Privilege> deletedPrivilege)
     {
-        if (deletedPrivilege == null || !deletedPrivilege.Any())
-        {
-            return;
-        }
-
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         coreDataContext.Set<Privilege>()

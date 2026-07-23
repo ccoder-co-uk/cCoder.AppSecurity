@@ -26,18 +26,26 @@ internal sealed class UserBroker(ICoreContextFactory coreContextFactory) : IUser
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
-        return ignoreFilters
-            ? coreDataContext.Users.IgnoreQueryFilters()
-            : coreDataContext.Users;
+        Dictionary<bool, Func<IQueryable<User>>> queries = new()
+        {
+            [false] = () => coreDataContext.Users,
+            [true] = () => coreDataContext.Users.IgnoreQueryFilters(),
+        };
+
+        return queries[ignoreFilters]();
     }
 
     public User GetUserByEmail(string email, bool ignoreFilters)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
-        IQueryable<User> users = ignoreFilters
-            ? coreDataContext.Users.IgnoreQueryFilters()
-            : coreDataContext.Users;
+        Dictionary<bool, Func<IQueryable<User>>> queries = new()
+        {
+            [false] = () => coreDataContext.Users,
+            [true] = () => coreDataContext.Users.IgnoreQueryFilters(),
+        };
+
+        IQueryable<User> users = queries[ignoreFilters]();
 
         return users.FirstOrDefault(predicate: user => user.Email == email);
     }
@@ -67,11 +75,6 @@ internal sealed class UserBroker(ICoreContextFactory coreContextFactory) : IUser
 
     public async ValueTask DeleteAllUsersAsync(IEnumerable<User> deletedUser)
     {
-        if (deletedUser == null || !deletedUser.Any())
-        {
-            return;
-        }
-
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.Users.RemoveRange(entities: deletedUser);
         _ = await coreDataContext.SaveChangesAsync();

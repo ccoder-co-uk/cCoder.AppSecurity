@@ -14,15 +14,10 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
-public partial class UserRoleController : ODataController
+public sealed partial class UserRoleController(
+    IUserRoleOrchestrationService service)
+    : ODataController
 {
-    protected IUserRoleOrchestrationService Service { get; }
-
-    public UserRoleController(IUserRoleOrchestrationService service)
-    {
-        Service = service;
-    }
-
     [HttpGet]
     public IActionResult GetMetadata() =>
         Ok(value: new MetadataContainer(type: typeof(UserRole), isEntity: true, hasEndpoint: true));
@@ -38,7 +33,7 @@ public partial class UserRoleController : ODataController
     )]
     [ActionName("Get")]
     public IActionResult GetAll() =>
-        Ok(value: Service.GetAll());
+        Ok(value: service.GetAll());
 
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] UserRole newUserRole)
@@ -48,25 +43,25 @@ public partial class UserRoleController : ODataController
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddUserRoleAsync(entity: newUserRole));
+        return Ok(value: await service.AddUserRoleAsync(entity: newUserRole));
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteAll([FromBody] ODataCollection<UserRole> deletedUserRole)
+    public async Task<IActionResult> DeleteAll([FromBody] IEnumerable<UserRole> deletedUserRole)
     {
         if (!ModelState.IsValid)
         {
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        await Service.DeleteAllUserRoleAsync(items: deletedUserRole.Value);
+        await service.DeleteAllUserRoleAsync(items: deletedUserRole);
         return Ok();
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid keyRoleId, [FromRoute] string keyUserId)
     {
-        await Service.DeleteUserRoleAsync(entity: new UserRole
+        await service.DeleteUserRoleAsync(entity: new UserRole
         {
             RoleId = keyRoleId,
             UserId = keyUserId,

@@ -19,21 +19,11 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
-public partial class UserController : ODataController
+public sealed partial class UserController(
+    IUserOrchestrationService service,
+    ICoreAuthInfo authInfo)
+    : ODataController
 {
-    protected IUserOrchestrationService Service { get; }
-    private readonly ICoreAuthInfo authInfo;
-
-    public UserController(
-        IUserOrchestrationService service,
-        ICoreAuthInfo auth,
-        ILogger<UserController> log
-    )
-    {
-        Service = service;
-        authInfo = auth;
-    }
-
     [HttpGet]
     [EnableQuery(
         AllowedArithmeticOperators = AllowedArithmeticOperators.All,
@@ -43,8 +33,8 @@ public partial class UserController : ODataController
         MaxAnyAllExpressionDepth = 6,
         MaxExpansionDepth = 6
     )]
-    public IActionResult Me() =>
-        Ok(value: Service.Get(id: authInfo.SSOUserId));
+    public IActionResult GetMe() =>
+        Ok(value: service.Get(id: authInfo.SSOUserId));
 
     [HttpGet]
     public IActionResult GetMetadata()
@@ -71,7 +61,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     )]
     [ActionName("Get")]
     public IActionResult GetAll(ODataQueryOptions<User> queryOptions) =>
-        Ok(value: Service.GetAll());
+        Ok(value: service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -87,7 +77,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     {
         try
         {
-            IQueryable<User> result = Service.GetAll()
+            IQueryable<User> result = service.GetAll()
                 .Where(predicate: user => user.Id == key);
 
             return Ok(value: SingleResult.Create(queryable: result));
@@ -114,7 +104,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddUserAsync(entity: newUser));
+        return Ok(value: await service.AddUserAsync(entity: newUser));
     }
 
     [HttpPut]
@@ -133,27 +123,27 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.UpdateUserAsync(entity: updatedUser));
+        return Ok(value: await service.UpdateUserAsync(entity: updatedUser));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Patch([FromRoute] string key, Delta<User> delta)
+    public async Task<IActionResult> Put([FromRoute] string key, Delta<User> updatedDelta)
     {
-        User originalEntity = Service.Get(id: key);
+        User originalEntity = service.Get(id: key);
 
         if (originalEntity == null)
         {
             return NotFound();
         }
 
-        delta.Patch(original: originalEntity);
-        return Ok(value: await Service.UpdateUserAsync(entity: originalEntity));
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdateUserAsync(entity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] string key)
     {
-        await Service.DeleteAsync(id: key);
+        await service.DeleteAsync(id: key);
         return Ok();
     }
 }

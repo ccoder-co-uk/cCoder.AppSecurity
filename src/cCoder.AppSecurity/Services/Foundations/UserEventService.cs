@@ -5,8 +5,8 @@
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
-using cCoder.Data;
 using cCoder.Eventing.Models;
+using cCoder.AppSecurity.Brokers;
 using DataRole = cCoder.Data.Models.Security.Role;
 using DataUser = cCoder.Data.Models.Security.User;
 using DataUserRole = cCoder.Data.Models.Security.UserRole;
@@ -15,7 +15,7 @@ using IUserEventBroker = cCoder.AppSecurity.Brokers.Events.IUserEventBroker;
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-internal sealed partial class UserEventService(IUserEventBroker userEventBroker, ICoreAuthInfo authInfo)
+internal sealed partial class UserEventService(IUserEventBroker userEventBroker, IAuthInfoBroker authInfoBroker)
     : IUserEventService
 {
     public ValueTask RaiseUserAddEventAsync(User entity) =>
@@ -26,7 +26,7 @@ internal sealed partial class UserEventService(IUserEventBroker userEventBroker,
 
             EventMessage<DataUser> message = new()
             {
-                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
                 Data = ToExternalUser(item: entity),
             };
 
@@ -42,7 +42,7 @@ internal sealed partial class UserEventService(IUserEventBroker userEventBroker,
 
             EventMessage<DataUser> message = new()
             {
-                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
                 Data = ToExternalUser(item: entity),
             };
 
@@ -58,7 +58,7 @@ internal sealed partial class UserEventService(IUserEventBroker userEventBroker,
 
             EventMessage<DataUser> message = new()
             {
-                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
                 Data = ToExternalUser(item: entity),
             };
 

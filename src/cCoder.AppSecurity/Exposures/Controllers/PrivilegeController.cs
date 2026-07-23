@@ -18,15 +18,10 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
-public partial class PrivilegeController : ODataController
+public sealed partial class PrivilegeController(
+    IPrivilegeOrchestrationService service)
+    : ODataController
 {
-    protected IPrivilegeOrchestrationService Service { get; }
-
-    public PrivilegeController(IPrivilegeOrchestrationService service)
-    {
-        Service = service;
-    }
-
     [HttpGet]
     public IActionResult GetMetadata()
     {
@@ -52,7 +47,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     )]
     [ActionName("Get")]
     public IActionResult GetAll(ODataQueryOptions<Privilege> queryOptions) =>
-        Ok(value: Service.GetAll());
+        Ok(value: service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -68,7 +63,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
     {
         try
         {
-            IQueryable<Privilege> result = Service.GetAll()
+            IQueryable<Privilege> result = service.GetAll()
                 .Where(predicate: privilege => privilege.Id == key);
 
             return Ok(value: SingleResult.Create(queryable: result));
@@ -95,7 +90,7 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.AddPrivilegeAsync(entity: newPrivilege));
+        return Ok(value: await service.AddPrivilegeAsync(entity: newPrivilege));
     }
 
     [HttpPut]
@@ -114,27 +109,27 @@ value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
             return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
         }
 
-        return Ok(value: await Service.UpdatePrivilegeAsync(entity: updatedPrivilege));
+        return Ok(value: await service.UpdatePrivilegeAsync(entity: updatedPrivilege));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Patch([FromRoute] string key, Delta<Privilege> delta)
+    public async Task<IActionResult> Put([FromRoute] string key, Delta<Privilege> updatedDelta)
     {
-        Privilege originalEntity = Service.Get(id: key);
+        Privilege originalEntity = service.Get(id: key);
 
         if (originalEntity == null)
         {
             return NotFound();
         }
 
-        delta.Patch(original: originalEntity);
-        return Ok(value: await Service.UpdatePrivilegeAsync(entity: originalEntity));
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdatePrivilegeAsync(entity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] string key)
     {
-        await Service.DeleteAsync(id: key);
+        await service.DeleteAsync(id: key);
         return Ok();
     }
 }

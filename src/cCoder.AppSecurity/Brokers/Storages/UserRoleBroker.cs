@@ -25,9 +25,13 @@ internal sealed class UserRoleBroker(ICoreContextFactory coreContextFactory) : I
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
-        return ignoreFilters
-            ? coreDataContext.UserRoles.IgnoreQueryFilters()
-            : coreDataContext.UserRoles;
+        Dictionary<bool, Func<IQueryable<UserRole>>> queries = new()
+        {
+            [false] = () => coreDataContext.UserRoles,
+            [true] = () => coreDataContext.UserRoles.IgnoreQueryFilters(),
+        };
+
+        return queries[ignoreFilters]();
     }
 
     public async ValueTask<UserRole> AddUserRoleAsync(UserRole newUserRole)
@@ -47,11 +51,6 @@ internal sealed class UserRoleBroker(ICoreContextFactory coreContextFactory) : I
 
     public async ValueTask DeleteAllUserRolesAsync(IEnumerable<UserRole> deletedUserRole)
     {
-        if (deletedUserRole == null || !deletedUserRole.Any())
-        {
-            return;
-        }
-
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         coreDataContext.UserRoles.RemoveRange(entities: deletedUserRole);
         _ = await coreDataContext.SaveChangesAsync();

@@ -5,8 +5,8 @@
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
-using cCoder.Data;
 using cCoder.Eventing.Models;
+using cCoder.AppSecurity.Brokers;
 using DataApp = cCoder.Data.Models.CMS.App;
 using DataFolderRole = cCoder.Data.Models.Security.FolderRole;
 using DataPageRole = cCoder.Data.Models.Security.PageRole;
@@ -18,7 +18,7 @@ using IRoleEventBroker = cCoder.AppSecurity.Brokers.Events.IRoleEventBroker;
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-internal sealed partial class RoleEventService(IRoleEventBroker roleEventBroker, ICoreAuthInfo authInfo)
+internal sealed partial class RoleEventService(IRoleEventBroker roleEventBroker, IAuthInfoBroker authInfoBroker)
     : IRoleEventService
 {
     public ValueTask RaiseRoleAddEventAsync(Role entity) =>
@@ -29,7 +29,7 @@ internal sealed partial class RoleEventService(IRoleEventBroker roleEventBroker,
 
             EventMessage<DataRole> message = new()
             {
-                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
                 Data = ToExternalRole(item: entity),
             };
 
@@ -45,7 +45,7 @@ internal sealed partial class RoleEventService(IRoleEventBroker roleEventBroker,
 
             EventMessage<DataRole> message = new()
             {
-                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
                 Data = ToExternalRole(item: entity),
             };
 
@@ -61,7 +61,7 @@ internal sealed partial class RoleEventService(IRoleEventBroker roleEventBroker,
 
             EventMessage<DataRole> message = new()
             {
-                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
                 Data = ToExternalRole(item: entity),
             };
 

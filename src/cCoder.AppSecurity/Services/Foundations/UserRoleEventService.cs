@@ -5,8 +5,8 @@
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
-using cCoder.Data;
 using cCoder.Eventing.Models;
+using cCoder.AppSecurity.Brokers;
 using DataRole = cCoder.Data.Models.Security.Role;
 using DataUser = cCoder.Data.Models.Security.User;
 using DataUserRole = cCoder.Data.Models.Security.UserRole;
@@ -15,7 +15,7 @@ using IUserRoleEventBroker = cCoder.AppSecurity.Brokers.Events.IUserRoleEventBro
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-internal sealed partial class UserRoleEventService(IUserRoleEventBroker userRoleEventBroker, ICoreAuthInfo authInfo)
+internal sealed partial class UserRoleEventService(IUserRoleEventBroker userRoleEventBroker, IAuthInfoBroker authInfoBroker)
     : IUserRoleEventService
 {
     public ValueTask RaiseUserRoleAddEventAsync(UserRole entity) =>
@@ -26,7 +26,7 @@ internal sealed partial class UserRoleEventService(IUserRoleEventBroker userRole
 
             EventMessage<DataUserRole> message = new()
             {
-                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
                 Data = ToExternalUserRole(item: entity),
             };
 
@@ -42,7 +42,7 @@ internal sealed partial class UserRoleEventService(IUserRoleEventBroker userRole
 
             EventMessage<DataUserRole> message = new()
             {
-                AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
                 Data = ToExternalUserRole(item: entity),
             };
 

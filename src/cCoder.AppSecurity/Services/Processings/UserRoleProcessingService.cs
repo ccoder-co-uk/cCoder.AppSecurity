@@ -19,8 +19,6 @@ internal sealed partial class UserRoleProcessingService(
     IAuthorizationBroker authorizationBroker
 ) : IUserRoleProcessingService
 {
-    private string CurrentUserId => authorizationBroker.GetCurrentUser()?.Id;
-
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
         TryCatch(operation: IQueryable<UserRole> () =>
         {
@@ -93,7 +91,7 @@ internal sealed partial class UserRoleProcessingService(
                 .GetAll(ignoreFilters: true)
                 .FirstOrDefault(predicate: ur => ur.RoleId == deletedUserRole.RoleId && ur.UserId == deletedUserRole.UserId);
 
-            if (dbVersion == null || CurrentUserId == null)
+            if (dbVersion == null || GetCurrentUserId() == null)
             {
                 throw new SecurityException(message: "Access Denied!");
             }
@@ -196,4 +194,7 @@ internal sealed partial class UserRoleProcessingService(
 
     private ValueTask DeleteAllUserRoleValueAsync(IEnumerable<UserRole> deletedUserRole) =>
         DeleteAllUserRoleAsync(deletedUserRole: deletedUserRole);
+
+    private string GetCurrentUserId() =>
+        authorizationBroker.GetCurrentUser()?.Id;
 }
