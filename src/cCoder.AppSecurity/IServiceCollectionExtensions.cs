@@ -26,11 +26,13 @@ using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi;
 using AuthorizationBroker = cCoder.AppSecurity.Brokers.AuthorizationBroker;
 using AuthInfoBroker = cCoder.AppSecurity.Brokers.AuthInfoBroker;
+using TokenBroker = cCoder.AppSecurity.Brokers.Tokens.TokenBroker;
 using UIBaselineBroker = cCoder.AppSecurity.Brokers.UIBaselineBroker;
 using AppBroker = cCoder.AppSecurity.Brokers.Storages.AppBroker;
 using EventHubBroker = cCoder.AppSecurity.Brokers.Events.EventHubBroker;
 using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
 using IAuthInfoBroker = cCoder.AppSecurity.Brokers.IAuthInfoBroker;
+using ITokenBroker = cCoder.AppSecurity.Brokers.Tokens.ITokenBroker;
 using IUIBaselineBroker = cCoder.AppSecurity.Brokers.IUIBaselineBroker;
 using IAppBroker = cCoder.AppSecurity.Brokers.Storages.IAppBroker;
 using IEventHubBroker = cCoder.AppSecurity.Brokers.Events.IEventHubBroker;
@@ -123,6 +125,7 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddTransient<IAuthorizationBroker, AuthorizationBroker>();
         services.AddTransient<IAuthInfoBroker, AuthInfoBroker>();
+        services.AddTransient<ITokenBroker, TokenBroker>();
         services.AddTransient<IUIBaselineBroker, UIBaselineBroker>();
         services.AddTransient<IEventHubBroker, EventHubBroker>();
         services.AddTransient<IJsonBroker, JsonBroker>();
@@ -140,6 +143,7 @@ public static partial class IServiceCollectionExtensions
     private static void AddFoundations(this IServiceCollection services)
     {
         services.AddTransient<IUIBaselineService, UIBaselineService>();
+        services.AddTransient<ITokenCleanerService, TokenCleanerService>();
         services.AddTransient<IAppSecurityAppExposure, AppSecurityAppExposure>();
         services.AddTransient<IAppSecurityPackageManager, AppSecurityPackageManager>();
         services.AddTransient<Services.Foundations.Events.IEventHandlerService, Services.Foundations.Events.EventHandlerService>();
@@ -162,7 +166,6 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IAnalysePlatformUsageOrchestrationService, AnalysePlatformUsageOrchestrationService>();
         services.AddTransient<IPrivilegeOrchestrationService, PrivilegeOrchestrationService>();
         services.AddTransient<IRoleOrchestrationService, RoleOrchestrationService>();
-        services.AddTransient<ITokenCleanerOrchestrationService, TokenCleanerOrchestrationService>();
         services.AddTransient<IUserOrchestrationService, UserOrchestrationService>();
         services.AddTransient<IUserRoleOrchestrationService, UserRoleOrchestrationService>();
     }

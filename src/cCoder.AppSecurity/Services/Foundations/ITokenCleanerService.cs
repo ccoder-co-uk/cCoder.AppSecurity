@@ -2,9 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-namespace cCoder.AppSecurity.Services.Orchestrations;
+namespace cCoder.AppSecurity.Services.Foundations;
 
-public interface ITokenCleanerOrchestrationService
+public interface ITokenCleanerService
 {
     Task RunAsync(CancellationToken cancellationToken = default);
 }
