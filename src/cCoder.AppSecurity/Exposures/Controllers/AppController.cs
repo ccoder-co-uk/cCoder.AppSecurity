@@ -4,6 +4,7 @@
 
 using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Brokers.Metadata;
+using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.Data.Extensions;
@@ -25,8 +26,8 @@ public sealed class AppController(IAppService service) : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
-                    .Build()
+value: new AppSecurityODataModelBroker()
+                    .SelectODataModel()
                     .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(App)))
             : Ok(
                 value: MetadataBroker.CreateMetadataContainer(

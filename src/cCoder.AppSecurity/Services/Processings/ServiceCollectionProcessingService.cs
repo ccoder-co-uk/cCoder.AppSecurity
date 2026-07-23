@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Api.OData;
+using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
 using cCoder.Eventing;
 using Microsoft.AspNetCore.OData;
@@ -42,7 +43,7 @@ builder: builder);
     }
 
     internal static void ConfigureAppSecurityApiModel(this ODataConventionModelBuilder builder) =>
-        new AppSecurityModelBuilder(builder: builder).Configure();
+        new AppSecurityODataModelBroker(builder: builder).ConfigureODataModel();
 
     private static AppSecurityConfiguration CreateConfiguration(
         IServiceCollection services,

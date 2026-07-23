@@ -4,6 +4,7 @@
 
 using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Brokers.Metadata;
+using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.CMS;
@@ -44,8 +45,8 @@ public sealed partial class UserController(
 
         return isExtendedMetaRequest
             ? Ok(
-value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
-                    .Build()
+value: new AppSecurityODataModelBroker()
+                    .SelectODataModel()
                     .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(User))
             )
             : Ok(
