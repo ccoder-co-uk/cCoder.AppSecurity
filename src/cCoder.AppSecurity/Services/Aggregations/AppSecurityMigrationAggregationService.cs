@@ -47,8 +47,9 @@ internal sealed partial class AppSecurityMigrationAggregationService(
                 packageName: packageName);
 
             return packageName == "Roles"
-            ? new AppSecurityPackage(name: "Roles")
+            ? new AppSecurityPackage
             {
+                Name = "Roles",
                 Items =
                 [
                     new AppSecurityPackageItem
@@ -63,6 +64,10 @@ internal sealed partial class AppSecurityMigrationAggregationService(
                     },
                 ],
             }
-            : new AppSecurityPackage(name: packageName) { Items = [] };
+            : new AppSecurityPackage
+            {
+                Name = packageName,
+                Items = [],
+            };
         });
 }

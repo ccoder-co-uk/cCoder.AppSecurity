@@ -106,7 +106,7 @@ handler: (service, args) => service.ImportPackageAppSecurityPackageAsync(appId: 
                 service.ProcessSecurityAccountEventAsync(accountEvent: accountEvent));
 
     static AppSecurityPackage ToLocalPackage(Package package) =>
-        package == null ? null : new AppSecurityPackage(name: package.Name)
+        package == null ? null : new AppSecurityPackage
         {
             Id = package.Id,
             Name = package.Name,

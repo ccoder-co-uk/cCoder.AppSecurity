@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Api.OData;
+using cCoder.AppSecurity.Brokers.Metadata;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -20,7 +21,11 @@ public sealed partial class UserRoleController(
 {
     [HttpGet]
     public IActionResult GetMetadata() =>
-        Ok(value: new MetadataContainer(type: typeof(UserRole), isEntity: true, hasEndpoint: true));
+        Ok(
+            value: MetadataBroker.CreateMetadataContainer(
+                type: typeof(UserRole),
+                isEntity: true,
+                hasEndpoint: true));
 
     [HttpGet]
     [EnableQuery(

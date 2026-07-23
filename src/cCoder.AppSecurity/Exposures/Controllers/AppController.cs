@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Api.OData;
+using cCoder.AppSecurity.Brokers.Metadata;
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.Data.Extensions;
@@ -27,7 +28,11 @@ public sealed class AppController(IAppService service) : ODataController
 value: new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
                     .Build()
                     .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(App)))
-            : Ok(value: new MetadataContainer(type: typeof(App), isEntity: true, hasEndpoint: false));
+            : Ok(
+                value: MetadataBroker.CreateMetadataContainer(
+                    type: typeof(App),
+                    isEntity: true,
+                    hasEndpoint: false));
     }
 
     [HttpGet]

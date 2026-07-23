@@ -17,11 +17,4 @@ public class AppSecurityPackage
     public string SourceApi { get; set; }
 
     public virtual ICollection<AppSecurityPackageItem> Items { get; set; }
-
-    public AppSecurityPackage() { }
-
-    public AppSecurityPackage(string name)
-    {
-        Name = name;
-    }
 }
