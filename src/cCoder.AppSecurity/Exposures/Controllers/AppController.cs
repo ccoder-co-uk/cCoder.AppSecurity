@@ -1,4 +1,10 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Api.OData;
+using cCoder.AppSecurity.Brokers.Metadata;
+using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.Data.Extensions;
@@ -20,10 +26,14 @@ public sealed class AppController(IAppService service) : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-                new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
-                    .Build()
-                    .EDMModel.GetExtendedMetadataForType("AppSecurity", typeof(App)))
-            : Ok(new MetadataContainer(typeof(App), true, false));
+value: new AppSecurityODataModelBroker()
+                    .SelectODataModel()
+                    .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(App)))
+            : Ok(
+                value: MetadataBroker.CreateMetadataContainer(
+                    type: typeof(App),
+                    isEntity: true,
+                    hasEndpoint: false));
     }
 
     [HttpGet]
@@ -36,7 +46,8 @@ public sealed class AppController(IAppService service) : ODataController
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<App> queryOptions) => Ok(service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<App> queryOptions) =>
+        Ok(value: service.GetAll());
 
     [HttpGet]
     [EnableQuery(
@@ -49,8 +60,9 @@ public sealed class AppController(IAppService service) : ODataController
     )]
     public IActionResult Get([FromRoute] int key)
     {
-        IQueryable<App> result = service.GetAll().Where(app => app.Id == key);
+        IQueryable<App> result = service.GetAll()
+            .Where(predicate: app => app.Id == key);
 
-        return Ok(SingleResult.Create(result));
+        return Ok(value: SingleResult.Create(queryable: result));
     }
 }

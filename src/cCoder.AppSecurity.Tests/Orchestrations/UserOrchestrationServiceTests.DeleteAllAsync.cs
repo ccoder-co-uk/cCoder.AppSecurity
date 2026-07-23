@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -14,22 +18,17 @@ public partial class UserOrchestrationServiceTests
     {
         // Given
         User[] entities = [CreateRandomUser()];
-        userProcessingServiceMock.Setup(x => x.DeleteAllAsync(entities)).Returns(ValueTask.CompletedTask);
+
+        userProcessingServiceMock.Setup(expression: x => x.DeleteAllUserAsync(items: entities))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAllAsync(entities);
+        await orchestrationService.DeleteAllUserAsync(deletedUser: entities);
 
         // Then
-        userProcessingServiceMock.Verify(x => x.DeleteAllAsync(entities), Times.Once);
+        userProcessingServiceMock.Verify(expression: x => x.DeleteAllUserAsync(items: entities), times: Times.Once);
         userProcessingServiceMock.VerifyNoOtherCalls();
         userEventProcessingServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

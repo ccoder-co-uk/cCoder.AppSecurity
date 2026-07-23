@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -21,6 +25,7 @@ public partial class UserRoleProcessingServiceTests
             Email = "target@example.com",
             IsActive = true,
         };
+
         Role role = new()
         {
             Id = Guid.NewGuid(),
@@ -35,24 +40,22 @@ public partial class UserRoleProcessingServiceTests
                 Domain = "app.local",
             },
         };
+
         UserRole link = new() { UserId = targetUser.Id, RoleId = role.Id };
-        userRoleServiceMock.Setup(x => x.GetAll(true)).Returns(Array.Empty<UserRole>().AsQueryable());
-        userRoleServiceMock.Setup(x => x.AddAsync(link, false)).ReturnsAsync(link);
+
+        userRoleServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: Array.Empty<UserRole>()
+            .AsQueryable());
+
+        userRoleServiceMock.Setup(expression: x => x.AddUserRoleAsync(newUserRole: link, authorize: false))
+            .ReturnsAsync(value: link);
 
         // When
-        UserRole result = await userRoleProcessingService.SaveAsync(link);
+        UserRole result = await userRoleProcessingService.SaveUserRoleAsync(entity: link);
 
         // Then
-        Assert.Same(link, result);
-        userRoleServiceMock.Verify(x => x.AddAsync(link, false), Times.Once);
+        Assert.Same(expected: link, actual: result);
+        userRoleServiceMock.Verify(expression: x => x.AddUserRoleAsync(newUserRole: link, authorize: false), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-
-

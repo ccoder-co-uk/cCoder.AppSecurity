@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -19,9 +23,10 @@ public partial class UserProcessingServiceTests
 
     public UserProcessingServiceTests()
     {
+
         userProcessingService = new UserProcessingService(
-            userServiceMock.Object,
-            coreAuthInfoMock.Object
+service: userServiceMock.Object,
+authInfo: coreAuthInfoMock.Object
         );
     }
 
@@ -39,21 +44,12 @@ public partial class UserProcessingServiceTests
     private static User CreateRandomUser(string id = "test-user", string email = null) =>
         Builder<User>
             .CreateNew()
-            .With(x => x.Id = id)
-            .With(x => x.DefaultCultureId = string.Empty)
-            .With(x => x.DisplayName = $"User-{Guid.NewGuid():N}")
-            .With(x => x.Email = email ?? $"{Guid.NewGuid():N}@example.com")
-            .With(x => x.IsActive = true)
-            .With(x => x.DefaultCulture = null)
-            .With(x => x.Roles = [])
+            .With(func: x => x.Id = id)
+            .With(func: x => x.DefaultCultureId = string.Empty)
+            .With(func: x => x.DisplayName = $"User-{Guid.NewGuid():N}")
+            .With(func: x => x.Email = email ?? $"{Guid.NewGuid():N}@example.com")
+            .With(func: x => x.IsActive = true)
+            .With(func: x => x.DefaultCulture = null)
+            .With(func: x => x.Roles = [])
             .Build();
 }
-
-
-
-
-
-
-
-
-

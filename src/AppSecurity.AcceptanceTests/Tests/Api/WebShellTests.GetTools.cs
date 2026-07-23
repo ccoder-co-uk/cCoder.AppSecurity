@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using FluentAssertions;
 using Xunit;
 
@@ -14,17 +18,38 @@ public sealed partial class WebShellTests
         string actualContent = await GetToolsAsync();
 
         // Then
-        actualContent.Should().Contain("App Security");
-        actualContent.Should().Contain("Application roles, users, and privilege assignments");
-        actualContent.Should().Contain("/tools/company-logo.png");
-        actualContent.Should().Contain("as-logo");
-        actualContent.Should().Contain("Sign in required");
-        actualContent.Should().Contain("as-login-gate");
-        actualContent.Should().Contain("as-workbench");
-        actualContent.Should().Contain("App Security workspace tabs");
-        actualContent.Should().Contain("/tools/api.js");
-        actualContent.Should().Contain("/tools/grids.js");
-        actualContent.Should().Contain("/tools/styles.css?v=appsecurity-tools-20260702-auth");
+        actualContent.Should()
+            .Contain(expected: "App Security");
+
+        actualContent.Should()
+            .Contain(expected: "Application roles, users, and privilege assignments");
+
+        actualContent.Should()
+            .Contain(expected: "/tools/company-logo.png");
+
+        actualContent.Should()
+            .Contain(expected: "as-logo");
+
+        actualContent.Should()
+            .Contain(expected: "Sign in required");
+
+        actualContent.Should()
+            .Contain(expected: "as-login-gate");
+
+        actualContent.Should()
+            .Contain(expected: "as-workbench");
+
+        actualContent.Should()
+            .Contain(expected: "App Security workspace tabs");
+
+        actualContent.Should()
+            .Contain(expected: "/tools/api.js");
+
+        actualContent.Should()
+            .Contain(expected: "/tools/grids.js");
+
+        actualContent.Should()
+            .Contain(expected: "/tools/styles.css?v=appsecurity-tools-20260702-auth");
     }
 
     [Fact]
@@ -33,23 +58,48 @@ public sealed partial class WebShellTests
         // Given
 
         // When
-        string actualApiScript = await GetScriptAsync("api.js");
-        string actualGridScript = await GetScriptAsync("grids.js");
+        string actualApiScript = await GetScriptAsync(scriptName: "api.js");
+        string actualGridScript = await GetScriptAsync(scriptName: "grids.js");
 
         // Then
-        actualApiScript.Should().Contain("window.AppSecurityApi");
-        actualApiScript.Should().Contain("appsecurity-auth-changed");
-        actualApiScript.Should().Contain("isAuthenticated: function");
-        actualApiScript.Should().Contain("document.body.classList.toggle(\"is-authenticated\"");
-        actualGridScript.Should().Contain("window.AppSecurityGrids");
-        actualGridScript.Should().Contain("AppSecurityApi.isAuthenticated()");
-        actualGridScript.Should().Contain("appsecurity-auth-changed");
-        actualGridScript.Should().Contain("Add user");
-        actualGridScript.Should().Contain("Save privileges");
-        actualGridScript.Should().Contain("/Privilege?$top=500");
-        actualGridScript.Should().NotContain("title: \"Privileges\"");
-        actualGridScript.Should().NotContain("title: \"Role Privileges\"");
-        actualGridScript.Should().NotContain("title: \"User Roles\"");
+        actualApiScript.Should()
+            .Contain(expected: "window.AppSecurityApi");
+
+        actualApiScript.Should()
+            .Contain(expected: "appsecurity-auth-changed");
+
+        actualApiScript.Should()
+            .Contain(expected: "isAuthenticated: function");
+
+        actualApiScript.Should()
+            .Contain(expected: "document.body.classList.toggle(\"is-authenticated\"");
+
+        actualGridScript.Should()
+            .Contain(expected: "window.AppSecurityGrids");
+
+        actualGridScript.Should()
+            .Contain(expected: "AppSecurityApi.isAuthenticated()");
+
+        actualGridScript.Should()
+            .Contain(expected: "appsecurity-auth-changed");
+
+        actualGridScript.Should()
+            .Contain(expected: "Add user");
+
+        actualGridScript.Should()
+            .Contain(expected: "Save privileges");
+
+        actualGridScript.Should()
+            .Contain(expected: "/Privilege?$top=500");
+
+        actualGridScript.Should()
+            .NotContain(unexpected: "title: \"Privileges\"");
+
+        actualGridScript.Should()
+            .NotContain(unexpected: "title: \"Role Privileges\"");
+
+        actualGridScript.Should()
+            .NotContain(unexpected: "title: \"User Roles\"");
     }
 
     [Fact]
@@ -58,14 +108,25 @@ public sealed partial class WebShellTests
         // Given
 
         // When
-        string actualStyles = await GetScriptAsync("styles.css");
+        string actualStyles = await GetScriptAsync(scriptName: "styles.css");
 
         // Then
-        actualStyles.Should().Contain(".as-logo");
-        actualStyles.Should().Contain("body.as-shell:not(.is-authenticated) .as-workbench");
-        actualStyles.Should().Contain("body.as-shell.is-authenticated .as-login-gate");
-        actualStyles.Should().Contain("grid-template-rows: auto minmax(0, 1fr)");
-        actualStyles.Should().Contain(".as-nav-item.active");
-        actualStyles.Should().Contain("border-radius: 4px 4px 0 0");
+        actualStyles.Should()
+            .Contain(expected: ".as-logo");
+
+        actualStyles.Should()
+            .Contain(expected: "body.as-shell:not(.is-authenticated) .as-workbench");
+
+        actualStyles.Should()
+            .Contain(expected: "body.as-shell.is-authenticated .as-login-gate");
+
+        actualStyles.Should()
+            .Contain(expected: "grid-template-rows: auto minmax(0, 1fr)");
+
+        actualStyles.Should()
+            .Contain(expected: ".as-nav-item.active");
+
+        actualStyles.Should()
+            .Contain(expected: "border-radius: 4px 4px 0 0");
     }
 }

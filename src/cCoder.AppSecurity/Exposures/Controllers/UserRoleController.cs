@@ -1,4 +1,9 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Api.OData;
+using cCoder.AppSecurity.Brokers.Metadata;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -10,17 +15,17 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
-public partial class UserRoleController : ODataController
+public sealed partial class UserRoleController(
+    IUserRoleOrchestrationService service)
+    : ODataController
 {
-    protected IUserRoleOrchestrationService Service { get; }
-
-    public UserRoleController(IUserRoleOrchestrationService service)
-    {
-        Service = service;
-    }
-
     [HttpGet]
-    public IActionResult GetMetadata() => Ok(new MetadataContainer(typeof(UserRole), true, true));
+    public IActionResult GetMetadata() =>
+        Ok(
+            value: MetadataBroker.CreateMetadataContainer(
+                type: typeof(UserRole),
+                isEntity: true,
+                hasEndpoint: true));
 
     [HttpGet]
     [EnableQuery(
@@ -32,31 +37,36 @@ public partial class UserRoleController : ODataController
         MaxExpansionDepth = 3
     )]
     [ActionName("Get")]
-    public IActionResult GetAll() => Ok(Service.GetAll());
+    public IActionResult GetAll() =>
+        Ok(value: service.GetAll());
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] UserRole entity)
+    public async Task<IActionResult> Post([FromBody] UserRole newUserRole)
     {
         if (!ModelState.IsValid)
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(ModelState);
+        {
+            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
-        return Ok(await Service.AddAsync(entity));
+        return Ok(value: await service.AddUserRoleAsync(entity: newUserRole));
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteAll([FromBody] ODataCollection<UserRole> items)
+    public async Task<IActionResult> DeleteAll([FromBody] IEnumerable<UserRole> deletedUserRole)
     {
         if (!ModelState.IsValid)
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(ModelState);
+        {
+            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
-        await Service.DeleteAllAsync(items.Value);
+        await service.DeleteAllUserRoleAsync(items: deletedUserRole);
         return Ok();
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid keyRoleId, [FromRoute] string keyUserId)
     {
-        await Service.DeleteAsync(new UserRole
+        await service.DeleteUserRoleAsync(entity: new UserRole
         {
             RoleId = keyRoleId,
             UserId = keyUserId,
@@ -65,19 +75,3 @@ public partial class UserRoleController : ODataController
         return Ok();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

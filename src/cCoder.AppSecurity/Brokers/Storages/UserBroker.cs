@@ -1,3 +1,6 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
 
 using cCoder.Data;
 using cCoder.Data.Models.Security;
@@ -16,79 +19,79 @@ public interface IUserBroker
     int? GetAppId(User entity);
 }
 
-public class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
+internal sealed class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
 {
 
     public IQueryable<User> GetAllUsers(bool ignoreFilters)
     {
         CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        return ignoreFilters
-            ? coreDataContext.Users.IgnoreQueryFilters()
-            : coreDataContext.Users;
+
+        Dictionary<bool, Func<IQueryable<User>>> queries = new()
+        {
+            [false] = () => coreDataContext.Users,
+            [true] = () => coreDataContext.Users.IgnoreQueryFilters(),
+        };
+
+        return queries[ignoreFilters]();
     }
 
     public User GetUserByEmail(string email, bool ignoreFilters)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
-        IQueryable<User> users = ignoreFilters
-            ? coreDataContext.Users.IgnoreQueryFilters()
-            : coreDataContext.Users;
+        Dictionary<bool, Func<IQueryable<User>>> queries = new()
+        {
+            [false] = () => coreDataContext.Users,
+            [true] = () => coreDataContext.Users.IgnoreQueryFilters(),
+        };
 
-        return users.FirstOrDefault(user => user.Email == email);
+        IQueryable<User> users = queries[ignoreFilters]();
+
+        return users.FirstOrDefault(predicate: user => user.Email == email);
     }
 
-    public async ValueTask<User> AddUserAsync(User entity)
+    public async ValueTask<User> AddUserAsync(User newUser)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        User result = (await coreDataContext.Users.AddAsync(entity)).Entity;
+        User result = (await coreDataContext.Users.AddAsync(entity: newUser)).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<User> UpdateUserAsync(User entity)
+    public async ValueTask<User> UpdateUserAsync(User updatedUser)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        User result = coreDataContext.Users.Update(entity).Entity;
+        User result = coreDataContext.Users.Update(entity: updatedUser).Entity;
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }
 
-    public async ValueTask<int> DeleteUserAsync(User entity)
+    public async ValueTask<int> DeleteUserAsync(User deletedUser)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Users.Remove(entity);
+        coreDataContext.Users.Remove(entity: deletedUser);
         return await coreDataContext.SaveChangesAsync();
     }
 
-    public async ValueTask DeleteAllUsersAsync(IEnumerable<User> items)
+    public async ValueTask DeleteAllUsersAsync(IEnumerable<User> deletedUser)
     {
-        if (items == null || !items.Any())
-            return;
-
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
-        coreDataContext.Users.RemoveRange(items);
+        coreDataContext.Users.RemoveRange(entities: deletedUser);
         _ = await coreDataContext.SaveChangesAsync();
     }
 
     public int? GetAppId(User entity)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
         return coreDataContext.UserRoles
 
-            .Where(userRole => userRole.UserId == entity.Id)
-            .Join(coreDataContext.Roles,
-                userRole => userRole.RoleId,
-                role => role.Id,
-                (userRole, role) => (int?)role.AppId)
+            .Where(predicate: userRole => userRole.UserId == entity.Id)
+            .Join(inner: coreDataContext.Roles,
+outerKeySelector: userRole => userRole.RoleId,
+innerKeySelector: role => role.Id,
+resultSelector: (userRole, role) => (int?)role.AppId)
             .FirstOrDefault();
 
     }
 }
-
-
-
-
-
-
-

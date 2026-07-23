@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Xunit;
@@ -12,34 +16,52 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
 
     public Task InitializeAsync()
     {
+        string coreConnectionString = GetRequiredConnectionString(
+            variableName: "CCODER_ACCEPTANCE_CORE_CONNECTION_STRING");
+
+        string ssoConnectionString = GetRequiredConnectionString(
+            variableName: "CCODER_ACCEPTANCE_SSO_CONNECTION_STRING");
+
         Factory = new WebApplicationFactory<global::AppSecurity.HostedServices.Program>()
-            .WithWebHostBuilder(builder => builder.ConfigureAppConfiguration(
-                (_, configuration) => configuration.AddInMemoryCollection(
-                    new Dictionary<string, string>
+            .WithWebHostBuilder(configuration: builder => builder.ConfigureAppConfiguration(
+                configureDelegate: (_, configuration) => configuration.AddInMemoryCollection(
+                    initialData: new Dictionary<string, string>
                     {
-                        ["ConnectionStrings:Core"] =
-                            "Data Source=.;Initial Catalog=AppSecurityHostedAcceptanceCore;Trusted_Connection=True;Trust Server Certificate=true",
-                        ["ConnectionStrings:SSO"] =
-                            "Data Source=.;Initial Catalog=AppSecurityHostedAcceptanceSSO;Trusted_Connection=True;Trust Server Certificate=true",
+                        ["ConnectionStrings:Core"] = coreConnectionString,
+                        ["ConnectionStrings:SSO"] = ssoConnectionString,
                         ["Settings:DecryptionKey"] = "000000000000000000000000000000000000000000000000",
                         ["Settings:enableExternalEventing"] = "false",
                         ["AppSecurity:IsMigrating"] = "true",
                     })));
-        Client = Factory.CreateClient(new WebApplicationFactoryClientOptions
+
+        Client = Factory.CreateClient(options: new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false,
-            BaseAddress = new Uri("https://localhost"),
+            BaseAddress = new Uri(uriString: "https://localhost"),
         });
 
         return Task.CompletedTask;
     }
+
+    private static string GetRequiredConnectionString(string variableName) =>
+        Environment.GetEnvironmentVariable(variable: variableName)
+        ?? Environment.GetEnvironmentVariable(
+            variable: variableName,
+            target: EnvironmentVariableTarget.User)
+        ?? Environment.GetEnvironmentVariable(
+            variable: variableName,
+            target: EnvironmentVariableTarget.Machine)
+        ?? throw new InvalidOperationException(
+            message: $"The required {variableName} environment variable is not configured.");
 
     public async Task DisposeAsync()
     {
         Client?.Dispose();
 
         if (Factory is not null)
+        {
             await Factory.DisposeAsync();
+        }
     }
 }
 

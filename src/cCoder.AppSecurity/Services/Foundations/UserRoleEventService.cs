@@ -1,8 +1,12 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
-using cCoder.Data;
 using cCoder.Eventing.Models;
+using cCoder.AppSecurity.Brokers;
 using DataRole = cCoder.Data.Models.Security.Role;
 using DataUser = cCoder.Data.Models.Security.User;
 using DataUserRole = cCoder.Data.Models.Security.UserRole;
@@ -11,30 +15,40 @@ using IUserRoleEventBroker = cCoder.AppSecurity.Brokers.Events.IUserRoleEventBro
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-internal class UserRoleEventService(IUserRoleEventBroker userRoleEventBroker, ICoreAuthInfo authInfo)
+internal sealed partial class UserRoleEventService(IUserRoleEventBroker userRoleEventBroker, IAuthInfoBroker authInfoBroker)
     : IUserRoleEventService
 {
-    public async ValueTask RaiseUserRoleAddEventAsync(UserRole entity)
-    {
-        EventMessage<DataUserRole> message = new()
+    public ValueTask RaiseUserRoleAddEventAsync(UserRole entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUserRole(entity),
-        };
+            ValidateRaiseUserRoleAddEvent(
+                entity: entity);
 
-        await userRoleEventBroker.RaiseUserRoleAddEventAsync(message);
-    }
+            EventMessage<DataUserRole> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
+                Data = ToExternalUserRole(item: entity),
+            };
 
-    public async ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity)
-    {
-        EventMessage<DataUserRole> message = new()
+            await userRoleEventBroker.RaiseUserRoleAddEventAsync(message: message);
+
+        });
+
+    public ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUserRole(entity),
-        };
+            ValidateRaiseUserRoleDeleteEvent(
+                entity: entity);
 
-        await userRoleEventBroker.RaiseUserRoleDeleteEventAsync(message);
-    }
+            EventMessage<DataUserRole> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
+                Data = ToExternalUserRole(item: entity),
+            };
+
+            await userRoleEventBroker.RaiseUserRoleDeleteEventAsync(message: message);
+
+        });
 
     static DataUserRole ToExternalUserRole(UserRole item) =>
         new()
@@ -60,13 +74,3 @@ internal class UserRoleEventService(IUserRoleEventBroker userRoleEventBroker, IC
             },
         };
 }
-
-
-
-
-
-
-
-
-
-

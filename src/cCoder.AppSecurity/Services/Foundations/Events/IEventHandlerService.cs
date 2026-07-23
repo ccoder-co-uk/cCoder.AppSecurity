@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
 public interface IEventHandlerService
@@ -7,4 +11,3 @@ public interface IEventHandlerService
     void ListenToAppDeleteEvents();
     void ListenToSecurityAccountEvents();
 }
-

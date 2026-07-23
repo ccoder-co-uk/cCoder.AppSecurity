@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Services.Orchestrations;
 using cCoder.AppSecurity.Services.Processings;
 using cCoder.Data.Models.CMS;
@@ -10,32 +14,34 @@ public partial class AccountEventOrchestrationServiceTests
 {
     private readonly Mock<IAppProcessingService> appProcessingServiceMock;
     private readonly Mock<IUserProcessingService> userProcessingServiceMock;
-    private readonly Mock<IRoleProcessingService> roleProcessingServiceMock;
-    private readonly Mock<IUserRoleProcessingService> userRoleProcessingServiceMock;
+    private readonly Mock<IAccountRoleAssignmentProcessingService> accountRoleAssignmentProcessingServiceMock;
     private readonly AccountEventOrchestrationService accountEventOrchestrationService;
 
     public AccountEventOrchestrationServiceTests()
     {
-        appProcessingServiceMock = new Mock<IAppProcessingService>(MockBehavior.Strict);
-        userProcessingServiceMock = new Mock<IUserProcessingService>(MockBehavior.Strict);
-        roleProcessingServiceMock = new Mock<IRoleProcessingService>(MockBehavior.Strict);
-        userRoleProcessingServiceMock = new Mock<IUserRoleProcessingService>(MockBehavior.Strict);
+        appProcessingServiceMock = new Mock<IAppProcessingService>(behavior: MockBehavior.Strict);
+        userProcessingServiceMock = new Mock<IUserProcessingService>(behavior: MockBehavior.Strict);
+
+        accountRoleAssignmentProcessingServiceMock =
+            new Mock<IAccountRoleAssignmentProcessingService>(
+                behavior: MockBehavior.Strict);
 
         accountEventOrchestrationService = new AccountEventOrchestrationService(
-            appProcessingServiceMock.Object,
-            userProcessingServiceMock.Object,
-            roleProcessingServiceMock.Object,
-            userRoleProcessingServiceMock.Object);
+            appProcessingService: appProcessingServiceMock.Object,
+            userProcessingService: userProcessingServiceMock.Object,
+            accountRoleAssignmentProcessingService: accountRoleAssignmentProcessingServiceMock.Object);
     }
 
-    private static App CreateApp() => new()
+    private static App CreateApp() =>
+        new()
     {
         Id = 123,
         Domain = "example.com",
         DefaultCultureId = "en-GB"
     };
 
-    private static Role CreateUsersRole(int appId) => new()
+    private static Role CreateUsersRole(int appId) =>
+        new()
     {
         Id = Guid.NewGuid(),
         AppId = appId,

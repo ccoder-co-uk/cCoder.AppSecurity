@@ -1,51 +1,70 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
-using cCoder.Data;
 using cCoder.Eventing.Models;
+using cCoder.AppSecurity.Brokers;
 using DataPrivilege = cCoder.Data.Models.Security.Privilege;
 using IPrivilegeEventBroker = cCoder.AppSecurity.Brokers.Events.IPrivilegeEventBroker;
 
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-internal class PrivilegeEventService(
+internal sealed partial class PrivilegeEventService(
     IPrivilegeEventBroker privilegeEventBroker,
-    ICoreAuthInfo authInfo
+    IAuthInfoBroker authInfoBroker
 ) : IPrivilegeEventService
 {
-    public async ValueTask RaisePrivilegeAddEventAsync(Privilege entity)
-    {
-        EventMessage<DataPrivilege> message = new()
+    public ValueTask RaisePrivilegeAddEventAsync(Privilege entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalPrivilege(entity),
-        };
+            ValidateRaisePrivilegeAddEvent(
+                entity: entity);
 
-        await privilegeEventBroker.RaisePrivilegeAddEventAsync(message);
-    }
+            EventMessage<DataPrivilege> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
+                Data = ToExternalPrivilege(item: entity),
+            };
 
-    public async ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity)
-    {
-        EventMessage<DataPrivilege> message = new()
+            await privilegeEventBroker.RaisePrivilegeAddEventAsync(message: message);
+
+        });
+
+    public ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalPrivilege(entity),
-        };
+            ValidateRaisePrivilegeUpdateEvent(
+                entity: entity);
 
-        await privilegeEventBroker.RaisePrivilegeUpdateEventAsync(message);
-    }
+            EventMessage<DataPrivilege> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
+                Data = ToExternalPrivilege(item: entity),
+            };
 
-    public async ValueTask RaisePrivilegeDeleteEventAsync(Privilege entity)
-    {
-        EventMessage<DataPrivilege> message = new()
+            await privilegeEventBroker.RaisePrivilegeUpdateEventAsync(message: message);
+
+        });
+
+    public ValueTask RaisePrivilegeDeleteEventAsync(Privilege entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalPrivilege(entity),
-        };
+            ValidateRaisePrivilegeDeleteEvent(
+                entity: entity);
 
-        await privilegeEventBroker.RaisePrivilegeDeleteEventAsync(message);
-    }
+            EventMessage<DataPrivilege> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
+                Data = ToExternalPrivilege(item: entity),
+            };
+
+            await privilegeEventBroker.RaisePrivilegeDeleteEventAsync(message: message);
+
+        });
 
     static DataPrivilege ToExternalPrivilege(Privilege item) =>
         new()
@@ -57,13 +76,3 @@ internal class PrivilegeEventService(
             PortalAdminsOnly = item.PortalAdminsOnly,
         };
 }
-
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -15,26 +19,23 @@ public partial class UserOrchestrationServiceTests
     {
         // Given
         User entity = CreateRandomUser();
-        userProcessingServiceMock.Setup(x => x.AddAsync(entity)).ReturnsAsync(entity);
+
+        userProcessingServiceMock.Setup(expression: x => x.AddUserAsync(entity: entity))
+            .ReturnsAsync(value: entity);
 
         userEventProcessingServiceMock
-            .Setup(x => x.RaiseUserAddEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseUserAddEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        User result = await orchestrationService.AddAsync(entity);
+        User result = await orchestrationService.AddUserAsync(newUser: entity);
 
         // Then
-        result.Should().BeSameAs(entity);
-        userProcessingServiceMock.Verify(x => x.AddAsync(entity), Times.Once);
-        userEventProcessingServiceMock.Verify(x => x.RaiseUserAddEventAsync(entity), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entity);
+
+        userProcessingServiceMock.Verify(expression: x => x.AddUserAsync(entity: entity), times: Times.Once);
+        userEventProcessingServiceMock.Verify(expression: x => x.RaiseUserAddEventAsync(entity: entity), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-

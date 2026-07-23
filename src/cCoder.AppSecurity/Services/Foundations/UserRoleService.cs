@@ -1,85 +1,160 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using DataUserRole = cCoder.Data.Models.Security.UserRole;
 using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
 using IRoleBroker = cCoder.AppSecurity.Brokers.IRoleBroker;
+using IUserBroker = cCoder.AppSecurity.Brokers.Storages.IUserBroker;
 using IUserRoleBroker = cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker;
 
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
-internal class UserRoleService(
+internal sealed partial class UserRoleService(
     IUserRoleBroker userRoleBroker,
     IRoleBroker roleBroker,
+    IUserBroker userBroker,
     IAuthorizationBroker authorizationBroker
-) : IUserRoleService
+) : IUserRoleFoundationService
 {
     public IQueryable<UserRole> GetAll(bool ignoreFilters = false) =>
-        userRoleBroker.GetAllUserRoles(ignoreFilters);
-
-    public async ValueTask<UserRole> AddAsync(UserRole userRole, bool authorize = true)
-    {
-        DataUserRole internalUserRole = new()
+        TryCatch(operation: IQueryable<UserRole> () =>
         {
-            RoleId = userRole.RoleId,
-            UserId = userRole.UserId
-        };
-        if (authorize)
+            ValidateAllOnGet(
+                ignoreFilters: ignoreFilters);
+
+            return userRoleBroker.GetAllUserRoles(ignoreFilters: ignoreFilters);
+        });
+
+    public ValueTask<UserRole> AddUserRoleAsync(UserRole newUserRole, bool authorize = true) =>
+        TryCatch(operation: async ValueTask<UserRole> () =>
         {
-            int? appId = userRoleBroker.GetAppId(internalUserRole);
-            authorizationBroker.Authorize(appId, $"{nameof(UserRole)}_create");
-            AuthorizeAssignedRolePrivileges(appId, userRole.RoleId);
-        }
+            ValidateUserRoleOnAdd(
+                newUserRole: newUserRole,
+                authorize: authorize);
 
-        DataUserRole result = await userRoleBroker.AddUserRoleAsync(internalUserRole);
-        userRole.RoleId = result.RoleId;
-        userRole.UserId = result.UserId;
-        return userRole;
-    }
+            DataUserRole internalUserRole = new()
+            {
+                RoleId = newUserRole.RoleId,
+                UserId = newUserRole.UserId
+            };
 
-    public async ValueTask DeleteAsync(UserRole userRole)
-    {
-        DataUserRole internalUserRole = ToExternalUserRole(userRole);
+            if (authorize)
+            {
+                int? appId = userRoleBroker.GetAppId(entity: internalUserRole);
+                authorizationBroker.Authorize(appId: appId, privilege: $"{nameof(UserRole)}_create");
+                AuthorizeAssignedRolePrivileges(appId: appId, roleId: newUserRole.RoleId);
+            }
+
+            DataUserRole result = await userRoleBroker.AddUserRoleAsync(entity: internalUserRole);
+            newUserRole.RoleId = result.RoleId;
+            newUserRole.UserId = result.UserId;
+            return newUserRole;
+
+        });
+
+    public ValueTask DeleteUserRoleAsync(UserRole deletedUserRole) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateUserRoleOnDelete(
+                deletedUserRole: deletedUserRole);
+
+            DataUserRole internalUserRole = ToExternalUserRole(item: deletedUserRole);
+
+            authorizationBroker.Authorize(
+    appId: userRoleBroker.GetAppId(entity: internalUserRole),
+    privilege: $"{nameof(UserRole)}_delete"
+            );
+
+            _ = await userRoleBroker.DeleteUserRoleAsync(entity: internalUserRole);
+
+        });
+
+    internal Role GetRole(Guid roleId) =>
+        roleBroker.GetAllRoles(ignoreFilters: true)
+            .FirstOrDefault(predicate: role => role.Id == roleId);
+
+    internal User GetUser(string userId) =>
+        userBroker.GetAllUsers(ignoreFilters: true)
+            .FirstOrDefault(predicate: user => user.Id == userId);
+
+    internal User GetCurrentUser() =>
+        authorizationBroker.GetCurrentUser();
+
+    internal void Authorize(int? appId, string privilege) =>
         authorizationBroker.Authorize(
-            userRoleBroker.GetAppId(internalUserRole),
-            $"{nameof(UserRole)}_delete"
-        );
-        _ = await userRoleBroker.DeleteUserRoleAsync(internalUserRole);
-    }
+            appId: appId,
+            privilege: privilege);
+
+    internal bool IsAdminOfApp(int? appId) =>
+        authorizationBroker.IsAdminOfApp(
+            appId: appId);
+
+    Role IUserRoleFoundationService.GetRole(Guid roleId) =>
+        GetRole(roleId: roleId);
+
+    User IUserRoleFoundationService.GetUser(string userId) =>
+        GetUser(userId: userId);
+
+    User IUserRoleFoundationService.GetCurrentUser() =>
+        GetCurrentUser();
+
+    void IUserRoleFoundationService.Authorize(
+        int? appId,
+        string privilege) =>
+        Authorize(
+            appId: appId,
+            privilege: privilege);
+
+    bool IUserRoleFoundationService.IsAdminOfApp(int? appId) =>
+        IsAdminOfApp(appId: appId);
 
     private void AuthorizeAssignedRolePrivileges(int? appId, Guid roleId)
     {
         if (!appId.HasValue)
+        {
             return;
+        }
 
-        Role role = roleBroker.GetAllRoles(true).FirstOrDefault(foundRole => foundRole.Id == roleId);
+        Role role = roleBroker.GetAllRoles(ignoreFilters: true)
+            .FirstOrDefault(predicate: foundRole => foundRole.Id == roleId);
 
         if (role is null)
+        {
             return;
+        }
 
-        string[] assignedPrivilegeSet = ToPrivilegeSet(role.Privs);
+        string[] assignedPrivilegeSet = ToPrivilegeSet(privileges: role.Privs);
 
         if (assignedPrivilegeSet.Length == 0)
+        {
             return;
+        }
 
         User currentUser = authorizationBroker.GetCurrentUser();
+
         HashSet<string> grantedPrivileges = currentUser?.Roles?
-            .Where(userRole => userRole.Role?.AppId == appId.Value)
-            .SelectMany(userRole => ToPrivilegeSet(userRole.Role.Privs))
-            .ToHashSet(StringComparer.OrdinalIgnoreCase)
+            .Where(predicate: userRole => userRole.Role?.AppId == appId.Value)
+            .SelectMany(selector: userRole => ToPrivilegeSet(privileges: userRole.Role.Privs))
+            .ToHashSet(comparer: StringComparer.OrdinalIgnoreCase)
             ?? [];
 
-        if (assignedPrivilegeSet.Any(assignedPrivilege => !grantedPrivileges.Contains(assignedPrivilege)))
-            throw new System.Security.SecurityException("Access Denied!");
+        if (assignedPrivilegeSet.Any(predicate: assignedPrivilege => !grantedPrivileges.Contains(item: assignedPrivilege)))
+        {
+            throw new System.Security.SecurityException(message: "Access Denied!");
+        }
     }
 
     private static string[] ToPrivilegeSet(string privileges) =>
-        string.IsNullOrWhiteSpace(privileges)
+        string.IsNullOrWhiteSpace(value: privileges)
             ? []
             : [.. privileges
-                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .Select(privilege => privilege.ToLowerInvariant())
+                .Split(separator: ',', options: StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(selector: privilege => privilege.ToLowerInvariant())
                 .Distinct()];
 
     static UserRole ToLocalUserRole(DataUserRole item) =>
@@ -130,16 +205,3 @@ internal class UserRoleService(
             },
         };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 namespace cCoder.AppSecurity.Models;
 
 public class AppSecurityPackage
@@ -13,12 +17,4 @@ public class AppSecurityPackage
     public string SourceApi { get; set; }
 
     public virtual ICollection<AppSecurityPackageItem> Items { get; set; }
-
-    public AppSecurityPackage() { }
-
-    public AppSecurityPackage(string name)
-    {
-        Name = name;
-    }
 }
-

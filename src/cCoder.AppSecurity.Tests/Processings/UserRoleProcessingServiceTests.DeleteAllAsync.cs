@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -13,8 +17,11 @@ public partial class UserRoleProcessingServiceTests
     public async Task ShouldUseDataContextWhenUserCanDeleteAllLinksForDeleteAllAsync()
     {
         // Given
-        authorizationBrokerMock.Setup(x => x.GetCurrentUser()).Returns(() => ToExternalUser(currentUser));
-        User actor = WithPrivilege("userrole_delete", 1);
+        userRoleServiceMock.Setup(expression: x => x.GetCurrentUser())
+            .Returns(valueFunction: () => ToExternalUser(user: currentUser));
+
+        User actor = WithPrivilege(privilege: "userrole_delete", appId: 1);
+
         Role role = new()
         {
             Id = Guid.NewGuid(),
@@ -22,42 +29,44 @@ public partial class UserRoleProcessingServiceTests
             Name = "Editors",
             Privs = "page_read",
         };
+
         UserRole link = new()
         {
             UserId = "target-user",
             RoleId = role.Id,
             Role = role,
         };
+
         currentUser = actor;
-        userRoleServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { link }.AsQueryable());
+
+        userRoleServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: new[] { link }.AsQueryable());
+
         userRoleServiceMock
-            .Setup(x => x.DeleteAsync(link))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: service => service.GetRole(roleId: role.Id))
+            .Returns(value: role);
+
+        userRoleServiceMock
+            .Setup(expression: x => x.DeleteUserRoleAsync(deletedUserRole: link))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await userRoleProcessingService.DeleteAllAsync([
+        await userRoleProcessingService.DeleteAllUserRoleAsync(deletedUserRole: [
             new UserRole { UserId = link.UserId, RoleId = link.RoleId },
         ]);
 
         // Then
-        userRoleServiceMock.Verify(x => x.GetAll(true), Times.Once);
+        userRoleServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
+
         userRoleServiceMock.Verify(
-            x =>
-                x.DeleteAsync(
-                    It.Is<UserRole>(item =>
+expression: x =>
+                x.DeleteUserRoleAsync(
+deletedUserRole: It.Is<UserRole>(match: item =>
                         item.UserId == link.UserId && item.RoleId == link.RoleId
                     )
                 ),
-            Times.Once
+times: Times.Once
         );
     }
 
 }
-
-
-
-
-
-
-
-

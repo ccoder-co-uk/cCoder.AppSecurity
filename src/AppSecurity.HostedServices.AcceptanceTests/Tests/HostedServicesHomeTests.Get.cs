@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Xunit;
 
 namespace AppSecurity.HostedServices.AcceptanceTests.Tests;
@@ -13,8 +17,8 @@ public sealed partial class HostedServicesHomeTests
         string report = await GetRootAsync();
 
         // Then
-        Assert.Contains("cCoder.AppSecurity Hosted Services", report);
-        Assert.Contains("TokenCleanerHostedService", report);
-        Assert.Contains("AnalysePlatformUsageHostedService", report);
+        Assert.Contains(expectedSubstring: "cCoder.AppSecurity Hosted Services", actualString: report);
+        Assert.Contains(expectedSubstring: "TokenCleanerHostedService", actualString: report);
+        Assert.Contains(expectedSubstring: "AnalysePlatformUsageHostedService", actualString: report);
     }
 }

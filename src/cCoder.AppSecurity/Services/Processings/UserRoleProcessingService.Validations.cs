@@ -1,0 +1,36 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
+using cCoder.AppSecurity.Dependencies;
+
+namespace cCoder.AppSecurity.Services.Processings;
+
+internal sealed partial class UserRoleProcessingService
+{
+    private static void ValidateGetAll(bool ignoreFilters = false) =>
+        ValidationRulesEngine.Validate(inputs: [
+            ignoreFilters,
+        ]);
+
+    private static void ValidateAddUserRole(UserRole newUserRole) =>
+        ValidationRulesEngine.Validate(inputs: [
+            newUserRole,
+        ]);
+
+    private static void ValidateSaveUserRole(UserRole entity) =>
+        ValidationRulesEngine.Validate(inputs: [
+            entity,
+        ]);
+
+    private static void ValidateDeleteUserRole(UserRole deletedUserRole) =>
+        ValidationRulesEngine.Validate(inputs: [
+            deletedUserRole,
+        ]);
+
+    private static void ValidateDeleteAllUserRole(IEnumerable<UserRole> deletedUserRole) =>
+        ValidationRulesEngine.Validate(inputs: [
+            deletedUserRole,
+        ]);
+
+}

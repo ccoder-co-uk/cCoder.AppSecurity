@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Security;
 using cCoder.Security.Objects.Entities;
 using cCoder.Security.Objects.Events;
@@ -11,8 +15,9 @@ public partial class AccountEventOrchestrationServiceTests
     [Fact]
     public async Task ShouldCreateAppUserAndAttachUsersRoleForProcessAsync()
     {
+        // Given
         var app = CreateApp();
-        var usersRole = CreateUsersRole(app.Id);
+
         SecurityAccountEvent accountEvent = new()
         {
             RequestDomain = "https://example.com",
@@ -26,38 +31,43 @@ public partial class AccountEventOrchestrationServiceTests
         };
 
         appProcessingServiceMock
-            .Setup(service => service.GetByDomain(app.Domain))
-            .Returns(app);
+            .Setup(expression: service => service.GetByDomain(domain: app.Domain))
+            .Returns(value: app);
+
         userProcessingServiceMock
-            .Setup(service => service.GetAll(true))
-            .Returns(Array.Empty<User>().AsQueryable());
+            .Setup(expression: service => service.GetAll(ignoreFilters: true))
+            .Returns(value: Array.Empty<User>()
+            .AsQueryable());
+
         userProcessingServiceMock
-            .Setup(service => service.AddAsync(It.Is<User>(user =>
+            .Setup(expression: service => service.AddUserAsync(entity: It.Is<User>(match: user =>
                 user.Id == accountEvent.User.Id
                 && user.DefaultCultureId == accountEvent.Culture
                 && user.DisplayName == accountEvent.User.DisplayName
                 && user.Email == accountEvent.User.Email
                 && user.IsActive)))
-            .ReturnsAsync((User user) => user);
-        roleProcessingServiceMock
-            .Setup(service => service.GetAll(true))
-            .Returns(new[] { usersRole }.AsQueryable());
-        userRoleProcessingServiceMock
-            .Setup(service => service.GetAll(true))
-            .Returns(Array.Empty<UserRole>().AsQueryable());
-        userRoleProcessingServiceMock
-            .Setup(service => service.SaveAsync(It.Is<UserRole>(userRole =>
-                userRole.UserId == accountEvent.User.Id
-                && userRole.RoleId == usersRole.Id)))
-            .ReturnsAsync((UserRole userRole) => userRole);
+            .ReturnsAsync(valueFunction: (User user) => user);
 
-        await accountEventOrchestrationService.ProcessAsync(accountEvent);
+        accountRoleAssignmentProcessingServiceMock
+            .Setup(expression: service => service.AttachUsersRoleAsync(
+                user: It.Is<User>(
+                    match: user => user.Id == accountEvent.User.Id),
+                appId: app.Id))
+            .Returns(value: ValueTask.CompletedTask);
 
+        // When
+        await accountEventOrchestrationService.ProcessSecurityAccountEventAsync(
+            accountEvent: accountEvent);
+
+        // Then
         userProcessingServiceMock.Verify(
-            service => service.AddAsync(It.IsAny<User>()),
-            Times.Once);
-        userRoleProcessingServiceMock.Verify(
-            service => service.SaveAsync(It.IsAny<UserRole>()),
-            Times.Once);
+expression: service => service.AddUserAsync(entity: It.IsAny<User>()),
+times: Times.Once);
+
+        accountRoleAssignmentProcessingServiceMock.Verify(
+            expression: service => service.AttachUsersRoleAsync(
+user: It.IsAny<User>(),
+appId: app.Id),
+            times: Times.Once);
     }
 }

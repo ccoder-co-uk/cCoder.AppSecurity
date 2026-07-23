@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System;
 using System.Text.Json;
 using cCoder.AppSecurity.Services.Foundations;
@@ -14,7 +18,7 @@ public static partial class WebApplicationExtensions
     public static WebApplication StartAppSecurityWeb(
         this WebApplication app,
         ILogger log = null) =>
-        app.UseAppSecurityExposure(log)
+        app.UseAppSecurityExposure(log: log)
             .UseAppSecurityEventHandlers()
             .UseAppSecurityDeleteEventHandlers();
 
@@ -24,8 +28,8 @@ public static partial class WebApplicationExtensions
 
     private static WebApplication UseAppSecurityExposure(this WebApplication app, ILogger log = null)
     {
-        log?.LogInformation("Initialising App Security");
-        PopulateMetadataTypeCache(app);
+        log?.LogInformation(message: "Initialising App Security");
+        PopulateMetadataTypeCache(app: app);
         return app;
     }
 
@@ -49,7 +53,9 @@ public static partial class WebApplicationExtensions
         IServiceProvider services = scope.ServiceProvider;
 
         foreach (IAppSecurityEventHandlers handlers in services.GetServices<IAppSecurityEventHandlers>())
+        {
             handlers.ListenToAppDeleteEvents();
+        }
 
         return app;
     }
@@ -58,15 +64,14 @@ public static partial class WebApplicationExtensions
     {
         IMetadataTypeCache metadataTypeCache = app.Services.GetRequiredService<IMetadataTypeCache>();
 
-        if (!metadataTypeCache.Contains(MetadataScope))
+        if (!metadataTypeCache.Contains(scope: MetadataScope))
         {
             metadataTypeCache.Set(
-                MetadataScope,
-                app.Services
+scope: MetadataScope,
+typeSetPayloads: app.Services
                     .GetRequiredService<IAppSecurityMetadataTypeService>()
                     .GetKnownMetadata()
-                    .Select(static metadata => JsonSerializer.Serialize(metadata)));
+                    .Select(selector: static metadata => JsonSerializer.Serialize(value: metadata)));
         }
     }
 }
-

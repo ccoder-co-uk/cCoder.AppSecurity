@@ -1,5 +1,10 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Exposures.HostedServices;
-using cCoder.AppSecurity.Services.Orchestrations;
+using cCoder.AppSecurity.Services.Foundations;
+using cCoder.AppSecurity.Services.Processings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;
@@ -7,34 +12,42 @@ using Xunit;
 
 namespace cCoder.AppSecurity.Tests;
 
-public class HostedServicesRegistrationTests
+public partial class HostedServicesRegistrationTests
 {
     [Fact]
     public void AddAppSecurityHostedServices_RegistersHostedServices()
     {
+        // Given
         IServiceCollection services = new ServiceCollection();
 
-        services.AddAppSecurityHostedServices();
+        // When
+        services.AddAppSecurityHostedServices(
+            configure: null);
+
+        // Then
+        Assert.Contains(
+            collection: services,
+            filter: descriptor => descriptor.ServiceType == typeof(ITokenCleanerHostedService)
+                && descriptor.ImplementationType == typeof(TokenCleanerHostedService));
 
         Assert.Contains(
-            services,
-            descriptor => descriptor.ServiceType == typeof(ITokenCleanerHostedService)
-                && descriptor.ImplementationType == typeof(TokenCleanerHostedService));
-        Assert.Contains(
-            services,
-            descriptor => descriptor.ServiceType == typeof(IAnalysePlatformUsageHostedService)
+            collection: services,
+            filter: descriptor => descriptor.ServiceType == typeof(IAnalysePlatformUsageHostedService)
                 && descriptor.ImplementationType == typeof(AnalysePlatformUsageHostedService));
+
         Assert.Equal(
-            2,
-            services.Count(descriptor => descriptor.ServiceType == typeof(IHostedService)
+            expected: 2,
+            actual: services.Count(predicate: descriptor => descriptor.ServiceType == typeof(IHostedService)
                 && descriptor.ImplementationFactory is not null));
+
         Assert.Contains(
-            services,
-            descriptor => descriptor.ServiceType == typeof(ITokenCleanerOrchestrationService)
-                && descriptor.ImplementationType?.Name == "TokenCleanerOrchestrationService");
+            collection: services,
+            filter: descriptor => descriptor.ServiceType == typeof(ITokenCleanerService)
+                && descriptor.ImplementationType?.Name == "TokenCleanerService");
+
         Assert.Contains(
-            services,
-            descriptor => descriptor.ServiceType == typeof(IAnalysePlatformUsageOrchestrationService)
-                && descriptor.ImplementationType?.Name == "AnalysePlatformUsageOrchestrationService");
+            collection: services,
+            filter: descriptor => descriptor.ServiceType == typeof(IAnalysePlatformUsageProcessingService)
+                && descriptor.ImplementationType?.Name == "AnalysePlatformUsageProcessingService");
     }
 }

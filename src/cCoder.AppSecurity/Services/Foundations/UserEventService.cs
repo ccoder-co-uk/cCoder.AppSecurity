@@ -1,8 +1,12 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
-using cCoder.Data;
 using cCoder.Eventing.Models;
+using cCoder.AppSecurity.Brokers;
 using DataRole = cCoder.Data.Models.Security.Role;
 using DataUser = cCoder.Data.Models.Security.User;
 using DataUserRole = cCoder.Data.Models.Security.UserRole;
@@ -11,41 +15,56 @@ using IUserEventBroker = cCoder.AppSecurity.Brokers.Events.IUserEventBroker;
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-internal class UserEventService(IUserEventBroker userEventBroker, ICoreAuthInfo authInfo)
+internal sealed partial class UserEventService(IUserEventBroker userEventBroker, IAuthInfoBroker authInfoBroker)
     : IUserEventService
 {
-    public async ValueTask RaiseUserAddEventAsync(User entity)
-    {
-        EventMessage<DataUser> message = new()
+    public ValueTask RaiseUserAddEventAsync(User entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUser(entity),
-        };
+            ValidateRaiseUserAddEvent(
+                entity: entity);
 
-        await userEventBroker.RaiseUserAddEventAsync(message);
-    }
+            EventMessage<DataUser> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
+                Data = ToExternalUser(item: entity),
+            };
 
-    public async ValueTask RaiseUserUpdateEventAsync(User entity)
-    {
-        EventMessage<DataUser> message = new()
+            await userEventBroker.RaiseUserAddEventAsync(message: message);
+
+        });
+
+    public ValueTask RaiseUserUpdateEventAsync(User entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUser(entity),
-        };
+            ValidateRaiseUserUpdateEvent(
+                entity: entity);
 
-        await userEventBroker.RaiseUserUpdateEventAsync(message);
-    }
+            EventMessage<DataUser> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
+                Data = ToExternalUser(item: entity),
+            };
 
-    public async ValueTask RaiseUserDeleteEventAsync(User entity)
-    {
-        EventMessage<DataUser> message = new()
+            await userEventBroker.RaiseUserUpdateEventAsync(message: message);
+
+        });
+
+    public ValueTask RaiseUserDeleteEventAsync(User entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalUser(entity),
-        };
+            ValidateRaiseUserDeleteEvent(
+                entity: entity);
 
-        await userEventBroker.RaiseUserDeleteEventAsync(message);
-    }
+            EventMessage<DataUser> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
+                Data = ToExternalUser(item: entity),
+            };
+
+            await userEventBroker.RaiseUserDeleteEventAsync(message: message);
+
+        });
 
     static DataUser ToExternalUser(User item) =>
         new()
@@ -56,7 +75,7 @@ internal class UserEventService(IUserEventBroker userEventBroker, ICoreAuthInfo 
             Email = item.Email,
             IsActive = item.IsActive,
             DefaultCulture = item.DefaultCulture as cCoder.Data.Models.CMS.Culture,
-            Roles = item.Roles?.Select(userRole => new DataUserRole
+            Roles = item.Roles?.Select(selector: userRole => new DataUserRole
             {
                 RoleId = userRole.RoleId,
                 UserId = userRole.UserId,
@@ -68,16 +87,7 @@ internal class UserEventService(IUserEventBroker userEventBroker, ICoreAuthInfo 
                     Description = userRole.Role.Description,
                     Privs = userRole.Role.Privs,
                 },
-            }).ToArray(),
+            })
+                .ToArray(),
         };
 }
-
-
-
-
-
-
-
-
-
-

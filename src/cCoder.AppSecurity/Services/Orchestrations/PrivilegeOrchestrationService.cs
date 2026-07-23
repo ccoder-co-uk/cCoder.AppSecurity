@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -6,50 +10,71 @@ using cCoder.AppSecurity.Services.Processings;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
-internal class PrivilegeOrchestrationService(
+internal sealed partial class PrivilegeOrchestrationService(
     IPrivilegeProcessingService processingService,
     IPrivilegeEventProcessingService eventService
 ) : IPrivilegeOrchestrationService
 {
-    public Privilege Get(string id) => processingService.Get(id);
+    public Privilege Get(string privilegeId) =>
+        TryCatch(operation: Privilege () =>
+        {
+            ValidateGet(
+                privilegeId: privilegeId);
+
+            return processingService.Get(id: privilegeId);
+        });
 
     public IQueryable<Privilege> GetAll(bool ignoreFilters = false) =>
-        processingService.GetAll(ignoreFilters);
+        TryCatch(operation: IQueryable<Privilege> () =>
+        {
+            ValidateGetAll(
+                ignoreFilters: ignoreFilters);
 
-    public async ValueTask<Privilege> AddAsync(Privilege entity)
-    {
-        var result = await processingService.AddAsync(entity);
-        await eventService.RaisePrivilegeAddEventAsync(result);
-        return result;
-    }
+            return processingService.GetAll(ignoreFilters: ignoreFilters);
+        });
 
-    public async ValueTask<Privilege> UpdateAsync(Privilege entity)
-    {
-        var result = await processingService.UpdateAsync(entity);
-        await eventService.RaisePrivilegeUpdateEventAsync(result);
-        return result;
-    }
+    public ValueTask<Privilege> AddPrivilegeAsync(Privilege newPrivilege) =>
+        TryCatch(operation: async ValueTask<Privilege> () =>
+        {
+            ValidateAddPrivilege(
+                newPrivilege: newPrivilege);
 
-    public async ValueTask DeleteAsync(string id)
-    {
-        var entity = processingService.Get(id);
-        await eventService.RaisePrivilegeDeleteEventAsync(entity);
-        await processingService.DeleteAsync(id);
-    }
+            var result = await processingService.AddPrivilegeAsync(entity: newPrivilege);
+            await eventService.RaisePrivilegeAddEventAsync(entity: result);
+            return result;
 
-    public ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdate(
-        IEnumerable<Privilege> items
-    ) => processingService.AddOrUpdate(items);
+        });
 
-    public ValueTask DeleteAllAsync(IEnumerable<Privilege> items) =>
-        processingService.DeleteAllAsync(items);
+    public ValueTask<Privilege> UpdatePrivilegeAsync(Privilege updatedPrivilege) =>
+        TryCatch(operation: async ValueTask<Privilege> () =>
+        {
+            ValidateUpdatePrivilege(
+                updatedPrivilege: updatedPrivilege);
+
+            var result = await processingService.UpdatePrivilegeAsync(entity: updatedPrivilege);
+            await eventService.RaisePrivilegeUpdateEventAsync(entity: result);
+            return result;
+
+        });
+
+    public ValueTask DeleteAsync(string privilegeId) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDelete(
+                privilegeId: privilegeId);
+
+            var entity = processingService.Get(id: privilegeId);
+            await eventService.RaisePrivilegeDeleteEventAsync(entity: entity);
+            await processingService.DeleteAsync(id: privilegeId);
+
+        });
+
+    public ValueTask DeleteAllPrivilegeAsync(IEnumerable<Privilege> deletedPrivilege) =>
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateDeleteAllPrivilege(
+                deletedPrivilege: deletedPrivilege);
+
+            return processingService.DeleteAllPrivilegeAsync(items: deletedPrivilege);
+        });
 }
-
-
-
-
-
-
-
-
-

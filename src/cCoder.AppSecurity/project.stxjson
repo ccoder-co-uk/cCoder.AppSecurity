@@ -1,0 +1,3782 @@
+{
+  "Classes": [
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.BadRequestResult",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Attributes",
+          "Type": "System.Reflection.PropertyAttributes"
+        },
+        {
+          "Name": "CanRead",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "CanWrite",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "DeclaringType",
+          "Type": "System.Type"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "PropertyType",
+          "Type": "System.Type"
+        },
+        {
+          "Name": "ReflectedType",
+          "Type": "System.Type"
+        }
+      ],
+      "Methods": [
+        {
+          "Name": "GetAccessors",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo[]"
+        },
+        {
+          "Name": "GetCustomAttributes",
+          "Inputs": [
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Object[]"
+        },
+        {
+          "Name": "GetCustomAttributes",
+          "Inputs": [
+            {
+              "Name": "attributeType",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Object[]"
+        },
+        {
+          "Name": "GetGetMethod",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo"
+        },
+        {
+          "Name": "GetIndexParameters",
+          "Inputs": [],
+          "ReturnType": "System.Reflection.ParameterInfo[]"
+        },
+        {
+          "Name": "GetSetMethod",
+          "Inputs": [
+            {
+              "Name": "nonPublic",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Reflection.MethodInfo"
+        },
+        {
+          "Name": "GetValue",
+          "Inputs": [
+            {
+              "Name": "obj",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "invokeAttr",
+              "Type": "System.Reflection.BindingFlags"
+            },
+            {
+              "Name": "binder",
+              "Type": "System.Reflection.Binder"
+            },
+            {
+              "Name": "index",
+              "Type": "System.Object[]"
+            },
+            {
+              "Name": "culture",
+              "Type": "System.Globalization.CultureInfo"
+            }
+          ],
+          "ReturnType": "System.Object"
+        },
+        {
+          "Name": "IsDefined",
+          "Inputs": [
+            {
+              "Name": "attributeType",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "inherit",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "SetValue",
+          "Inputs": [
+            {
+              "Name": "obj",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            },
+            {
+              "Name": "invokeAttr",
+              "Type": "System.Reflection.BindingFlags"
+            },
+            {
+              "Name": "binder",
+              "Type": "System.Reflection.Binder"
+            },
+            {
+              "Name": "index",
+              "Type": "System.Object[]"
+            },
+            {
+              "Name": "culture",
+              "Type": "System.Globalization.CultureInfo"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.EdmModelExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetExtendedMetadataForType",
+          "Inputs": [
+            {
+              "Name": "model",
+              "Type": "Microsoft.OData.Edm.IEdmModel"
+            },
+            {
+              "Name": "context",
+              "Type": "System.String"
+            },
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "hasEndpoint",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Api.OData.ExtendedMetadataContainer"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.ExtendedMetadataContainer",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Operations",
+          "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.AppSecurity.Api.OData.OperationContainer\u003E"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.MetadataContainer",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Category",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "DisplayName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "HasEndpoint",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsEntity",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsJoinEntity",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsSystemManaged",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsValueType",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Properties",
+          "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.AppSecurity.Api.OData.PropertyContainer\u003E"
+        },
+        {
+          "Name": "ServerType",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ServerTypeName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Type",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.MetadataContainerSet",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Types",
+          "Type": "cCoder.AppSecurity.Api.OData.ExtendedMetadataContainer[]"
+        },
+        {
+          "Name": "UriBase",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.ModelStateError",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Errors",
+          "Type": "System.String[]"
+        },
+        {
+          "Name": "Key",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Value",
+          "Type": "System.Object"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.ODataCollectionExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.ODataJsonExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.ODataModel",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Context",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "EDMModel",
+          "Type": "Microsoft.OData.Edm.IEdmModel"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.ODataTypeExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.OperationContainer",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Definition",
+          "Type": "System.String"
+        },
+        {
+          "Name": "HttpVerb",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Parameters",
+          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+        },
+        {
+          "Name": "Queryable",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "ReturnType",
+          "Type": "cCoder.AppSecurity.Api.OData.MetadataContainer"
+        },
+        {
+          "Name": "Url",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Api.OData.PropertyContainer",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "DisplayName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "IsGeneric",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsReadOnly",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsRequired",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsSystemManaged",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsValueType",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ServerType",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ServerTypeName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "ShortDisplayName",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Template",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Type",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.AuthInfoBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetSSOUserId",
+          "Inputs": [],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.AuthorizationBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Authorize",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            },
+            {
+              "Name": "privilege",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "GetCurrentUser",
+          "Inputs": [],
+          "ReturnType": "cCoder.Data.Models.Security.User"
+        },
+        {
+          "Name": "IsAdmin",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "userName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        },
+        {
+          "Name": "IsAdminOfApp",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32?"
+            }
+          ],
+          "ReturnType": "System.Boolean"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Events.EventHubBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ListenToEvent",
+          "Inputs": [
+            {
+              "Name": "eventName",
+              "Type": "System.String"
+            },
+            {
+              "Name": "handler",
+              "Type": "System.Func\u003CTService, T, System.Threading.Tasks.ValueTask\u003E"
+            }
+          ],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Events.PrivilegeEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaisePrivilegeAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Privilege\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaisePrivilegeDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Privilege\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaisePrivilegeUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Privilege\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Events.RoleEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseRoleAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Role\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseRoleDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Role\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseRoleUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Role\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Events.UserEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseUserAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.User\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseUserDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.User\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseUserUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.User\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Events.UserRoleEventBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseUserRoleAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.UserRole\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseUserRoleDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "message",
+              "Type": "cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.UserRole\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.JsonBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ParseJson",
+          "Inputs": [
+            {
+              "Name": "json",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Object"
+        },
+        {
+          "Name": "ParseJson",
+          "Inputs": [
+            {
+              "Name": "json",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "T"
+        },
+        {
+          "Name": "Serialize",
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Metadata.MetadataBroker",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "CreateExtendedMetadataContainer",
+          "Inputs": [
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "isEntity",
+              "Type": "System.Boolean"
+            },
+            {
+              "Name": "hasEndpoint",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Api.OData.ExtendedMetadataContainer"
+        },
+        {
+          "Name": "CreateMetadataContainer",
+          "Inputs": [
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "isEntity",
+              "Type": "System.Boolean"
+            },
+            {
+              "Name": "hasEndpoint",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Api.OData.MetadataContainer"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.OData.AppSecurityODataModelBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ConfigureODataModel",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "SelectODataModel",
+          "Inputs": [],
+          "ReturnType": "cCoder.AppSecurity.Api.OData.ODataModel"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.PrivilegeBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddPrivilegeAsync",
+          "Inputs": [
+            {
+              "Name": "newPrivilege",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        },
+        {
+          "Name": "DeleteAllPrivilegesAsync",
+          "Inputs": [
+            {
+              "Name": "deletedPrivilege",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Privilege\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeletePrivilegeAsync",
+          "Inputs": [
+            {
+              "Name": "deletedPrivilege",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "GetAllPrivileges",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        },
+        {
+          "Name": "GetAppId",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        },
+        {
+          "Name": "UpdatePrivilegeAsync",
+          "Inputs": [
+            {
+              "Name": "updatedPrivilege",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.RoleBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddRoleAsync",
+          "Inputs": [
+            {
+              "Name": "newRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "DeleteAllRolesAsync",
+          "Inputs": [
+            {
+              "Name": "deletedRole",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteFolderRolesByRoleIdAsync",
+          "Inputs": [
+            {
+              "Name": "roleId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeletePageRolesByRoleIdAsync",
+          "Inputs": [
+            {
+              "Name": "roleId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteRoleAsync",
+          "Inputs": [
+            {
+              "Name": "deletedRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "GetAllRoles",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "GetAppId",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        },
+        {
+          "Name": "UpdateRoleAsync",
+          "Inputs": [
+            {
+              "Name": "updatedRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "CreateSecurityDbContext",
+          "Inputs": [],
+          "ReturnType": "cCoder.Security.Data.EF.SecurityDbContext"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Storages.AppBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetAll",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.CMS.App\u003E"
+        },
+        {
+          "Name": "GetByDomain",
+          "Inputs": [
+            {
+              "Name": "domain",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.CMS.App"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Storages.UserBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddUserAsync",
+          "Inputs": [
+            {
+              "Name": "newUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E"
+        },
+        {
+          "Name": "DeleteAllUsersAsync",
+          "Inputs": [
+            {
+              "Name": "deletedUser",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteUserAsync",
+          "Inputs": [
+            {
+              "Name": "deletedUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "GetAllUsers",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.User\u003E"
+        },
+        {
+          "Name": "GetAppId",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        },
+        {
+          "Name": "GetUserByEmail",
+          "Inputs": [
+            {
+              "Name": "email",
+              "Type": "System.String"
+            },
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.User"
+        },
+        {
+          "Name": "UpdateUserAsync",
+          "Inputs": [
+            {
+              "Name": "updatedUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Storages.UserRoleBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "newUserRole",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.UserRole\u003E"
+        },
+        {
+          "Name": "DeleteAllUserRolesAsync",
+          "Inputs": [
+            {
+              "Name": "deletedUserRole",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.UserRole\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "deletedUserRole",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CSystem.Int32\u003E"
+        },
+        {
+          "Name": "GetAllUserRoles",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.UserRole\u003E"
+        },
+        {
+          "Name": "GetAppId",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Int32?"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Tokens.TokenBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "DeleteExpiredTokensAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.UIBaselineBroker",
+      "StandardElementType": "Broker",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "SelectPackages",
+          "Inputs": [],
+          "ReturnType": "cCoder.Data.Models.Packaging.Package[]"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.AppSecurityAppExposure",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddAsync",
+          "Inputs": [
+            {
+              "Name": "newApp",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "UpdateAsync",
+          "Inputs": [
+            {
+              "Name": "updatedApp",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.AppSecurityPackageManager",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExportPackage",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "packageName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Models.AppSecurityPackage"
+        },
+        {
+          "Name": "ImportPackageAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "package",
+              "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.Controllers.AppController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "queryOptions",
+              "Type": "Microsoft.AspNetCore.OData.Query.ODataQueryOptions\u003CcCoder.Data.Models.CMS.App\u003E"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMetadata",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.Controllers.BaselineController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Get",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Delete",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "queryOptions",
+              "Type": "Microsoft.AspNetCore.OData.Query.ODataQueryOptions\u003CcCoder.Data.Models.Security.Privilege\u003E"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMetadata",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "Post",
+          "Inputs": [
+            {
+              "Name": "newPrivilege",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.String"
+            },
+            {
+              "Name": "updatedPrivilege",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.String"
+            },
+            {
+              "Name": "updatedDelta",
+              "Type": "Microsoft.AspNetCore.OData.Deltas.Delta\u003CcCoder.Data.Models.Security.Privilege\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Delete",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "queryOptions",
+              "Type": "Microsoft.AspNetCore.OData.Query.ODataQueryOptions\u003CcCoder.Data.Models.Security.Role\u003E"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMetadata",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "Post",
+          "Inputs": [
+            {
+              "Name": "newRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "updatedRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "updatedDelta",
+              "Type": "Microsoft.AspNetCore.OData.Deltas.Delta\u003CcCoder.Data.Models.Security.Role\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Delete",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "queryOptions",
+              "Type": "Microsoft.AspNetCore.OData.Query.ODataQueryOptions\u003CcCoder.Data.Models.Security.User\u003E"
+            }
+          ],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMe",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMetadata",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "Post",
+          "Inputs": [
+            {
+              "Name": "newUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.String"
+            },
+            {
+              "Name": "updatedUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "Put",
+          "Inputs": [
+            {
+              "Name": "key",
+              "Type": "System.String"
+            },
+            {
+              "Name": "updatedDelta",
+              "Type": "Microsoft.AspNetCore.OData.Deltas.Delta\u003CcCoder.Data.Models.Security.User\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "Delete",
+          "Inputs": [
+            {
+              "Name": "keyRoleId",
+              "Type": "System.Guid"
+            },
+            {
+              "Name": "keyUserId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "DeleteAll",
+          "Inputs": [
+            {
+              "Name": "deletedUserRole",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.UserRole\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "GetMetadata",
+          "Inputs": [],
+          "ReturnType": "IActionResult"
+        },
+        {
+          "Name": "Post",
+          "Inputs": [
+            {
+              "Name": "newUserRole",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.EventHandlers.AppSecurityEventHandlers",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ListenToAllEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "ListenToAppCreateAndUpdateEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "ListenToAppDeleteEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "ListenToSecurityAccountEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Exposures.Setup.UIBaseline",
+      "StandardElementType": "Dependency",
+      "Properties": [
+        {
+          "Name": "Packages",
+          "Type": "cCoder.Data.Models.Packaging.Package[]"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.IServiceCollectionExtensions",
+      "StandardElementType": "App",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddAppSecurityHostedServices",
+          "Inputs": [
+            {
+              "Name": "services",
+              "Type": "IServiceCollection"
+            },
+            {
+              "Name": "configure",
+              "Type": "System.Action\u003CcCoder.AppSecurity.Models.AppSecurityConfiguration\u003E"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "AddAppSecurityWeb",
+          "Inputs": [
+            {
+              "Name": "services",
+              "Type": "IServiceCollection"
+            },
+            {
+              "Name": "configure",
+              "Type": "System.Action\u003CcCoder.AppSecurity.Models.AppSecurityConfiguration\u003E"
+            },
+            {
+              "Name": "builder",
+              "Type": "Microsoft.OData.ModelBuilder.ODataConventionModelBuilder"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "WithEventProviders",
+          "Inputs": [
+            {
+              "Name": "configuration",
+              "Type": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+            },
+            {
+              "Name": "eventProviders",
+              "Type": "cCoder.Eventing.Models.EventProvider[]"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.AccountRoleAssignment",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "AppId",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "IsAssigned",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "RoleId",
+          "Type": "System.Guid?"
+        },
+        {
+          "Name": "UserId",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.AppSecurityConfiguration",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "ConnectionStrings",
+          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+        },
+        {
+          "Name": "DebugInfo",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "EventProviders",
+          "Type": "cCoder.Eventing.Models.EventProvider[]"
+        },
+        {
+          "Name": "IncludeLegacyCoreContext",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "IsMigrating",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "LogSQL",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "RootPath",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Services",
+          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+        },
+        {
+          "Name": "Settings",
+          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.AppSecurityPackage",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Category",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Description",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Id",
+          "Type": "System.Guid"
+        },
+        {
+          "Name": "Items",
+          "Type": "System.Collections.Generic.ICollection\u003CcCoder.AppSecurity.Models.AppSecurityPackageItem\u003E"
+        },
+        {
+          "Name": "Name",
+          "Type": "System.String"
+        },
+        {
+          "Name": "SourceApi",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.AppSecurityPackageItem",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "Data",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Id",
+          "Type": "System.Guid"
+        },
+        {
+          "Name": "Package",
+          "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
+        },
+        {
+          "Name": "PackageId",
+          "Type": "System.Guid"
+        },
+        {
+          "Name": "Type",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.AuditResultByProperty",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "April",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "August",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "December",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "February",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "January",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "July",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "June",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "March",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "May",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "November",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "October",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "Property",
+          "Type": "System.String"
+        },
+        {
+          "Name": "September",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "Total",
+          "Type": "System.Int32"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.AuditResultsByUser",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "April",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "August",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "December",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "February",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "January",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "July",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "June",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "March",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "May",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "November",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "October",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "September",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "Total",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "UserName",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Models.ODataCollection\u003CTCollectionType\u003E",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "ODataContext",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Value",
+          "Type": "System.Collections.Generic.IEnumerable\u003CTCollectionType\u003E"
+        }
+      ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.ServiceCollectionProcessingService",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",
+      "StandardElementType": "AggregationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ExportPackage",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "packageName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Models.AppSecurityPackage"
+        },
+        {
+          "Name": "ImportPackageAppSecurityPackageAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "package",
+              "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.AccountRoleAssignmentService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddAccountRoleAssignmentAsync",
+          "Inputs": [
+            {
+              "Name": "newAccountRoleAssignment",
+              "Type": "cCoder.AppSecurity.Models.AccountRoleAssignment"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.AppSecurity.Models.AccountRoleAssignment\u003E"
+        },
+        {
+          "Name": "GetAccountRoleAssignment",
+          "Inputs": [
+            {
+              "Name": "accountRoleAssignment",
+              "Type": "cCoder.AppSecurity.Models.AccountRoleAssignment"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Models.AccountRoleAssignment"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.AnalysePlatformUsageService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "CreateSecurityDbContext",
+          "Inputs": [],
+          "ReturnType": "cCoder.Security.Data.EF.SecurityDbContext"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.AppSecurityMetadataTypeService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetKnownMetadata",
+          "Inputs": [],
+          "ReturnType": "System.Collections.Generic.IEnumerable\u003CcCoder.AppSecurity.Api.OData.MetadataContainerSet\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.AppService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetAll",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.CMS.App\u003E"
+        },
+        {
+          "Name": "GetByDomain",
+          "Inputs": [
+            {
+              "Name": "domain",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.CMS.App"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.AuthorizationService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetCurrentUser",
+          "Inputs": [],
+          "ReturnType": "cCoder.Data.Models.Security.User"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ListenToAllEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "ListenToAppCreateAndUpdateEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "ListenToAppDeleteEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "ListenToSecurityAccountEvents",
+          "Inputs": [],
+          "ReturnType": "System.Void"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.Events.PrivilegeEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaisePrivilegeAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaisePrivilegeDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaisePrivilegeUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.Events.RoleEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseRoleAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseRoleDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseRoleUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.Events.UserEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseUserAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseUserDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseUserUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.Events.UserRoleEventService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseUserRoleAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseUserRoleDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.JsonService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ParseJson",
+          "Inputs": [
+            {
+              "Name": "json",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "T"
+        },
+        {
+          "Name": "Serialize",
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.PrivilegeService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddPrivilegeAsync",
+          "Inputs": [
+            {
+              "Name": "newPrivilege",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "privilegeId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "privilegeId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.Privilege"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        },
+        {
+          "Name": "UpdatePrivilegeAsync",
+          "Inputs": [
+            {
+              "Name": "updatedPrivilege",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.RoleService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddRoleAsync",
+          "Inputs": [
+            {
+              "Name": "newRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "AddValidatedRoleAsync",
+          "Inputs": [
+            {
+              "Name": "newRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "roleId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteValidatedAsync",
+          "Inputs": [
+            {
+              "Name": "roleId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "roleId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.Role"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "UpdateRoleAsync",
+          "Inputs": [
+            {
+              "Name": "updatedRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "UpdateValidatedRoleAsync",
+          "Inputs": [
+            {
+              "Name": "updatedRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.TokenCleanerService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RunAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.UIBaselineService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetPackages",
+          "Inputs": [],
+          "ReturnType": "cCoder.Data.Models.Packaging.Package[]"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.UserRoleService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "newUserRole",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            },
+            {
+              "Name": "authorize",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.UserRole\u003E"
+        },
+        {
+          "Name": "DeleteUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "deletedUserRole",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.UserRole\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.UserService",
+      "StandardElementType": "FoundationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddUserAsync",
+          "Inputs": [
+            {
+              "Name": "newUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.User"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.User\u003E"
+        },
+        {
+          "Name": "GetByEmail",
+          "Inputs": [
+            {
+              "Name": "email",
+              "Type": "System.String"
+            },
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.User"
+        },
+        {
+          "Name": "UpdateUserAsync",
+          "Inputs": [
+            {
+              "Name": "updatedUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.AccountEventOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ProcessSecurityAccountEventAsync",
+          "Inputs": [
+            {
+              "Name": "accountEvent",
+              "Type": "cCoder.Security.Objects.Events.SecurityAccountEvent"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddAppAsync",
+          "Inputs": [
+            {
+              "Name": "newApp",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "UpdateAppAsync",
+          "Inputs": [
+            {
+              "Name": "updatedApp",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddPrivilegeAsync",
+          "Inputs": [
+            {
+              "Name": "newPrivilege",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        },
+        {
+          "Name": "DeleteAllPrivilegeAsync",
+          "Inputs": [
+            {
+              "Name": "deletedPrivilege",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Privilege\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "privilegeId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "privilegeId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.Privilege"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        },
+        {
+          "Name": "UpdatePrivilegeAsync",
+          "Inputs": [
+            {
+              "Name": "updatedPrivilege",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddRoleAsync",
+          "Inputs": [
+            {
+              "Name": "newRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "AddValidatedRoleAsync",
+          "Inputs": [
+            {
+              "Name": "newRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "DeleteAllRoleAsync",
+          "Inputs": [
+            {
+              "Name": "deletedRole",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "roleId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteValidatedAsync",
+          "Inputs": [
+            {
+              "Name": "roleId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "roleId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.Role"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "ImportRoleAsync",
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "roles",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "UpdateRoleAsync",
+          "Inputs": [
+            {
+              "Name": "updatedRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "UpdateValidatedRoleAsync",
+          "Inputs": [
+            {
+              "Name": "updatedRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddUserAsync",
+          "Inputs": [
+            {
+              "Name": "newUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E"
+        },
+        {
+          "Name": "DeleteAllUserAsync",
+          "Inputs": [
+            {
+              "Name": "deletedUser",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.User"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.User\u003E"
+        },
+        {
+          "Name": "GetByEmail",
+          "Inputs": [
+            {
+              "Name": "email",
+              "Type": "System.String"
+            },
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.User"
+        },
+        {
+          "Name": "UpdateUserAsync",
+          "Inputs": [
+            {
+              "Name": "updatedUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "newUserRole",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.UserRole\u003E"
+        },
+        {
+          "Name": "DeleteAllUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "deletedUserRole",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.UserRole\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "deletedUserRole",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.UserRole\u003E"
+        },
+        {
+          "Name": "SaveUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.UserRole\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.AccountRoleAssignmentProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AttachUsersRoleAsync",
+          "Inputs": [
+            {
+              "Name": "user",
+              "Type": "cCoder.Data.Models.Security.User"
+            },
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RunAsync",
+          "Inputs": [
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.AppProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "GetAll",
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.CMS.App\u003E"
+        },
+        {
+          "Name": "GetByDomain",
+          "Inputs": [
+            {
+              "Name": "domain",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.CMS.App"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.JsonProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "ParseJson",
+          "Inputs": [
+            {
+              "Name": "json",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "T"
+        },
+        {
+          "Name": "Serialize",
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.PrivilegeEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaisePrivilegeAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaisePrivilegeDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaisePrivilegeUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddPrivilegeAsync",
+          "Inputs": [
+            {
+              "Name": "newPrivilege",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        },
+        {
+          "Name": "DeleteAllPrivilegeAsync",
+          "Inputs": [
+            {
+              "Name": "deletedPrivilege",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Privilege\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "privilegeId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "privilegeId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.Privilege"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        },
+        {
+          "Name": "UpdatePrivilegeAsync",
+          "Inputs": [
+            {
+              "Name": "updatedPrivilege",
+              "Type": "cCoder.Data.Models.Security.Privilege"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Privilege\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.RoleEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseRoleAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseRoleDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseRoleUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.RoleProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddRoleAsync",
+          "Inputs": [
+            {
+              "Name": "newRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "AddValidatedRoleAsync",
+          "Inputs": [
+            {
+              "Name": "newRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "DeleteAllRoleAsync",
+          "Inputs": [
+            {
+              "Name": "deletedRole",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "roleId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteValidatedAsync",
+          "Inputs": [
+            {
+              "Name": "roleId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "roleId",
+              "Type": "System.Guid"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.Role"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "UpdateRoleAsync",
+          "Inputs": [
+            {
+              "Name": "updatedRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        },
+        {
+          "Name": "UpdateValidatedRoleAsync",
+          "Inputs": [
+            {
+              "Name": "updatedRole",
+              "Type": "cCoder.Data.Models.Security.Role"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.Role\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.UserEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseUserAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseUserDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseUserUpdateEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.UserProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddUserAsync",
+          "Inputs": [
+            {
+              "Name": "newUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E"
+        },
+        {
+          "Name": "DeleteAllUserAsync",
+          "Inputs": [
+            {
+              "Name": "deletedUser",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteAsync",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "Get",
+          "Inputs": [
+            {
+              "Name": "userId",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.User"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.User\u003E"
+        },
+        {
+          "Name": "GetByEmail",
+          "Inputs": [
+            {
+              "Name": "email",
+              "Type": "System.String"
+            },
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.Data.Models.Security.User"
+        },
+        {
+          "Name": "UpdateUserAsync",
+          "Inputs": [
+            {
+              "Name": "updatedUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.UserRoleEventProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "RaiseUserRoleAddEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "RaiseUserRoleDeleteEventAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService",
+      "StandardElementType": "ProcessingService",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "AddUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "newUserRole",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.UserRole\u003E"
+        },
+        {
+          "Name": "DeleteAllUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "deletedUserRole",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.UserRole\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "DeleteUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "deletedUserRole",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask"
+        },
+        {
+          "Name": "GetAll",
+          "Inputs": [
+            {
+              "Name": "ignoreFilters",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.UserRole\u003E"
+        },
+        {
+          "Name": "SaveUserRoleAsync",
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.UserRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.UserRole\u003E"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.WebApplicationExtensions",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "StartAppSecurityHostedServices",
+          "Inputs": [
+            {
+              "Name": "app",
+              "Type": "WebApplication"
+            }
+          ],
+          "ReturnType": "WebApplication"
+        },
+        {
+          "Name": "StartAppSecurityWeb",
+          "Inputs": [
+            {
+              "Name": "app",
+              "Type": "WebApplication"
+            },
+            {
+              "Name": "log",
+              "Type": "ILogger"
+            }
+          ],
+          "ReturnType": "WebApplication"
+        }
+      ]
+    }
+  ],
+  "Links": [
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.AppSecurityAppExposure",
+      "ToType": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.AppSecurityPackageManager",
+      "ToType": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.Controllers.AppController",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.AppService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.Controllers.BaselineController",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.UIBaselineService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
+      "ToType": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
+      "ToType": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "ToType": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
+      "ToType": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.EventHandlers.AppSecurityEventHandlers",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
+      "ToType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
+      "ToType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.TokenCleanerService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.JsonProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.RoleProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.AccountRoleAssignmentService",
+      "ToType": "cCoder.AppSecurity.Brokers.RoleBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.AccountRoleAssignmentService",
+      "ToType": "cCoder.AppSecurity.Brokers.Storages.UserRoleBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.AnalysePlatformUsageService",
+      "ToType": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.AppService",
+      "ToType": "cCoder.AppSecurity.Brokers.Storages.AppBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.AuthorizationService",
+      "ToType": "cCoder.AppSecurity.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService",
+      "ToType": "cCoder.AppSecurity.Brokers.Events.EventHubBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.Events.PrivilegeEventService",
+      "ToType": "cCoder.AppSecurity.Brokers.AuthInfoBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.Events.PrivilegeEventService",
+      "ToType": "cCoder.AppSecurity.Brokers.Events.PrivilegeEventBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.Events.RoleEventService",
+      "ToType": "cCoder.AppSecurity.Brokers.AuthInfoBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.Events.RoleEventService",
+      "ToType": "cCoder.AppSecurity.Brokers.Events.RoleEventBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.Events.UserEventService",
+      "ToType": "cCoder.AppSecurity.Brokers.AuthInfoBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.Events.UserEventService",
+      "ToType": "cCoder.AppSecurity.Brokers.Events.UserEventBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.Events.UserRoleEventService",
+      "ToType": "cCoder.AppSecurity.Brokers.AuthInfoBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.Events.UserRoleEventService",
+      "ToType": "cCoder.AppSecurity.Brokers.Events.UserRoleEventBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.JsonService",
+      "ToType": "cCoder.AppSecurity.Brokers.JsonBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.PrivilegeService",
+      "ToType": "cCoder.AppSecurity.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.PrivilegeService",
+      "ToType": "cCoder.AppSecurity.Brokers.PrivilegeBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.RoleService",
+      "ToType": "cCoder.AppSecurity.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.RoleService",
+      "ToType": "cCoder.AppSecurity.Brokers.RoleBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.RoleService",
+      "ToType": "cCoder.AppSecurity.Brokers.Storages.UserRoleBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.TokenCleanerService",
+      "ToType": "cCoder.AppSecurity.Brokers.Tokens.TokenBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.UIBaselineService",
+      "ToType": "cCoder.AppSecurity.Brokers.UIBaselineBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.UserRoleService",
+      "ToType": "cCoder.AppSecurity.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.UserRoleService",
+      "ToType": "cCoder.AppSecurity.Brokers.RoleBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.UserRoleService",
+      "ToType": "cCoder.AppSecurity.Brokers.Storages.UserBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.UserRoleService",
+      "ToType": "cCoder.AppSecurity.Brokers.Storages.UserRoleBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.UserService",
+      "ToType": "cCoder.AppSecurity.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.UserService",
+      "ToType": "cCoder.AppSecurity.Brokers.Storages.UserBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.AccountEventOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.AccountRoleAssignmentProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.AccountEventOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.AppProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.AccountEventOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.UserProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.AuthorizationService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.PrivilegeService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.RoleService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.PrivilegeEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.RoleEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.RoleProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.UserEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.UserProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.UserRoleEventProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.AccountRoleAssignmentProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.AccountRoleAssignmentService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.AnalysePlatformUsageService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.AppProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.AppService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.JsonProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.JsonService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.PrivilegeEventProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.Events.PrivilegeEventService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService",
+      "ToType": "cCoder.AppSecurity.Brokers.AuthorizationBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.PrivilegeService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.RoleEventProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.Events.RoleEventService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.RoleProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.RoleService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.UserEventProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.Events.UserEventService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.UserProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.UserService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.UserRoleEventProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.Events.UserRoleEventService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.UserRoleService"
+    }
+  ],
+  "AnalysisItems": []
+}

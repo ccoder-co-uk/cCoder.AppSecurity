@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -7,94 +11,92 @@ using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
 
 namespace cCoder.AppSecurity.Services.Processings;
 
-internal class PrivilegeProcessingService(
+internal sealed partial class PrivilegeProcessingService(
     IPrivilegeService service,
     IAuthorizationBroker authorizationBroker
 ) : IPrivilegeProcessingService
 {
-    public Privilege Get(string id)
-    {
-        authorizationBroker.Authorize(null, "privilege_read");
-        return service.Get(id);
-    }
-
-    public IQueryable<Privilege> GetAll(bool ignoreFilters = false)
-    {
-        authorizationBroker.Authorize(null, "privilege_read");
-        return service.GetAll(ignoreFilters);
-    }
-
-    public ValueTask<Privilege> AddAsync(Privilege entity)
-    {
-        authorizationBroker.Authorize(null, "privilege_create");
-        throw new InvalidOperationException("Cannot add privileges");
-    }
-
-    public ValueTask<Privilege> UpdateAsync(Privilege entity)
-    {
-        authorizationBroker.Authorize(null, "privilege_update");
-        throw new InvalidOperationException("Cannot update privileges");
-    }
-
-    public ValueTask DeleteAsync(string id)
-    {
-        authorizationBroker.Authorize(null, "privilege_delete");
-        throw new InvalidOperationException("Cannot delete privileges");
-    }
-
-    public async ValueTask<IEnumerable<Result<Privilege>>> AddOrUpdate(
-        IEnumerable<Privilege> items
-    )
-    {
-        List<Result<Privilege>> results = [];
-
-        foreach (Privilege item in items)
+    public Privilege Get(string privilegeId) =>
+        TryCatch(operation: Privilege () =>
         {
-            try
-            {
-                bool isAdd = string.IsNullOrWhiteSpace(item.Id);
+            ValidateGet(
+                privilegeId: privilegeId);
 
-                results.Add(
-                    new Result<Privilege>
-                    {
-                        Success = true,
-                        Item = isAdd ? await AddAsync(item) : await UpdateAsync(item),
-                        Message = isAdd ? "Added Successfully" : "Updated Successfully",
-                    }
-                );
-            }
-            catch (Exception ex)
-            {
-                results.Add(
-                    new Result<Privilege>
-                    {
-                        Success = false,
-                        Item = item,
-                        Message = ex.Message,
-                    }
-                );
-            }
-        }
+            authorizationBroker.Authorize(appId: null, privilege: "privilege_read");
+            return service.Get(id: privilegeId);
 
-        return results;
-    }
-    public async ValueTask DeleteAllAsync(IEnumerable<Privilege> items)
+        });
+
+    public IQueryable<Privilege> GetAll(bool ignoreFilters = false) =>
+        TryCatch(operation: IQueryable<Privilege> () =>
+        {
+            ValidateGetAll(
+                ignoreFilters: ignoreFilters);
+
+            authorizationBroker.Authorize(appId: null, privilege: "privilege_read");
+            return service.GetAll(ignoreFilters: ignoreFilters);
+
+        });
+
+    public ValueTask<Privilege> AddPrivilegeAsync(Privilege newPrivilege) =>
+        TryCatch(operation: ValueTask<Privilege> () =>
+        {
+            ValidateAddPrivilege(
+                newPrivilege: newPrivilege);
+
+            authorizationBroker.Authorize(appId: null, privilege: "privilege_create");
+            throw new InvalidOperationException(message: "Cannot add privileges");
+
+        });
+
+    public ValueTask<Privilege> UpdatePrivilegeAsync(Privilege updatedPrivilege) =>
+        TryCatch(operation: ValueTask<Privilege> () =>
+        {
+            ValidateUpdatePrivilege(
+                updatedPrivilege: updatedPrivilege);
+
+            authorizationBroker.Authorize(appId: null, privilege: "privilege_update");
+            throw new InvalidOperationException(message: "Cannot update privileges");
+
+        });
+
+    public ValueTask DeleteAsync(string privilegeId) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDelete(
+                privilegeId: privilegeId);
+
+            await DeletePrivilegeValueAsync(
+                privilegeId: privilegeId);
+
+        });
+
+    public ValueTask DeleteAllPrivilegeAsync(IEnumerable<Privilege> deletedPrivilege) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDeleteAllPrivilege(
+                deletedPrivilege: deletedPrivilege);
+
+            foreach (Privilege item in deletedPrivilege)
+            {
+                await DeletePrivilegeValueAsync(privilegeId: item.Id);
+            }
+
+        });
+
+    private ValueTask<Privilege> AddPrivilegeValueAsync(Privilege newPrivilege) =>
+        AddPrivilegeAsync(newPrivilege: newPrivilege);
+
+    private ValueTask<Privilege> UpdatePrivilegeValueAsync(Privilege updatedPrivilege) =>
+        UpdatePrivilegeAsync(updatedPrivilege: updatedPrivilege);
+
+    private ValueTask DeletePrivilegeValueAsync(string privilegeId)
     {
-        foreach (Privilege item in items)
-            await DeleteAsync(item.Id);
+        authorizationBroker.Authorize(
+            appId: null,
+            privilege: "privilege_delete");
+
+        throw new InvalidOperationException(
+            message: "Cannot delete privileges");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

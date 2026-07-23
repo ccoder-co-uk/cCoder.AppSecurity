@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -19,33 +23,32 @@ public partial class UserRoleEventServiceTests
         EventMessage<cCoder.Data.Models.Security.UserRole> actualMessage = null;
 
         userRoleEventBrokerMock
-            .Setup(x => x.RaiseUserRoleAddEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.UserRole>>()))
-            .Callback<EventMessage<cCoder.Data.Models.Security.UserRole>>(message => actualMessage = message)
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseUserRoleAddEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.UserRole>>()))
+            .Callback<EventMessage<cCoder.Data.Models.Security.UserRole>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseUserRoleAddEventAsync(entity);
+        await service.RaiseUserRoleAddEventAsync(entity: entity);
 
         // Then
-        actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(entity);
-        actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(CurrentUserId);
+        actualMessage.Should()
+            .NotBeNull();
+
+        actualMessage!.Data.Should()
+            .BeEquivalentTo(expectation: entity);
+
+        actualMessage.AuthInfo.Should()
+            .NotBeNull();
+
+        actualMessage.AuthInfo.SSOUserId.Should()
+            .Be(expected: CurrentUserId);
+
         userRoleEventBrokerMock.Verify(
-            x => x.RaiseUserRoleAddEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.UserRole>>()),
-            Times.Once
+expression: x => x.RaiseUserRoleAddEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.UserRole>>()),
+times: Times.Once
         );
+
         userRoleEventBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-
-
-
-

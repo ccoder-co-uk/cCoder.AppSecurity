@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Exposures.HostedServices;
 using Moq;
 using Xunit;
@@ -12,28 +16,33 @@ public sealed partial class AnalysePlatformUsageHostedServiceTests
         // Given
         TaskCompletionSource runCompleted = new();
 
-        analysePlatformUsageOrchestrationServiceMock
-            .Setup(service => service.RunAsync(It.IsAny<CancellationToken>()))
-            .Callback(() => runCompleted.TrySetResult())
-            .Returns(Task.CompletedTask);
+        analysePlatformUsageProcessingServiceMock
+            .Setup(expression: service => service.RunAsync(cancellationToken: It.IsAny<CancellationToken>()))
+            .Callback(action: () => runCompleted.TrySetResult())
+            .Returns(value: Task.CompletedTask);
 
         AnalysePlatformUsageHostedService service = CreateService();
 
         try
         {
             // When
-            await service.StartAsync(CancellationToken.None);
-            await Task.WhenAny(runCompleted.Task, Task.Delay(TimeSpan.FromSeconds(2)));
+            await service.StartAsync(cancellationToken: CancellationToken.None);
+
+            await Task.WhenAny(
+                task1: runCompleted.Task,
+                task2: Task.Delay(
+                    delay: TimeSpan.FromSeconds(value: 2)));
 
             // Then
-            Assert.True(runCompleted.Task.IsCompleted);
-            analysePlatformUsageOrchestrationServiceMock.Verify(
-                service => service.RunAsync(It.IsAny<CancellationToken>()),
-                Times.Once);
+            Assert.True(condition: runCompleted.Task.IsCompleted);
+
+            analysePlatformUsageProcessingServiceMock.Verify(
+expression: service => service.RunAsync(cancellationToken: It.IsAny<CancellationToken>()),
+times: Times.Once);
         }
         finally
         {
-            await service.StopAsync(CancellationToken.None);
+            await service.StopAsync(cancellationToken: CancellationToken.None);
         }
     }
 }

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -14,27 +18,22 @@ public partial class UserServiceTests
     public void ShouldDelegateToBrokerWhenGet()
     {
         // Given
-        User user = CreateRandomUser("user-1");
+        User user = CreateRandomUser(id: "user-1");
 
-        userBrokerMock.Setup(x => x.GetAllUsers(false)).Returns(new[] { ToExternalUser(user) }.AsQueryable());
+        userBrokerMock.Setup(expression: x => x.GetAllUsers(ignoreFilters: false))
+            .Returns(value: new[] { ToExternalUser(item: user) }.AsQueryable());
 
         // When
-        User result = userService.Get("user-1");
+        User result = userService.Get(userId: "user-1");
 
         // Then
-        result.Should().BeEquivalentTo(user);
-        userBrokerMock.Verify(x => x.GetAllUsers(false), Times.Once);
-        userBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.User>()), Times.AtMostOnce());
+        result.Should()
+            .BeEquivalentTo(expectation: user);
+
+        userBrokerMock.Verify(expression: x => x.GetAllUsers(ignoreFilters: false), times: Times.Once);
+        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-
-

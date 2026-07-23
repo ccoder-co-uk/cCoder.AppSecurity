@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,21 +20,11 @@ public partial class PrivilegeEventProcessingServiceTests
 
     public PrivilegeEventProcessingServiceTests()
     {
-        privilegeEventServiceMock = new Mock<IPrivilegeEventService>(MockBehavior.Strict);
-        service = new PrivilegeEventProcessingService(privilegeEventServiceMock.Object);
+        privilegeEventServiceMock = new Mock<IPrivilegeEventService>(behavior: MockBehavior.Strict);
+        service = new PrivilegeEventProcessingService(eventService: privilegeEventServiceMock.Object);
     }
 
     private static Privilege CreateRandomPrivilege() =>
-        Builder<Privilege>.CreateNew().Build();
+        Builder<Privilege>.CreateNew()
+        .Build();
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -9,6 +13,7 @@ using DataUserRole = cCoder.Data.Models.Security.UserRole;
 using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
 using IRoleBroker = cCoder.AppSecurity.Brokers.IRoleBroker;
 using IUserRoleBroker = cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker;
+using IUserBroker = cCoder.AppSecurity.Brokers.Storages.IUserBroker;
 
 
 namespace cCoder.Core.Services.Tests.Security.Foundations;
@@ -17,23 +22,28 @@ public partial class UserRoleServiceTests
 {
     private readonly Mock<IUserRoleBroker> userRoleBrokerMock;
     private readonly Mock<IRoleBroker> roleBrokerMock;
+    private readonly Mock<IUserBroker> userBrokerMock;
     private readonly Mock<IAuthorizationBroker> authorizationBrokerMock;
     private readonly UserRoleService userRoleService;
 
     public UserRoleServiceTests()
     {
-        userRoleBrokerMock = new Mock<IUserRoleBroker>(MockBehavior.Strict);
-        roleBrokerMock = new Mock<IRoleBroker>(MockBehavior.Strict);
-        authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
+        userRoleBrokerMock = new Mock<IUserRoleBroker>(behavior: MockBehavior.Strict);
+        roleBrokerMock = new Mock<IRoleBroker>(behavior: MockBehavior.Strict);
+        userBrokerMock = new Mock<IUserBroker>(behavior: MockBehavior.Strict);
+        authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
+
         userRoleService = new UserRoleService(
-            userRoleBrokerMock.Object,
-            roleBrokerMock.Object,
-            authorizationBrokerMock.Object
+            userRoleBroker: userRoleBrokerMock.Object,
+            roleBroker: roleBrokerMock.Object,
+            userBroker: userBrokerMock.Object,
+            authorizationBroker: authorizationBrokerMock.Object
         );
     }
 
     private static UserRole CreateRandomUserRole(Guid? roleId = null, string userId = null)
     {
+
         UserRole userRole = new()
         {
             RoleId = roleId ?? Guid.NewGuid(),
@@ -77,12 +87,12 @@ public partial class UserRoleServiceTests
             Id = roleId,
             AppId = appId,
             Name = $"Role-{Guid.NewGuid():N}",
-            Privs = string.Join(',', privileges),
+            Privs = string.Join(separator: ',', value: privileges),
         };
 
     private static DataUser CreateCurrentUser(int appId, params string[] privileges)
     {
-        DataRole role = CreateRole(Guid.NewGuid(), appId, privileges);
+        DataRole role = CreateRole(roleId: Guid.NewGuid(), appId: appId, privileges: privileges);
 
         return new DataUser
         {
@@ -99,17 +109,3 @@ public partial class UserRoleServiceTests
         };
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

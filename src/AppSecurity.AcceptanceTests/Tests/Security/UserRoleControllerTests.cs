@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -20,7 +24,8 @@ public sealed partial class UserRoleControllerTests(WebAcceptanceFixture fixture
     private string BaseUrl { get; } = "/Api/Core/UserRole";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
-    private static string Unique(string prefix) => $"{prefix}-{Guid.NewGuid():N}";
+    private static string Unique(string prefix) =>
+        $"{prefix}-{Guid.NewGuid():N}";
 
     private sealed record SeededUserRoleContext(
         int AppId,
@@ -35,33 +40,35 @@ public sealed partial class UserRoleControllerTests(WebAcceptanceFixture fixture
     private async Task<SeededUserRoleContext> SeedDatabase()
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        App app = await core.AddAppAsync(new App
+        App app = await core.AddAppAsync(app: new App
         {
-            Name = Unique("AcceptanceApp"),
-            Domain = $"{Unique("userrole")}.local",
+            Name = Unique(prefix: "AcceptanceApp"),
+            Domain = $"{Unique(prefix: "userrole")}.local",
             DefaultTheme = "Default",
             DefaultCultureId = string.Empty,
-            TenantId = Unique("tenant"),
+            TenantId = Unique(prefix: "tenant"),
             ConfigJson = "{}",
         });
 
-        Role guestRole = await core.AddRoleAsync(new Role
+        Role guestRole = await core.AddRoleAsync(role: new Role
         {
             Id = Guid.NewGuid(),
             AppId = app.Id,
-            Name = Unique("Role"),
+            Name = Unique(prefix: "Role"),
             Description = "Acceptance role",
             Privs = "app_admin,userrole_create,userrole_delete,userrole_read,page_read",
         });
 
-        await core.AddUserRoleAsync(new UserRole { RoleId = guestRole.Id, UserId = "Guest" });
+        await core.AddUserRoleAsync(userRole: new UserRole { RoleId = guestRole.Id, UserId = "Guest" });
 
-        string userId = Unique("user");
-        await core.AddUserAsync(new User
+        string userId = Unique(prefix: "user");
+
+        await core.AddUserAsync(user: new User
         {
             Id = userId,
             DefaultCultureId = string.Empty,
@@ -70,28 +77,29 @@ public sealed partial class UserRoleControllerTests(WebAcceptanceFixture fixture
             IsActive = true,
         });
 
-        Role visibleRole = await core.AddRoleAsync(new Role
+        Role visibleRole = await core.AddRoleAsync(role: new Role
         {
             Id = Guid.NewGuid(),
             AppId = app.Id,
-            Name = Unique("VisibleRole"),
+            Name = Unique(prefix: "VisibleRole"),
             Description = "Acceptance visibility role",
             Privs = "user_read",
         });
 
-        await core.AddUserRoleAsync(new UserRole { RoleId = visibleRole.Id, UserId = userId });
+        await core.AddUserRoleAsync(userRole: new UserRole { RoleId = visibleRole.Id, UserId = userId });
 
-        Role basicRole = await core.AddRoleAsync(new Role
+        Role basicRole = await core.AddRoleAsync(role: new Role
         {
             Id = Guid.NewGuid(),
             AppId = app.Id,
-            Name = Unique("BasicRole"),
+            Name = Unique(prefix: "BasicRole"),
             Description = "Acceptance basic role",
             Privs = "page_read",
         });
 
-        string hiddenUserId = Unique("hidden-user");
-        await core.AddUserAsync(new User
+        string hiddenUserId = Unique(prefix: "hidden-user");
+
+        await core.AddUserAsync(user: new User
         {
             Id = hiddenUserId,
             DefaultCultureId = string.Empty,
@@ -101,12 +109,12 @@ public sealed partial class UserRoleControllerTests(WebAcceptanceFixture fixture
         });
 
         return new SeededUserRoleContext(
-            app.Id,
-            guestRole.Id,
-            visibleRole.Id,
-            basicRole.Id,
-            userId,
-            hiddenUserId
+AppId: app.Id,
+GuestRoleId: guestRole.Id,
+VisibleRoleId: visibleRole.Id,
+BasicRoleId: basicRole.Id,
+UserId: userId,
+HiddenUserId: hiddenUserId
         );
     }
 
@@ -115,42 +123,44 @@ public sealed partial class UserRoleControllerTests(WebAcceptanceFixture fixture
     private async Task<RestrictedUserRoleContext> SeedRestrictedDatabase()
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        App app = await core.AddAppAsync(new App
+        App app = await core.AddAppAsync(app: new App
         {
-            Name = Unique("RestrictedApp"),
-            Domain = $"{Unique("restricted-userrole")}.local",
+            Name = Unique(prefix: "RestrictedApp"),
+            Domain = $"{Unique(prefix: "restricted-userrole")}.local",
             DefaultTheme = "Default",
             DefaultCultureId = string.Empty,
-            TenantId = Unique("tenant"),
+            TenantId = Unique(prefix: "tenant"),
             ConfigJson = "{}",
         });
 
-        Role operatorRole = await core.AddRoleAsync(new Role
+        Role operatorRole = await core.AddRoleAsync(role: new Role
         {
             Id = Guid.NewGuid(),
             AppId = app.Id,
-            Name = Unique("OperatorRole"),
+            Name = Unique(prefix: "OperatorRole"),
             Description = "Can manage user-role links but is not app admin",
             Privs = "userrole_create,userrole_read",
         });
 
-        await core.AddUserRoleAsync(new UserRole { RoleId = operatorRole.Id, UserId = "Guest" });
+        await core.AddUserRoleAsync(userRole: new UserRole { RoleId = operatorRole.Id, UserId = "Guest" });
 
-        Role targetAdminRole = await core.AddRoleAsync(new Role
+        Role targetAdminRole = await core.AddRoleAsync(role: new Role
         {
             Id = Guid.NewGuid(),
             AppId = app.Id,
-            Name = Unique("AdminRole"),
+            Name = Unique(prefix: "AdminRole"),
             Description = "Protected admin role",
             Privs = "app_admin,page_read",
         });
 
-        string userId = Unique("restricted-user");
-        await core.AddUserAsync(new User
+        string userId = Unique(prefix: "restricted-user");
+
+        await core.AddUserAsync(user: new User
         {
             Id = userId,
             DefaultCultureId = string.Empty,
@@ -159,126 +169,179 @@ public sealed partial class UserRoleControllerTests(WebAcceptanceFixture fixture
             IsActive = true,
         });
 
-        return new RestrictedUserRoleContext(app.Id, operatorRole.Id, targetAdminRole.Id, userId);
+        return new RestrictedUserRoleContext(AppId: app.Id, OperatorRoleId: operatorRole.Id, TargetAdminRoleId: targetAdminRole.Id, UserId: userId);
     }
 
     private async Task<UserRole> CreateUserRoleAsync(object payload)
     {
-        (int statusCode, string content) = await PostUserRoleAsync(payload);
-        statusCode.Should().Be((int)HttpStatusCode.OK, content);
-        return JsonSerializer.Deserialize<UserRole>(content, JsonOptions)!;
+        (int statusCode, string content) = await PostUserRoleAsync(payload: payload);
+
+        statusCode.Should()
+            .Be(expected: (int)HttpStatusCode.OK, because: content);
+
+        return JsonSerializer.Deserialize<UserRole>(json: content, options: JsonOptions)!;
     }
 
     private async Task<(int StatusCode, string Content)> PostUserRoleAsync(object payload)
     {
-        using HttpResponseMessage response = await Client.PostAsJsonAsync(BaseUrl, payload);
+        using HttpResponseMessage response = await Client.PostAsJsonAsync(requestUri: BaseUrl, value: payload);
         string content = await response.Content.ReadAsStringAsync();
         return ((int)response.StatusCode, content);
     }
 
     private async Task<int> DeleteUserRoleAsync(Guid roleId, string userId)
     {
+
         using HttpResponseMessage response = await Client.DeleteAsync(
-            $"{BaseUrl}(RoleId={roleId},UserId='{Uri.EscapeDataString(userId)}')"
+requestUri: $"{BaseUrl}(RoleId={roleId},UserId='{Uri.EscapeDataString(stringToEscape: userId)}')"
         );
 
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
         return (int)response.StatusCode;
     }
 
     private async Task Teardown(SeededUserRoleContext seededContext)
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(userRole =>
+        UserRole[] userRoles = core.Set<UserRole>()
+            .IgnoreQueryFilters()
+            .Where(predicate: userRole =>
             userRole.RoleId == seededContext.GuestRoleId
             || userRole.RoleId == seededContext.VisibleRoleId
             || userRole.RoleId == seededContext.BasicRoleId
             || userRole.UserId == seededContext.UserId
-            || userRole.UserId == seededContext.HiddenUserId).ToArray();
+            || userRole.UserId == seededContext.HiddenUserId)
+            .ToArray();
+
         if (userRoles.Length > 0)
-            await core.DeleteAllAsync(userRoles);
+        {
+            await core.DeleteAllAsync(userRoles: userRoles);
+        }
 
-        User[] users = core.Set<User>().IgnoreQueryFilters().Where(found =>
-            found.Id == seededContext.UserId || found.Id == seededContext.HiddenUserId).ToArray();
+        User[] users = core.Set<User>()
+            .IgnoreQueryFilters()
+            .Where(predicate: found =>
+            found.Id == seededContext.UserId || found.Id == seededContext.HiddenUserId)
+            .ToArray();
+
         foreach (User user in users)
-            await core.DeleteAsync(user);
+        {
+            await core.DeleteAsync(user: user);
+        }
 
-        Role[] roles = core.Set<Role>().IgnoreQueryFilters().Where(found =>
+        Role[] roles = core.Set<Role>()
+            .IgnoreQueryFilters()
+            .Where(predicate: found =>
             found.Id == seededContext.GuestRoleId
             || found.Id == seededContext.VisibleRoleId
-            || found.Id == seededContext.BasicRoleId).ToArray();
-        if (roles.Length > 0)
-            await core.DeleteAllAsync(roles);
+            || found.Id == seededContext.BasicRoleId)
+            .ToArray();
 
-        App app = core.Set<App>().IgnoreQueryFilters().FirstOrDefault(found => found.Id == seededContext.AppId);
+        if (roles.Length > 0)
+        {
+            await core.DeleteAllAsync(roles: roles);
+        }
+
+        App app = core.Set<App>()
+            .IgnoreQueryFilters()
+            .FirstOrDefault(predicate: found => found.Id == seededContext.AppId);
+
         if (app is not null)
-            await core.DeleteAsync(app);
+        {
+            await core.DeleteAsync(app: app);
+        }
     }
 
     private async Task Teardown(RestrictedUserRoleContext seededContext)
     {
         using IServiceScope scope = fixture.Factory.Services.CreateScope();
+
         using var core = scope.ServiceProvider
             .GetRequiredService<cCoder.Data.ICoreContextFactory>()
             .CreateCoreContext();
 
-        UserRole[] userRoles = core.Set<UserRole>().IgnoreQueryFilters().Where(userRole =>
+        UserRole[] userRoles = core.Set<UserRole>()
+            .IgnoreQueryFilters()
+            .Where(predicate: userRole =>
             userRole.RoleId == seededContext.OperatorRoleId
             || userRole.RoleId == seededContext.TargetAdminRoleId
-            || userRole.UserId == seededContext.UserId).ToArray();
+            || userRole.UserId == seededContext.UserId)
+            .ToArray();
+
         if (userRoles.Length > 0)
-            await core.DeleteAllAsync(userRoles);
+        {
+            await core.DeleteAllAsync(userRoles: userRoles);
+        }
 
-        User user = core.Set<User>().IgnoreQueryFilters().FirstOrDefault(found => found.Id == seededContext.UserId);
+        User user = core.Set<User>()
+            .IgnoreQueryFilters()
+            .FirstOrDefault(predicate: found => found.Id == seededContext.UserId);
+
         if (user is not null)
-            await core.DeleteAsync(user);
+        {
+            await core.DeleteAsync(user: user);
+        }
 
-        Role[] roles = core.Set<Role>().IgnoreQueryFilters().Where(found =>
+        Role[] roles = core.Set<Role>()
+            .IgnoreQueryFilters()
+            .Where(predicate: found =>
             found.Id == seededContext.OperatorRoleId
-            || found.Id == seededContext.TargetAdminRoleId).ToArray();
+            || found.Id == seededContext.TargetAdminRoleId)
+            .ToArray();
+
         if (roles.Length > 0)
-            await core.DeleteAllAsync(roles);
+        {
+            await core.DeleteAllAsync(roles: roles);
+        }
 
-        App app = core.Set<App>().IgnoreQueryFilters().FirstOrDefault(found => found.Id == seededContext.AppId);
+        App app = core.Set<App>()
+            .IgnoreQueryFilters()
+            .FirstOrDefault(predicate: found => found.Id == seededContext.AppId);
+
         if (app is not null)
-            await core.DeleteAsync(app);
+        {
+            await core.DeleteAsync(app: app);
+        }
     }
-
 
     private async Task<int> GetUserRoleCountAsync()
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}/$count");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return int.Parse(content);
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return int.Parse(s: content);
     }
 
     private async Task<IReadOnlyList<UserRole>> GetUserRolesAsync(int top)
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}?$top={top}");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$top={top}");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
-        return JsonSerializer.Deserialize<ODataEnvelope<UserRole>>(content, JsonOptions)!.Value;
+
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return JsonSerializer.Deserialize<ODataEnvelope<UserRole>>(json: content, options: JsonOptions)!.Value;
     }
 
     private async Task<UserRole> FindUserRoleAsync(string userId, Guid roleId)
     {
-        IReadOnlyList<UserRole> userRoles = await GetUserRolesAsync(200);
-        return userRoles.FirstOrDefault(userRole =>
+        IReadOnlyList<UserRole> userRoles = await GetUserRolesAsync(top: 200);
+
+        return userRoles.FirstOrDefault(predicate: userRole =>
             userRole.UserId == userId && userRole.RoleId == roleId
         );
     }
 
 }
-
-
-
-
-
-
-

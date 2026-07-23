@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Moq;
 using Xunit;
 
@@ -11,18 +15,15 @@ public partial class RoleProcessingServiceTests
     {
         // Given
         Guid roleId = Guid.NewGuid();
-        roleServiceMock.Setup(x => x.DeleteAsync(roleId)).Returns(ValueTask.CompletedTask);
+
+        roleServiceMock.Setup(expression: x => x.DeleteAsync(id: roleId))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await roleProcessingService.DeleteAsync(roleId);
+        await roleProcessingService.DeleteAsync(roleId: roleId);
 
         // Then
-        roleServiceMock.Verify(x => x.DeleteAsync(roleId), Times.Once);
+        roleServiceMock.Verify(expression: x => x.DeleteAsync(id: roleId), times: Times.Once);
     }
 
 }
-
-
-
-
-

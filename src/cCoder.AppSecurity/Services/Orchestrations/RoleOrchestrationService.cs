@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -6,99 +10,151 @@ using cCoder.AppSecurity.Services.Processings;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
-internal class RoleOrchestrationService(
+internal sealed partial class RoleOrchestrationService(
     IRoleProcessingService processingService,
     IRoleEventProcessingService eventService
 ) : IRoleOrchestrationService
 {
-    public Role Get(Guid id) => processingService.Get(id);
+    public Role Get(Guid roleId) =>
+        TryCatch(operation: Role () =>
+        {
+            ValidateGet(
+                roleId: roleId);
+
+            return processingService.Get(id: roleId);
+        });
 
     public IQueryable<Role> GetAll(bool ignoreFilters = false) =>
-        processingService.GetAll(ignoreFilters);
-
-    public async ValueTask<Role> AddAsync(Role entity)
-    {
-        var result = await processingService.AddAsync(entity);
-        await eventService.RaiseRoleAddEventAsync(result);
-        return result;
-    }
-
-    public async ValueTask<Role> AddValidatedAsync(Role entity)
-    {
-        var result = await processingService.AddValidatedAsync(entity);
-        await eventService.RaiseRoleAddEventAsync(result);
-        return result;
-    }
-
-    public async ValueTask<Role> UpdateAsync(Role entity)
-    {
-        var result = await processingService.UpdateAsync(entity);
-        await eventService.RaiseRoleUpdateEventAsync(result);
-        return result;
-    }
-
-    public async ValueTask<Role> UpdateValidatedAsync(Role entity)
-    {
-        var result = await processingService.UpdateValidatedAsync(entity);
-        await eventService.RaiseRoleUpdateEventAsync(result);
-        return result;
-    }
-
-    public async ValueTask DeleteAsync(Guid id)
-    {
-        var entity = processingService.GetAll(true).FirstOrDefault(item => item.Id == id);
-
-        if (entity is null)
-            return;
-
-        await eventService.RaiseRoleDeleteEventAsync(entity);
-        await processingService.DeleteAsync(id);
-    }
-
-    public async ValueTask DeleteValidatedAsync(Guid id)
-    {
-        var entity = processingService.GetAll(true).FirstOrDefault(item => item.Id == id);
-
-        if (entity is null)
-            return;
-
-        await eventService.RaiseRoleDeleteEventAsync(entity);
-        await processingService.DeleteValidatedAsync(id);
-    }
-
-    public ValueTask<IEnumerable<Result<Role>>> AddOrUpdate(
-        IEnumerable<Role> items
-    ) => processingService.AddOrUpdate(items);
-
-    public async ValueTask ImportAsync(int appId, IEnumerable<Role> roles)
-    {
-        var dbVersions = processingService
-            .GetAll(false)
-            .Where(role => role.AppId == appId)
-            .Select(role => new { role.Id, role.Name })
-            .ToArray();
-
-        foreach (Role role in roles)
+        TryCatch(operation: IQueryable<Role> () =>
         {
-            role.AppId = appId;
-            role.Id = dbVersions.FirstOrDefault(existing => existing.Name == role.Name)?.Id ?? Guid.Empty;
+            ValidateGetAll(
+                ignoreFilters: ignoreFilters);
 
-            if (role.Id == Guid.Empty)
-                await processingService.AddValidatedAsync(role);
-            else
-                await processingService.UpdateValidatedAsync(role);
-        }
-    }
+            return processingService.GetAll(ignoreFilters: ignoreFilters);
+        });
 
-    public ValueTask DeleteAllAsync(IEnumerable<Role> items) =>
-        processingService.DeleteAllAsync(items);
+    public ValueTask<Role> AddRoleAsync(Role newRole) =>
+        TryCatch(operation: async ValueTask<Role> () =>
+        {
+            ValidateAddRole(
+                newRole: newRole);
+
+            var result = await processingService.AddRoleAsync(entity: newRole);
+            await eventService.RaiseRoleAddEventAsync(entity: result);
+            return result;
+
+        });
+
+    public ValueTask<Role> AddValidatedRoleAsync(Role newRole) =>
+        TryCatch(operation: async ValueTask<Role> () =>
+        {
+            ValidateAddValidatedRole(
+                newRole: newRole);
+
+            var result = await processingService.AddValidatedRoleAsync(entity: newRole);
+            await eventService.RaiseRoleAddEventAsync(entity: result);
+            return result;
+
+        });
+
+    public ValueTask<Role> UpdateRoleAsync(Role updatedRole) =>
+        TryCatch(operation: async ValueTask<Role> () =>
+        {
+            ValidateUpdateRole(
+                updatedRole: updatedRole);
+
+            var result = await processingService.UpdateRoleAsync(entity: updatedRole);
+            await eventService.RaiseRoleUpdateEventAsync(entity: result);
+            return result;
+
+        });
+
+    public ValueTask<Role> UpdateValidatedRoleAsync(Role updatedRole) =>
+        TryCatch(operation: async ValueTask<Role> () =>
+        {
+            ValidateUpdateValidatedRole(
+                updatedRole: updatedRole);
+
+            var result = await processingService.UpdateValidatedRoleAsync(entity: updatedRole);
+            await eventService.RaiseRoleUpdateEventAsync(entity: result);
+            return result;
+
+        });
+
+    public ValueTask DeleteAsync(Guid roleId) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDelete(
+                roleId: roleId);
+
+            var entity = processingService.GetAll(ignoreFilters: true)
+                .FirstOrDefault(predicate: item => item.Id == roleId);
+
+            if (entity is null)
+            {
+                return;
+            }
+
+            await eventService.RaiseRoleDeleteEventAsync(entity: entity);
+            await processingService.DeleteAsync(id: roleId);
+
+        });
+
+    public ValueTask DeleteValidatedAsync(Guid roleId) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDeleteValidated(
+                roleId: roleId);
+
+            var entity = processingService.GetAll(ignoreFilters: true)
+                .FirstOrDefault(predicate: item => item.Id == roleId);
+
+            if (entity is null)
+            {
+                return;
+            }
+
+            await eventService.RaiseRoleDeleteEventAsync(entity: entity);
+            await processingService.DeleteValidatedAsync(id: roleId);
+
+        });
+
+    public ValueTask ImportRoleAsync(int appId, IEnumerable<Role> roles) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateImportRole(
+                appId: appId,
+                roles: roles);
+
+            var dbVersions = processingService
+                .GetAll(ignoreFilters: false)
+                .Where(predicate: role => role.AppId == appId)
+                .Select(selector: role => new { role.Id, role.Name })
+                .ToArray();
+
+            foreach (Role role in roles)
+            {
+                role.AppId = appId;
+                role.Id = dbVersions.FirstOrDefault(predicate: existing => existing.Name == role.Name)?.Id ?? Guid.Empty;
+
+                if (role.Id == Guid.Empty)
+                {
+                    await processingService.AddValidatedRoleAsync(entity: role);
+                }
+                else
+                {
+                    await processingService.UpdateValidatedRoleAsync(entity: role);
+                }
+            }
+
+        });
+
+    public ValueTask DeleteAllRoleAsync(IEnumerable<Role> deletedRole) =>
+        TryCatch(operation: ValueTask () =>
+        {
+            ValidateDeleteAllRole(
+                deletedRole: deletedRole);
+
+            return processingService.DeleteAllRoleAsync(items: deletedRole);
+        });
 }
-
-
-
-
-
-
-
-
-

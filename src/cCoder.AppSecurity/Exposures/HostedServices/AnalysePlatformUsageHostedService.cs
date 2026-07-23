@@ -1,4 +1,8 @@
-using cCoder.AppSecurity.Services.Orchestrations;
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
+using cCoder.AppSecurity.Services.Processings;
 using cCoder.AppSecurity.Models;
 using Microsoft.Extensions.Hosting;
 
@@ -6,20 +10,24 @@ using Microsoft.Extensions.Hosting;
 namespace cCoder.AppSecurity.Exposures.HostedServices;
 
 public sealed class AnalysePlatformUsageHostedService(
-    IAnalysePlatformUsageOrchestrationService analysePlatformUsageOrchestrationService,
+    IAnalysePlatformUsageProcessingService analysePlatformUsageProcessingService,
     AppSecurityConfiguration appSecurityConfiguration)
     : BackgroundService, IAnalysePlatformUsageHostedService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         if (appSecurityConfiguration.IsMigrating)
+        {
             return;
+        }
 
-        await analysePlatformUsageOrchestrationService.RunAsync(stoppingToken);
+        await analysePlatformUsageProcessingService.RunAsync(cancellationToken: stoppingToken);
 
-        using PeriodicTimer timer = new(TimeSpan.FromDays(1));
+        using PeriodicTimer timer = new(period: TimeSpan.FromDays(days: 1));
 
-        while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
-            await analysePlatformUsageOrchestrationService.RunAsync(stoppingToken);
+        while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: stoppingToken))
+        {
+            await analysePlatformUsageProcessingService.RunAsync(cancellationToken: stoppingToken);
+        }
     }
 }

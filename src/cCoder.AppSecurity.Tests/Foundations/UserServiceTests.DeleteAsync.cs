@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
@@ -15,23 +19,28 @@ public partial class UserServiceTests
     public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForDeleteAsync()
     {
         // Given
-        User user = CreateRandomUser("user-1");
+        User user = CreateRandomUser(id: "user-1");
 
-        userBrokerMock.Setup(x => x.GetAllUsers(false)).Returns(new[] { ToExternalUser(user) }.AsQueryable());
+        userBrokerMock.Setup(expression: x => x.GetAllUsers(ignoreFilters: false))
+            .Returns(value: new[] { ToExternalUser(item: user) }.AsQueryable());
 
-        userBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.User>())).Returns((int?)7);
-        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "User_delete"));
-        userBrokerMock.Setup(x => x.DeleteUserAsync(It.IsAny<cCoder.Data.Models.Security.User>())).ReturnsAsync(1);
+        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+            .Returns(value: (int?)7);
+
+        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "User_delete"));
+
+        userBrokerMock.Setup(expression: x => x.DeleteUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+            .ReturnsAsync(value: 1);
 
         // When
-        await userService.DeleteAsync("user-1");
+        await userService.DeleteAsync(userId: "user-1");
 
         // Then
-        userBrokerMock.Verify(x => x.GetAllUsers(false), Times.Once);
-        userBrokerMock.Verify(x => x.DeleteUserAsync(It.IsAny<cCoder.Data.Models.Security.User>()), Times.Once);
-        userBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.User>()), Times.AtMostOnce());
+        userBrokerMock.Verify(expression: x => x.GetAllUsers(ignoreFilters: false), times: Times.Once);
+        userBrokerMock.Verify(expression: x => x.DeleteUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.Once);
+        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "User_delete"), Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_delete"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -39,32 +48,33 @@ public partial class UserServiceTests
     public async Task ShouldThrowSecurityExceptionWhenUserLacksDeletePrivilegeForDeleteAsync()
     {
         // Given
-        User user = CreateRandomUser("user-1");
+        User user = CreateRandomUser(id: "user-1");
 
-        userBrokerMock.Setup(x => x.GetAllUsers(false)).Returns(new[] { ToExternalUser(user) }.AsQueryable());
+        userBrokerMock.Setup(expression: x => x.GetAllUsers(ignoreFilters: false))
+            .Returns(value: new[] { ToExternalUser(item: user) }.AsQueryable());
 
-        userBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.User>())).Returns((int?)7);
+        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+            .Returns(value: (int?)7);
+
         authorizationBrokerMock
-            .Setup(x => x.Authorize((int?)7, "User_delete"))
-            .Throws(new SecurityException("Access Denied!"));
+            .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "User_delete"))
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
-        Func<Task> action = async () => await userService.DeleteAsync("user-1");
+        Func<Task> action = async () => await userService.DeleteAsync(userId: "user-1");
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
-        userBrokerMock.Verify(x => x.GetAllUsers(false), Times.Once);
-        userBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.User>()), Times.AtMostOnce());
+        await action.Should()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException>()
+            .WithMessage(expectedWildcardPattern: "The AppSecurity service failed.")
+            .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
+        userBrokerMock.Verify(expression: x => x.GetAllUsers(ignoreFilters: false), times: Times.Once);
+        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "User_delete"), Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_delete"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

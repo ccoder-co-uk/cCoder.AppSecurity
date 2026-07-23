@@ -1,4 +1,7 @@
-using cCoder.AppSecurity.Brokers;
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.Data.Models.CMS;
@@ -6,37 +9,55 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
-internal class AppOrchestrationService(
-    IAuthorizationBroker authorizationBroker,
+internal sealed partial class AppOrchestrationService(
+    IAuthorizationService authorizationService,
     IPrivilegeService privilegeService,
-    IRoleOrchestrationService roleOrchestrationService
+    IRoleService roleService
 ) : IAppOrchestrationService
 {
-    public async ValueTask AddAsync(App app)
-    {
-        EnsureDefaultRoles(app);
-        StampRoles(app);
-        await UpsertRolesAsync(app.Roles ?? []);
-    }
-
-    public async ValueTask UpdateAsync(App app)
-    {
-        if (app?.Roles == null || app.Roles.Count == 0)
+    public ValueTask AddAppAsync(App newApp) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            return;
-        }
+            ValidateAddApp(
+                newApp: newApp);
 
-        StampRoles(app);
-        await UpsertRolesAsync(app.Roles);
-    }
+            EnsureDefaultRoles(app: newApp);
+            StampRoles(app: newApp);
+            await UpsertRolesAsync(roles: newApp.Roles ?? []);
 
-    public async ValueTask DeleteAsync(int appId)
-    {
-        Role[] rolesToDelete = [.. roleOrchestrationService.GetAll(true).Where(role => role.AppId == appId)];
+        });
 
-        foreach (Role role in rolesToDelete)
-            await roleOrchestrationService.DeleteValidatedAsync(role.Id);
-    }
+    public ValueTask UpdateAppAsync(App updatedApp) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateUpdateApp(
+                updatedApp: updatedApp);
+
+            if (updatedApp?.Roles == null || updatedApp.Roles.Count == 0)
+            {
+                return;
+            }
+
+            StampRoles(app: updatedApp);
+            await UpsertRolesAsync(roles: updatedApp.Roles);
+
+        });
+
+    public ValueTask DeleteAsync(int appId) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateDelete(
+                appId: appId);
+
+            Role[] rolesToDelete = [.. roleService.GetAll(ignoreFilters: true)
+                .Where(predicate: role => role.AppId == appId)];
+
+            foreach (Role role in rolesToDelete)
+            {
+                await roleService.DeleteValidatedAsync(id: role.Id);
+            }
+
+        });
 
     private static void StampRoles(App app)
     {
@@ -50,23 +71,25 @@ internal class AppOrchestrationService(
     private async ValueTask UpsertRolesAsync(IEnumerable<Role> roles)
     {
         Role[] roleArray =
-            [.. roles.OrderBy(GetBootstrapOrder)
-                .ThenBy(role => role.Name, StringComparer.OrdinalIgnoreCase)];
-        Guid[] roleIds = [.. roleArray.Select(role => role.Id)];
+            [.. roles.OrderBy(keySelector: GetBootstrapOrder)
+                .ThenBy(keySelector: role => role.Name, comparer: StringComparer.OrdinalIgnoreCase)];
+
+        Guid[] roleIds = [.. roleArray.Select(selector: role => role.Id)];
+
         HashSet<Guid> existingRoleIds =
-            [.. roleOrchestrationService.GetAll(true)
-                .Where(foundRole => roleIds.Contains(foundRole.Id))
-                .Select(foundRole => foundRole.Id)];
+            [.. roleService.GetAll(ignoreFilters: true)
+                .Where(predicate: foundRole => roleIds.Contains(value: foundRole.Id))
+                .Select(selector: foundRole => foundRole.Id)];
 
         foreach (Role role in roleArray)
         {
-            if (existingRoleIds.Contains(role.Id))
+            if (existingRoleIds.Contains(item: role.Id))
             {
-                _ = await roleOrchestrationService.UpdateValidatedAsync(role);
+                _ = await roleService.UpdateValidatedRoleAsync(role: role);
             }
             else
             {
-                _ = await roleOrchestrationService.AddValidatedAsync(role);
+                _ = await roleService.AddValidatedRoleAsync(role: role);
             }
         }
     }
@@ -84,29 +107,29 @@ internal class AppOrchestrationService(
     {
         app.Roles ??= [];
 
-        string currentUserId = authorizationBroker.GetCurrentUser()?.Id;
-        Privilege[] privileges = [.. privilegeService.GetAll(true)];
+        string currentUserId = authorizationService.GetCurrentUser()?.Id;
+        Privilege[] privileges = [.. privilegeService.GetAll(ignoreFilters: true)];
 
         string[] administratorPrivileges =
             [.. privileges
-                .Where(privilege => privilege.Id != "app_create")
-                .Select(privilege => privilege.Id)];
+                .Where(predicate: privilege => privilege.Id != "app_create")
+                .Select(selector: privilege => privilege.Id)];
 
         string[] userPrivileges =
             [.. privileges
-                .Where(privilege =>
-                    string.Equals(privilege.Operation, "Read", StringComparison.OrdinalIgnoreCase)
-                    && !IsWorkflowType(privilege.Type))
-                .Select(privilege => privilege.Id)];
+                .Where(predicate: privilege =>
+                    string.Equals(a: privilege.Operation, b: "Read", comparisonType: StringComparison.OrdinalIgnoreCase)
+                    && !IsWorkflowType(type: privilege.Type))
+                .Select(selector: privilege => privilege.Id)];
 
-        EnsureRole(app, "Administrators", administratorPrivileges, currentUserId);
-        EnsureRole(app, "Users", userPrivileges, currentUserId);
-        EnsureRole(app, "Guests", userPrivileges, "Guest");
+        EnsureRole(app: app, roleName: "Administrators", requiredPrivileges: administratorPrivileges, userId: currentUserId);
+        EnsureRole(app: app, roleName: "Users", requiredPrivileges: userPrivileges, userId: currentUserId);
+        EnsureRole(app: app, roleName: "Guests", requiredPrivileges: userPrivileges, userId: "Guest");
     }
 
     private static bool IsWorkflowType(string type) =>
-        type.StartsWith("Flow", StringComparison.OrdinalIgnoreCase)
-        || type.StartsWith("Workflow", StringComparison.OrdinalIgnoreCase);
+        type.StartsWith(value: "Flow", comparisonType: StringComparison.OrdinalIgnoreCase)
+        || type.StartsWith(value: "Workflow", comparisonType: StringComparison.OrdinalIgnoreCase);
 
     private static void EnsureRole(
         App app,
@@ -115,8 +138,8 @@ internal class AppOrchestrationService(
         string userId
     )
     {
-        Role role = app.Roles.FirstOrDefault(foundRole =>
-            string.Equals(foundRole.Name, roleName, StringComparison.OrdinalIgnoreCase));
+        Role role = app.Roles.FirstOrDefault(predicate: foundRole =>
+            string.Equals(a: foundRole.Name, b: roleName, comparisonType: StringComparison.OrdinalIgnoreCase));
 
         if (role is null)
         {
@@ -132,7 +155,7 @@ internal class AppOrchestrationService(
                 Privileges = [],
             };
 
-            app.Roles.Add(role);
+            app.Roles.Add(item: role);
         }
 
         role.AppId = app.Id;
@@ -140,15 +163,14 @@ internal class AppOrchestrationService(
         role.Users ??= [];
         role.Pages ??= [];
         role.Folders ??= [];
-        role.Privileges = [.. role.Privileges.Union(requiredPrivileges, StringComparer.OrdinalIgnoreCase)];
+        role.Privileges = [.. role.Privileges.Union(second: requiredPrivileges, comparer: StringComparer.OrdinalIgnoreCase)];
 
         if (
-            !string.IsNullOrWhiteSpace(userId)
-            && !role.Users.Any(existingUserRole => existingUserRole.UserId == userId)
+            !string.IsNullOrWhiteSpace(value: userId)
+            && !role.Users.Any(predicate: existingUserRole => existingUserRole.UserId == userId)
         )
         {
-            role.Users.Add(new UserRole { RoleId = role.Id, UserId = userId, Role = role });
+            role.Users.Add(item: new UserRole { RoleId = role.Id, UserId = userId, Role = role });
         }
     }
 }
-

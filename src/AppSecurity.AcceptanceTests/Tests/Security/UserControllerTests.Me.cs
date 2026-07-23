@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Security;
 using FluentAssertions;
 using Xunit;
@@ -16,12 +20,10 @@ public sealed partial class UserControllerTests
         User actualUser = await GetCurrentUserAsync();
 
         // Then
-        actualUser.Should().NotBeNull();
-        actualUser!.Id.Should().NotBeNullOrWhiteSpace();
+        actualUser.Should()
+            .NotBeNull();
+
+        actualUser!.Id.Should()
+            .NotBeNullOrWhiteSpace();
     }
 }
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -17,22 +21,16 @@ public partial class UserOrchestrationServiceTests
 
     public UserOrchestrationServiceTests()
     {
-        userProcessingServiceMock = new Mock<IUserProcessingService>(MockBehavior.Strict);
-        userEventProcessingServiceMock = new Mock<IUserEventProcessingService>(MockBehavior.Strict);
+        userProcessingServiceMock = new Mock<IUserProcessingService>(behavior: MockBehavior.Strict);
+        userEventProcessingServiceMock = new Mock<IUserEventProcessingService>(behavior: MockBehavior.Strict);
+
         orchestrationService = new UserOrchestrationService(
-            userProcessingServiceMock.Object,
-            userEventProcessingServiceMock.Object
+processingService: userProcessingServiceMock.Object,
+eventService: userEventProcessingServiceMock.Object
         );
     }
 
-    private static User CreateRandomUser() => Builder<User>.CreateNew().Build();
+    private static User CreateRandomUser() =>
+        Builder<User>.CreateNew()
+        .Build();
 }
-
-
-
-
-
-
-
-
-

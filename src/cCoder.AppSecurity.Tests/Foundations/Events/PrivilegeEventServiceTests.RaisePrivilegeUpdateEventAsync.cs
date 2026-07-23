@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -19,31 +23,32 @@ public partial class PrivilegeEventServiceTests
         EventMessage<cCoder.Data.Models.Security.Privilege> actualMessage = null;
 
         privilegeEventBrokerMock
-            .Setup(x => x.RaisePrivilegeUpdateEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.Privilege>>()))
-            .Callback<EventMessage<cCoder.Data.Models.Security.Privilege>>(message => actualMessage = message)
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaisePrivilegeUpdateEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.Privilege>>()))
+            .Callback<EventMessage<cCoder.Data.Models.Security.Privilege>>(action: message => actualMessage = message)
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaisePrivilegeUpdateEventAsync(entity);
+        await service.RaisePrivilegeUpdateEventAsync(entity: entity);
 
         // Then
-        actualMessage.Should().NotBeNull();
-        actualMessage!.Data.Should().BeEquivalentTo(entity);
-        actualMessage.AuthInfo.Should().NotBeNull();
-        actualMessage.AuthInfo.SSOUserId.Should().Be(CurrentUserId);
+        actualMessage.Should()
+            .NotBeNull();
+
+        actualMessage!.Data.Should()
+            .BeEquivalentTo(expectation: entity);
+
+        actualMessage.AuthInfo.Should()
+            .NotBeNull();
+
+        actualMessage.AuthInfo.SSOUserId.Should()
+            .Be(expected: CurrentUserId);
+
         privilegeEventBrokerMock.Verify(
-            x => x.RaisePrivilegeUpdateEventAsync(It.IsAny<EventMessage<cCoder.Data.Models.Security.Privilege>>()),
-            Times.Once
+expression: x => x.RaisePrivilegeUpdateEventAsync(message: It.IsAny<EventMessage<cCoder.Data.Models.Security.Privilege>>()),
+times: Times.Once
         );
+
         privilegeEventBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-
-

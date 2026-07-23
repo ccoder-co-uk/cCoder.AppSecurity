@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,21 +20,11 @@ public partial class UserEventProcessingServiceTests
 
     public UserEventProcessingServiceTests()
     {
-        userEventServiceMock = new Mock<IUserEventService>(MockBehavior.Strict);
-        service = new UserEventProcessingService(userEventServiceMock.Object);
+        userEventServiceMock = new Mock<IUserEventService>(behavior: MockBehavior.Strict);
+        service = new UserEventProcessingService(eventService: userEventServiceMock.Object);
     }
 
     private static User CreateRandomUser() =>
-        Builder<User>.CreateNew().Build();
+        Builder<User>.CreateNew()
+        .Build();
 }
-
-
-
-
-
-
-
-
-
-
-

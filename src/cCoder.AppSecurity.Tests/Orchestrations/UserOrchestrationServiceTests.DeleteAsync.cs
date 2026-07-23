@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -13,29 +17,28 @@ public partial class UserOrchestrationServiceTests
     public async Task ShouldGetThenDeleteThenRaiseDeleteEventAsyncWhenDeleteAsync()
     {
         // Given
-        string id = Guid.NewGuid().ToString();
+        string id = Guid.NewGuid()
+            .ToString();
+
         User entity = CreateRandomUser();
-        userProcessingServiceMock.Setup(x => x.Get(id)).Returns(entity);
-        userProcessingServiceMock.Setup(x => x.DeleteAsync(id)).Returns(ValueTask.CompletedTask);
+
+        userProcessingServiceMock.Setup(expression: x => x.Get(id: id))
+            .Returns(value: entity);
+
+        userProcessingServiceMock.Setup(expression: x => x.DeleteAsync(id: id))
+            .Returns(value: ValueTask.CompletedTask);
 
         userEventProcessingServiceMock
-            .Setup(x => x.RaiseUserDeleteEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseUserDeleteEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAsync(id);
+        await orchestrationService.DeleteAsync(userId: id);
 
         // Then
-        userProcessingServiceMock.Verify(x => x.Get(id), Times.Once);
-        userProcessingServiceMock.Verify(x => x.DeleteAsync(id), Times.Once);
-        userEventProcessingServiceMock.Verify(x => x.RaiseUserDeleteEventAsync(entity), Times.Once);
+        userProcessingServiceMock.Verify(expression: x => x.Get(id: id), times: Times.Once);
+        userProcessingServiceMock.Verify(expression: x => x.DeleteAsync(id: id), times: Times.Once);
+        userEventProcessingServiceMock.Verify(expression: x => x.RaiseUserDeleteEventAsync(entity: entity), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -17,7 +21,7 @@ public partial class RoleProcessingServiceTests
 
     public RoleProcessingServiceTests()
     {
-        roleProcessingService = new RoleProcessingService(roleServiceMock.Object);
+        roleProcessingService = new RoleProcessingService(service: roleServiceMock.Object);
     }
 
     private static User WithoutPrivileges() =>
@@ -34,22 +38,13 @@ public partial class RoleProcessingServiceTests
     private static Role CreateRandomRole() =>
         Builder<Role>
             .CreateNew()
-            .With(x => x.Id = Guid.NewGuid())
-            .With(x => x.AppId = 1)
-            .With(x => x.Name = $"Role-{Guid.NewGuid():N}")
-            .With(x => x.Privs = "app_read")
-            .With(x => x.App = null)
-            .With(x => x.Users = [])
-            .With(x => x.Pages = [])
-            .With(x => x.Folders = [])
+            .With(func: x => x.Id = Guid.NewGuid())
+            .With(func: x => x.AppId = 1)
+            .With(func: x => x.Name = $"Role-{Guid.NewGuid():N}")
+            .With(func: x => x.Privs = "app_read")
+            .With(func: x => x.App = null)
+            .With(func: x => x.Users = [])
+            .With(func: x => x.Pages = [])
+            .With(func: x => x.Folders = [])
             .Build();
 }
-
-
-
-
-
-
-
-
-

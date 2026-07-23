@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.Security;
 using Moq;
 using Xunit;
@@ -9,6 +13,7 @@ public partial class RoleOrchestrationServiceTests
     [Fact]
     public async Task ShouldAddAndUpdateRolesWhenImporting()
     {
+        // Given
         Role existingRole = new()
         {
             Id = Guid.NewGuid(),
@@ -26,31 +31,35 @@ public partial class RoleOrchestrationServiceTests
             Name = "Users"
         };
 
-        roleProcessingServiceMock.Setup(service =>
-                service.GetAll(false))
-            .Returns(new[] { existingRole }.AsQueryable());
+        roleProcessingServiceMock.Setup(expression: service =>
+                service.GetAll(ignoreFilters: false))
+            .Returns(value: new[] { existingRole }.AsQueryable());
 
-        roleProcessingServiceMock.Setup(service =>
-                service.AddValidatedAsync(
-                    It.Is<Role>(role =>
+        roleProcessingServiceMock.Setup(expression: service =>
+                service.AddValidatedRoleAsync(
+entity: It.Is<Role>(match: role =>
                         role.AppId == 7
                         && role.Id == Guid.Empty
                         && role.Name == "Guests")))
-            .ReturnsAsync(newRole);
+            .ReturnsAsync(value: newRole);
 
-        roleProcessingServiceMock.Setup(service =>
-                service.UpdateValidatedAsync(
-                    It.Is<Role>(role =>
+        roleProcessingServiceMock.Setup(expression: service =>
+                service.UpdateValidatedRoleAsync(
+entity: It.Is<Role>(match: role =>
                         role.AppId == 7
                         && role.Id == existingRole.Id
                         && role.Name == "Users")))
-            .ReturnsAsync(updatedRole);
+            .ReturnsAsync(value: updatedRole);
 
-        await orchestrationService.ImportAsync(7, [newRole, updatedRole]);
+        // When
+        await orchestrationService.ImportRoleAsync(
+            appId: 7,
+            roles: [newRole, updatedRole]);
 
-        roleProcessingServiceMock.Verify(service => service.GetAll(false), Times.Once);
-        roleProcessingServiceMock.Verify(service => service.AddValidatedAsync(newRole), Times.Once);
-        roleProcessingServiceMock.Verify(service => service.UpdateValidatedAsync(updatedRole), Times.Once);
+        // Then
+        roleProcessingServiceMock.Verify(expression: service => service.GetAll(ignoreFilters: false), times: Times.Once);
+        roleProcessingServiceMock.Verify(expression: service => service.AddValidatedRoleAsync(entity: newRole), times: Times.Once);
+        roleProcessingServiceMock.Verify(expression: service => service.UpdateValidatedRoleAsync(entity: updatedRole), times: Times.Once);
         roleProcessingServiceMock.VerifyNoOtherCalls();
         roleEventProcessingServiceMock.VerifyNoOtherCalls();
     }

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -24,20 +28,18 @@ public partial class PrivilegeProcessingServiceTests
                 Description = "Read privileges",
             },
         ];
-        privilegeServiceMock.Setup(x => x.GetAll()).Returns(privileges.AsQueryable());
-        currentUser = WithPrivilege("privilege_read");
-        Privilege[] result = privilegeProcessingService.GetAll().ToArray();
+
+        privilegeServiceMock.Setup(expression: x => x.GetAll())
+            .Returns(value: privileges.AsQueryable());
+
+        currentUser = WithPrivilege(privilege: "privilege_read");
+
+        Privilege[] result = privilegeProcessingService.GetAll()
+            .ToArray();
 
         // Then
-        Assert.Single(result);
-        Assert.Equal("privilege_read", result[0].Id);
+        Assert.Single(collection: result);
+        Assert.Equal(expected: "privilege_read", actual: result[0].Id);
     }
 
 }
-
-
-
-
-
-
-

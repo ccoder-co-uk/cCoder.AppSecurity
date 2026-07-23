@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -20,23 +24,23 @@ public partial class PrivilegeProcessingServiceTests
             Operation = "Delete",
             Description = "Description",
         };
-        currentUser = WithPrivilege("privilege_delete");
+
+        currentUser = WithPrivilege(privilege: "privilege_delete");
 
         // When
         Func<Task> act = async () =>
-            await privilegeProcessingService.DeleteAllAsync(new[] { privilege });
+            await privilegeProcessingService.DeleteAllPrivilegeAsync(deletedPrivilege: new[] { privilege });
 
         // Then
-        var assertions = await act.Should().ThrowAsync<InvalidOperationException>();
-        assertions.Which.Message.Should().Be("Cannot delete privileges");
+        var assertions = await act.Should()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException>();
+
+        assertions.Which.InnerException.Should()
+            .BeOfType<InvalidOperationException>()
+            .Which.Message.Should()
+            .Be(expected: "Cannot delete privileges");
+
         privilegeServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

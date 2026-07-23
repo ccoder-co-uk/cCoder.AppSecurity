@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -21,21 +25,22 @@ public partial class UserServiceTests
 
     public UserServiceTests()
     {
-        userBrokerMock = new Mock<IUserBroker>(MockBehavior.Strict);
-        authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
-        userService = new UserService(userBrokerMock.Object, authorizationBrokerMock.Object);
+        userBrokerMock = new Mock<IUserBroker>(behavior: MockBehavior.Strict);
+        authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
+        userService = new UserService(userBroker: userBrokerMock.Object, authorizationBroker: authorizationBrokerMock.Object);
     }
 
     private static User CreateRandomUser(string id = null)
     {
+
         User user = Builder<User>
             .CreateNew()
-            .With(x => x.Id = id ?? $"user-{Guid.NewGuid():N}")
-            .With(x => x.DefaultCultureId = "en-GB")
-            .With(x => x.DisplayName = $"Display-{Guid.NewGuid():N}")
-            .With(x => x.Email = $"user-{Guid.NewGuid():N}@test.local")
-            .With(x => x.IsActive = true)
-            .With(x => x.Roles = Array.Empty<UserRole>())
+            .With(func: x => x.Id = id ?? $"user-{Guid.NewGuid():N}")
+            .With(func: x => x.DefaultCultureId = "en-GB")
+            .With(func: x => x.DisplayName = $"Display-{Guid.NewGuid():N}")
+            .With(func: x => x.Email = $"user-{Guid.NewGuid():N}@test.local")
+            .With(func: x => x.IsActive = true)
+            .With(func: x => x.Roles = Array.Empty<UserRole>())
             .Build();
 
         return user;
@@ -52,7 +57,7 @@ public partial class UserServiceTests
                 Email = item.Email,
                 IsActive = item.IsActive,
                 DefaultCulture = item.DefaultCulture as cCoder.Data.Models.CMS.Culture,
-                Roles = item.Roles?.Select(userRole => new DataUserRole
+                Roles = item.Roles?.Select(selector: userRole => new DataUserRole
                 {
                     RoleId = userRole.RoleId,
                     UserId = userRole.UserId,
@@ -64,20 +69,7 @@ public partial class UserServiceTests
                         Description = userRole.Role.Description,
                         Privs = userRole.Role.Privs,
                     },
-                }).ToArray(),
+                })
+        .ToArray(),
             };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

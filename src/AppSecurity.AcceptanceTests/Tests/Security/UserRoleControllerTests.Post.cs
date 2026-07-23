@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using cCoder.Data.Models.Security;
 using FluentAssertions;
@@ -16,19 +20,22 @@ public sealed partial class UserRoleControllerTests
         UserRole actualUserRole;
 
         // When
-        await CreateUserRoleAsync(new
+        await CreateUserRoleAsync(payload: new
         {
             userId = seededContext.UserId,
             roleId = seededContext.GuestRoleId,
         });
 
-        actualUserRole = await FindUserRoleAsync(seededContext.UserId, seededContext.GuestRoleId);
+        actualUserRole = await FindUserRoleAsync(userId: seededContext.UserId, roleId: seededContext.GuestRoleId);
 
         // Then
-        actualUserRole.Should().NotBeNull();
-        actualUserRole!.UserId.Should().Be(seededContext.UserId);
+        actualUserRole.Should()
+            .NotBeNull();
 
-        await Teardown(seededContext);
+        actualUserRole!.UserId.Should()
+            .Be(expected: seededContext.UserId);
+
+        await Teardown(seededContext: seededContext);
     }
 
     [Fact]
@@ -38,19 +45,22 @@ public sealed partial class UserRoleControllerTests
         SeededUserRoleContext seededContext = await SeedDatabase();
 
         // When
-        await CreateUserRoleAsync(new
+        await CreateUserRoleAsync(payload: new
         {
             userId = seededContext.HiddenUserId,
             roleId = seededContext.BasicRoleId,
         });
 
-        UserRole actualUserRole = await FindUserRoleAsync(seededContext.HiddenUserId, seededContext.BasicRoleId);
+        UserRole actualUserRole = await FindUserRoleAsync(userId: seededContext.HiddenUserId, roleId: seededContext.BasicRoleId);
 
         // Then
-        actualUserRole.Should().NotBeNull();
-        actualUserRole!.UserId.Should().Be(seededContext.HiddenUserId);
+        actualUserRole.Should()
+            .NotBeNull();
 
-        await Teardown(seededContext);
+        actualUserRole!.UserId.Should()
+            .Be(expected: seededContext.HiddenUserId);
+
+        await Teardown(seededContext: seededContext);
     }
 
     [Fact]
@@ -60,24 +70,24 @@ public sealed partial class UserRoleControllerTests
         RestrictedUserRoleContext seededContext = await SeedRestrictedDatabase();
 
         // When
-        (int statusCode, string content) = await PostUserRoleAsync(new
+        (int statusCode, string content) = await PostUserRoleAsync(payload: new
         {
             userId = seededContext.UserId,
             roleId = seededContext.TargetAdminRoleId,
         });
 
-        UserRole actualUserRole = await FindUserRoleAsync(seededContext.UserId, seededContext.TargetAdminRoleId);
+        UserRole actualUserRole = await FindUserRoleAsync(userId: seededContext.UserId, roleId: seededContext.TargetAdminRoleId);
 
         // Then
-        statusCode.Should().Be((int)HttpStatusCode.Unauthorized, content);
-        content.Should().Contain("Access Denied!");
-        actualUserRole.Should().BeNull();
+        statusCode.Should()
+            .Be(expected: (int)HttpStatusCode.Unauthorized, because: content);
 
-        await Teardown(seededContext);
+        content.Should()
+            .Contain(expected: "Access Denied!");
+
+        actualUserRole.Should()
+            .BeNull();
+
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

@@ -1,4 +1,10 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Api.OData;
+using cCoder.AppSecurity.Brokers.Metadata;
+using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.CMS;
@@ -14,15 +20,10 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
-public partial class PrivilegeController : ODataController
+public sealed partial class PrivilegeController(
+    IPrivilegeOrchestrationService service)
+    : ODataController
 {
-    protected IPrivilegeOrchestrationService Service { get; }
-
-    public PrivilegeController(IPrivilegeOrchestrationService service)
-    {
-        Service = service;
-    }
-
     [HttpGet]
     public IActionResult GetMetadata()
     {
@@ -30,11 +31,15 @@ public partial class PrivilegeController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-                new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
-                    .Build()
-                    .EDMModel.GetExtendedMetadataForType("AppSecurity", typeof(Privilege))
+value: new AppSecurityODataModelBroker()
+                    .SelectODataModel()
+                    .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(Privilege))
             )
-            : Ok(new MetadataContainer(typeof(Privilege), true, true));
+            : Ok(
+                value: MetadataBroker.CreateMetadataContainer(
+                    type: typeof(Privilege),
+                    isEntity: true,
+                    hasEndpoint: true));
     }
 
     [HttpGet]
@@ -47,7 +52,8 @@ public partial class PrivilegeController : ODataController
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<Privilege> queryOptions) => Ok(Service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<Privilege> queryOptions) =>
+        Ok(value: service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -63,10 +69,13 @@ public partial class PrivilegeController : ODataController
     {
         try
         {
-            IQueryable<Privilege> result = Service.GetAll().Where(privilege => privilege.Id == key);
-            return Ok(SingleResult.Create(result));
+            IQueryable<Privilege> result = service.GetAll()
+                .Where(predicate: privilege => privilege.Id == key);
+
+            return Ok(value: SingleResult.Create(queryable: result));
         }
-        catch (System.Security.SecurityException)
+        catch (Exception exception)
+            when (exception.GetBaseException() is System.Security.SecurityException)
         {
             return NotFound();
         }
@@ -81,12 +90,14 @@ public partial class PrivilegeController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] Privilege entity)
+    public async Task<IActionResult> Post([FromBody] Privilege newPrivilege)
     {
         if (!ModelState.IsValid)
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(ModelState);
+        {
+            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
-        return Ok(await Service.AddAsync(entity));
+        return Ok(value: await service.AddPrivilegeAsync(entity: newPrivilege));
     }
 
     [HttpPut]
@@ -98,46 +109,35 @@ public partial class PrivilegeController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] string key, [FromBody] Privilege entity)
+    public async Task<IActionResult> Put([FromRoute] string key, [FromBody] Privilege updatedPrivilege)
     {
         if (!ModelState.IsValid)
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(ModelState);
+        {
+            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
-        return Ok(await Service.UpdateAsync(entity));
+        return Ok(value: await service.UpdatePrivilegeAsync(entity: updatedPrivilege));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Patch([FromRoute] string key, Delta<Privilege> delta)
+    [ActionName("Patch")]
+    public async Task<IActionResult> Put([FromRoute] string key, Delta<Privilege> updatedDelta)
     {
-        Privilege originalEntity = Service.Get(key);
-        if (originalEntity == null)
-            return NotFound();
+        Privilege originalEntity = service.Get(id: key);
 
-        delta.Patch(originalEntity);
-        return Ok(await Service.UpdateAsync(originalEntity));
+        if (originalEntity == null)
+        {
+            return NotFound();
+        }
+
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdatePrivilegeAsync(entity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] string key)
     {
-        await Service.DeleteAsync(key);
+        await service.DeleteAsync(id: key);
         return Ok();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

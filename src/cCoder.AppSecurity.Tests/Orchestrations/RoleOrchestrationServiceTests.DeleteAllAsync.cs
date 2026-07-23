@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -14,22 +18,17 @@ public partial class RoleOrchestrationServiceTests
     {
         // Given
         Role[] entities = [CreateRandomRole()];
-        roleProcessingServiceMock.Setup(x => x.DeleteAllAsync(entities)).Returns(ValueTask.CompletedTask);
+
+        roleProcessingServiceMock.Setup(expression: x => x.DeleteAllRoleAsync(items: entities))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAllAsync(entities);
+        await orchestrationService.DeleteAllRoleAsync(deletedRole: entities);
 
         // Then
-        roleProcessingServiceMock.Verify(x => x.DeleteAllAsync(entities), Times.Once);
+        roleProcessingServiceMock.Verify(expression: x => x.DeleteAllRoleAsync(items: entities), times: Times.Once);
         roleProcessingServiceMock.VerifyNoOtherCalls();
         roleEventProcessingServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

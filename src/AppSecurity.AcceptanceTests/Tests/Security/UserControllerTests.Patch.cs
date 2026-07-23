@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
@@ -15,23 +19,22 @@ public sealed partial class UserControllerTests
         SeededUserContext seededContext = await SeedDatabase();
 
         // When
-        using HttpRequestMessage request = new(HttpMethod.Patch, $"{BaseUrl}('{Uri.EscapeDataString(seededContext.UserId)}')")
+        using HttpRequestMessage request = new(method: HttpMethod.Patch, requestUri: $"{BaseUrl}('{Uri.EscapeDataString(stringToEscape: seededContext.UserId)}')")
         {
-            Content = JsonContent.Create(new
+            Content = JsonContent.Create(inputValue: new
             {
                 displayName = "Patched User",
                 isActive = false,
             }),
         };
-        using HttpResponseMessage response = await Client.SendAsync(request);
+
+        using HttpResponseMessage response = await Client.SendAsync(request: request);
         string content = await response.Content.ReadAsStringAsync();
 
         // Then
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized, content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.Unauthorized, because: content);
 
-        await Teardown(seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-

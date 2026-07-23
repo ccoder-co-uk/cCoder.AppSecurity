@@ -1,4 +1,10 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Api.OData;
+using cCoder.AppSecurity.Brokers.Metadata;
+using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.CMS;
@@ -15,21 +21,11 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
-public partial class UserController : ODataController
+public sealed partial class UserController(
+    IUserOrchestrationService service,
+    ICoreAuthInfo authInfo)
+    : ODataController
 {
-    protected IUserOrchestrationService Service { get; }
-    private readonly ICoreAuthInfo authInfo;
-
-    public UserController(
-        IUserOrchestrationService service,
-        ICoreAuthInfo auth,
-        ILogger<UserController> log
-    )
-    {
-        Service = service;
-        authInfo = auth;
-    }
-
     [HttpGet]
     [EnableQuery(
         AllowedArithmeticOperators = AllowedArithmeticOperators.All,
@@ -39,7 +35,9 @@ public partial class UserController : ODataController
         MaxAnyAllExpressionDepth = 6,
         MaxExpansionDepth = 6
     )]
-    public IActionResult Me() => Ok(Service.Get(authInfo.SSOUserId));
+    [ActionName("Me")]
+    public IActionResult GetMe() =>
+        Ok(value: service.Get(id: authInfo.SSOUserId));
 
     [HttpGet]
     public IActionResult GetMetadata()
@@ -48,11 +46,15 @@ public partial class UserController : ODataController
 
         return isExtendedMetaRequest
             ? Ok(
-                new cCoder.AppSecurity.Api.OData.AppSecurityModelBuilder()
-                    .Build()
-                    .EDMModel.GetExtendedMetadataForType("AppSecurity", typeof(User))
+value: new AppSecurityODataModelBroker()
+                    .SelectODataModel()
+                    .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(User))
             )
-            : Ok(new MetadataContainer(typeof(User), true, true));
+            : Ok(
+                value: MetadataBroker.CreateMetadataContainer(
+                    type: typeof(User),
+                    isEntity: true,
+                    hasEndpoint: true));
     }
 
     [HttpGet]
@@ -65,7 +67,8 @@ public partial class UserController : ODataController
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<User> queryOptions) => Ok(Service.GetAll());
+    public IActionResult GetAll(ODataQueryOptions<User> queryOptions) =>
+        Ok(value: service.GetAll());
 
     [HttpGet]
     [AllowAnonymous]
@@ -81,10 +84,13 @@ public partial class UserController : ODataController
     {
         try
         {
-            IQueryable<User> result = Service.GetAll().Where(user => user.Id == key);
-            return Ok(SingleResult.Create(result));
+            IQueryable<User> result = service.GetAll()
+                .Where(predicate: user => user.Id == key);
+
+            return Ok(value: SingleResult.Create(queryable: result));
         }
-        catch (System.Security.SecurityException)
+        catch (Exception exception)
+            when (exception.GetBaseException() is System.Security.SecurityException)
         {
             return NotFound();
         }
@@ -99,12 +105,14 @@ public partial class UserController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Post([FromBody] User entity)
+    public async Task<IActionResult> Post([FromBody] User newUser)
     {
         if (!ModelState.IsValid)
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(ModelState);
+        {
+            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
-        return Ok(await Service.AddAsync(entity));
+        return Ok(value: await service.AddUserAsync(entity: newUser));
     }
 
     [HttpPut]
@@ -116,30 +124,35 @@ public partial class UserController : ODataController
         MaxAnyAllExpressionDepth = 5,
         MaxExpansionDepth = 5
     )]
-    public async Task<IActionResult> Put([FromRoute] string key, [FromBody] User entity)
+    public async Task<IActionResult> Put([FromRoute] string key, [FromBody] User updatedUser)
     {
         if (!ModelState.IsValid)
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(ModelState);
+        {
+            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
+        }
 
-        return Ok(await Service.UpdateAsync(entity));
+        return Ok(value: await service.UpdateUserAsync(entity: updatedUser));
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
-    public async Task<IActionResult> Patch([FromRoute] string key, Delta<User> delta)
+    [ActionName("Patch")]
+    public async Task<IActionResult> Put([FromRoute] string key, Delta<User> updatedDelta)
     {
-        User originalEntity = Service.Get(key);
-        if (originalEntity == null)
-            return NotFound();
+        User originalEntity = service.Get(id: key);
 
-        delta.Patch(originalEntity);
-        return Ok(await Service.UpdateAsync(originalEntity));
+        if (originalEntity == null)
+        {
+            return NotFound();
+        }
+
+        updatedDelta.Patch(original: originalEntity);
+        return Ok(value: await service.UpdateUserAsync(entity: originalEntity));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] string key)
     {
-        await Service.DeleteAsync(key);
+        await service.DeleteAsync(id: key);
         return Ok();
     }
 }
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,24 +20,19 @@ public partial class UserRoleProcessingServiceTests
         // Given
         UserRole[] links = [new() { UserId = "target-user", RoleId = Guid.NewGuid() }];
         IQueryable<UserRole> queryableLinks = links.AsQueryable();
-        userRoleServiceMock.Setup(x => x.GetAll()).Returns(queryableLinks);
+
+        userRoleServiceMock.Setup(expression: x => x.GetAll())
+            .Returns(value: queryableLinks);
 
         // When
         IQueryable<UserRole> result = userRoleProcessingService.GetAll();
 
         // Then
-        result.Should().BeSameAs(queryableLinks);
-        userRoleServiceMock.Verify(x => x.GetAll(), Times.Once);
+        result.Should()
+            .BeSameAs(expected: queryableLinks);
+
+        userRoleServiceMock.Verify(expression: x => x.GetAll(), times: Times.Once);
         userRoleServiceMock.VerifyNoOtherCalls();
-        roleServiceMock.VerifyNoOtherCalls();
-        userServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

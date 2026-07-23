@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -19,6 +23,7 @@ public partial class RoleProcessingServiceTests
             Name = "Administrators",
             Privs = "app_read",
         };
+
         currentUser = new User
         {
             Id = "test-user",
@@ -46,21 +51,16 @@ public partial class RoleProcessingServiceTests
                 },
             ],
         };
-        roleServiceMock.Setup(x => x.AddAsync(expected)).ReturnsAsync(expected);
+
+        roleServiceMock.Setup(expression: x => x.AddRoleAsync(role: expected))
+            .ReturnsAsync(value: expected);
 
         // When
-        Role actual = await roleProcessingService.AddAsync(expected);
+        Role actual = await roleProcessingService.AddRoleAsync(newRole: expected);
 
         // Then
-        Assert.Same(expected, actual);
-        roleServiceMock.Verify(x => x.AddAsync(expected), Times.Once);
+        Assert.Same(expected: expected, actual: actual);
+        roleServiceMock.Verify(expression: x => x.AddRoleAsync(role: expected), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-

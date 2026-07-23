@@ -1,8 +1,12 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
-using cCoder.Data;
 using cCoder.Eventing.Models;
+using cCoder.AppSecurity.Brokers;
 using DataApp = cCoder.Data.Models.CMS.App;
 using DataFolderRole = cCoder.Data.Models.Security.FolderRole;
 using DataPageRole = cCoder.Data.Models.Security.PageRole;
@@ -14,41 +18,56 @@ using IRoleEventBroker = cCoder.AppSecurity.Brokers.Events.IRoleEventBroker;
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-internal class RoleEventService(IRoleEventBroker roleEventBroker, ICoreAuthInfo authInfo)
+internal sealed partial class RoleEventService(IRoleEventBroker roleEventBroker, IAuthInfoBroker authInfoBroker)
     : IRoleEventService
 {
-    public async ValueTask RaiseRoleAddEventAsync(Role entity)
-    {
-        EventMessage<DataRole> message = new()
+    public ValueTask RaiseRoleAddEventAsync(Role entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalRole(entity),
-        };
+            ValidateRaiseRoleAddEvent(
+                entity: entity);
 
-        await roleEventBroker.RaiseRoleAddEventAsync(message);
-    }
+            EventMessage<DataRole> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
+                Data = ToExternalRole(item: entity),
+            };
 
-    public async ValueTask RaiseRoleUpdateEventAsync(Role entity)
-    {
-        EventMessage<DataRole> message = new()
+            await roleEventBroker.RaiseRoleAddEventAsync(message: message);
+
+        });
+
+    public ValueTask RaiseRoleUpdateEventAsync(Role entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalRole(entity),
-        };
+            ValidateRaiseRoleUpdateEvent(
+                entity: entity);
 
-        await roleEventBroker.RaiseRoleUpdateEventAsync(message);
-    }
+            EventMessage<DataRole> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
+                Data = ToExternalRole(item: entity),
+            };
 
-    public async ValueTask RaiseRoleDeleteEventAsync(Role entity)
-    {
-        EventMessage<DataRole> message = new()
+            await roleEventBroker.RaiseRoleUpdateEventAsync(message: message);
+
+        });
+
+    public ValueTask RaiseRoleDeleteEventAsync(Role entity) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            AuthInfo = new EventAuthInfo { SSOUserId = authInfo.SSOUserId },
-            Data = ToExternalRole(entity),
-        };
+            ValidateRaiseRoleDeleteEvent(
+                entity: entity);
 
-        await roleEventBroker.RaiseRoleDeleteEventAsync(message);
-    }
+            EventMessage<DataRole> message = new()
+            {
+                AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
+                Data = ToExternalRole(item: entity),
+            };
+
+            await roleEventBroker.RaiseRoleDeleteEventAsync(message: message);
+
+        });
 
     static DataRole ToExternalRole(Role item) =>
         new()
@@ -68,7 +87,7 @@ internal class RoleEventService(IRoleEventBroker roleEventBroker, ICoreAuthInfo 
                 DefaultTheme = item.App.DefaultTheme,
                 ConfigJson = item.App.ConfigJson,
             },
-            Users = item.Users?.Select(userRole => new DataUserRole
+            Users = item.Users?.Select(selector: userRole => new DataUserRole
             {
                 RoleId = userRole.RoleId,
                 UserId = userRole.UserId,
@@ -81,26 +100,19 @@ internal class RoleEventService(IRoleEventBroker roleEventBroker, ICoreAuthInfo 
                     IsActive = userRole.User.IsActive,
                     DefaultCulture = userRole.User.DefaultCulture as cCoder.Data.Models.CMS.Culture,
                 },
-            }).ToArray(),
-            Pages = item.Pages?.Select(pageRole => new DataPageRole
+            })
+                .ToArray(),
+            Pages = item.Pages?.Select(selector: pageRole => new DataPageRole
             {
                 PageId = pageRole.PageId,
                 RoleId = pageRole.RoleId,
-            }).ToArray(),
-            Folders = item.Folders?.Select(folderRole => new DataFolderRole
+            })
+                .ToArray(),
+            Folders = item.Folders?.Select(selector: folderRole => new DataFolderRole
             {
                 FolderId = folderRole.FolderId,
                 RoleId = folderRole.RoleId,
-            }).ToArray(),
+            })
+                .ToArray(),
         };
 }
-
-
-
-
-
-
-
-
-
-

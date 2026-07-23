@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -26,24 +30,25 @@ public partial class RoleServiceTests
 
     public RoleServiceTests()
     {
-        roleBrokerMock = new Mock<IRoleBroker>(MockBehavior.Strict);
-        userRoleBrokerMock = new Mock<IUserRoleBroker>(MockBehavior.Strict);
-        authorizationBrokerMock = new Mock<IAuthorizationBroker>(MockBehavior.Strict);
-        roleService = new RoleService(roleBrokerMock.Object, userRoleBrokerMock.Object, authorizationBrokerMock.Object);
+        roleBrokerMock = new Mock<IRoleBroker>(behavior: MockBehavior.Strict);
+        userRoleBrokerMock = new Mock<IUserRoleBroker>(behavior: MockBehavior.Strict);
+        authorizationBrokerMock = new Mock<IAuthorizationBroker>(behavior: MockBehavior.Strict);
+        roleService = new RoleService(roleBroker: roleBrokerMock.Object, userRoleBroker: userRoleBrokerMock.Object, authorizationBroker: authorizationBrokerMock.Object);
     }
 
     private static Role CreateRandomRole(Guid? id = null, int appId = 7)
     {
+
         Role role = Builder<Role>
             .CreateNew()
-            .With(x => x.Id = id ?? Guid.NewGuid())
-            .With(x => x.AppId = appId)
-            .With(x => x.Name = $"Role-{Guid.NewGuid():N}")
-            .With(x => x.Description = $"Description-{Guid.NewGuid():N}")
-            .With(x => x.Privs = "page_read,page_write")
-            .With(x => x.Users = Array.Empty<UserRole>())
-            .With(x => x.Pages = Array.Empty<cCoder.Data.Models.Security.PageRole>())
-            .With(x => x.Folders = Array.Empty<cCoder.Data.Models.Security.FolderRole>())
+            .With(func: x => x.Id = id ?? Guid.NewGuid())
+            .With(func: x => x.AppId = appId)
+            .With(func: x => x.Name = $"Role-{Guid.NewGuid():N}")
+            .With(func: x => x.Description = $"Description-{Guid.NewGuid():N}")
+            .With(func: x => x.Privs = "page_read,page_write")
+            .With(func: x => x.Users = Array.Empty<UserRole>())
+            .With(func: x => x.Pages = Array.Empty<cCoder.Data.Models.Security.PageRole>())
+            .With(func: x => x.Folders = Array.Empty<cCoder.Data.Models.Security.FolderRole>())
             .Build();
 
         return role;
@@ -51,12 +56,13 @@ public partial class RoleServiceTests
 
     private static DataUser CreateCurrentUser(int appId, params string[] privileges)
     {
+
         DataRole role = new()
         {
             Id = Guid.NewGuid(),
             AppId = appId,
             Name = $"CurrentUserRole-{Guid.NewGuid():N}",
-            Privs = string.Join(',', privileges),
+            Privs = string.Join(separator: ',', value: privileges),
         };
 
         return new DataUser
@@ -94,17 +100,20 @@ public partial class RoleServiceTests
                     DefaultTheme = item.App.DefaultTheme,
                     ConfigJson = item.App.ConfigJson,
                 },
-                Users = item.Users?.Select(ToExternalUserRole).ToArray(),
-                Pages = item.Pages?.Select(pageRole => new DataPageRole
+                Users = item.Users?.Select(selector: ToExternalUserRole)
+        .ToArray(),
+                Pages = item.Pages?.Select(selector: pageRole => new DataPageRole
                 {
                     PageId = pageRole.PageId,
                     RoleId = pageRole.RoleId,
-                }).ToArray(),
-                Folders = item.Folders?.Select(folderRole => new DataFolderRole
+                })
+        .ToArray(),
+                Folders = item.Folders?.Select(selector: folderRole => new DataFolderRole
                 {
                     FolderId = folderRole.FolderId,
                     RoleId = folderRole.RoleId,
-                }).ToArray(),
+                })
+        .ToArray(),
             };
 
     private static DataUserRole ToExternalUserRole(UserRole item) =>
@@ -125,17 +134,3 @@ public partial class RoleServiceTests
                 },
             };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -14,23 +18,17 @@ public partial class RoleEventProcessingServiceTests
     {
         // Given
         Role entity = CreateRandomRole();
+
         roleEventServiceMock
-            .Setup(x => x.RaiseRoleAddEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseRoleAddEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseRoleAddEventAsync(entity);
+        await service.RaiseRoleAddEventAsync(entity: entity);
 
         // Then
-        roleEventServiceMock.Verify(x => x.RaiseRoleAddEventAsync(entity), Times.Once);
+        roleEventServiceMock.Verify(expression: x => x.RaiseRoleAddEventAsync(entity: entity), times: Times.Once);
         roleEventServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

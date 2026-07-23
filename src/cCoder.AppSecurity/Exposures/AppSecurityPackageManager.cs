@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -11,10 +15,8 @@ internal class AppSecurityPackageManager(
 ) : IAppSecurityPackageManager
 {
     public ValueTask ImportPackageAsync(int appId, AppSecurityPackage package) =>
-        appSecurityMigrationAggregationService.ImportPackageAsync(appId, package);
+        appSecurityMigrationAggregationService.ImportPackageAppSecurityPackageAsync(appId: appId, package: package);
 
     public AppSecurityPackage ExportPackage(int appId, string packageName) =>
-        appSecurityMigrationAggregationService.ExportPackage(appId, packageName);
+        appSecurityMigrationAggregationService.ExportPackage(appId: appId, packageName: packageName);
 }
-
-

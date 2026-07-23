@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,34 +20,31 @@ public partial class RoleServiceTests
     {
         // Given
         Role role = CreateRandomRole();
-        IQueryable<DataRole> roles = new[] { ToExternalRole(role) }.AsQueryable();
+        IQueryable<DataRole> roles = new[] { ToExternalRole(item: role) }.AsQueryable();
 
-        roleBrokerMock.Setup(x => x.GetAllRoles(false)).Returns(roles);
+        roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: false))
+            .Returns(value: roles);
 
         // When
         IQueryable<Role> result = roleService.GetAll();
 
         // Then
-        result.Should().ContainSingle().Which.Should().BeEquivalentTo(
-            role,
-            options => options
-                .Excluding(candidate => candidate.App)
-                .Excluding(candidate => candidate.Pages)
-                .Excluding(candidate => candidate.Folders)
-                .Excluding(candidate => candidate.Users)
+        result.Should()
+            .ContainSingle()
+            .Which.Should()
+            .BeEquivalentTo(
+expectation: role,
+config: options => options
+                .Excluding(expression: candidate => candidate.App)
+                .Excluding(expression: candidate => candidate.Pages)
+                .Excluding(expression: candidate => candidate.Folders)
+                .Excluding(expression: candidate => candidate.Users)
         );
-        roleBrokerMock.Verify(x => x.GetAllRoles(false), Times.Once);
-        roleBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Role>()), Times.AtMostOnce());
+
+        roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: false), times: Times.Once);
+        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-
-

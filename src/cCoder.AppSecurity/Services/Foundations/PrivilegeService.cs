@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
@@ -9,85 +13,125 @@ using IPrivilegeBroker = cCoder.AppSecurity.Brokers.IPrivilegeBroker;
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
-internal class PrivilegeService(
+internal sealed partial class PrivilegeService(
     IPrivilegeBroker privilegeBroker,
     IAuthorizationBroker authorizationBroker
 ) : IPrivilegeService
 {
-    public Privilege Get(string id)
-    {
-        Privilege privilege = GetAll().FirstOrDefault(i => i.Id == id);
-        if (privilege is not null)
-            return privilege;
+    public Privilege Get(string privilegeId) =>
+        TryCatch(operation: Privilege () =>
+        {
+            ValidatePrivilegeOnGet(
+                privilegeId: privilegeId);
 
-        Privilege unrestrictedPrivilege = GetAll(true).FirstOrDefault(i => i.Id == id);
-        if (unrestrictedPrivilege is not null)
-            throw new SecurityException("Access Denied!");
+            Privilege privilege = GetAllValue()
+                .FirstOrDefault(predicate: i => i.Id == privilegeId);
 
-        return null;
-    }
+            if (privilege is not null)
+            {
+                return privilege;
+            }
+
+            Privilege unrestrictedPrivilege = GetAllValue(ignoreFilters: true)
+                .FirstOrDefault(predicate: i => i.Id == privilegeId);
+
+            if (unrestrictedPrivilege is not null)
+            {
+                throw new SecurityException(message: "Access Denied!");
+            }
+
+            return null;
+
+        });
 
     public IQueryable<Privilege> GetAll(bool ignoreFilters = false) =>
-        privilegeBroker.GetAllPrivileges(ignoreFilters)
-            .Select(ToLocalPrivilege)
+        TryCatch(operation: IQueryable<Privilege> () =>
+        {
+            ValidateAllOnGet(
+                ignoreFilters: ignoreFilters);
+
+            return privilegeBroker.GetAllPrivileges(ignoreFilters: ignoreFilters)
+            .Select(selector: ToLocalPrivilege)
             .AsQueryable();
+        });
 
-    public async ValueTask<Privilege> AddAsync(Privilege privilege)
-    {
-        DataPrivilege internalPrivilege = new()
+    public ValueTask<Privilege> AddPrivilegeAsync(Privilege newPrivilege) =>
+        TryCatch(operation: async ValueTask<Privilege> () =>
         {
-            Id = privilege.Id,
-            Type = privilege.Type,
-            Operation = privilege.Operation,
-            Description = privilege.Description,
-            PortalAdminsOnly = privilege.PortalAdminsOnly
-        };
-        authorizationBroker.Authorize(
-            privilegeBroker.GetAppId(internalPrivilege),
-            $"{nameof(Privilege)}_create"
-        );
-        DataPrivilege result = await privilegeBroker.AddPrivilegeAsync(internalPrivilege);
-        privilege.Id = result.Id;
-        privilege.Type = result.Type;
-        privilege.Operation = result.Operation;
-        privilege.Description = result.Description;
-        privilege.PortalAdminsOnly = result.PortalAdminsOnly;
-        return privilege;
-    }
+            ValidatePrivilegeOnAdd(
+                newPrivilege: newPrivilege);
 
-    public async ValueTask<Privilege> UpdateAsync(Privilege privilege)
-    {
-        DataPrivilege internalPrivilege = new()
+            DataPrivilege internalPrivilege = new()
+            {
+                Id = newPrivilege.Id,
+                Type = newPrivilege.Type,
+                Operation = newPrivilege.Operation,
+                Description = newPrivilege.Description,
+                PortalAdminsOnly = newPrivilege.PortalAdminsOnly
+            };
+
+            authorizationBroker.Authorize(
+    appId: privilegeBroker.GetAppId(entity: internalPrivilege),
+    privilege: $"{nameof(Privilege)}_create"
+            );
+
+            DataPrivilege result = await privilegeBroker.AddPrivilegeAsync(entity: internalPrivilege);
+            newPrivilege.Id = result.Id;
+            newPrivilege.Type = result.Type;
+            newPrivilege.Operation = result.Operation;
+            newPrivilege.Description = result.Description;
+            newPrivilege.PortalAdminsOnly = result.PortalAdminsOnly;
+            return newPrivilege;
+
+        });
+
+    public ValueTask<Privilege> UpdatePrivilegeAsync(Privilege updatedPrivilege) =>
+        TryCatch(operation: async ValueTask<Privilege> () =>
         {
-            Id = privilege.Id,
-            Type = privilege.Type,
-            Operation = privilege.Operation,
-            Description = privilege.Description,
-            PortalAdminsOnly = privilege.PortalAdminsOnly
-        };
-        authorizationBroker.Authorize(
-            privilegeBroker.GetAppId(internalPrivilege),
-            $"{nameof(Privilege)}_update"
-        );
-        DataPrivilege result = await privilegeBroker.UpdatePrivilegeAsync(internalPrivilege);
-        privilege.Id = result.Id;
-        privilege.Type = result.Type;
-        privilege.Operation = result.Operation;
-        privilege.Description = result.Description;
-        privilege.PortalAdminsOnly = result.PortalAdminsOnly;
-        return privilege;
-    }
+            ValidatePrivilegeOnUpdate(
+                updatedPrivilege: updatedPrivilege);
 
-    public async ValueTask DeleteAsync(string id)
-    {
-        Privilege privilege = Get(id);
-        DataPrivilege internalPrivilege = ToExternalPrivilege(privilege);
-        authorizationBroker.Authorize(
-            privilegeBroker.GetAppId(internalPrivilege),
-            $"{nameof(Privilege)}_delete"
-        );
-        _ = await privilegeBroker.DeletePrivilegeAsync(internalPrivilege);
-    }
+            DataPrivilege internalPrivilege = new()
+            {
+                Id = updatedPrivilege.Id,
+                Type = updatedPrivilege.Type,
+                Operation = updatedPrivilege.Operation,
+                Description = updatedPrivilege.Description,
+                PortalAdminsOnly = updatedPrivilege.PortalAdminsOnly
+            };
+
+            authorizationBroker.Authorize(
+    appId: privilegeBroker.GetAppId(entity: internalPrivilege),
+    privilege: $"{nameof(Privilege)}_update"
+            );
+
+            DataPrivilege result = await privilegeBroker.UpdatePrivilegeAsync(entity: internalPrivilege);
+            updatedPrivilege.Id = result.Id;
+            updatedPrivilege.Type = result.Type;
+            updatedPrivilege.Operation = result.Operation;
+            updatedPrivilege.Description = result.Description;
+            updatedPrivilege.PortalAdminsOnly = result.PortalAdminsOnly;
+            return updatedPrivilege;
+
+        });
+
+    public ValueTask DeleteAsync(string privilegeId) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidatePrivilegeOnDelete(
+                privilegeId: privilegeId);
+
+            Privilege privilege = GetValue(privilegeId: privilegeId);
+            DataPrivilege internalPrivilege = ToExternalPrivilege(item: privilege);
+
+            authorizationBroker.Authorize(
+    appId: privilegeBroker.GetAppId(entity: internalPrivilege),
+    privilege: $"{nameof(Privilege)}_delete"
+            );
+
+            _ = await privilegeBroker.DeletePrivilegeAsync(entity: internalPrivilege);
+
+        });
 
     static Privilege ToLocalPrivilege(DataPrivilege item) =>
         new()
@@ -108,17 +152,10 @@ internal class PrivilegeService(
             Description = item.Description,
             PortalAdminsOnly = item.PortalAdminsOnly,
         };
+
+    private Privilege GetValue(string privilegeId) =>
+        Get(privilegeId: privilegeId);
+
+    private IQueryable<Privilege> GetAllValue(bool ignoreFilters = false) =>
+        GetAll(ignoreFilters: ignoreFilters);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

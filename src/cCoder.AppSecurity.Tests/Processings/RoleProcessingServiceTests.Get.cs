@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -20,18 +24,14 @@ public partial class RoleProcessingServiceTests
             Name = "Administrators",
             Privs = "app_read",
         };
-        roleServiceMock.Setup(x => x.Get(expected.Id)).Returns(expected);
-        Role result = roleProcessingService.Get(expected.Id);
+
+        roleServiceMock.Setup(expression: x => x.Get(id: expected.Id))
+            .Returns(value: expected);
+
+        Role result = roleProcessingService.Get(roleId: expected.Id);
 
         // Then
-        Assert.Same(expected, result);
+        Assert.Same(expected: expected, actual: result);
     }
 
 }
-
-
-
-
-
-
-

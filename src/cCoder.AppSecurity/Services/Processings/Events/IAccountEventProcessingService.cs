@@ -1,8 +1,0 @@
-using cCoder.Security.Objects.Events;
-
-namespace cCoder.AppSecurity.Services.Processings.Events;
-
-internal interface IAccountEventProcessingService
-{
-    ValueTask ProcessAsync(SecurityAccountEvent accountEvent);
-}

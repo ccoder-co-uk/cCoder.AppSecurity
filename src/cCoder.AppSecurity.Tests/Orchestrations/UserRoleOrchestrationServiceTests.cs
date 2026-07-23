@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -17,22 +21,16 @@ public partial class UserRoleOrchestrationServiceTests
 
     public UserRoleOrchestrationServiceTests()
     {
-        userRoleProcessingServiceMock = new Mock<IUserRoleProcessingService>(MockBehavior.Strict);
-        userRoleEventProcessingServiceMock = new Mock<IUserRoleEventProcessingService>(MockBehavior.Strict);
+        userRoleProcessingServiceMock = new Mock<IUserRoleProcessingService>(behavior: MockBehavior.Strict);
+        userRoleEventProcessingServiceMock = new Mock<IUserRoleEventProcessingService>(behavior: MockBehavior.Strict);
+
         orchestrationService = new UserRoleOrchestrationService(
-            userRoleProcessingServiceMock.Object,
-            userRoleEventProcessingServiceMock.Object
+processingService: userRoleProcessingServiceMock.Object,
+eventService: userRoleEventProcessingServiceMock.Object
         );
     }
 
-    private static UserRole CreateRandomUserRole() => Builder<UserRole>.CreateNew().Build();
+    private static UserRole CreateRandomUserRole() =>
+        Builder<UserRole>.CreateNew()
+        .Build();
 }
-
-
-
-
-
-
-
-
-

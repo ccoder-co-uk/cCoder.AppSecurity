@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,21 +20,11 @@ public partial class RoleEventProcessingServiceTests
 
     public RoleEventProcessingServiceTests()
     {
-        roleEventServiceMock = new Mock<IRoleEventService>(MockBehavior.Strict);
-        service = new RoleEventProcessingService(roleEventServiceMock.Object);
+        roleEventServiceMock = new Mock<IRoleEventService>(behavior: MockBehavior.Strict);
+        service = new RoleEventProcessingService(eventService: roleEventServiceMock.Object);
     }
 
     private static Role CreateRandomRole() =>
-        Builder<Role>.CreateNew().Build();
+        Builder<Role>.CreateNew()
+        .Build();
 }
-
-
-
-
-
-
-
-
-
-
-

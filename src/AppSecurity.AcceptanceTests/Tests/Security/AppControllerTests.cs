@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using System.Text.Json;
 using cCoder.Data.Models.CMS;
@@ -18,19 +22,23 @@ public sealed partial class AppControllerTests(WebAcceptanceFixture fixture)
 
     private async Task<IReadOnlyList<App>> GetAppsAsync()
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}?$filter=Domain eq 'localhost'");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}?$filter=Domain eq 'localhost'");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
 
-        return JsonSerializer.Deserialize<ODataEnvelope<App>>(content, JsonOptions)!.Value;
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return JsonSerializer.Deserialize<ODataEnvelope<App>>(json: content, options: JsonOptions)!.Value;
     }
 
     private async Task<int> GetAppCountAsync()
     {
-        using HttpResponseMessage response = await Client.GetAsync($"{BaseUrl}/$count");
+        using HttpResponseMessage response = await Client.GetAsync(requestUri: $"{BaseUrl}/$count");
         string content = await response.Content.ReadAsStringAsync();
-        response.StatusCode.Should().Be(HttpStatusCode.OK, content);
 
-        return int.Parse(content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.OK, because: content);
+
+        return int.Parse(s: content);
     }
 }

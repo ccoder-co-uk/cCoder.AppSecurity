@@ -1,4 +1,8 @@
-using cCoder.AppSecurity.Services.Orchestrations;
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
+using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Models;
 using Microsoft.Extensions.Hosting;
 
@@ -6,20 +10,24 @@ using Microsoft.Extensions.Hosting;
 namespace cCoder.AppSecurity.Exposures.HostedServices;
 
 public sealed class TokenCleanerHostedService(
-    ITokenCleanerOrchestrationService tokenCleanerOrchestrationService,
+    ITokenCleanerService tokenCleanerService,
     AppSecurityConfiguration appSecurityConfiguration)
     : BackgroundService, ITokenCleanerHostedService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         if (appSecurityConfiguration.IsMigrating)
+        {
             return;
+        }
 
-        await tokenCleanerOrchestrationService.RunAsync(stoppingToken);
+        await tokenCleanerService.RunAsync(cancellationToken: stoppingToken);
 
-        using PeriodicTimer timer = new(TimeSpan.FromMinutes(1));
+        using PeriodicTimer timer = new(period: TimeSpan.FromMinutes(minutes: 1));
 
-        while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
-            await tokenCleanerOrchestrationService.RunAsync(stoppingToken);
+        while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(cancellationToken: stoppingToken))
+        {
+            await tokenCleanerService.RunAsync(cancellationToken: stoppingToken);
+        }
     }
 }

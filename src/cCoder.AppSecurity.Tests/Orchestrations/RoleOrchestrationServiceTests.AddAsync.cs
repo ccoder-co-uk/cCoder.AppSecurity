@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -15,19 +19,23 @@ public partial class RoleOrchestrationServiceTests
     {
         // Given
         Role entity = CreateRandomRole();
-        roleProcessingServiceMock.Setup(x => x.AddAsync(entity)).ReturnsAsync(entity);
+
+        roleProcessingServiceMock.Setup(expression: x => x.AddRoleAsync(entity: entity))
+            .ReturnsAsync(value: entity);
 
         roleEventProcessingServiceMock
-            .Setup(x => x.RaiseRoleAddEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseRoleAddEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        Role result = await orchestrationService.AddAsync(entity);
+        Role result = await orchestrationService.AddRoleAsync(newRole: entity);
 
         // Then
-        result.Should().BeSameAs(entity);
-        roleProcessingServiceMock.Verify(x => x.AddAsync(entity), Times.Once);
-        roleEventProcessingServiceMock.Verify(x => x.RaiseRoleAddEventAsync(entity), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entity);
+
+        roleProcessingServiceMock.Verify(expression: x => x.AddRoleAsync(entity: entity), times: Times.Once);
+        roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleAddEventAsync(entity: entity), times: Times.Once);
     }
 
     [Fact]
@@ -35,26 +43,23 @@ public partial class RoleOrchestrationServiceTests
     {
         // Given
         Role entity = CreateRandomRole();
-        roleProcessingServiceMock.Setup(x => x.AddValidatedAsync(entity)).ReturnsAsync(entity);
+
+        roleProcessingServiceMock.Setup(expression: x => x.AddValidatedRoleAsync(entity: entity))
+            .ReturnsAsync(value: entity);
 
         roleEventProcessingServiceMock
-            .Setup(x => x.RaiseRoleAddEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseRoleAddEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        Role result = await orchestrationService.AddValidatedAsync(entity);
+        Role result = await orchestrationService.AddValidatedRoleAsync(newRole: entity);
 
         // Then
-        result.Should().BeSameAs(entity);
-        roleProcessingServiceMock.Verify(x => x.AddValidatedAsync(entity), Times.Once);
-        roleEventProcessingServiceMock.Verify(x => x.RaiseRoleAddEventAsync(entity), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entity);
+
+        roleProcessingServiceMock.Verify(expression: x => x.AddValidatedRoleAsync(entity: entity), times: Times.Once);
+        roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleAddEventAsync(entity: entity), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-

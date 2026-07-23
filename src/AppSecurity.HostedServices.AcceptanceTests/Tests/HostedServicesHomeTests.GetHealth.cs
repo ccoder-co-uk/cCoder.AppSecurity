@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using Xunit;
 
 namespace AppSecurity.HostedServices.AcceptanceTests.Tests;
@@ -13,6 +17,6 @@ public sealed partial class HostedServicesHomeTests
         string health = await GetHealthAsync();
 
         // Then
-        Assert.Equal("Healthy", health);
+        Assert.Equal(expected: "Healthy", actual: health);
     }
 }

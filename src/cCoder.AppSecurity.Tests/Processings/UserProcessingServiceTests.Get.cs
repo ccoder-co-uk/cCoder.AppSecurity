@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -15,23 +19,20 @@ public partial class UserProcessingServiceTests
     {
         // Given
         User user = CreateRandomUser();
-        userServiceMock.Setup(x => x.Get(user.Id)).Returns(user);
+
+        userServiceMock.Setup(expression: x => x.Get(id: user.Id))
+            .Returns(value: user);
 
         // When
-        User result = userProcessingService.Get(user.Id);
+        User result = userProcessingService.Get(userId: user.Id);
 
         // Then
-        result.Should().BeSameAs(user);
-        userServiceMock.Verify(x => x.Get(user.Id), Times.Once);
+        result.Should()
+            .BeSameAs(expected: user);
+
+        userServiceMock.Verify(expression: x => x.Get(id: user.Id), times: Times.Once);
         userServiceMock.VerifyNoOtherCalls();
         coreAuthInfoMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

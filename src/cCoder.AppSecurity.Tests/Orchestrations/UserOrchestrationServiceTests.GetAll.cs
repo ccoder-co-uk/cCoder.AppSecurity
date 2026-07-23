@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -15,23 +19,20 @@ public partial class UserOrchestrationServiceTests
     {
         // Given
         IQueryable<User> entities = new[] { CreateRandomUser() }.AsQueryable();
-        userProcessingServiceMock.Setup(x => x.GetAll(true)).Returns(entities);
+
+        userProcessingServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: entities);
 
         // When
-        IQueryable<User> result = orchestrationService.GetAll(true);
+        IQueryable<User> result = orchestrationService.GetAll(ignoreFilters: true);
 
         // Then
-        result.Should().BeSameAs(entities);
-        userProcessingServiceMock.Verify(x => x.GetAll(true), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entities);
+
+        userProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         userProcessingServiceMock.VerifyNoOtherCalls();
         userEventProcessingServiceMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

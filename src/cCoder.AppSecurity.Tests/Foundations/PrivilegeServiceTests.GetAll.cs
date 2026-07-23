@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -16,27 +20,24 @@ public partial class PrivilegeServiceTests
     {
         // Given
         Privilege privilege = CreateRandomPrivilege();
-        IQueryable<DataPrivilege> privileges = new[] { ToExternalPrivilege(privilege) }.AsQueryable();
+        IQueryable<DataPrivilege> privileges = new[] { ToExternalPrivilege(item: privilege) }.AsQueryable();
 
-        privilegeBrokerMock.Setup(x => x.GetAllPrivileges(false)).Returns(privileges);
+        privilegeBrokerMock.Setup(expression: x => x.GetAllPrivileges(ignoreFilters: false))
+            .Returns(value: privileges);
 
         // When
         IQueryable<Privilege> result = privilegeService.GetAll();
 
         // Then
-        result.Should().ContainSingle().Which.Should().BeEquivalentTo(privilege);
-        privilegeBrokerMock.Verify(x => x.GetAllPrivileges(false), Times.Once);
-        privilegeBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Privilege>()), Times.AtMostOnce());
+        result.Should()
+            .ContainSingle()
+            .Which.Should()
+            .BeEquivalentTo(expectation: privilege);
+
+        privilegeBrokerMock.Verify(expression: x => x.GetAllPrivileges(ignoreFilters: false), times: Times.Once);
+        privilegeBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()), times: Times.AtMostOnce());
         privilegeBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-
-

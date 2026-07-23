@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -15,26 +19,23 @@ public partial class PrivilegeOrchestrationServiceTests
     {
         // Given
         Privilege entity = CreateRandomPrivilege();
-        privilegeProcessingServiceMock.Setup(x => x.AddAsync(entity)).ReturnsAsync(entity);
+
+        privilegeProcessingServiceMock.Setup(expression: x => x.AddPrivilegeAsync(entity: entity))
+            .ReturnsAsync(value: entity);
 
         privilegeEventProcessingServiceMock
-            .Setup(x => x.RaisePrivilegeAddEventAsync(entity))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaisePrivilegeAddEventAsync(entity: entity))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        Privilege result = await orchestrationService.AddAsync(entity);
+        Privilege result = await orchestrationService.AddPrivilegeAsync(newPrivilege: entity);
 
         // Then
-        result.Should().BeSameAs(entity);
-        privilegeProcessingServiceMock.Verify(x => x.AddAsync(entity), Times.Once);
-        privilegeEventProcessingServiceMock.Verify(x => x.RaisePrivilegeAddEventAsync(entity), Times.Once);
+        result.Should()
+            .BeSameAs(expected: entity);
+
+        privilegeProcessingServiceMock.Verify(expression: x => x.AddPrivilegeAsync(entity: entity), times: Times.Once);
+        privilegeEventProcessingServiceMock.Verify(expression: x => x.RaisePrivilegeAddEventAsync(entity: entity), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-

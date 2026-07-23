@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Security;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
@@ -15,23 +19,28 @@ public partial class PrivilegeServiceTests
     public async Task ShouldDelegateToBrokerWhenUserIsAuthorizedForDeleteAsync()
     {
         // Given
-        Privilege privilege = CreateRandomPrivilege("page_read");
+        Privilege privilege = CreateRandomPrivilege(id: "page_read");
 
-        privilegeBrokerMock.Setup(x => x.GetAllPrivileges(false)).Returns(new[] { ToExternalPrivilege(privilege) }.AsQueryable());
+        privilegeBrokerMock.Setup(expression: x => x.GetAllPrivileges(ignoreFilters: false))
+            .Returns(value: new[] { ToExternalPrivilege(item: privilege) }.AsQueryable());
 
-        privilegeBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Privilege>())).Returns((int?)7);
-        authorizationBrokerMock.Setup(x => x.Authorize((int?)7, "Privilege_delete"));
-        privilegeBrokerMock.Setup(x => x.DeletePrivilegeAsync(It.IsAny<cCoder.Data.Models.Security.Privilege>())).ReturnsAsync(1);
+        privilegeBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()))
+            .Returns(value: (int?)7);
+
+        authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Privilege_delete"));
+
+        privilegeBrokerMock.Setup(expression: x => x.DeletePrivilegeAsync(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()))
+            .ReturnsAsync(value: 1);
 
         // When
-        await privilegeService.DeleteAsync("page_read");
+        await privilegeService.DeleteAsync(privilegeId: "page_read");
 
         // Then
-        privilegeBrokerMock.Verify(x => x.GetAllPrivileges(false), Times.Once);
-        privilegeBrokerMock.Verify(x => x.DeletePrivilegeAsync(It.IsAny<cCoder.Data.Models.Security.Privilege>()), Times.Once);
-        privilegeBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Privilege>()), Times.AtMostOnce());
+        privilegeBrokerMock.Verify(expression: x => x.GetAllPrivileges(ignoreFilters: false), times: Times.Once);
+        privilegeBrokerMock.Verify(expression: x => x.DeletePrivilegeAsync(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()), times: Times.Once);
+        privilegeBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()), times: Times.AtMostOnce());
         privilegeBrokerMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "Privilege_delete"), Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "Privilege_delete"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -39,32 +48,33 @@ public partial class PrivilegeServiceTests
     public async Task ShouldThrowSecurityExceptionWhenUserLacksDeletePrivilegeForDeleteAsync()
     {
         // Given
-        Privilege privilege = CreateRandomPrivilege("page_read");
+        Privilege privilege = CreateRandomPrivilege(id: "page_read");
 
-        privilegeBrokerMock.Setup(x => x.GetAllPrivileges(false)).Returns(new[] { ToExternalPrivilege(privilege) }.AsQueryable());
+        privilegeBrokerMock.Setup(expression: x => x.GetAllPrivileges(ignoreFilters: false))
+            .Returns(value: new[] { ToExternalPrivilege(item: privilege) }.AsQueryable());
 
-        privilegeBrokerMock.Setup(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Privilege>())).Returns((int?)7);
+        privilegeBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()))
+            .Returns(value: (int?)7);
+
         authorizationBrokerMock
-            .Setup(x => x.Authorize((int?)7, "Privilege_delete"))
-            .Throws(new SecurityException("Access Denied!"));
+            .Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Privilege_delete"))
+            .Throws(exception: new SecurityException(message: "Access Denied!"));
 
         // When
-        Func<Task> action = async () => await privilegeService.DeleteAsync("page_read");
+        Func<Task> action = async () => await privilegeService.DeleteAsync(privilegeId: "page_read");
 
         // Then
-        await action.Should().ThrowAsync<SecurityException>().WithMessage("Access Denied!");
-        privilegeBrokerMock.Verify(x => x.GetAllPrivileges(false), Times.Once);
-        privilegeBrokerMock.Verify(x => x.GetAppId(It.IsAny<cCoder.Data.Models.Security.Privilege>()), Times.AtMostOnce());
+        await action.Should()
+            .ThrowAsync<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException>()
+            .WithMessage(expectedWildcardPattern: "The AppSecurity service failed.")
+            .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
+            .WithMessage(expectedWildcardPattern: "Access Denied!");
+
+        privilegeBrokerMock.Verify(expression: x => x.GetAllPrivileges(ignoreFilters: false), times: Times.Once);
+        privilegeBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()), times: Times.AtMostOnce());
         privilegeBrokerMock.VerifyNoOtherCalls();
-        authorizationBrokerMock.Verify(x => x.Authorize((int?)7, "Privilege_delete"), Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "Privilege_delete"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
 }
-
-
-
-
-
-
-

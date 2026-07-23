@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using cCoder.Data.Models.CMS;
 using FluentAssertions;
@@ -16,9 +20,14 @@ public sealed partial class AppControllerTests
         IReadOnlyList<App> actualApps = await GetAppsAsync();
 
         // Then
-        actualApps.Should().ContainSingle();
-        actualApps[0].Name.Should().Be("Acceptance");
-        actualApps[0].Domain.Should().Be("localhost");
+        actualApps.Should()
+            .ContainSingle();
+
+        actualApps[index: 0].Name.Should()
+            .Be(expected: "Acceptance");
+
+        actualApps[index: 0].Domain.Should()
+            .Be(expected: "localhost");
     }
 
     [Fact]
@@ -30,6 +39,7 @@ public sealed partial class AppControllerTests
         int actualCount = await GetAppCountAsync();
 
         // Then
-        actualCount.Should().BeGreaterThanOrEqualTo(1);
+        actualCount.Should()
+            .BeGreaterThanOrEqualTo(expected: 1);
     }
 }

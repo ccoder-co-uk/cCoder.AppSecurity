@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -14,25 +18,20 @@ public partial class UserRoleOrchestrationServiceTests
     {
         // Given
         UserRole userRole = CreateRandomUserRole();
-        userRoleProcessingServiceMock.Setup(x => x.DeleteAsync(userRole)).Returns(ValueTask.CompletedTask);
+
+        userRoleProcessingServiceMock.Setup(expression: x => x.DeleteUserRoleAsync(entity: userRole))
+            .Returns(value: ValueTask.CompletedTask);
 
         userRoleEventProcessingServiceMock
-            .Setup(x => x.RaiseUserRoleDeleteEventAsync(userRole))
-            .Returns(ValueTask.CompletedTask);
+            .Setup(expression: x => x.RaiseUserRoleDeleteEventAsync(entity: userRole))
+            .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await orchestrationService.DeleteAsync(userRole);
+        await orchestrationService.DeleteUserRoleAsync(deletedUserRole: userRole);
 
         // Then
-        userRoleProcessingServiceMock.Verify(x => x.DeleteAsync(userRole), Times.Once);
-        userRoleEventProcessingServiceMock.Verify(x => x.RaiseUserRoleDeleteEventAsync(userRole), Times.Once);
+        userRoleProcessingServiceMock.Verify(expression: x => x.DeleteUserRoleAsync(entity: userRole), times: Times.Once);
+        userRoleEventProcessingServiceMock.Verify(expression: x => x.RaiseUserRoleDeleteEventAsync(entity: userRole), times: Times.Once);
     }
 
 }
-
-
-
-
-
-
-

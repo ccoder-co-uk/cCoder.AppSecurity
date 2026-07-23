@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -14,15 +18,20 @@ public partial class UserProcessingServiceTests
     {
         // Given
         User newUser = CreateRandomUser(id: "new-user", email: "new@example.com");
-        userServiceMock.Setup(x => x.GetAll(true)).Returns(Enumerable.Empty<User>().AsQueryable());
-        userServiceMock.Setup(x => x.AddAsync(newUser)).ReturnsAsync(newUser);
+
+        userServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: Enumerable.Empty<User>()
+            .AsQueryable());
+
+        userServiceMock.Setup(expression: x => x.AddUserAsync(user: newUser))
+            .ReturnsAsync(value: newUser);
 
         // When
-        User result = await userProcessingService.AddAsync(newUser);
+        User result = await userProcessingService.AddUserAsync(newUser: newUser);
 
         // Then
-        Assert.Same(newUser, result);
-        userServiceMock.Verify(x => x.AddAsync(newUser), Times.Once);
+        Assert.Same(expected: newUser, actual: result);
+        userServiceMock.Verify(expression: x => x.AddUserAsync(user: newUser), times: Times.Once);
     }
 
     [Fact]
@@ -31,13 +40,15 @@ public partial class UserProcessingServiceTests
         // Given
         User existingUser = CreateRandomUser(id: "existing-user", email: "existing@example.com");
         User newUser = CreateRandomUser(id: "existing-user", email: "existing@example.com");
-        userServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { existingUser }.AsQueryable());
+
+        userServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: new[] { existingUser }.AsQueryable());
 
         // When
-        User result = await userProcessingService.AddAsync(newUser);
+        User result = await userProcessingService.AddUserAsync(newUser: newUser);
 
         // Then
-        Assert.Same(existingUser, result);
+        Assert.Same(expected: existingUser, actual: result);
     }
 
     [Fact]
@@ -46,21 +57,15 @@ public partial class UserProcessingServiceTests
         // Given
         User existingUser = CreateRandomUser(id: "existing-user", email: "existing@example.com");
         User newUser = CreateRandomUser(id: "new-user", email: "existing@example.com");
-        userServiceMock.Setup(x => x.GetAll(true)).Returns(new[] { existingUser }.AsQueryable());
+
+        userServiceMock.Setup(expression: x => x.GetAll(ignoreFilters: true))
+            .Returns(value: new[] { existingUser }.AsQueryable());
 
         // When
-        User result = await userProcessingService.AddAsync(newUser);
+        User result = await userProcessingService.AddUserAsync(newUser: newUser);
 
         // Then
-        Assert.Same(existingUser, result);
+        Assert.Same(expected: existingUser, actual: result);
     }
 
 }
-
-
-
-
-
-
-
-

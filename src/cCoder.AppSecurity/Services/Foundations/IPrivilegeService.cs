@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -9,16 +13,7 @@ public interface IPrivilegeService
 {
     Privilege Get(string id);
     IQueryable<Privilege> GetAll(bool ignoreFilters = false);
-    ValueTask<Privilege> AddAsync(Privilege privilege);
-    ValueTask<Privilege> UpdateAsync(Privilege privilege);
+    ValueTask<Privilege> AddPrivilegeAsync(Privilege privilege);
+    ValueTask<Privilege> UpdatePrivilegeAsync(Privilege privilege);
     ValueTask DeleteAsync(string id);
 }
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using System.Net;
 using FluentAssertions;
 using Xunit;
@@ -14,17 +18,13 @@ public sealed partial class UserControllerTests
         SeededUserContext seededContext = await SeedDatabase();
 
         // When
-        using HttpResponseMessage response = await Client.DeleteAsync($"{BaseUrl}('{Uri.EscapeDataString(seededContext.UserId)}')");
+        using HttpResponseMessage response = await Client.DeleteAsync(requestUri: $"{BaseUrl}('{Uri.EscapeDataString(stringToEscape: seededContext.UserId)}')");
         string content = await response.Content.ReadAsStringAsync();
 
         // Then
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized, content);
+        response.StatusCode.Should()
+            .Be(expected: HttpStatusCode.Unauthorized, because: content);
 
-        await Teardown(seededContext);
+        await Teardown(seededContext: seededContext);
     }
 }
-
-
-
-
-

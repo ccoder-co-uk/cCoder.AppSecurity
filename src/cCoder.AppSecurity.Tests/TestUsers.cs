@@ -1,3 +1,7 @@
+// ---------------------------------------------------------------
+// Copyright (c) Paul.Ward@ccoder.co.uk
+// ---------------------------------------------------------------
+
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 
@@ -7,16 +11,17 @@ namespace cCoder.Core.Services.Tests;
 internal static class TestUsers
 {
     internal static User WithPrivilege(string privilege, int appId = 1) =>
-        WithPrivileges([privilege], appId);
+        WithPrivileges(privileges: [privilege], appId: appId);
 
     internal static User WithPrivileges(IEnumerable<string> privileges, int appId = 1)
     {
+
         Role role = new()
         {
             Id = Guid.NewGuid(),
             AppId = appId,
             Name = "Test Role",
-            Privs = string.Join(',', privileges.Select(p => p.ToLowerInvariant())),
+            Privs = string.Join(separator: ',', values: privileges.Select(selector: p => p.ToLowerInvariant())),
         };
 
         User user = new()
@@ -38,6 +43,7 @@ internal static class TestUsers
 
         user.Roles = [userRole];
         role.Users = [userRole];
+
         role.App = new App
         {
             Id = appId,
@@ -59,8 +65,3 @@ internal static class TestUsers
             Roles = [],
         };
 }
-
-
-
-
-
