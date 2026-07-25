@@ -78,7 +78,19 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
                 IsActive = newUser.IsActive
             };
 
-            authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_create");
+            bool isFirstUser = !userBroker
+                .GetAllUsers(ignoreFilters: true)
+                .Any(predicate: user =>
+                    user.Id != "Guest"
+                    && user.Id != "system");
+
+            if (!isFirstUser)
+            {
+                authorizationBroker.Authorize(
+                    appId: userBroker.GetAppId(entity: internalUser),
+                    privilege: $"{nameof(User)}_create");
+            }
+
             DataUser result = await userBroker.AddUserAsync(entity: internalUser);
             newUser.Id = result.Id;
             newUser.DefaultCultureId = result.DefaultCultureId;

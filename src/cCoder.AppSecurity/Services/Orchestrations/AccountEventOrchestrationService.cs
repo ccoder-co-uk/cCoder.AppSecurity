@@ -30,6 +30,17 @@ internal sealed partial class AccountEventOrchestrationService(
 
             if (app is null)
             {
+                if (!appProcessingService
+                    .GetAll()
+                    .Any())
+                {
+                    await EnsureGuestUserAsync();
+
+                    await AddOrUpdateUserAsync(
+                        accountEvent: accountEvent,
+                        app: null);
+                }
+
                 return;
             }
 
@@ -40,6 +51,25 @@ internal sealed partial class AccountEventOrchestrationService(
                 appId: app.Id);
 
         });
+
+    private async ValueTask EnsureGuestUserAsync()
+    {
+        bool guestExists = userProcessingService
+            .GetAll(ignoreFilters: true)
+            .Any(predicate: user => user.Id == "Guest");
+
+        if (!guestExists)
+        {
+            await userProcessingService.AddUserAsync(entity: new User
+            {
+                Id = "Guest",
+                DefaultCultureId = string.Empty,
+                DisplayName = "Guest",
+                Email = string.Empty,
+                IsActive = true
+            });
+        }
+    }
 
     private App ResolveApp(string requestDomain)
     {
@@ -66,14 +96,19 @@ internal sealed partial class AccountEventOrchestrationService(
             {
                 Id = accountEvent.User.Id,
                 DefaultCultureId = string.IsNullOrWhiteSpace(value: accountEvent.Culture)
-                    ? app.DefaultCultureId
+                    ? app?.DefaultCultureId ?? string.Empty
                     : accountEvent.Culture,
                 DisplayName = accountEvent.User.DisplayName,
                 Email = accountEvent.User.Email,
-                IsActive = !accountEvent.User.LockoutEnabled
+                IsActive = app is null || !accountEvent.User.LockoutEnabled
             };
 
             return await userProcessingService.AddUserAsync(entity: user);
+        }
+
+        if (app is null)
+        {
+            return user;
         }
 
         user.DisplayName = accountEvent.User.DisplayName;

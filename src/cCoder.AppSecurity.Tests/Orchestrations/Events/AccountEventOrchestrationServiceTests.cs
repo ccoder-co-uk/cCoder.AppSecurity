@@ -5,7 +5,6 @@
 using cCoder.AppSecurity.Services.Orchestrations;
 using cCoder.AppSecurity.Services.Processings;
 using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
 using Moq;
 
 namespace cCoder.AppSecurity.Tests.Orchestrations.Events;
@@ -38,13 +37,5 @@ public partial class AccountEventOrchestrationServiceTests
         Id = 123,
         Domain = "example.com",
         DefaultCultureId = "en-GB"
-    };
-
-    private static Role CreateUsersRole(int appId) =>
-        new()
-    {
-        Id = Guid.NewGuid(),
-        AppId = appId,
-        Name = "Users"
     };
 }
