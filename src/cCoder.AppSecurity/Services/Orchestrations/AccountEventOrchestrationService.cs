@@ -30,6 +30,15 @@ internal sealed partial class AccountEventOrchestrationService(
 
             if (app is null)
             {
+                if (!appProcessingService
+                    .GetAll()
+                    .Any())
+                {
+                    await AddOrUpdateUserAsync(
+                        accountEvent: accountEvent,
+                        app: null);
+                }
+
                 return;
             }
 
@@ -66,7 +75,7 @@ internal sealed partial class AccountEventOrchestrationService(
             {
                 Id = accountEvent.User.Id,
                 DefaultCultureId = string.IsNullOrWhiteSpace(value: accountEvent.Culture)
-                    ? app.DefaultCultureId
+                    ? app?.DefaultCultureId ?? string.Empty
                     : accountEvent.Culture,
                 DisplayName = accountEvent.User.DisplayName,
                 Email = accountEvent.User.Email,
