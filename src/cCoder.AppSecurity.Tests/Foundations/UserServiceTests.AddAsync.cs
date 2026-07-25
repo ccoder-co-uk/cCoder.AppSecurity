@@ -127,8 +127,13 @@ times: Times.Once
 
         userBrokerMock
             .Setup(expression: x => x.GetAllUsers(ignoreFilters: true))
-            .Returns(value: Array.Empty<cCoder.Data.Models.Security.User>()
-                .AsQueryable());
+            .Returns(value: new[]
+            {
+                new cCoder.Data.Models.Security.User
+                {
+                    Id = "Guest"
+                }
+            }.AsQueryable());
 
         userBrokerMock
             .Setup(expression: x => x.AddUserAsync(
