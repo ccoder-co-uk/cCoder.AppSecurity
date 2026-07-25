@@ -34,6 +34,8 @@ internal sealed partial class AccountEventOrchestrationService(
                     .GetAll()
                     .Any())
                 {
+                    await EnsureGuestUserAsync();
+
                     await AddOrUpdateUserAsync(
                         accountEvent: accountEvent,
                         app: null);
@@ -49,6 +51,25 @@ internal sealed partial class AccountEventOrchestrationService(
                 appId: app.Id);
 
         });
+
+    private async ValueTask EnsureGuestUserAsync()
+    {
+        bool guestExists = userProcessingService
+            .GetAll(ignoreFilters: true)
+            .Any(predicate: user => user.Id == "Guest");
+
+        if (!guestExists)
+        {
+            await userProcessingService.AddUserAsync(entity: new User
+            {
+                Id = "Guest",
+                DefaultCultureId = string.Empty,
+                DisplayName = "Guest",
+                Email = string.Empty,
+                IsActive = true
+            });
+        }
+    }
 
     private App ResolveApp(string requestDomain)
     {

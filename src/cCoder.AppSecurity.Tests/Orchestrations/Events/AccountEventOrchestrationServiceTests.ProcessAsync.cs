@@ -46,6 +46,14 @@ public partial class AccountEventOrchestrationServiceTests
         userProcessingServiceMock
             .Setup(expression: service => service.AddUserAsync(
                 entity: It.Is<User>(match: user =>
+                    user.Id == "Guest"
+                    && user.DisplayName == "Guest"
+                    && user.IsActive)))
+            .ReturnsAsync(valueFunction: (User user) => user);
+
+        userProcessingServiceMock
+            .Setup(expression: service => service.AddUserAsync(
+                entity: It.Is<User>(match: user =>
                     user.Id == accountEvent.User.Id
                     && user.DefaultCultureId == string.Empty
                     && user.DisplayName == accountEvent.User.DisplayName
@@ -62,7 +70,7 @@ public partial class AccountEventOrchestrationServiceTests
         userProcessingServiceMock.Verify(
             expression: service => service.AddUserAsync(
                 entity: It.IsAny<User>()),
-            times: Times.Once);
+            times: Times.Exactly(callCount: 2));
 
         accountRoleAssignmentProcessingServiceMock.VerifyNoOtherCalls();
     }
@@ -102,7 +110,14 @@ public partial class AccountEventOrchestrationServiceTests
 
         userProcessingServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))
-            .Returns(value: new[] { existingUser }.AsQueryable());
+            .Returns(value: new[]
+            {
+                new User
+                {
+                    Id = "Guest"
+                },
+                existingUser
+            }.AsQueryable());
 
         // When
         await accountEventOrchestrationService
@@ -112,7 +127,7 @@ public partial class AccountEventOrchestrationServiceTests
         // Then
         userProcessingServiceMock.Verify(
             expression: service => service.GetAll(ignoreFilters: true),
-            times: Times.Once);
+            times: Times.Exactly(callCount: 2));
 
         userProcessingServiceMock.VerifyNoOtherCalls();
         accountRoleAssignmentProcessingServiceMock.VerifyNoOtherCalls();
