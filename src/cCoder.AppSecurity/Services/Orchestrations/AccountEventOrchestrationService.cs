@@ -79,10 +79,15 @@ internal sealed partial class AccountEventOrchestrationService(
                     : accountEvent.Culture,
                 DisplayName = accountEvent.User.DisplayName,
                 Email = accountEvent.User.Email,
-                IsActive = !accountEvent.User.LockoutEnabled
+                IsActive = app is null || !accountEvent.User.LockoutEnabled
             };
 
             return await userProcessingService.AddUserAsync(entity: user);
+        }
+
+        if (app is null)
+        {
+            return user;
         }
 
         user.DisplayName = accountEvent.User.DisplayName;

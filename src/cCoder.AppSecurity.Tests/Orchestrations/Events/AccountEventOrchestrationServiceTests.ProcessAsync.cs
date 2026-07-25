@@ -23,7 +23,8 @@ public partial class AccountEventOrchestrationServiceTests
             {
                 Id = "bootstrap.user",
                 DisplayName = "Bootstrap User",
-                Email = "bootstrap.user@example.com"
+                Email = "bootstrap.user@example.com",
+                LockoutEnabled = true
             }
         };
 
@@ -63,6 +64,57 @@ public partial class AccountEventOrchestrationServiceTests
                 entity: It.IsAny<User>()),
             times: Times.Once);
 
+        accountRoleAssignmentProcessingServiceMock.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public async Task ShouldRetainBootstrapUserBeforeFirstAppForProcessAsync()
+    {
+        // Given
+        User existingUser = new()
+        {
+            Id = "bootstrap.user",
+            DisplayName = "Bootstrap User",
+            Email = "bootstrap.user@example.com",
+            IsActive = true
+        };
+
+        SecurityAccountEvent accountEvent = new()
+        {
+            RequestDomain = "https://localhost",
+            User = new SSOUser
+            {
+                Id = existingUser.Id,
+                DisplayName = existingUser.DisplayName,
+                Email = existingUser.Email
+            }
+        };
+
+        appProcessingServiceMock
+            .Setup(expression: service => service.GetByDomain(
+                domain: "localhost"))
+            .Returns(value: null);
+
+        appProcessingServiceMock
+            .Setup(expression: service => service.GetAll())
+            .Returns(value: Array.Empty<cCoder.Data.Models.CMS.App>()
+                .AsQueryable());
+
+        userProcessingServiceMock
+            .Setup(expression: service => service.GetAll(ignoreFilters: true))
+            .Returns(value: new[] { existingUser }.AsQueryable());
+
+        // When
+        await accountEventOrchestrationService
+            .ProcessSecurityAccountEventAsync(
+                accountEvent: accountEvent);
+
+        // Then
+        userProcessingServiceMock.Verify(
+            expression: service => service.GetAll(ignoreFilters: true),
+            times: Times.Once);
+
+        userProcessingServiceMock.VerifyNoOtherCalls();
         accountRoleAssignmentProcessingServiceMock.VerifyNoOtherCalls();
     }
 
