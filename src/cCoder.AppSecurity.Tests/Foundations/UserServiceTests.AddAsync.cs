@@ -23,6 +23,11 @@ public partial class UserServiceTests
 
         cCoder.Data.Models.Security.User submitted = null;
 
+        userBrokerMock
+            .Setup(expression: x => x.GetAllUsers(ignoreFilters: true))
+            .Returns(value: new[] { new cCoder.Data.Models.Security.User() }
+                .AsQueryable());
+
         userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Returns(value: (int?)7);
 
@@ -66,6 +71,10 @@ expression: x => x.AddUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.Use
 times: Times.Once
         );
 
+        userBrokerMock.Verify(
+            expression: x => x.GetAllUsers(ignoreFilters: true),
+            times: Times.Once);
+
         userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_create"), times: Times.Once);
@@ -77,6 +86,11 @@ times: Times.Once
     {
         // Given
         User user = CreateRandomUser();
+
+        userBrokerMock
+            .Setup(expression: x => x.GetAllUsers(ignoreFilters: true))
+            .Returns(value: new[] { new cCoder.Data.Models.Security.User() }
+                .AsQueryable());
 
         userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Returns(value: (int?)7);
@@ -95,9 +109,50 @@ times: Times.Once
             .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
+        userBrokerMock.Verify(
+            expression: x => x.GetAllUsers(ignoreFilters: true),
+            times: Times.Once);
+
         userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_create"), times: Times.Once);
+        authorizationBrokerMock.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public async Task ShouldCreateFirstUserWithoutExistingAuthorizationForAddAsync()
+    {
+        // Given
+        User user = CreateRandomUser();
+
+        userBrokerMock
+            .Setup(expression: x => x.GetAllUsers(ignoreFilters: true))
+            .Returns(value: Array.Empty<cCoder.Data.Models.Security.User>()
+                .AsQueryable());
+
+        userBrokerMock
+            .Setup(expression: x => x.AddUserAsync(
+                entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+            .ReturnsAsync(valueFunction:
+                (cCoder.Data.Models.Security.User value) => value);
+
+        // When
+        User result = await userService.AddUserAsync(newUser: user);
+
+        // Then
+        result.Should()
+            .BeSameAs(expected: user);
+
+        userBrokerMock.Verify(
+            expression: x => x.GetAllUsers(ignoreFilters: true),
+            times: Times.Once);
+
+        userBrokerMock.Verify(
+            expression: x => x.AddUserAsync(
+                entity: It.IsAny<cCoder.Data.Models.Security.User>()),
+            times: Times.Once);
+
+        userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
