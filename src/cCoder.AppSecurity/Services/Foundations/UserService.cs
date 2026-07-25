@@ -80,7 +80,9 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
 
             bool isFirstUser = !userBroker
                 .GetAllUsers(ignoreFilters: true)
-                .Any(predicate: user => user.Id != "Guest");
+                .Any(predicate: user =>
+                    user.Id != "Guest"
+                    && user.Id != "system");
 
             if (!isFirstUser)
             {

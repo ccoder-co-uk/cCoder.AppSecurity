@@ -132,6 +132,10 @@ times: Times.Once
                 new cCoder.Data.Models.Security.User
                 {
                     Id = "Guest"
+                },
+                new cCoder.Data.Models.Security.User
+                {
+                    Id = "system"
                 }
             }.AsQueryable());
 
