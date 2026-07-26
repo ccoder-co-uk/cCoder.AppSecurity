@@ -1101,18 +1101,6 @@
       ]
     },
     {
-      "Name": "cCoder.AppSecurity.Brokers.UIBaselineBroker",
-      "StandardElementType": "Broker",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "SelectPackages",
-          "Inputs": [],
-          "ReturnType": "cCoder.Data.Models.Packaging.Package[]"
-        }
-      ]
-    },
-    {
       "Name": "cCoder.AppSecurity.Exposures.AppSecurityAppExposure",
       "StandardElementType": "Exposure",
       "Properties": [],
@@ -1211,18 +1199,6 @@
         },
         {
           "Name": "GetMetadata",
-          "Inputs": [],
-          "ReturnType": "IActionResult"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.AppSecurity.Exposures.Controllers.BaselineController",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "Get",
           "Inputs": [],
           "ReturnType": "IActionResult"
         }
@@ -1561,17 +1537,6 @@
       "Name": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
       "StandardElementType": "Dependency",
       "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.AppSecurity.Exposures.Setup.UIBaseline",
-      "StandardElementType": "Dependency",
-      "Properties": [
-        {
-          "Name": "Packages",
-          "Type": "cCoder.Data.Models.Packaging.Package[]"
-        }
-      ],
       "Methods": []
     },
     {
@@ -2440,18 +2405,6 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.AppSecurity.Services.Foundations.UIBaselineService",
-      "StandardElementType": "FoundationService",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "GetPackages",
-          "Inputs": [],
-          "ReturnType": "cCoder.Data.Models.Packaging.Package[]"
         }
       ]
     },
@@ -3510,10 +3463,6 @@
       "ToType": "cCoder.AppSecurity.Services.Foundations.AppService"
     },
     {
-      "FromType": "cCoder.AppSecurity.Exposures.Controllers.BaselineController",
-      "ToType": "cCoder.AppSecurity.Services.Foundations.UIBaselineService"
-    },
-    {
       "FromType": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
       "ToType": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService"
     },
@@ -3640,10 +3589,6 @@
     {
       "FromType": "cCoder.AppSecurity.Services.Foundations.TokenCleanerService",
       "ToType": "cCoder.AppSecurity.Brokers.Tokens.TokenBroker"
-    },
-    {
-      "FromType": "cCoder.AppSecurity.Services.Foundations.UIBaselineService",
-      "ToType": "cCoder.AppSecurity.Brokers.UIBaselineBroker"
     },
     {
       "FromType": "cCoder.AppSecurity.Services.Foundations.UserRoleService",
