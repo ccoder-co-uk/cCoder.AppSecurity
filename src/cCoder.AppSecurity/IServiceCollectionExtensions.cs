@@ -28,14 +28,12 @@ using AuthorizationBroker = cCoder.AppSecurity.Brokers.AuthorizationBroker;
 using AuthInfoBroker = cCoder.AppSecurity.Brokers.AuthInfoBroker;
 using SecurityDbContextBroker = cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker;
 using TokenBroker = cCoder.AppSecurity.Brokers.Tokens.TokenBroker;
-using UIBaselineBroker = cCoder.AppSecurity.Brokers.UIBaselineBroker;
 using AppBroker = cCoder.AppSecurity.Brokers.Storages.AppBroker;
 using EventHubBroker = cCoder.AppSecurity.Brokers.Events.EventHubBroker;
 using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
 using IAuthInfoBroker = cCoder.AppSecurity.Brokers.IAuthInfoBroker;
 using ISecurityDbContextBroker = cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker;
 using ITokenBroker = cCoder.AppSecurity.Brokers.Tokens.ITokenBroker;
-using IUIBaselineBroker = cCoder.AppSecurity.Brokers.IUIBaselineBroker;
 using IAppBroker = cCoder.AppSecurity.Brokers.Storages.IAppBroker;
 using IEventHubBroker = cCoder.AppSecurity.Brokers.Events.IEventHubBroker;
 using IJsonBroker = cCoder.AppSecurity.Brokers.IJsonBroker;
@@ -132,7 +130,6 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IAuthInfoBroker, AuthInfoBroker>();
         services.AddTransient<ISecurityDbContextBroker, SecurityDbContextBroker>();
         services.AddTransient<ITokenBroker, TokenBroker>();
-        services.AddTransient<IUIBaselineBroker, UIBaselineBroker>();
         services.AddTransient<IEventHubBroker, EventHubBroker>();
         services.AddTransient<IJsonBroker, JsonBroker>();
         services.AddTransient<IRoleEventBroker, RoleEventBroker>();
@@ -148,7 +145,6 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddFoundations(this IServiceCollection services)
     {
-        services.AddTransient<IUIBaselineService, UIBaselineService>();
         services.AddTransient<IAuthorizationService, AuthorizationService>();
         services.AddTransient<IJsonService, JsonService>();
         services.AddTransient<IAccountRoleAssignmentService, AccountRoleAssignmentService>();
