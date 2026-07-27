@@ -124,7 +124,12 @@ internal sealed partial class AppOrchestrationService(
 
     private void EnsureDefaultRoles(App app)
     {
-        app.Roles ??= [];
+        string[] builtInRoleNames = ["Administrators", "Users", "Guests"];
+
+        app.Roles = [.. (app.Roles ?? [])
+            .Where(predicate: role => !builtInRoleNames.Contains(
+                value: role.Name,
+                comparer: StringComparer.OrdinalIgnoreCase))];
 
         string currentUserId = authorizationService.GetCurrentUser()?.Id;
         Privilege[] privileges = [.. privilegeService.GetAll(ignoreFilters: true)];
@@ -141,55 +146,43 @@ internal sealed partial class AppOrchestrationService(
                     && !IsWorkflowType(type: privilege.Type))
                 .Select(selector: privilege => privilege.Id)];
 
-        EnsureRole(app: app, roleName: "Administrators", requiredPrivileges: administratorPrivileges, userId: currentUserId);
-        EnsureRole(app: app, roleName: "Users", requiredPrivileges: userPrivileges, userId: currentUserId);
-        EnsureRole(app: app, roleName: "Guests", requiredPrivileges: userPrivileges, userId: "Guest");
+        AddBuiltInRole(newApp: app, roleName: "Administrators", privileges: administratorPrivileges, userId: currentUserId);
+        AddBuiltInRole(newApp: app, roleName: "Users", privileges: userPrivileges, userId: currentUserId);
+        AddBuiltInRole(newApp: app, roleName: "Guests", privileges: userPrivileges, userId: "Guest");
     }
 
     private static bool IsWorkflowType(string type) =>
         type.StartsWith(value: "Flow", comparisonType: StringComparison.OrdinalIgnoreCase)
         || type.StartsWith(value: "Workflow", comparisonType: StringComparison.OrdinalIgnoreCase);
 
-    private static void EnsureRole(
-        App app,
+    private static void AddBuiltInRole(
+        App newApp,
         string roleName,
-        IEnumerable<string> requiredPrivileges,
-        string userId
-    )
+        IEnumerable<string> privileges,
+        string userId)
     {
-        Role role = app.Roles.FirstOrDefault(predicate: foundRole =>
-            string.Equals(a: foundRole.Name, b: roleName, comparisonType: StringComparison.OrdinalIgnoreCase));
-
-        if (role is null)
+        Role newRole = new()
         {
-            role = new Role
+            Id = Guid.NewGuid(),
+            AppId = newApp.Id,
+            App = newApp,
+            Name = roleName,
+            Users = [],
+            Pages = [],
+            Folders = [],
+            Privileges = [.. privileges],
+        };
+
+        if (!string.IsNullOrWhiteSpace(value: userId))
+        {
+            newRole.Users.Add(item: new UserRole
             {
-                Id = Guid.NewGuid(),
-                AppId = app.Id,
-                App = app,
-                Name = roleName,
-                Users = [],
-                Pages = [],
-                Folders = [],
-                Privileges = [],
-            };
-
-            app.Roles.Add(item: role);
+                RoleId = newRole.Id,
+                UserId = userId,
+                Role = newRole,
+            });
         }
 
-        role.AppId = app.Id;
-        role.App ??= app;
-        role.Users ??= [];
-        role.Pages ??= [];
-        role.Folders ??= [];
-        role.Privileges = [.. role.Privileges.Union(second: requiredPrivileges, comparer: StringComparer.OrdinalIgnoreCase)];
-
-        if (
-            !string.IsNullOrWhiteSpace(value: userId)
-            && !role.Users.Any(predicate: existingUserRole => existingUserRole.UserId == userId)
-        )
-        {
-            role.Users.Add(item: new UserRole { RoleId = role.Id, UserId = userId, Role = role });
-        }
+        newApp.Roles.Add(item: newRole);
     }
 }

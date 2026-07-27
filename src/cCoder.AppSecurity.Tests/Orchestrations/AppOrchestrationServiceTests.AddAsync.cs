@@ -19,6 +19,8 @@ public partial class AppOrchestrationServiceTests
         // Given
         const int appId = 7;
         const string userId = "setup-admin";
+        Guid postedAdministratorRoleId = Guid.NewGuid();
+        Guid customRoleId = Guid.NewGuid();
 
         Mock<IAuthorizationService> authorizationServiceMock = new(behavior: MockBehavior.Strict);
         Mock<IPrivilegeService> privilegeServiceMock = new(behavior: MockBehavior.Strict);
@@ -32,7 +34,21 @@ public partial class AppOrchestrationServiceTests
         App app = new()
         {
             Id = appId,
-            Roles = []
+            Roles =
+            [
+                new()
+                {
+                    Id = postedAdministratorRoleId,
+                    Name = "administrators",
+                    Privileges = ["untrusted_privilege"]
+                },
+                new()
+                {
+                    Id = customRoleId,
+                    Name = "Reviewers",
+                    Privileges = ["app_read"]
+                }
+            ]
         };
 
         Role[] existingRoles =
@@ -62,6 +78,11 @@ public partial class AppOrchestrationServiceTests
                 role: It.IsAny<Role>()))
             .ReturnsAsync(valueFunction: (Role role) => role);
 
+        roleServiceMock
+            .Setup(expression: service => service.AddValidatedRoleAsync(
+                role: It.IsAny<Role>()))
+            .ReturnsAsync(valueFunction: (Role role) => role);
+
         // When
         await orchestrationService.AddAppAsync(newApp: app);
 
@@ -72,13 +93,18 @@ public partial class AppOrchestrationServiceTests
                 expression: service => service.UpdateValidatedRoleAsync(
                     role: It.Is<Role>(match: role =>
                         role.Name == existingRole.Name
-                        && role.Id == existingRole.Id)),
+                        && role.Id == existingRole.Id
+                        && role.Id != postedAdministratorRoleId
+                        && !role.Privileges.Contains(value: "untrusted_privilege"))),
                 times: Times.Once);
         }
 
         roleServiceMock.Verify(
             expression: service => service.AddValidatedRoleAsync(
-                role: It.IsAny<Role>()),
-            times: Times.Never);
+                role: It.Is<Role>(match: role =>
+                    role.Id == customRoleId
+                    && role.AppId == appId
+                    && role.Name == "Reviewers")),
+            times: Times.Once);
     }
 }
