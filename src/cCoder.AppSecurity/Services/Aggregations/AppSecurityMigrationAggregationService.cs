@@ -26,7 +26,8 @@ internal sealed partial class AppSecurityMigrationAggregationService(
                 return;
             }
 
-            foreach (AppSecurityPackageItem item in package.Items.Where(predicate: item => item.Type == "Core/Role"))
+            foreach (AppSecurityPackageItem item in package.Items.Where(predicate: item =>
+                item.Type is "Core/Role" or "AppSecurity/Role"))
             {
                 Role[] items = item.Data.StartsWith(value: "{")
                     ? [jsonProcessingService.ParseJson<Role>(json: item.Data)]
