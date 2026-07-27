@@ -74,17 +74,36 @@ internal sealed partial class AppOrchestrationService(
             [.. roles.OrderBy(keySelector: GetBootstrapOrder)
                 .ThenBy(keySelector: role => role.Name, comparer: StringComparer.OrdinalIgnoreCase)];
 
-        Guid[] roleIds = [.. roleArray.Select(selector: role => role.Id)];
+        int? appId = roleArray
+            .Select(selector: role => (int?)role.AppId)
+            .FirstOrDefault();
 
-        HashSet<Guid> existingRoleIds =
-            [.. roleService.GetAll(ignoreFilters: true)
-                .Where(predicate: foundRole => roleIds.Contains(value: foundRole.Id))
-                .Select(selector: foundRole => foundRole.Id)];
+        Dictionary<string, Role> existingRolesByName = roleService
+            .GetAll(ignoreFilters: true)
+            .Where(predicate: foundRole =>
+                appId.HasValue
+                && foundRole.AppId == appId.Value
+                && !string.IsNullOrWhiteSpace(value: foundRole.Name))
+            .GroupBy(
+                keySelector: foundRole => foundRole.Name,
+                comparer: StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(
+                keySelector: group => group.Key,
+                elementSelector: group => group.First(),
+                comparer: StringComparer.OrdinalIgnoreCase);
 
         foreach (Role role in roleArray)
         {
-            if (existingRoleIds.Contains(item: role.Id))
+            if (existingRolesByName.TryGetValue(key: role.Name, value: out Role existingRole))
             {
+                role.Id = existingRole.Id;
+
+                foreach (UserRole userRole in role.Users ?? [])
+                {
+                    userRole.RoleId = existingRole.Id;
+                    userRole.Role = role;
+                }
+
                 _ = await roleService.UpdateValidatedRoleAsync(role: role);
             }
             else
