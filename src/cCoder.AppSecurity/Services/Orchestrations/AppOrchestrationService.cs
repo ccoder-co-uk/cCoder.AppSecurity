@@ -84,6 +84,7 @@ internal sealed partial class AppOrchestrationService(
                 appId.HasValue
                 && foundRole.AppId == appId.Value
                 && !string.IsNullOrWhiteSpace(value: foundRole.Name))
+            .ToArray()
             .GroupBy(
                 keySelector: foundRole => foundRole.Name,
                 comparer: StringComparer.OrdinalIgnoreCase)
