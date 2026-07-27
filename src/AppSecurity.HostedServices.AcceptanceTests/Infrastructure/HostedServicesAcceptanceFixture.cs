@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Xunit;
@@ -17,10 +18,10 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
     public Task InitializeAsync()
     {
         string coreConnectionString = GetRequiredConnectionString(
-            variableName: "CCODER_ACCEPTANCE_CORE_CONNECTION_STRING");
+            variableName: "ConnectionStrings__Core");
 
         string ssoConnectionString = GetRequiredConnectionString(
-            variableName: "CCODER_ACCEPTANCE_SSO_CONNECTION_STRING");
+            variableName: "ConnectionStrings__SSO");
 
         Factory = new WebApplicationFactory<global::AppSecurity.HostedServices.Program>()
             .WithWebHostBuilder(configuration: builder => builder.ConfigureAppConfiguration(
@@ -43,16 +44,23 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
         return Task.CompletedTask;
     }
 
-    private static string GetRequiredConnectionString(string variableName) =>
-        Environment.GetEnvironmentVariable(variable: variableName)
-        ?? Environment.GetEnvironmentVariable(
-            variable: variableName,
-            target: EnvironmentVariableTarget.User)
-        ?? Environment.GetEnvironmentVariable(
-            variable: variableName,
-            target: EnvironmentVariableTarget.Machine)
-        ?? throw new InvalidOperationException(
-            message: $"The required {variableName} environment variable is not configured.");
+    private static string GetRequiredConnectionString(string variableName)
+    {
+        string connectionString =
+            Environment.GetEnvironmentVariable(variable: variableName)
+            ?? Environment.GetEnvironmentVariable(
+                variable: variableName,
+                target: EnvironmentVariableTarget.User)
+            ?? Environment.GetEnvironmentVariable(
+                variable: variableName,
+                target: EnvironmentVariableTarget.Machine)
+            ?? throw new InvalidOperationException(
+                message: $"The required {variableName} environment variable is not configured.");
+
+        SqlConnectionStringBuilder builder = new(connectionString);
+        builder.InitialCatalog = $"{builder.InitialCatalog}-acceptance-{Guid.NewGuid():N}";
+        return builder.ConnectionString;
+    }
 
     public async Task DisposeAsync()
     {

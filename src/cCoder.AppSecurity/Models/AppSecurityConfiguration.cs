@@ -8,6 +8,16 @@ namespace cCoder.AppSecurity.Models;
 
 public class AppSecurityConfiguration
 {
+    public AppSecurityConfiguration()
+    {
+        ConnectionStrings = new Dictionary<string, string>();
+        Settings = new Dictionary<string, string>();
+        Services = new Dictionary<string, string>();
+        RootPath = "Api/AppSecurity";
+        IncludeLegacyCoreContext = true;
+        EventProviders = [];
+    }
+
     public IDictionary<string, string> ConnectionStrings { get; set; }
     public IDictionary<string, string> Settings { get; set; }
     public IDictionary<string, string> Services { get; set; }
