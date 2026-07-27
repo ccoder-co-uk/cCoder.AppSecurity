@@ -58,7 +58,7 @@ internal sealed partial class AppSecurityMigrationAggregationService(
                         Type = "Core/Role",
                         Data = jsonProcessingService.Serialize(
                             value: roleProcessingService
-                            .GetAll(ignoreFilters: false)
+                            .GetAll(ignoreFilters: true)
                             .Where(predicate: role => role.AppId == appId)
                             .Select(selector: role => new { role.Name, role.Privs })
                             .ToArray()),
@@ -77,7 +77,7 @@ internal sealed partial class AppSecurityMigrationAggregationService(
         IEnumerable<Role> roles)
     {
         var dbVersions = roleProcessingService
-            .GetAll(ignoreFilters: false)
+            .GetAll(ignoreFilters: true)
             .Where(predicate: role => role.AppId == appId)
             .Select(selector: role => new
             {
