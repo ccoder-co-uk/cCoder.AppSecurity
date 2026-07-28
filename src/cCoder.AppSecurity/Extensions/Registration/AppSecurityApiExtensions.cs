@@ -5,6 +5,7 @@
 using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
+using cCoder.Data;
 using cCoder.Eventing;
 using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.OData.Batch;
@@ -15,20 +16,36 @@ using Microsoft.OpenApi;
 
 namespace cCoder.AppSecurity;
 
-internal static class ServiceCollectionProcessingService
+internal static class AppSecurityApiExtensions
 {
     internal static AppSecurityConfiguration AddConfiguredAppSecurityWeb(
         this IServiceCollection services,
         Action<IServiceCollection, AppSecurityConfiguration> configure,
         ODataConventionModelBuilder builder = null)
     {
-        AppSecurityConfiguration configuration = CreateConfiguration(services: services, configure: configure);
-        services.AddAppSecurityWebDependencies(builder: builder);
+        AppSecurityConfiguration configuration =
+            CreateAppSecurityConfiguration(
+                services: services,
+                configure: configure);
+
+        return services.AddConfiguredAppSecurityWeb(
+            configuration: configuration,
+            builder: builder);
+    }
+
+    internal static AppSecurityConfiguration AddConfiguredAppSecurityWeb(
+        this IServiceCollection services,
+        AppSecurityConfiguration configuration,
+        ODataConventionModelBuilder builder = null)
+    {
+        RegisterConfiguration(services: services, configuration: configuration);
+
         services.AddConfiguredApi(
-configuration: configuration,
-documentName: "AppSecurity",
-configureModel: static modelBuilder => modelBuilder.ConfigureAppSecurityApiModel(),
-builder: builder);
+            configuration: configuration,
+            documentName: "AppSecurity",
+            configureModel: static modelBuilder =>
+                modelBuilder.ConfigureAppSecurityApiModel(),
+            builder: builder);
 
         return configuration;
     }
@@ -37,31 +54,55 @@ builder: builder);
         this IServiceCollection services,
         Action<IServiceCollection, AppSecurityConfiguration> configure)
     {
-        AppSecurityConfiguration configuration = CreateConfiguration(services: services, configure: configure);
-        services.AddAppSecurityHostedServiceDependencies();
+        AppSecurityConfiguration configuration =
+            CreateAppSecurityConfiguration(
+                services: services,
+                configure: configure);
+
+        return services.AddConfiguredAppSecurityHostedServices(
+            configuration: configuration);
+    }
+
+    internal static AppSecurityConfiguration AddConfiguredAppSecurityHostedServices(
+        this IServiceCollection services,
+        AppSecurityConfiguration configuration)
+    {
+        RegisterConfiguration(services: services, configuration: configuration);
         return configuration;
     }
 
     internal static void ConfigureAppSecurityApiModel(this ODataConventionModelBuilder builder) =>
         new AppSecurityODataModelBroker(builder: builder).ConfigureODataModel();
 
-    private static AppSecurityConfiguration CreateConfiguration(
+    private static AppSecurityConfiguration CreateAppSecurityConfiguration(
         IServiceCollection services,
         Action<IServiceCollection, AppSecurityConfiguration> configure)
     {
-        AppSecurityConfiguration configuration = new()
-        {
-            ConnectionStrings = new Dictionary<string, string>(),
-            Settings = new Dictionary<string, string>(),
-            Services = new Dictionary<string, string>(),
-            RootPath = "Api/AppSecurity",
-            IncludeLegacyCoreContext = true,
-            EventProviders = [],
-        };
+        AppSecurityConfiguration configuration = new();
         configure?.Invoke(arg1: services, arg2: configuration);
-        services.AddSingleton(implementationInstance: configuration);
-        services.AddEventProviders(eventProviders: configuration.EventProviders);
         return configuration;
+    }
+
+    private static void RegisterConfiguration(
+        IServiceCollection services,
+        AppSecurityConfiguration configuration)
+    {
+        ArgumentNullException.ThrowIfNull(argument: configuration);
+        services.AddSingleton(implementationInstance: configuration);
+
+        if (!string.IsNullOrWhiteSpace(
+                value: configuration.ConnectionString))
+        {
+            services.AddData(
+                configuration: new cCoder.Data.Models.DataConfiguration
+                {
+                    ConnectionString = configuration.ConnectionString,
+                    DebugInfo = configuration.DebugInfo,
+                    LogSQL = configuration.LogSQL,
+                });
+        }
+
+        services.AddEventProviders(eventProviders: configuration.EventProviders);
     }
 
     private static void AddConfiguredApi(
@@ -88,49 +129,59 @@ builder: builder);
 
         IEdmModel routeModel = BuildRouteModel(configureModel: configureModel);
         DefaultODataBatchHandler batchHandler = new();
+
         string rootPath = string.IsNullOrWhiteSpace(value: configuration.RootPath)
             ? $"Api/{documentName}"
             : configuration.RootPath;
 
-        services.AddControllers().AddOData(setupAction: options =>
-        {
-            options.RouteOptions.EnableQualifiedOperationCall = false;
-            options.EnableAttributeRouting = true;
-            options.RouteOptions.EnableKeyAsSegment = false;
-            options.Expand()
-                .Count()
-                .Filter()
-                .Select()
-                .OrderBy()
-                .SetMaxTop(maxTopValue: 1000)
-                .AddRouteComponents(routePrefix: rootPath, model: routeModel, batchHandler: batchHandler);
-
-            if (builder is null
-                && configuration.IncludeLegacyCoreContext
-                && !string.Equals(a: rootPath, b: "Api/Core", comparisonType: StringComparison.OrdinalIgnoreCase))
+        services.AddControllers()
+            .AddOData(setupAction: options =>
             {
-                _ = options.AddRouteComponents(routePrefix: "Api/Core", model: routeModel, batchHandler: batchHandler);
-            }
-        });
+                options.RouteOptions.EnableQualifiedOperationCall = false;
+                options.EnableAttributeRouting = true;
+                options.RouteOptions.EnableKeyAsSegment = false;
+
+                options.Expand()
+                    .Count()
+                    .Filter()
+                    .Select()
+                    .OrderBy()
+                    .SetMaxTop(maxTopValue: 1000)
+                    .AddRouteComponents(
+                        routePrefix: rootPath,
+                        model: routeModel,
+                        batchHandler: batchHandler);
+
+                if (builder is null
+                    && configuration.IncludeLegacyCoreContext
+                    && !string.Equals(a: rootPath, b: "Api/Core", comparisonType: StringComparison.OrdinalIgnoreCase))
+                {
+                    _ = options.AddRouteComponents(
+                        routePrefix: "Api/Core",
+                        model: routeModel,
+                        batchHandler: batchHandler);
+                }
+            });
     }
 
     private static void AddApiDocumentation(
         IServiceCollection services,
         string documentName,
         AppSecurityConfiguration configuration,
-        bool useFullSchemaIds)
-    {
+        bool useFullSchemaIds) =>
         services.AddSwaggerGen(setupAction: options =>
         {
             options.ResolveConflictingActions(resolver: apiDescriptions => apiDescriptions.First());
+
             AddSwaggerDocuments(options: options, documentName: documentName, configuration: configuration);
+
             options.DocInclusionPredicate(
-predicate: (swaggerDocumentName, apiDescription) =>
+                predicate: (swaggerDocumentName, apiDescription) =>
                     ShouldIncludeInDocument(
-swaggerDocumentName: swaggerDocumentName,
-relativePath: apiDescription.RelativePath,
-documentName: documentName,
-configuration: configuration));
+                        swaggerDocumentName: swaggerDocumentName,
+                        relativePath: apiDescription.RelativePath,
+                        documentName: documentName,
+                        configuration: configuration));
 
             if (useFullSchemaIds)
             {
@@ -146,7 +197,6 @@ configuration: configuration));
                 Scheme = "bearer",
             });
         });
-    }
 
     private static void AddSwaggerDocuments(
         Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions options,
@@ -166,6 +216,7 @@ configuration: configuration));
                 Title = "Core API definition",
                 Version = "Core",
             });
+
             options.SwaggerDoc(name: "v1", info: new OpenApiInfo
             {
                 Title = "Core API definition",
@@ -191,6 +242,7 @@ configuration: configuration));
         }
 
         string path = NormalizePath(relativePath: relativePath);
+
         string rootPath = string.IsNullOrWhiteSpace(value: configuration.RootPath)
             ? $"Api/{documentName}"
             : configuration.RootPath;
@@ -203,6 +255,7 @@ configuration: configuration));
     private static bool MatchesContextRoute(string path, string rootPath)
     {
         string normalizedPath = NormalizePath(relativePath: rootPath);
+
         return path.Equals(value: normalizedPath, comparisonType: StringComparison.OrdinalIgnoreCase)
             || path.StartsWith(value: $"{normalizedPath}/", comparisonType: StringComparison.OrdinalIgnoreCase);
     }
@@ -223,23 +276,31 @@ configuration: configuration));
         services.AddResponseCompression();
         services.AddHttpClient();
         services.AddHttpContextAccessor();
+
         services.AddScoped(
-serviceType: typeof(HttpContext),
-implementationFactory: ctx => ctx.GetService<IHttpContextAccessor>()?.HttpContext ?? new DefaultHttpContext());
+            serviceType: typeof(HttpContext),
+            implementationFactory: ctx =>
+                ctx.GetService<IHttpContextAccessor>()?.HttpContext ??
+                new DefaultHttpContext());
+
         services.AddScoped(serviceType: typeof(HttpRequest), implementationFactory: ctx => ctx.GetRequiredService<HttpContext>().Request);
         services.AddSession();
+
         services.AddHsts(configureOptions: options =>
         {
             options.Preload = true;
             options.IncludeSubDomains = true;
             options.MaxAge = TimeSpan.FromMinutes(minutes: 60);
         });
+
         services.AddMvc(setupAction: options => options.EnableEndpointRouting = false);
         services.AddRazorPages();
+
         services.Configure<KestrelServerOptions>(configureOptions: options =>
         {
             options.Limits.MaxRequestBodySize = int.MaxValue;
         });
+
         services.AddEndpointsApiExplorer();
         services.AddSignalR();
     }

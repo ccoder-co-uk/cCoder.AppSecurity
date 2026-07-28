@@ -33,9 +33,9 @@ public partial class AccountEventOrchestrationServiceTests
 
     private static App CreateApp() =>
         new()
-    {
-        Id = 123,
-        Domain = "example.com",
-        DefaultCultureId = "en-GB"
-    };
+        {
+            Id = 123,
+            Domain = "example.com",
+            DefaultCultureId = "en-GB"
+        };
 }

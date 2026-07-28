@@ -2,7 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Exposures.HostedServices;
+using cCoder.AppSecurity.Dependencies.HostedServices;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Services.Processings;
 using Microsoft.Extensions.DependencyInjection;

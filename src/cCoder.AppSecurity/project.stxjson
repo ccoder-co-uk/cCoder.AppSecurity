@@ -173,7 +173,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Api.OData.EdmModelExtensions",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": [
         {
@@ -310,13 +310,13 @@
     },
     {
       "Name": "cCoder.AppSecurity.Api.OData.ODataCollectionExtensions",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": []
     },
     {
       "Name": "cCoder.AppSecurity.Api.OData.ODataJsonExtensions",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": []
     },
@@ -341,7 +341,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Api.OData.ODataTypeExtensions",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": []
     },
@@ -437,6 +437,12 @@
           "Type": "System.String"
         }
       ],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.AppSecurityApiExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
       "Methods": []
     },
     {
@@ -694,49 +700,6 @@
             }
           ],
           "ReturnType": "System.String"
-        }
-      ]
-    },
-    {
-      "Name": "cCoder.AppSecurity.Brokers.Metadata.MetadataBroker",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "CreateExtendedMetadataContainer",
-          "Inputs": [
-            {
-              "Name": "type",
-              "Type": "System.Type"
-            },
-            {
-              "Name": "isEntity",
-              "Type": "System.Boolean"
-            },
-            {
-              "Name": "hasEndpoint",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "cCoder.AppSecurity.Api.OData.ExtendedMetadataContainer"
-        },
-        {
-          "Name": "CreateMetadataContainer",
-          "Inputs": [
-            {
-              "Name": "type",
-              "Type": "System.Type"
-            },
-            {
-              "Name": "isEntity",
-              "Type": "System.Boolean"
-            },
-            {
-              "Name": "hasEndpoint",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "cCoder.AppSecurity.Api.OData.MetadataContainer"
         }
       ]
     },
@@ -1097,6 +1060,61 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task"
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Dependencies.HostedServices.AnalysePlatformUsageHostedService",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Dependencies.HostedServices.TokenCleanerHostedService",
+      "StandardElementType": "Dependency",
+      "Properties": [],
+      "Methods": []
+    },
+    {
+      "Name": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
+      "StandardElementType": "Unknown",
+      "Properties": [],
+      "Methods": [
+        {
+          "Name": "CreateExtendedMetadataContainer",
+          "Inputs": [
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "isEntity",
+              "Type": "System.Boolean"
+            },
+            {
+              "Name": "hasEndpoint",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Api.OData.ExtendedMetadataContainer"
+        },
+        {
+          "Name": "CreateMetadataContainer",
+          "Inputs": [
+            {
+              "Name": "type",
+              "Type": "System.Type"
+            },
+            {
+              "Name": "isEntity",
+              "Type": "System.Boolean"
+            },
+            {
+              "Name": "hasEndpoint",
+              "Type": "System.Boolean"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Api.OData.MetadataContainer"
         }
       ]
     },
@@ -1528,16 +1546,25 @@
       ]
     },
     {
-      "Name": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
-      "StandardElementType": "Dependency",
+      "Name": "cCoder.AppSecurity.Extensions.AppSecurityConfigurationExtensions",
+      "StandardElementType": "Exposure",
       "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": []
+      "Methods": [
+        {
+          "Name": "WithEventProviders",
+          "Inputs": [
+            {
+              "Name": "configuration",
+              "Type": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+            },
+            {
+              "Name": "eventProviders",
+              "Type": "cCoder.Eventing.Models.EventProvider[]"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+        }
+      ]
     },
     {
       "Name": "cCoder.AppSecurity.IServiceCollectionExtensions",
@@ -1554,6 +1581,20 @@
             {
               "Name": "configure",
               "Type": "System.Action\u003CcCoder.AppSecurity.Models.AppSecurityConfiguration\u003E"
+            }
+          ],
+          "ReturnType": "System.Void"
+        },
+        {
+          "Name": "AddAppSecurityHostedServices",
+          "Inputs": [
+            {
+              "Name": "services",
+              "Type": "IServiceCollection"
+            },
+            {
+              "Name": "configuration",
+              "Type": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
             }
           ],
           "ReturnType": "System.Void"
@@ -1577,18 +1618,22 @@
           "ReturnType": "System.Void"
         },
         {
-          "Name": "WithEventProviders",
+          "Name": "AddAppSecurityWeb",
           "Inputs": [
+            {
+              "Name": "services",
+              "Type": "IServiceCollection"
+            },
             {
               "Name": "configuration",
               "Type": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
             },
             {
-              "Name": "eventProviders",
-              "Type": "cCoder.Eventing.Models.EventProvider[]"
+              "Name": "builder",
+              "Type": "Microsoft.OData.ModelBuilder.ODataConventionModelBuilder"
             }
           ],
-          "ReturnType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+          "ReturnType": "System.Void"
         }
       ]
     },
@@ -1620,8 +1665,12 @@
       "StandardElementType": "Model",
       "Properties": [
         {
-          "Name": "ConnectionStrings",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
+          "Name": "AggregateDomains",
+          "Type": "System.Boolean"
+        },
+        {
+          "Name": "ConnectionString",
+          "Type": "System.String"
         },
         {
           "Name": "DebugInfo",
@@ -1646,14 +1695,6 @@
         {
           "Name": "RootPath",
           "Type": "System.String"
-        },
-        {
-          "Name": "Services",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
-        },
-        {
-          "Name": "Settings",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
         }
       ],
       "Methods": []
@@ -1927,12 +1968,6 @@
           "Type": "System.Collections.Generic.IEnumerable\u003CTCollectionType\u003E"
         }
       ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.AppSecurity.ServiceCollectionProcessingService",
-      "StandardElementType": "Dependency",
-      "Properties": [],
       "Methods": []
     },
     {
@@ -3419,7 +3454,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.WebApplicationExtensions",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "App",
       "Properties": [],
       "Methods": [
         {
@@ -3451,6 +3486,22 @@
   ],
   "Links": [
     {
+      "FromType": "cCoder.AppSecurity.Dependencies.HostedServices.AnalysePlatformUsageHostedService",
+      "ToType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Dependencies.HostedServices.AnalysePlatformUsageHostedService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Dependencies.HostedServices.TokenCleanerHostedService",
+      "ToType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Dependencies.HostedServices.TokenCleanerHostedService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.TokenCleanerService"
+    },
+    {
       "FromType": "cCoder.AppSecurity.Exposures.AppSecurityAppExposure",
       "ToType": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService"
     },
@@ -3481,22 +3532,6 @@
     {
       "FromType": "cCoder.AppSecurity.Exposures.EventHandlers.AppSecurityEventHandlers",
       "ToType": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService"
-    },
-    {
-      "FromType": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
-      "ToType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
-    },
-    {
-      "FromType": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
-      "ToType": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService"
-    },
-    {
-      "FromType": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
-      "ToType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
-    },
-    {
-      "FromType": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
-      "ToType": "cCoder.AppSecurity.Services.Foundations.TokenCleanerService"
     },
     {
       "FromType": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",

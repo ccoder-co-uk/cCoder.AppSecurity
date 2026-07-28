@@ -21,7 +21,7 @@ namespace Web.AcceptanceTests.Tests.Security;
 public sealed partial class UserRoleControllerTests(WebAcceptanceFixture fixture)
 {
     private HttpClient Client { get; } = fixture.Client;
-    private string BaseUrl { get; } = "/Api/Core/UserRole";
+    private string BaseUrl { get; } = "/Api/AppSecurity/UserRole";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
     private static string Unique(string prefix) =>

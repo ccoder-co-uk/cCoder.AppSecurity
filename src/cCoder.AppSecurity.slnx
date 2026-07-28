@@ -1,0 +1,15 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Apps/">
+    <Project Path="AppSecurity.AcceptanceTests/AppSecurity.AcceptanceTests.csproj" />
+    <Project Path="AppSecurity.HostedServices.AcceptanceTests/AppSecurity.HostedServices.AcceptanceTests.csproj" />
+    <Project Path="AppSecurity.HostedServices/AppSecurity.HostedServices.csproj" />
+    <Project Path="AppSecurity.Web/AppSecurity.Web.csproj" />
+  </Folder>
+  <Project Path="cCoder.AppSecurity.Tests/cCoder.AppSecurity.Tests.csproj" />
+  <Project Path="cCoder.AppSecurity/cCoder.AppSecurity.csproj" />
+</Solution>

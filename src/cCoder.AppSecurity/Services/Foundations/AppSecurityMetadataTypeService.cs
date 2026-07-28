@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Api.OData;
-using cCoder.AppSecurity.Brokers.Metadata;
+using cCoder.AppSecurity.Dependencies.Metadata;
 using cCoder.Data.Models.Security;
 
 
@@ -34,7 +34,7 @@ internal sealed partial class AppSecurityMetadataTypeService : IAppSecurityMetad
 
     private static ExtendedMetadataContainer Entity<T>()
     {
-        ExtendedMetadataContainer metadata = MetadataBroker.CreateExtendedMetadataContainer(
+        ExtendedMetadataContainer metadata = MetadataDependency.CreateExtendedMetadataContainer(
             type: typeof(T),
             isEntity: true,
             hasEndpoint: true);

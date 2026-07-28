@@ -3,8 +3,6 @@
 // ---------------------------------------------------------------
 
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Data.SqlClient;
-using Web.AcceptanceTests.Models;
 using Xunit;
 
 
@@ -21,14 +19,9 @@ public sealed class WebAcceptanceFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
 
-        AcceptanceSettings settings = new()
-        {
-            CoreConnectionString = AddDatabaseSuffix(variableName: "ConnectionStrings__Core"),
-            SsoConnectionString = AddDatabaseSuffix(variableName: "ConnectionStrings__SSO"),
-            DecryptionKey = "000000000000000000000000000000000000000000000000",
-        };
+        Factory = new WebAcceptanceFactory(
+            settings: AcceptanceTestConfiguration.Create());
 
-        Factory = new WebAcceptanceFactory(settings: settings);
         databaseManager = new AcceptanceDatabaseManager(services: Factory.Services);
         await databaseManager.ResetDatabasesAsync();
         await SeedAsync();
@@ -57,37 +50,6 @@ public sealed class WebAcceptanceFixture : IAsyncLifetime
 
     private Task SeedAsync() =>
         new AcceptanceApplicationSeeder(services: Factory.Services).SeedAsync();
-
-    private static string AddDatabaseSuffix(string variableName)
-    {
-
-        string connectionString =
-            Environment.GetEnvironmentVariable(variable: variableName)
-            ?? Environment.GetEnvironmentVariable(
-                variable: variableName,
-                target: EnvironmentVariableTarget.User)
-            ?? Environment.GetEnvironmentVariable(
-                variable: variableName,
-                target: EnvironmentVariableTarget.Machine)
-            ?? throw new InvalidOperationException(
-                message: $"The required {variableName} environment variable is not configured.");
-
-        SqlConnectionStringBuilder builder = new(connectionString: connectionString)
-        {
-            Encrypt = true,
-            TrustServerCertificate = true,
-        };
-
-        string databaseName = builder.InitialCatalog ?? string.Empty;
-
-        if (string.IsNullOrWhiteSpace(value: databaseName))
-        {
-            return connectionString;
-        }
-
-        builder.InitialCatalog = $"{databaseName}-acceptance-{Guid.NewGuid():N}";
-        return builder.ConnectionString;
-    }
 
 }
 

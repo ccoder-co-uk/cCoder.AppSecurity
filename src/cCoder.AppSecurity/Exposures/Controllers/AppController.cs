@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Api.OData;
-using cCoder.AppSecurity.Brokers.Metadata;
+using cCoder.AppSecurity.Dependencies.Metadata;
 using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Foundations;
@@ -30,7 +30,7 @@ value: new AppSecurityODataModelBroker()
                     .SelectODataModel()
                     .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(App)))
             : Ok(
-                value: MetadataBroker.CreateMetadataContainer(
+                value: MetadataDependency.CreateMetadataContainer(
                     type: typeof(App),
                     isEntity: true,
                     hasEndpoint: false));

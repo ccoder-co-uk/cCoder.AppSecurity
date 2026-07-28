@@ -18,7 +18,7 @@ namespace Web.AcceptanceTests.Tests.Security;
 public sealed partial class PrivilegeControllerTests(WebAcceptanceFixture fixture)
 {
     private HttpClient Client { get; } = fixture.Client;
-    private string BaseUrl { get; } = "/Api/Core/Privilege";
+    private string BaseUrl { get; } = "/Api/AppSecurity/Privilege";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
     private static string Unique(string prefix) =>

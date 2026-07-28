@@ -11,9 +11,11 @@ public class Program
         WebApplicationBuilder builder =
             WebApplication.CreateBuilder(args);
 
-        builder.Services.AddHostedServicesApplication(
-            configuration: builder.Configuration,
-            loggingBuilder: builder.Logging);
+        builder.Logging.ClearProviders();
+        builder.Logging.AddSimpleConsole();
+
+        builder.Services.AddAppSecurityHostedServices(
+            configuration: builder.Configuration);
 
         WebApplication app = builder.Build();
         app.UseHostedServicesApplication();
