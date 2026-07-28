@@ -7,7 +7,7 @@ using cCoder.AppSecurity.Models;
 using Microsoft.Extensions.Hosting;
 
 
-namespace cCoder.AppSecurity.Exposures.HostedServices;
+namespace cCoder.AppSecurity.Dependencies.HostedServices;
 
 public sealed class TokenCleanerHostedService(
     ITokenCleanerService tokenCleanerService,

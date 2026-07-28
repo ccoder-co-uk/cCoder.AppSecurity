@@ -85,19 +85,34 @@ eventName: "package_import",
 handler: (service, args) => service.ImportPackageAppSecurityPackageAsync(appId: args.appId, package: ToLocalPackage(package: args.package)));
 
     void ListenToSecurityRegistrationCreatedEvent() =>
-        ListenToSecurityAccountEvent(eventName: SecurityAccountEventNames.RegistrationCreated);
+        ListenToSecurityAccountEvent(
+            eventName:
+                SecurityAccountEventKind.RegistrationCreated
+                    .ToEventName());
 
     void ListenToSecurityRegistrationConfirmedEvent() =>
-        ListenToSecurityAccountEvent(eventName: SecurityAccountEventNames.RegistrationConfirmed);
+        ListenToSecurityAccountEvent(
+            eventName:
+                SecurityAccountEventKind.RegistrationConfirmed
+                    .ToEventName());
 
     void ListenToSecurityInvitationCreatedEvent() =>
-        ListenToSecurityAccountEvent(eventName: SecurityAccountEventNames.InvitationCreated);
+        ListenToSecurityAccountEvent(
+            eventName:
+                SecurityAccountEventKind.InvitationCreated
+                    .ToEventName());
 
     void ListenToSecurityInvitationAcceptedEvent() =>
-        ListenToSecurityAccountEvent(eventName: SecurityAccountEventNames.InvitationAccepted);
+        ListenToSecurityAccountEvent(
+            eventName:
+                SecurityAccountEventKind.InvitationAccepted
+                    .ToEventName());
 
     void ListenToSecurityPasswordResetRequestedEvent() =>
-        ListenToSecurityAccountEvent(eventName: SecurityAccountEventNames.PasswordResetRequested);
+        ListenToSecurityAccountEvent(
+            eventName:
+                SecurityAccountEventKind.PasswordResetRequested
+                    .ToEventName());
 
     void ListenToSecurityAccountEvent(string eventName) =>
         eventHubBroker.ListenToEvent<SecurityAccountEvent, IAccountEventOrchestrationService>(

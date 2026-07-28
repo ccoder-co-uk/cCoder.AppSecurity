@@ -7,9 +7,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using cCoder.AppSecurity.Api.OData;
 
-namespace cCoder.AppSecurity.Brokers.Metadata;
+namespace cCoder.AppSecurity.Dependencies.Metadata;
 
-internal static class MetadataBroker
+internal static class MetadataDependency
 {
     private static readonly Dictionary<Type, string> Lookup = new()
     {

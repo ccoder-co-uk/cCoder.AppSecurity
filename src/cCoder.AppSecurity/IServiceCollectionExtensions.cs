@@ -5,7 +5,7 @@
 using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Exposures;
 using cCoder.AppSecurity.Exposures.EventHandlers;
-using cCoder.AppSecurity.Exposures.HostedServices;
+using cCoder.AppSecurity.Dependencies.HostedServices;
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Aggregations;
 using cCoder.AppSecurity.Services.Foundations;
@@ -60,49 +60,77 @@ namespace cCoder.AppSecurity;
 
 public static partial class IServiceCollectionExtensions
 {
-    public static AppSecurityConfiguration WithEventProviders(
-        this AppSecurityConfiguration configuration,
-        params EventProvider[] eventProviders)
+    public static void AddAppSecurityWeb(
+        this IServiceCollection services,
+        Action<AppSecurityConfiguration> configure = null,
+        ODataConventionModelBuilder builder = null)
     {
-        configuration.EventProviders = eventProviders ?? [];
-
-        return configuration;
+        AppSecurityConfiguration configuration = new();
+        configure?.Invoke(obj: configuration);
+        services.AddAppSecurityWeb(configuration: configuration, builder: builder);
     }
 
     public static void AddAppSecurityWeb(
         this IServiceCollection services,
-        Action<AppSecurityConfiguration> configure = null,
-        ODataConventionModelBuilder builder = null) =>
-        services.AddConfiguredAppSecurityWeb(configure: (_, configuration) => configure?.Invoke(obj: configuration), builder: builder);
-
-    public static void AddAppSecurityHostedServices(
-        this IServiceCollection services,
-        Action<AppSecurityConfiguration> configure = null) =>
-        services.AddConfiguredAppSecurityHostedServices(configure: (_, configuration) => configure?.Invoke(obj: configuration));
-
-    internal static void AddAppSecurity(this IServiceCollection services)
+        AppSecurityConfiguration configuration,
+        ODataConventionModelBuilder builder = null)
     {
-        services.AddEventingTypes();
+        services.AddDependencies(
+            configuration: configuration,
+            builder: builder);
         services.AddBrokers();
         services.AddFoundations();
         services.AddProcessings();
         services.AddOrchestrations();
         services.AddAggregations();
-        services.AddEventHandlers();
+        services.AddExposures();
     }
 
-    internal static void AddAppSecurityWebDependencies(
+    public static void AddAppSecurityHostedServices(
         this IServiceCollection services,
+        Action<AppSecurityConfiguration> configure = null)
+    {
+        AppSecurityConfiguration configuration = new();
+        configure?.Invoke(obj: configuration);
+        services.AddAppSecurityHostedServices(configuration: configuration);
+    }
+
+    public static void AddAppSecurityHostedServices(
+        this IServiceCollection services,
+        AppSecurityConfiguration configuration)
+    {
+        services.AddDependencies(configuration: configuration);
+        services.AddBrokers();
+        services.AddFoundations();
+        services.AddProcessings();
+        services.AddOrchestrations();
+        services.AddAggregations();
+        services.AddExposures();
+        services.AddHostedServices();
+    }
+
+    private static void AddDependencies(
+        this IServiceCollection services,
+        AppSecurityConfiguration configuration,
         ODataConventionModelBuilder builder = null)
     {
-        services.AddAppSecurity();
-
+        services.AddEventingTypes();
+        services.AddConfiguredAppSecurityWeb(
+            configuration: configuration,
+            builder: builder);
     }
 
-    internal static void AddAppSecurityHostedServiceDependencies(
-        this IServiceCollection services)
+    private static void AddDependencies(
+        this IServiceCollection services,
+        AppSecurityConfiguration configuration)
     {
-        services.AddAppSecurity();
+        services.AddEventingTypes();
+        services.AddConfiguredAppSecurityHostedServices(
+            configuration: configuration);
+    }
+
+    private static void AddHostedServices(this IServiceCollection services)
+    {
         services.AddSingleton<IAnalysePlatformUsageHostedService, AnalysePlatformUsageHostedService>();
         services.AddSingleton<IHostedService>(implementationFactory: serviceProvider =>
             serviceProvider.GetRequiredService<IAnalysePlatformUsageHostedService>());
@@ -183,7 +211,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IAppSecurityMigrationAggregationService, AppSecurityMigrationAggregationService>();
     }
 
-    private static void AddEventHandlers(this IServiceCollection services)
+    private static void AddExposures(this IServiceCollection services)
     {
         services.AddTransient<IAppSecurityEventHandlers, AppSecurityEventHandlers>();
     }

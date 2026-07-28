@@ -3,7 +3,6 @@
 // ---------------------------------------------------------------
 
 using System.Security;
-using Apps.Shared;
 using cCoder.AppSecurity;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.OData;
@@ -40,7 +39,8 @@ public static class WebApplicationExtensions
             .UseODataBatching()
             .UseODataRouteDebug();
 
-        app.UseDomainApiShell();
+        app.UseRouting();
+        app.MapControllers();
         app.MapGet(
             pattern: "/Health",
             handler: () => Results.Text(content: "OK"));
@@ -49,11 +49,17 @@ public static class WebApplicationExtensions
             pattern: "/",
             handler: () => Results.Redirect(url: "/tools/index.html"));
 
-        app.UseDomainDefaultCors();
-        app.UseDomainExceptionHandling(
-            errorHandler: context => HandleUnhandledException(
+        app.UseCors(builder =>
+        {
+            builder.AllowAnyHeader();
+            builder.AllowAnyMethod();
+            builder.AllowAnyOrigin();
+        });
+
+        app.UseExceptionHandler(errorApp =>
+            errorApp.Run(context => HandleUnhandledException(
                 context: context,
-                logger: logger));
+                logger: logger)));
 
         app.StartAppSecurityWeb(log: logger);
     }

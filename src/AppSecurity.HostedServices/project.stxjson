@@ -6,7 +6,7 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddHostedServicesApplication",
+          "Name": "AddAppSecurityHostedServices",
           "Inputs": [
             {
               "Name": "services",
@@ -17,13 +17,28 @@
               "Type": "IConfiguration"
             },
             {
-              "Name": "loggingBuilder",
-              "Type": "ILoggingBuilder"
+              "Name": "configure",
+              "Type": "System.Action\u003CAppSecurity.HostedServices.Models.AppSecurityHostedServicesConfiguration\u003E"
             }
           ],
           "ReturnType": "System.Void"
         }
       ]
+    },
+    {
+      "Name": "AppSecurity.HostedServices.Models.AppSecurityHostedServicesConfiguration",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "AppSecurity",
+          "Type": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+        },
+        {
+          "Name": "Security",
+          "Type": "cCoder.Security.Objects.SecurityConfiguration"
+        }
+      ],
+      "Methods": []
     },
     {
       "Name": "AppSecurity.HostedServices.Program",
@@ -44,7 +59,7 @@
     },
     {
       "Name": "AppSecurity.HostedServices.WebApplicationExtensions",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "App",
       "Properties": [],
       "Methods": [
         {

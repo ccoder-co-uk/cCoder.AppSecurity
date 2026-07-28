@@ -6,7 +6,7 @@
       "Properties": [],
       "Methods": [
         {
-          "Name": "AddAppSecurityWebApplication",
+          "Name": "AddAppSecurityWeb",
           "Inputs": [
             {
               "Name": "services",
@@ -15,11 +15,30 @@
             {
               "Name": "configuration",
               "Type": "IConfiguration"
+            },
+            {
+              "Name": "configure",
+              "Type": "System.Action\u003CAppSecurity.Web.Models.AppSecurityWebConfiguration\u003E"
             }
           ],
           "ReturnType": "System.Void"
         }
       ]
+    },
+    {
+      "Name": "AppSecurity.Web.Models.AppSecurityWebConfiguration",
+      "StandardElementType": "Model",
+      "Properties": [
+        {
+          "Name": "AppSecurity",
+          "Type": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+        },
+        {
+          "Name": "Security",
+          "Type": "cCoder.Security.Objects.SecurityConfiguration"
+        }
+      ],
+      "Methods": []
     },
     {
       "Name": "AppSecurity.Web.Program",
@@ -40,7 +59,7 @@
     },
     {
       "Name": "AppSecurity.Web.WebApplicationExtensions",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "App",
       "Properties": [],
       "Methods": [
         {
@@ -49,47 +68,6 @@
             {
               "Name": "app",
               "Type": "WebApplication"
-            }
-          ],
-          "ReturnType": "System.Void"
-        }
-      ]
-    },
-    {
-      "Name": "Apps.Shared.DomainApiHosting",
-      "StandardElementType": "Dependency",
-      "Properties": [],
-      "Methods": [
-        {
-          "Name": "UseDomainApiShell",
-          "Inputs": [
-            {
-              "Name": "app",
-              "Type": "WebApplication"
-            }
-          ],
-          "ReturnType": "System.Void"
-        },
-        {
-          "Name": "UseDomainDefaultCors",
-          "Inputs": [
-            {
-              "Name": "app",
-              "Type": "WebApplication"
-            }
-          ],
-          "ReturnType": "System.Void"
-        },
-        {
-          "Name": "UseDomainExceptionHandling",
-          "Inputs": [
-            {
-              "Name": "app",
-              "Type": "WebApplication"
-            },
-            {
-              "Name": "errorHandler",
-              "Type": "RequestDelegate"
             }
           ],
           "ReturnType": "System.Void"
@@ -190,33 +168,6 @@
         {
           "Name": "Session",
           "Type": "ISession"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "Apps.Shared.Models.Config",
-      "StandardElementType": "Model",
-      "Properties": [
-        {
-          "Name": "ConnectionStrings",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
-        },
-        {
-          "Name": "DebugInfo",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "LogSQL",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "Services",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
-        },
-        {
-          "Name": "Settings",
-          "Type": "System.Collections.Generic.IDictionary\u003CSystem.String, System.String\u003E"
         }
       ],
       "Methods": []

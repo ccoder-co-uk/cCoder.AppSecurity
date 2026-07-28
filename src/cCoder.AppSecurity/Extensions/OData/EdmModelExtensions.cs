@@ -4,7 +4,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using cCoder.AppSecurity.Brokers.Metadata;
+using cCoder.AppSecurity.Dependencies.Metadata;
 using Microsoft.OData.Edm;
 
 
@@ -19,13 +19,14 @@ namespace cCoder.AppSecurity.Api.OData
             bool hasEndpoint = true
         )
         {
-            ExtendedMetadataContainer result = MetadataBroker.CreateExtendedMetadataContainer(
+            ExtendedMetadataContainer result = MetadataDependency.CreateExtendedMetadataContainer(
                 type: type,
                 isEntity: true,
                 hasEndpoint: hasEndpoint);
 
             result.Category = context;
             IEdmEntitySet set = model.EntityContainer.FindEntitySet(setName: type.Name);
+
             if (set is null)
             {
                 result.HasEndpoint = false;
@@ -62,9 +63,10 @@ namespace cCoder.AppSecurity.Api.OData
             }
 
             Type cSharpType = Type.GetType(typeName: definition.FullTypeName(), throwOnError: false);
+
             return cSharpType is null
                 ? null
-                : MetadataBroker.CreateMetadataContainer(
+                : MetadataDependency.CreateMetadataContainer(
                     type: cSharpType,
                     isEntity: true,
                     hasEndpoint: true);
@@ -76,7 +78,7 @@ namespace cCoder.AppSecurity.Api.OData
         private static IEnumerable<OperationContainer> GetBaseCrudOperationsForJoinEntity(
             MetadataContainer type
         ) =>
-        [
+            [
             new()
         {
             Name = "Add",
@@ -112,12 +114,12 @@ namespace cCoder.AppSecurity.Api.OData
             Url = $"{type.Category}/{type.Name}({{Left=leftKey,Right=rightKey}})",
             HttpVerb = "DELETE",
         },
-        ];
+            ];
 
         private static IEnumerable<OperationContainer> GetBaseCrudOperationsForEntity(
             MetadataContainer type
         ) =>
-        [
+            [
             new()
         {
             Name = "Add",
@@ -161,7 +163,7 @@ namespace cCoder.AppSecurity.Api.OData
             ReturnType = type,
         },
         new() { Name = "Delete", Url = $"{type.Category}/{type.Name}({{key}})", HttpVerb = "DELETE" },
-        ];
+            ];
     }
 
     public sealed class BadRequestResult : BadRequestObjectResult

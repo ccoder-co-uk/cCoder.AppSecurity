@@ -4,7 +4,7 @@
 
 using Microsoft.Extensions.Hosting;
 
-namespace cCoder.AppSecurity.Exposures.HostedServices;
+namespace cCoder.AppSecurity.Dependencies.HostedServices;
 
 public interface ITokenCleanerHostedService : IHostedService
 {

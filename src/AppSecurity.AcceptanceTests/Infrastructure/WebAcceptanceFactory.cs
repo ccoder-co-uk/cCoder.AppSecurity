@@ -3,15 +3,8 @@
 // ---------------------------------------------------------------
 
 using AppSecurity.Web;
-using cCoder.AppSecurity;
-using cCoder.Data;
-using cCoder.Security.Data.EF;
-using cCoder.Security.Data.EF.Dependencies;
-using cCoder.Security.Data.EF.Interfaces;
-using cCoder.Security.Objects;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using Web.AcceptanceTests.Models;
 
 
@@ -24,30 +17,16 @@ internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
     {
         builder.UseEnvironment(environment: "Acceptance");
 
-        builder.ConfigureServices(configureServices: services =>
-        {
-            services.AddSingleton(
-                implementationInstance: new cCoder.Data.Config
-                {
-                    ConnectionStrings = new Dictionary<string, string>
-                    {
-                        ["Core"] = settings.CoreConnectionString,
-                        ["SSO"] = settings.SsoConnectionString,
-                    },
-                    Settings = new Dictionary<string, string>
-                    {
-                        ["DecryptionKey"] = settings.DecryptionKey,
-                        ["enableExternalEventing"] = "false",
-                    },
-                    Services = new Dictionary<string, string>(),
-                });
+        builder.UseSetting(
+            key: "AppSecurity:ConnectionString",
+            value: settings.CoreConnectionString);
 
-            services.AddSingleton<ISecurityDbContextFactory>(
-                implementationFactory: _ =>
-                    new MSSQLSecurityDbContextFactory(
-                        connectionString: settings.SsoConnectionString));
+        builder.UseSetting(
+            key: "Security:ConnectionString",
+            value: settings.SsoConnectionString);
 
-            services.AddCoreData(connectionString: settings.CoreConnectionString);
-        });
+        builder.UseSetting(
+            key: "Security:DecryptionKey",
+            value: settings.DecryptionKey);
     }
 }

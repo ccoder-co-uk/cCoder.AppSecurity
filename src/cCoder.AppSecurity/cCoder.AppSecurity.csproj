@@ -21,10 +21,13 @@
   </PropertyGroup>
   <PropertyGroup>
     <LocalDataProject>..\..\..\cCoder.Data\src\cCoder.Data\cCoder.Data.csproj</LocalDataProject>
+    <LocalEventingProject>..\..\..\ccoder.Eventing\src\cCoder.Eventing\cCoder.Eventing.csproj</LocalEventingProject>
     <LocalSecurityProject>..\..\..\cCoder.Security\src\cCoder.Security\cCoder.Security.csproj</LocalSecurityProject>
     <LocalSecurityDataProject>..\..\..\cCoder.Security\src\cCoder.Security.Data\cCoder.Security.Data.csproj</LocalSecurityDataProject>
     <UseLocalData Condition="'$(UseLocalData)' == ''">false</UseLocalData>
     <UseLocalData Condition="'$(UseLocalData)' == 'true' and !Exists('$(LocalDataProject)')">false</UseLocalData>
+    <UseLocalEventing Condition="'$(UseLocalEventing)' == ''">false</UseLocalEventing>
+    <UseLocalEventing Condition="'$(UseLocalEventing)' == 'true' and !Exists('$(LocalEventingProject)')">false</UseLocalEventing>
     <UseLocalSecurity Condition="'$(UseLocalSecurity)' == ''">false</UseLocalSecurity>
     <UseLocalSecurity Condition="'$(UseLocalSecurity)' == 'true' and !Exists('$(LocalSecurityProject)')">false</UseLocalSecurity>
   </PropertyGroup>
@@ -35,15 +38,18 @@
   <ItemGroup Condition="'$(UseLocalData)' == 'true'">
     <ProjectReference Include="$(LocalDataProject)" AdditionalProperties="UseLocalSecurityData=$(UseLocalSecurity)" />
   </ItemGroup>
+  <ItemGroup Condition="'$(UseLocalEventing)' == 'true'">
+    <ProjectReference Include="$(LocalEventingProject)" />
+  </ItemGroup>
   <ItemGroup Condition="'$(UseLocalSecurity)' == 'true'">
     <ProjectReference Include="$(LocalSecurityProject)" />
     <ProjectReference Include="$(LocalSecurityDataProject)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.Eventing" Version="2026.7.23.1424" />
-    <PackageReference Include="cCoder.Data" Version="2026.7.23.1914" Condition="'$(UseLocalData)' != 'true'" />
-    <PackageReference Include="cCoder.Security" Version="2026.7.26.1336" Condition="'$(UseLocalSecurity)' != 'true'" />
-    <PackageReference Include="cCoder.Security.Data" Version="2026.7.26.1336" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Eventing" Version="2026.7.28.1539" Condition="'$(UseLocalEventing)' != 'true'" />
+    <PackageReference Include="cCoder.Data" Version="2026.7.28.1641" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Security" Version="2026.7.28.1631" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security.Data" Version="2026.7.28.1631" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.10" />

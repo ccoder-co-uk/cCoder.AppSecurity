@@ -4,6 +4,16 @@
 
 It owns application-level users, roles, privileges, and user-role links. SSO users and account tokens remain owned by `cCoder.Security`.
 
+## Local Configuration
+
+Configuration binds directly into `AppSecurityConfiguration`. Leave secrets
+empty in appsettings and define `AppSecurity__ConnectionString` as a user-level
+or machine-level environment variable. The standalone hosts also bind
+`SecurityConfiguration`; its secrets use `Security__ConnectionString` and
+`Security__DecryptionKey`. Restart Visual Studio, select the Web and
+HostedServices startup projects, and press F5. No configuration conversion step
+is required.
+
 ## Contents
 
 - `src/cCoder.AppSecurity`
@@ -43,13 +53,13 @@ Security account events consumed:
 ## Build
 
 ```powershell
-dotnet build src/cCoder.AppSecurity.sln -v minimal
+dotnet build src/cCoder.AppSecurity.slnx -v minimal
 ```
 
 ## Test
 
 ```powershell
-dotnet test src/cCoder.AppSecurity.sln -v minimal --no-build
+dotnet test src/cCoder.AppSecurity.slnx -v minimal --no-build
 ```
 
 ## Local Configuration
@@ -58,9 +68,9 @@ The runnable hosts read local secrets from environment variables rather than com
 
 Before running `src/AppSecurity.Web` or `src/AppSecurity.HostedServices`, set:
 
-- `ConnectionStrings__Core`
-- `ConnectionStrings__SSO`
-- `Settings__DecryptionKey`
+- `AppSecurity__ConnectionString`
+- `Security__ConnectionString`
+- `Security__DecryptionKey`
 
 The committed `appsettings.json` keeps these values blank so user or machine environment variables can supply them during local development.
 
@@ -71,7 +81,7 @@ The committed `appsettings.json` keeps these values blank so user or machine env
 When testing against a local `cCoder.Security` checkout, pass:
 
 ```powershell
-dotnet test src/cCoder.AppSecurity.sln -v minimal /p:UseLocalSecurity=true
+dotnet test src/cCoder.AppSecurity.slnx -v minimal /p:UseLocalSecurity=true
 ```
 
 ## Package

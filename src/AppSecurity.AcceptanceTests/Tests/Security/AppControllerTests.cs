@@ -15,7 +15,7 @@ namespace Web.AcceptanceTests.Tests.Security;
 public sealed partial class AppControllerTests(WebAcceptanceFixture fixture)
 {
     private HttpClient Client { get; } = fixture.Client;
-    private string BaseUrl { get; } = "/Api/Core/App";
+    private string BaseUrl { get; } = "/Api/AppSecurity/App";
     private static JsonSerializerOptions JsonOptions { get; } = new() { PropertyNameCaseInsensitive = true };
 
     private sealed record ODataEnvelope<T>(List<T> Value);
