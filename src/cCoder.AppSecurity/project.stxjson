@@ -201,6 +201,12 @@
       ]
     },
     {
+      "Name": "cCoder.AppSecurity.Api.OData.EnumerableExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
       "Name": "cCoder.AppSecurity.Api.OData.ExtendedMetadataContainer",
       "StandardElementType": "Model",
       "Properties": [
@@ -309,18 +315,6 @@
       "Methods": []
     },
     {
-      "Name": "cCoder.AppSecurity.Api.OData.ODataCollectionExtensions",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.AppSecurity.Api.OData.ODataJsonExtensions",
-      "StandardElementType": "Exposure",
-      "Properties": [],
-      "Methods": []
-    },
-    {
       "Name": "cCoder.AppSecurity.Api.OData.ODataModel",
       "StandardElementType": "Model",
       "Properties": [
@@ -340,7 +334,7 @@
       "Methods": []
     },
     {
-      "Name": "cCoder.AppSecurity.Api.OData.ODataTypeExtensions",
+      "Name": "cCoder.AppSecurity.Api.OData.ObjectExtensions",
       "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": []
@@ -440,7 +434,7 @@
       "Methods": []
     },
     {
-      "Name": "cCoder.AppSecurity.AppSecurityApiExtensions",
+      "Name": "cCoder.AppSecurity.Api.OData.TypeExtensions",
       "StandardElementType": "Exposure",
       "Properties": [],
       "Methods": []
@@ -1971,6 +1965,12 @@
       "Methods": []
     },
     {
+      "Name": "cCoder.AppSecurity.ODataConventionModelBuilderExtensions",
+      "StandardElementType": "Exposure",
+      "Properties": [],
+      "Methods": []
+    },
+    {
       "Name": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",
       "StandardElementType": "AggregationService",
       "Properties": [],
@@ -2565,7 +2565,7 @@
           "Inputs": [
             {
               "Name": "accountEvent",
-              "Type": "cCoder.Security.Objects.Events.SecurityAccountEvent"
+              "Type": "cCoder.Security.Models.Events.SecurityAccountEvent"
             }
           ],
           "ReturnType": "System.Threading.Tasks.ValueTask"
@@ -3490,16 +3490,8 @@
       "ToType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
     },
     {
-      "FromType": "cCoder.AppSecurity.Dependencies.HostedServices.AnalysePlatformUsageHostedService",
-      "ToType": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService"
-    },
-    {
       "FromType": "cCoder.AppSecurity.Dependencies.HostedServices.TokenCleanerHostedService",
       "ToType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
-    },
-    {
-      "FromType": "cCoder.AppSecurity.Dependencies.HostedServices.TokenCleanerHostedService",
-      "ToType": "cCoder.AppSecurity.Services.Foundations.TokenCleanerService"
     },
     {
       "FromType": "cCoder.AppSecurity.Exposures.AppSecurityAppExposure",

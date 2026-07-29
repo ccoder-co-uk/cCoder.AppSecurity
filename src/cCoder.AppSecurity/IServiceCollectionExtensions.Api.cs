@@ -16,7 +16,7 @@ using Microsoft.OpenApi;
 
 namespace cCoder.AppSecurity;
 
-internal static class AppSecurityApiExtensions
+public static partial class IServiceCollectionExtensions
 {
     internal static AppSecurityConfiguration AddConfiguredAppSecurityWeb(
         this IServiceCollection services,
@@ -71,11 +71,8 @@ internal static class AppSecurityApiExtensions
         return configuration;
     }
 
-    internal static void ConfigureAppSecurityApiModel(this ODataConventionModelBuilder builder) =>
-        new AppSecurityODataModelBroker(builder: builder).ConfigureODataModel();
-
     private static AppSecurityConfiguration CreateAppSecurityConfiguration(
-        IServiceCollection services,
+        this IServiceCollection services,
         Action<IServiceCollection, AppSecurityConfiguration> configure)
     {
         AppSecurityConfiguration configuration = new();
@@ -84,7 +81,7 @@ internal static class AppSecurityApiExtensions
     }
 
     private static void RegisterConfiguration(
-        IServiceCollection services,
+        this IServiceCollection services,
         AppSecurityConfiguration configuration)
     {
         ArgumentNullException.ThrowIfNull(argument: configuration);
@@ -127,15 +124,17 @@ internal static class AppSecurityApiExtensions
             AddApiDocumentation(services: services, documentName: documentName, configuration: configuration, useFullSchemaIds: useFullSchemaIds);
         }
 
-        IEdmModel routeModel = BuildRouteModel(configureModel: configureModel);
+        IEdmModel routeModel = services.BuildRouteModel(
+            configureModel: configureModel);
         DefaultODataBatchHandler batchHandler = new();
 
         string rootPath = string.IsNullOrWhiteSpace(value: configuration.RootPath)
             ? $"Api/{documentName}"
             : configuration.RootPath;
 
-        services.AddControllers()
-            .AddOData(setupAction: options =>
+        IMvcBuilder mvcBuilder = services.AddControllers();
+
+        mvcBuilder.AddOData(setupAction: options =>
             {
                 options.RouteOptions.EnableQualifiedOperationCall = false;
                 options.EnableAttributeRouting = true;
@@ -165,7 +164,7 @@ internal static class AppSecurityApiExtensions
     }
 
     private static void AddApiDocumentation(
-        IServiceCollection services,
+        this IServiceCollection services,
         string documentName,
         AppSecurityConfiguration configuration,
         bool useFullSchemaIds) =>
@@ -173,11 +172,14 @@ internal static class AppSecurityApiExtensions
         {
             options.ResolveConflictingActions(resolver: apiDescriptions => apiDescriptions.First());
 
-            AddSwaggerDocuments(options: options, documentName: documentName, configuration: configuration);
+            services.AddSwaggerDocuments(
+                options: options,
+                documentName: documentName,
+                configuration: configuration);
 
             options.DocInclusionPredicate(
                 predicate: (swaggerDocumentName, apiDescription) =>
-                    ShouldIncludeInDocument(
+                    services.ShouldIncludeInDocument(
                         swaggerDocumentName: swaggerDocumentName,
                         relativePath: apiDescription.RelativePath,
                         documentName: documentName,
@@ -199,6 +201,7 @@ internal static class AppSecurityApiExtensions
         });
 
     private static void AddSwaggerDocuments(
+        this IServiceCollection services,
         Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions options,
         string documentName,
         AppSecurityConfiguration configuration)
@@ -226,6 +229,7 @@ internal static class AppSecurityApiExtensions
     }
 
     private static bool ShouldIncludeInDocument(
+        this IServiceCollection services,
         string swaggerDocumentName,
         string relativePath,
         string documentName,
@@ -241,36 +245,45 @@ internal static class AppSecurityApiExtensions
             swaggerDocumentName = "Core";
         }
 
-        string path = NormalizePath(relativePath: relativePath);
+        string path = services.NormalizePath(relativePath: relativePath);
 
         string rootPath = string.IsNullOrWhiteSpace(value: configuration.RootPath)
             ? $"Api/{documentName}"
             : configuration.RootPath;
 
         return string.Equals(a: swaggerDocumentName, b: "Core", comparisonType: StringComparison.OrdinalIgnoreCase)
-            ? configuration.IncludeLegacyCoreContext && MatchesContextRoute(path: path, rootPath: "Api/Core")
-            : MatchesContextRoute(path: path, rootPath: rootPath);
+            ? configuration.IncludeLegacyCoreContext
+                && services.MatchesContextRoute(path: path, rootPath: "Api/Core")
+            : services.MatchesContextRoute(path: path, rootPath: rootPath);
     }
 
-    private static bool MatchesContextRoute(string path, string rootPath)
+    private static bool MatchesContextRoute(
+        this IServiceCollection services,
+        string path,
+        string rootPath)
     {
-        string normalizedPath = NormalizePath(relativePath: rootPath);
+        string normalizedPath = services.NormalizePath(
+            relativePath: rootPath);
 
         return path.Equals(value: normalizedPath, comparisonType: StringComparison.OrdinalIgnoreCase)
             || path.StartsWith(value: $"{normalizedPath}/", comparisonType: StringComparison.OrdinalIgnoreCase);
     }
 
-    private static string NormalizePath(string relativePath) =>
+    private static string NormalizePath(
+        this IServiceCollection services,
+        string relativePath) =>
         relativePath.StartsWith(value: '/') ? relativePath : $"/{relativePath}";
 
-    private static IEdmModel BuildRouteModel(Action<ODataConventionModelBuilder> configureModel)
+    private static IEdmModel BuildRouteModel(
+        this IServiceCollection services,
+        Action<ODataConventionModelBuilder> configureModel)
     {
         ODataConventionModelBuilder builder = new();
         configureModel(obj: builder);
         return builder.GetEdmModel();
     }
 
-    private static void AddAspNet(IServiceCollection services)
+    private static void AddAspNet(this IServiceCollection services)
     {
         services.AddRouting();
         services.AddResponseCompression();

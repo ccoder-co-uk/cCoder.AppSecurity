@@ -4,13 +4,14 @@
 
 using cCoder.AppSecurity.Services.Processings;
 using cCoder.AppSecurity.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 
 namespace cCoder.AppSecurity.Dependencies.HostedServices;
 
 public sealed class AnalysePlatformUsageHostedService(
-    IAnalysePlatformUsageProcessingService analysePlatformUsageProcessingService,
+    IServiceScopeFactory serviceScopeFactory,
     AppSecurityConfiguration appSecurityConfiguration)
     : BackgroundService, IAnalysePlatformUsageHostedService
 {
@@ -20,6 +21,14 @@ public sealed class AnalysePlatformUsageHostedService(
         {
             return;
         }
+
+        using IServiceScope scope =
+            serviceScopeFactory.CreateScope();
+
+        IAnalysePlatformUsageProcessingService
+            analysePlatformUsageProcessingService =
+                scope.ServiceProvider.GetRequiredService<
+                    IAnalysePlatformUsageProcessingService>();
 
         await analysePlatformUsageProcessingService.RunAsync(cancellationToken: stoppingToken);
 

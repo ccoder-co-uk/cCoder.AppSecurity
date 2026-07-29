@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Models;
-using cCoder.Security.Objects;
+using cCoder.Security.Models;
 
 namespace AppSecurity.HostedServices.Models;
 

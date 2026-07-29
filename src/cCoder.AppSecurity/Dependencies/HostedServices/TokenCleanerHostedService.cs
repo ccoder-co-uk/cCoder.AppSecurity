@@ -4,13 +4,14 @@
 
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 
 namespace cCoder.AppSecurity.Dependencies.HostedServices;
 
 public sealed class TokenCleanerHostedService(
-    ITokenCleanerService tokenCleanerService,
+    IServiceScopeFactory serviceScopeFactory,
     AppSecurityConfiguration appSecurityConfiguration)
     : BackgroundService, ITokenCleanerHostedService
 {
@@ -20,6 +21,13 @@ public sealed class TokenCleanerHostedService(
         {
             return;
         }
+
+        using IServiceScope scope =
+            serviceScopeFactory.CreateScope();
+
+        ITokenCleanerService tokenCleanerService =
+            scope.ServiceProvider.GetRequiredService<
+                ITokenCleanerService>();
 
         await tokenCleanerService.RunAsync(cancellationToken: stoppingToken);
 

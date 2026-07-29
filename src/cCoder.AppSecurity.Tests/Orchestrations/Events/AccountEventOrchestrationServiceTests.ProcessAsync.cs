@@ -3,8 +3,8 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Security;
-using cCoder.Security.Objects.Entities;
-using cCoder.Security.Objects.Events;
+using cCoder.Security.Models.Entities;
+using cCoder.Security.Models.Events;
 using Moq;
 using Xunit;
 
