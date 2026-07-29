@@ -5,7 +5,7 @@
 using cCoder.AppSecurity.Api.OData;
 using cCoder.Security.Data.EF;
 using cCoder.AppSecurity.Services.Foundations;
-using cCoder.Security.Objects.Entities;
+using cCoder.Security.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 

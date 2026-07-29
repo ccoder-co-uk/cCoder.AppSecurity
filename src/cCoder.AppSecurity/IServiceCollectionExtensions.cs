@@ -17,7 +17,7 @@ using cCoder.Data.Models.Packaging;
 using cCoder.Data.Models.Security;
 using cCoder.Eventing;
 using cCoder.Eventing.Models;
-using cCoder.Security.Objects.Events;
+using cCoder.Security.Models.Events;
 using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.OData.Batch;
 using Microsoft.AspNetCore.Server.Kestrel.Core;

@@ -2,8 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using cCoder.AppSecurity.Dependencies.Metadata;
 using Microsoft.OData.Edm;
 
@@ -165,20 +163,4 @@ namespace cCoder.AppSecurity.Api.OData
         new() { Name = "Delete", Url = $"{type.Category}/{type.Name}({{key}})", HttpVerb = "DELETE" },
             ];
     }
-
-    public sealed class BadRequestResult : BadRequestObjectResult
-    {
-        public BadRequestResult(ModelStateDictionary modelState)
-            : base(modelState: modelState) =>
-            Value = modelState
-                .Select(selector: item => new ModelStateError
-                {
-                    Key = item.Key,
-                    Value = item.Value?.RawValue,
-                    Errors = item.Value?.Errors?.Select(selector: error => $"{error.ErrorMessage} - {error.Exception?.Message}").ToArray(),
-                })
-                .ToArray()
-                .ToJsonForOdata();
-    }
-
 }

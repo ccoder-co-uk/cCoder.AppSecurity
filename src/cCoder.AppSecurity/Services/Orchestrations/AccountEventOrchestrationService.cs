@@ -5,7 +5,7 @@
 using cCoder.AppSecurity.Services.Processings;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
-using cCoder.Security.Objects.Events;
+using cCoder.Security.Models.Events;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;
 

@@ -9,7 +9,7 @@ using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Services.Aggregations;
 using cCoder.Data.Models.Packaging;
-using cCoder.Security.Objects.Events;
+using cCoder.Security.Models.Events;
 using DataPackageItem = cCoder.Data.Models.Packaging.PackageItem;
 
 
