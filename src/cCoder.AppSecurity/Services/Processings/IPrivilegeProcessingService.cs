@@ -9,7 +9,7 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Processings;
 
-public interface IPrivilegeProcessingService
+internal interface IPrivilegeProcessingService
 {
     Privilege Get(string id);
     IQueryable<Privilege> GetAll(bool ignoreFilters = false);

@@ -9,7 +9,7 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Processings;
 
-public interface IRoleEventProcessingService
+internal interface IRoleEventProcessingService
 {
     ValueTask RaiseRoleAddEventAsync(Role entity);
     ValueTask RaiseRoleUpdateEventAsync(Role entity);

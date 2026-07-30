@@ -9,7 +9,7 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Processings;
 
-public interface IUserProcessingService
+internal interface IUserProcessingService
 {
     User Get(string id);
     User GetByEmail(string email, bool ignoreFilters = false);

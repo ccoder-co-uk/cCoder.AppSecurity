@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
-public sealed class AppController(IAppService service) : ODataController
+public sealed class AppController(IAppManager service) : ODataController
 {
     [HttpGet]
     public IActionResult GetMetadata()

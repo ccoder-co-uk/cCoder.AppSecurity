@@ -4,7 +4,7 @@
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
-public interface ITokenCleanerService
+internal interface ITokenCleanerService
 {
     Task RunAsync(CancellationToken cancellationToken = default);
 }

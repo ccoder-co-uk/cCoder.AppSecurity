@@ -21,7 +21,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
 public sealed partial class PrivilegeController(
-    IPrivilegeOrchestrationService service)
+    IPrivilegeManager service)
     : ODataController
 {
     [HttpGet]

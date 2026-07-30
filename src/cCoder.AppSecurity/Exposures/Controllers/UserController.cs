@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
 public sealed partial class UserController(
-    IUserOrchestrationService service,
+    IUserManager service,
     ICoreAuthInfo authInfo)
     : ODataController
 {

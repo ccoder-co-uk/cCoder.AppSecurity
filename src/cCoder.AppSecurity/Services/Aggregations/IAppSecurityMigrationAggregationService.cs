@@ -9,7 +9,7 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Aggregations;
 
-public interface IAppSecurityMigrationAggregationService
+internal interface IAppSecurityMigrationAggregationService
 {
     ValueTask ImportPackageAppSecurityPackageAsync(int appId, AppSecurityPackage package);
 

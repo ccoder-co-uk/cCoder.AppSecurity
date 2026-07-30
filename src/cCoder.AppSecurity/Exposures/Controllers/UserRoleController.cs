@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
 public sealed partial class UserRoleController(
-    IUserRoleOrchestrationService service)
+    IUserRoleManager service)
     : ODataController
 {
     [HttpGet]

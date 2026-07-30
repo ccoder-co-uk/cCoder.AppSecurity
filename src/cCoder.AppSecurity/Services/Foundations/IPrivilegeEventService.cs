@@ -9,7 +9,7 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-public interface IPrivilegeEventService
+internal interface IPrivilegeEventService
 {
     ValueTask RaisePrivilegeAddEventAsync(Privilege entity);
     ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity);

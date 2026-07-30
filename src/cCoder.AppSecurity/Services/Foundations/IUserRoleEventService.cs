@@ -9,7 +9,7 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-public interface IUserRoleEventService
+internal interface IUserRoleEventService
 {
     ValueTask RaiseUserRoleAddEventAsync(UserRole entity);
     ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity);

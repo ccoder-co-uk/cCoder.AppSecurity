@@ -185,6 +185,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IPrivilegeService, PrivilegeService>();
         services.AddTransient<IAppSecurityMetadataTypeService, AppSecurityMetadataTypeService>();
         services.AddTransient<IAppService, AppService>();
+        services.AddTransient<IAppManager, AppService>();
         services.AddTransient<IRoleEventService, RoleEventService>();
         services.AddTransient<IRoleService, RoleService>();
         services.AddTransient<IUserEventService, UserEventService>();
@@ -201,9 +202,13 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IAppOrchestrationService, AppOrchestrationService>();
         services.AddTransient<IAccountEventOrchestrationService, AccountEventOrchestrationService>();
         services.AddTransient<IPrivilegeOrchestrationService, PrivilegeOrchestrationService>();
+        services.AddTransient<IPrivilegeManager, PrivilegeOrchestrationService>();
         services.AddTransient<IRoleOrchestrationService, RoleOrchestrationService>();
+        services.AddTransient<IRoleManager, RoleOrchestrationService>();
         services.AddTransient<IUserOrchestrationService, UserOrchestrationService>();
+        services.AddTransient<IUserManager, UserOrchestrationService>();
         services.AddTransient<IUserRoleOrchestrationService, UserRoleOrchestrationService>();
+        services.AddTransient<IUserRoleManager, UserRoleOrchestrationService>();
     }
 
     private static void AddAggregations(this IServiceCollection services)
