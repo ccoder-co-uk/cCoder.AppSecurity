@@ -2,13 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Data.Models.CMS;
+using cCoder.AppSecurity.Exposures;
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
-public interface IAppService
-{
-    IQueryable<App> GetAll();
-
-    App GetByDomain(string domain);
-}
+internal interface IAppService : IAppManager { }

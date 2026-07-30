@@ -8,7 +8,7 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;
 
-public interface IAppOrchestrationService
+internal interface IAppOrchestrationService
 {
     ValueTask AddAppAsync(App app);
     ValueTask UpdateAppAsync(App app);

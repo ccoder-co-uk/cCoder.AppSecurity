@@ -2,8 +2,13 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Exposures;
+using cCoder.Data.Models.CMS;
 
-namespace cCoder.AppSecurity.Services.Orchestrations;
+namespace cCoder.AppSecurity.Exposures;
 
-internal interface IUserRoleOrchestrationService : IUserRoleManager { }
+public interface IAppManager
+{
+    IQueryable<App> GetAll();
+
+    App GetByDomain(string domain);
+}

@@ -6,7 +6,7 @@ using cCoder.Data.Models.CMS;
 
 namespace cCoder.AppSecurity.Services.Processings;
 
-public interface IAppProcessingService
+internal interface IAppProcessingService
 {
     IQueryable<App> GetAll();
 

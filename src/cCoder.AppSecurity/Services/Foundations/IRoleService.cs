@@ -9,7 +9,7 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
-public interface IRoleService
+internal interface IRoleService
 {
     Role Get(Guid id);
     IQueryable<Role> GetAll(bool ignoreFilters = false);

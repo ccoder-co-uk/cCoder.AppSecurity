@@ -4,7 +4,7 @@
 
 namespace cCoder.AppSecurity.Services.Processings;
 
-public interface IAnalysePlatformUsageProcessingService
+internal interface IAnalysePlatformUsageProcessingService
 {
     Task RunAsync(CancellationToken cancellationToken = default);
 }

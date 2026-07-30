@@ -9,7 +9,7 @@ using cCoder.Data.Models.Security;
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
-public interface IUserEventService
+internal interface IUserEventService
 {
     ValueTask RaiseUserAddEventAsync(User entity);
     ValueTask RaiseUserUpdateEventAsync(User entity);

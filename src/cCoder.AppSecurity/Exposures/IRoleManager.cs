@@ -2,14 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Models;
-using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 
+namespace cCoder.AppSecurity.Exposures;
 
-namespace cCoder.AppSecurity.Services.Processings;
-
-internal interface IRoleProcessingService
+public interface IRoleManager
 {
     Role Get(Guid id);
     IQueryable<Role> GetAll(bool ignoreFilters = false);
@@ -19,5 +16,6 @@ internal interface IRoleProcessingService
     ValueTask<Role> UpdateValidatedRoleAsync(Role entity);
     ValueTask DeleteAsync(Guid id);
     ValueTask DeleteValidatedAsync(Guid id);
+    ValueTask ImportRoleAsync(int appId, IEnumerable<Role> roles);
     ValueTask DeleteAllRoleAsync(IEnumerable<Role> items);
 }
