@@ -77,6 +77,7 @@ internal sealed partial class RoleService(
 
             AuthorizeMutationOrAllowBootstrap(appId: newRole.AppId, privilege: $"{nameof(Role)}_create", assignedPrivileges: newRole.Privs);
             DataRole result = await roleBroker.AddRoleAsync(entity: internalRole);
+            await SaveUserRolesAsync(role: newRole, roleId: result.Id);
             newRole.Id = result.Id;
             newRole.AppId = result.AppId;
             newRole.Name = result.Name;
@@ -128,6 +129,7 @@ internal sealed partial class RoleService(
 
             AuthorizeMutationOrAllowBootstrap(appId: updatedRole.AppId, privilege: $"{nameof(Role)}_update", assignedPrivileges: updatedRole.Privs);
             DataRole result = await roleBroker.UpdateRoleAsync(entity: internalRole);
+            await SaveUserRolesAsync(role: updatedRole, roleId: result.Id);
             updatedRole.Id = result.Id;
             updatedRole.AppId = result.AppId;
             updatedRole.Name = result.Name;
@@ -257,6 +259,31 @@ internal sealed partial class RoleService(
         appId.HasValue
         && roleBroker.GetAllRoles(ignoreFilters: true)
             .Any(predicate: foundRole => foundRole.AppId == appId.Value);
+
+    private async ValueTask SaveUserRolesAsync(Role role, Guid roleId)
+    {
+        if (role.Users is null || role.Users.Count == 0)
+        {
+            return;
+        }
+
+        HashSet<string> existingUserIds = userRoleBroker
+            .GetAllUserRoles(ignoreFilters: true)
+            .Where(predicate: userRole => userRole.RoleId == roleId)
+            .Select(selector: userRole => userRole.UserId)
+            .ToHashSet(comparer: StringComparer.OrdinalIgnoreCase);
+
+        foreach (UserRole userRole in role.Users)
+        {
+            userRole.RoleId = roleId;
+
+            if (existingUserIds.Add(item: userRole.UserId))
+            {
+                _ = await userRoleBroker.AddUserRoleAsync(
+                    entity: ToExternalUserRole(item: userRole));
+            }
+        }
+    }
 
     private static string[] ToPrivilegeSet(string privileges) =>
         string.IsNullOrWhiteSpace(value: privileges)
