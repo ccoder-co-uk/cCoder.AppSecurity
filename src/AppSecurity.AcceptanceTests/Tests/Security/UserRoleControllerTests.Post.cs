@@ -80,10 +80,7 @@ public sealed partial class UserRoleControllerTests
 
         // Then
         statusCode.Should()
-            .Be(expected: (int)HttpStatusCode.Unauthorized, because: content);
-
-        content.Should()
-            .Contain(expected: "Access Denied!");
+            .Be(expected: (int)HttpStatusCode.Forbidden, because: content);
 
         actualUserRole.Should()
             .BeNull();

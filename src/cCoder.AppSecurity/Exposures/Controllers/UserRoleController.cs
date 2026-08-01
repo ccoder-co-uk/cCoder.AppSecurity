@@ -5,6 +5,7 @@
 using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Dependencies.Metadata;
 using cCoder.AppSecurity.Models;
+using cCoder.AppSecurity.Models.Exceptions;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Services.Orchestrations;
@@ -20,12 +21,24 @@ public sealed partial class UserRoleController(
     : ODataController
 {
     [HttpGet]
-    public IActionResult GetMetadata() =>
-        Ok(
-            value: MetadataDependency.CreateMetadataContainer(
+    public IActionResult GetMetadata()
+    {
+        try
+        {
+            return Ok(value: MetadataDependency.CreateMetadataContainer(
                 type: typeof(UserRole),
                 isEntity: true,
                 hasEndpoint: true));
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
+    }
 
     [HttpGet]
     [EnableQuery(
@@ -37,41 +50,106 @@ public sealed partial class UserRoleController(
         MaxExpansionDepth = 3
     )]
     [ActionName("Get")]
-    public IActionResult GetAll() =>
-        Ok(value: service.GetAll());
+    public IActionResult GetAll()
+    {
+        try
+        {
+            return Ok(value: service.GetAll());
+        }
+        catch (AppSecurityOrchestrationValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
+    }
 
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] UserRole newUserRole)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
-        }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(modelState: ModelState);
+            }
 
-        return Ok(value: await service.AddUserRoleAsync(entity: newUserRole));
+            return StatusCode(
+                statusCode: StatusCodes.Status201Created,
+                value: await service.AddUserRoleAsync(entity: newUserRole));
+        }
+        catch (AppSecurityOrchestrationValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
-    [HttpPost]
+    [HttpDelete]
     public async Task<IActionResult> DeleteAll([FromBody] IEnumerable<UserRole> deletedUserRole)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
-        }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(modelState: ModelState);
+            }
 
-        await service.DeleteAllUserRoleAsync(items: deletedUserRole);
-        return Ok();
+            await service.DeleteAllUserRoleAsync(items: deletedUserRole);
+
+            return NoContent();
+        }
+        catch (AppSecurityOrchestrationValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] Guid keyRoleId, [FromRoute] string keyUserId)
     {
-        await service.DeleteUserRoleAsync(entity: new UserRole
+        try
         {
-            RoleId = keyRoleId,
-            UserId = keyUserId,
-        });
+            await service.DeleteUserRoleAsync(entity: new UserRole
+            {
+                RoleId = keyRoleId,
+                UserId = keyUserId,
+            });
 
-        return Ok();
+            return NoContent();
+        }
+        catch (AppSecurityOrchestrationValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 }

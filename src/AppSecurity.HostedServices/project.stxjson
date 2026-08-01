@@ -1,12 +1,25 @@
 {
+  "SchemaVersion": 2,
+  "Project": {
+    "Id": "AppSecurity.HostedServices",
+    "Name": "AppSecurity.HostedServices",
+    "AssemblyName": "AppSecurity.HostedServices"
+  },
   "Classes": [
     {
       "Name": "AppSecurity.HostedServices.IServiceCollectionExtensions",
       "StandardElementType": "App",
+      "LineNumber": 11,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "AppSecurity.HostedServices.IServiceCollectionExtensions.AddAppSecurityHostedServices(IServiceCollection,IConfiguration,System.Action\u003CAppSecurity.HostedServices.Models.AppSecurityHostedServicesConfiguration\u003E)",
           "Name": "AddAppSecurityHostedServices",
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "services",
@@ -21,13 +34,46 @@
               "Type": "System.Action\u003CAppSecurity.HostedServices.Models.AppSecurityHostedServicesConfiguration\u003E"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "AppSecurity.HostedServices.IServiceCollectionExtensions",
+              "MethodName": "AddAppSecurityHostedServices",
+              "MethodId": "AppSecurity.HostedServices.IServiceCollectionExtensions.AddAppSecurityHostedServices(IServiceCollection,IConfiguration,System.Action\u003CAppSecurity.HostedServices.Models.AppSecurityHostedServicesConfiguration\u003E)",
+              "StandardElementType": "App",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "System.Action\u003CT\u003E",
+              "MethodName": "Invoke",
+              "MethodId": "System.Action\u003CT\u003E.Invoke(T)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "AppSecurity.HostedServices.Models.AppSecurityHostedServicesConfiguration",
       "StandardElementType": "Model",
+      "LineNumber": 10,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [
         {
           "Name": "AppSecurity",
@@ -43,38 +89,109 @@
     {
       "Name": "AppSecurity.HostedServices.Program",
       "StandardElementType": "App",
+      "LineNumber": 7,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "AppSecurity.HostedServices.Program.Main(System.String[])",
           "Name": "Main",
+          "LineNumber": 9,
           "Inputs": [
             {
               "Name": "args",
               "Type": "System.String[]"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "AppSecurity.HostedServices.WebApplicationExtensions",
+              "MethodName": "UseHostedServicesApplication",
+              "MethodId": "AppSecurity.HostedServices.WebApplicationExtensions.UseHostedServicesApplication(WebApplication)",
+              "StandardElementType": "App",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "AppSecurity.HostedServices.WebApplicationExtensions",
       "StandardElementType": "App",
+      "LineNumber": 10,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "AppSecurity.HostedServices.WebApplicationExtensions.UseHostedServicesApplication(WebApplication)",
           "Name": "UseHostedServicesApplication",
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "app",
               "Type": "WebApplication"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers",
+              "MethodName": "ListenToAppCreateAndUpdateEvents",
+              "MethodId": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers.ListenToAppCreateAndUpdateEvents()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers",
+              "MethodName": "ListenToAppDeleteEvents",
+              "MethodId": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers.ListenToAppDeleteEvents()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers",
+              "MethodName": "ListenToSecurityAccountEvents",
+              "MethodId": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers.ListenToSecurityAccountEvents()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     }
   ],
+  "Interfaces": [],
   "Links": [],
   "AnalysisItems": []
 }

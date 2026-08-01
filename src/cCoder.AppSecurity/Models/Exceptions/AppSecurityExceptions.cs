@@ -4,6 +4,9 @@
 
 namespace cCoder.AppSecurity.Models.Exceptions;
 
+internal sealed class AppSecurityAuthorizationException(Exception innerException)
+    : Exception(message: "App security authorization failed.", innerException: innerException);
+
 internal sealed class AppSecurityValidationException(Exception innerException)
     : Exception("AppSecurity validation failed.", innerException);
 

@@ -33,7 +33,7 @@ public sealed partial class UserControllerTests
 
         // Then
         response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.Unauthorized, because: content);
+            .Be(expected: HttpStatusCode.Forbidden, because: content);
 
         await Teardown(seededContext: seededContext);
     }

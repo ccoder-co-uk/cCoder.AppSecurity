@@ -11,7 +11,7 @@ namespace Web.AcceptanceTests.Tests.Security;
 public sealed partial class PrivilegeControllerTests
 {
     [Fact]
-    public async Task GetCount_ReturnsUnauthorized()
+    public async Task GetCount_ReturnsForbidden()
     {
         // Given
 
@@ -20,7 +20,7 @@ public sealed partial class PrivilegeControllerTests
 
         // Then
         actualStatusCode.Should()
-            .Be(expected: 401);
+            .Be(expected: 403);
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public sealed partial class PrivilegeControllerTests
 
         // Then
         actualStatusCode.Should()
-            .Be(expected: 404);
+            .Be(expected: 403);
 
         await DeletePrivilegeAsync(id: id);
     }

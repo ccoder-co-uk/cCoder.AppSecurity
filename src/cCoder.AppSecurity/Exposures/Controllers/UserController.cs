@@ -6,11 +6,12 @@ using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Dependencies.Metadata;
 using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
+using cCoder.AppSecurity.Models.Exceptions;
 using cCoder.Data.Extensions;
+using cCoder.Data;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Services.Orchestrations;
-using cCoder.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
@@ -27,34 +28,57 @@ public sealed partial class UserController(
     : ODataController
 {
     [HttpGet]
-    [EnableQuery(
-        AllowedArithmeticOperators = AllowedArithmeticOperators.All,
-        AllowedFunctions = AllowedFunctions.All,
-        AllowedLogicalOperators = AllowedLogicalOperators.All,
-        AllowedQueryOptions = AllowedQueryOptions.All,
-        MaxAnyAllExpressionDepth = 6,
-        MaxExpansionDepth = 6
-    )]
     [ActionName("Me")]
-    public IActionResult GetMe() =>
-        Ok(value: service.Get(id: authInfo.SSOUserId));
+    public IActionResult GetMe()
+    {
+        try
+        {
+            User user = service.Get(id: authInfo.SSOUserId);
+
+            return user is null
+                ? NotFound()
+                : Ok(value: user);
+        }
+        catch (AppSecurityOrchestrationValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
+    }
 
     [HttpGet]
     public IActionResult GetMetadata()
     {
-        bool isExtendedMetaRequest = Request.Query["extend"] == "true";
+        try
+        {
+            bool isExtendedMetaRequest = Request.Query["extend"] == "true";
 
-        return isExtendedMetaRequest
-            ? Ok(
-value: new AppSecurityODataModelBroker()
+            return isExtendedMetaRequest
+                ? Ok(value: new AppSecurityODataModelBroker()
                     .SelectODataModel()
-                    .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(User))
-            )
-            : Ok(
-                value: MetadataDependency.CreateMetadataContainer(
+                    .EDMModel.GetExtendedMetadataForType(
+                        context: "AppSecurity",
+                        type: typeof(User)))
+                : Ok(value: MetadataDependency.CreateMetadataContainer(
                     type: typeof(User),
                     isEntity: true,
                     hasEndpoint: true));
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpGet]
@@ -67,8 +91,25 @@ value: new AppSecurityODataModelBroker()
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<User> queryOptions) =>
-        Ok(value: service.GetAll());
+    public IActionResult GetAll()
+    {
+        try
+        {
+            return Ok(value: service.GetAll());
+        }
+        catch (AppSecurityOrchestrationValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
+    }
 
     [HttpGet]
     [AllowAnonymous]
@@ -84,15 +125,23 @@ value: new AppSecurityODataModelBroker()
     {
         try
         {
-            IQueryable<User> result = service.GetAll()
-                .Where(predicate: user => user.Id == key);
+            User result = service.Get(id: key);
 
-            return Ok(value: SingleResult.Create(queryable: result));
+            return result is null
+                ? NotFound()
+                : Ok(value: result);
         }
-        catch (Exception exception)
-            when (exception.GetBaseException() is System.Security.SecurityException)
+        catch (AppSecurityOrchestrationValidationException)
         {
-            return NotFound();
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -107,12 +156,29 @@ value: new AppSecurityODataModelBroker()
     )]
     public async Task<IActionResult> Post([FromBody] User newUser)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
-        }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(modelState: ModelState);
+            }
 
-        return Ok(value: await service.AddUserAsync(entity: newUser));
+            return StatusCode(
+                statusCode: StatusCodes.Status201Created,
+                value: await service.AddUserAsync(entity: newUser));
+        }
+        catch (AppSecurityOrchestrationValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpPut]
@@ -126,33 +192,82 @@ value: new AppSecurityODataModelBroker()
     )]
     public async Task<IActionResult> Put([FromRoute] string key, [FromBody] User updatedUser)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return new cCoder.AppSecurity.Api.OData.BadRequestResult(modelState: ModelState);
-        }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(modelState: ModelState);
+            }
 
-        return Ok(value: await service.UpdateUserAsync(entity: updatedUser));
+            updatedUser.Id = key;
+
+            return Ok(value: await service.UpdateUserAsync(entity: updatedUser));
+        }
+        catch (AppSecurityOrchestrationValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [AcceptVerbs("PATCH", "MERGE")]
     [ActionName("Patch")]
     public async Task<IActionResult> Put([FromRoute] string key, Delta<User> updatedDelta)
     {
-        User originalEntity = service.Get(id: key);
-
-        if (originalEntity == null)
+        try
         {
-            return NotFound();
-        }
+            User originalEntity = service.Get(id: key);
 
-        updatedDelta.Patch(original: originalEntity);
-        return Ok(value: await service.UpdateUserAsync(entity: originalEntity));
+            if (originalEntity is null)
+            {
+                return NotFound();
+            }
+
+            updatedDelta.Patch(original: originalEntity);
+
+            return Ok(value: await service.UpdateUserAsync(entity: originalEntity));
+        }
+        catch (AppSecurityOrchestrationValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] string key)
     {
-        await service.DeleteAsync(id: key);
-        return Ok();
+        try
+        {
+            await service.DeleteAsync(id: key);
+
+            return NoContent();
+        }
+        catch (AppSecurityOrchestrationValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 }
