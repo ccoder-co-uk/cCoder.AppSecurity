@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="cCoder.Eventing" Version="2026.7.29.144" Condition="'$(UseLocalEventing)' != 'true'" />
-    <PackageReference Include="cCoder.Data" Version="2026.7.30.1204" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Data" Version="2026.8.1.108" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="cCoder.Security" Version="2026.7.29.2358" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="cCoder.Security.Data" Version="2026.7.29.2358" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.5.0" />
