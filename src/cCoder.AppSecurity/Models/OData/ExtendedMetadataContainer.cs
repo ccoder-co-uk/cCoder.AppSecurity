@@ -4,9 +4,7 @@
 
 namespace cCoder.AppSecurity.Api.OData;
 
-public class MetadataContainerSet
+public class ExtendedMetadataContainer : MetadataContainer
 {
-    public string Name { get; set; }
-    public string UriBase { get; set; }
-    public ExtendedMetadataContainer[] Types { get; set; }
+    public IEnumerable<OperationContainer> Operations { get; set; }
 }

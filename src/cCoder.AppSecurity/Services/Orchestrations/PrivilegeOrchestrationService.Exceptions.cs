@@ -23,6 +23,11 @@ internal sealed partial class PrivilegeOrchestrationService
             throw new AppSecurityOrchestrationDependencyException(innerException: innerException);
         }
         catch (Exception innerException)
+            when (innerException.GetBaseException() is System.Security.SecurityException)
+        {
+            throw new AppSecurityAuthorizationException(innerException: innerException);
+        }
+        catch (Exception innerException)
         {
             throw new AppSecurityOrchestrationServiceException(innerException: innerException);
         }
@@ -41,6 +46,11 @@ internal sealed partial class PrivilegeOrchestrationService
         catch (AppSecurityOrchestrationDependencyException innerException)
         {
             throw new AppSecurityOrchestrationDependencyException(innerException: innerException);
+        }
+        catch (Exception innerException)
+            when (innerException.GetBaseException() is System.Security.SecurityException)
+        {
+            throw new AppSecurityAuthorizationException(innerException: innerException);
         }
         catch (Exception innerException)
         {
@@ -63,6 +73,11 @@ internal sealed partial class PrivilegeOrchestrationService
             throw new AppSecurityOrchestrationDependencyException(innerException: innerException);
         }
         catch (Exception innerException)
+            when (innerException.GetBaseException() is System.Security.SecurityException)
+        {
+            throw new AppSecurityAuthorizationException(innerException: innerException);
+        }
+        catch (Exception innerException)
         {
             throw new AppSecurityOrchestrationServiceException(innerException: innerException);
         }
@@ -81,6 +96,11 @@ internal sealed partial class PrivilegeOrchestrationService
         catch (AppSecurityOrchestrationDependencyException innerException)
         {
             throw new AppSecurityOrchestrationDependencyException(innerException: innerException);
+        }
+        catch (Exception innerException)
+            when (innerException.GetBaseException() is System.Security.SecurityException)
+        {
+            throw new AppSecurityAuthorizationException(innerException: innerException);
         }
         catch (Exception innerException)
         {
@@ -103,6 +123,11 @@ internal sealed partial class PrivilegeOrchestrationService
             throw new AppSecurityOrchestrationDependencyException(innerException: innerException);
         }
         catch (Exception innerException)
+            when (innerException.GetBaseException() is System.Security.SecurityException)
+        {
+            throw new AppSecurityAuthorizationException(innerException: innerException);
+        }
+        catch (Exception innerException)
         {
             throw new AppSecurityOrchestrationServiceException(innerException: innerException);
         }
@@ -121,6 +146,11 @@ internal sealed partial class PrivilegeOrchestrationService
         catch (AppSecurityOrchestrationDependencyException innerException)
         {
             throw new AppSecurityOrchestrationDependencyException(innerException: innerException);
+        }
+        catch (Exception innerException)
+            when (innerException.GetBaseException() is System.Security.SecurityException)
+        {
+            throw new AppSecurityAuthorizationException(innerException: innerException);
         }
         catch (Exception innerException)
         {

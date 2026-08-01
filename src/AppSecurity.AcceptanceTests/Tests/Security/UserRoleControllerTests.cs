@@ -177,7 +177,7 @@ HiddenUserId: hiddenUserId
         (int statusCode, string content) = await PostUserRoleAsync(payload: payload);
 
         statusCode.Should()
-            .Be(expected: (int)HttpStatusCode.OK, because: content);
+            .Be(expected: (int)HttpStatusCode.Created, because: content);
 
         return JsonSerializer.Deserialize<UserRole>(json: content, options: JsonOptions)!;
     }
@@ -199,7 +199,7 @@ requestUri: $"{BaseUrl}(RoleId={roleId},UserId='{Uri.EscapeDataString(stringToEs
         string content = await response.Content.ReadAsStringAsync();
 
         response.StatusCode.Should()
-            .Be(expected: HttpStatusCode.OK, because: content);
+            .Be(expected: HttpStatusCode.NoContent, because: content);
 
         return (int)response.StatusCode;
     }

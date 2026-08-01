@@ -1,12 +1,25 @@
 {
+  "SchemaVersion": 2,
+  "Project": {
+    "Id": "AppSecurity.Web",
+    "Name": "AppSecurity.Web",
+    "AssemblyName": "AppSecurity.Web"
+  },
   "Classes": [
     {
       "Name": "AppSecurity.Web.IServiceCollectionExtensions",
       "StandardElementType": "App",
+      "LineNumber": 11,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "AppSecurity.Web.IServiceCollectionExtensions.AddAppSecurityWeb(IServiceCollection,IConfiguration,System.Action\u003CAppSecurity.Web.Models.AppSecurityWebConfiguration\u003E)",
           "Name": "AddAppSecurityWeb",
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "services",
@@ -21,13 +34,46 @@
               "Type": "System.Action\u003CAppSecurity.Web.Models.AppSecurityWebConfiguration\u003E"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "AppSecurity.Web.IServiceCollectionExtensions",
+              "MethodName": "AddAppSecurityWeb",
+              "MethodId": "AppSecurity.Web.IServiceCollectionExtensions.AddAppSecurityWeb(IServiceCollection,IConfiguration,System.Action\u003CAppSecurity.Web.Models.AppSecurityWebConfiguration\u003E)",
+              "StandardElementType": "App",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "System.Action\u003CT\u003E",
+              "MethodName": "Invoke",
+              "MethodId": "System.Action\u003CT\u003E.Invoke(T)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "AppSecurity.Web.Models.AppSecurityWebConfiguration",
       "StandardElementType": "Model",
+      "LineNumber": 10,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [
         {
           "Name": "AppSecurity",
@@ -43,40 +89,110 @@
     {
       "Name": "AppSecurity.Web.Program",
       "StandardElementType": "App",
+      "LineNumber": 7,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "AppSecurity.Web.Program.Main(System.String[])",
           "Name": "Main",
+          "LineNumber": 9,
           "Inputs": [
             {
               "Name": "args",
               "Type": "System.String[]"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "AppSecurity.Web.WebApplicationExtensions",
+              "MethodName": "UseAppSecurityWebApplication",
+              "MethodId": "AppSecurity.Web.WebApplicationExtensions.UseAppSecurityWebApplication(WebApplication)",
+              "StandardElementType": "App",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "AppSecurity.Web.WebApplicationExtensions",
       "StandardElementType": "App",
+      "LineNumber": 12,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
       "Properties": [],
       "Methods": [
         {
+          "Id": "AppSecurity.Web.WebApplicationExtensions.UseAppSecurityWebApplication(WebApplication)",
           "Name": "UseAppSecurityWebApplication",
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "app",
               "Type": "WebApplication"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.AspNetCore.OData.ODataApplicationBuilderExtensions",
+              "MethodName": "UseODataRouteDebug",
+              "MethodId": "Microsoft.AspNetCore.OData.ODataApplicationBuilderExtensions.UseODataRouteDebug(Microsoft.AspNetCore.Builder.IApplicationBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "Apps.Shared.Hosting.NoOpSession",
       "StandardElementType": "Dependency",
+      "LineNumber": 7,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": {
+        "Id": "AppSecurity.Web:ISession",
+        "FullName": "ISession",
+        "Name": "ISession",
+        "Namespace": "\u003Cglobal namespace\u003E",
+        "AssemblyName": "AppSecurity.Web",
+        "Kind": "Class",
+        "IsInCurrentProject": true,
+        "StandardElementType": "Dependency"
+      },
+      "Interfaces": [],
       "Properties": [
         {
           "Name": "Id",
@@ -97,42 +213,104 @@
       ],
       "Methods": [
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.Clear()",
           "Name": "Clear",
+          "LineNumber": 25,
           "Inputs": [],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         },
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.CommitAsync(System.Threading.CancellationToken)",
           "Name": "CommitAsync",
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "cancellationToken",
               "Type": "System.Threading.CancellationToken"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task"
+          "ReturnType": "System.Threading.Tasks.Task",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         },
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.LoadAsync(System.Threading.CancellationToken)",
           "Name": "LoadAsync",
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "cancellationToken",
               "Type": "System.Threading.CancellationToken"
             }
           ],
-          "ReturnType": "System.Threading.Tasks.Task"
+          "ReturnType": "System.Threading.Tasks.Task",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         },
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.Remove(System.String)",
           "Name": "Remove",
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "key",
               "Type": "System.String"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         },
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.Set(System.String,System.Byte[])",
           "Name": "Set",
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "key",
@@ -143,10 +321,25 @@
               "Type": "System.Byte[]"
             }
           ],
-          "ReturnType": "System.Void"
+          "ReturnType": "System.Void",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         },
         {
+          "Id": "Apps.Shared.Hosting.NoOpSession.TryGetValue(System.String,System.Byte[])",
           "Name": "TryGetValue",
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "key",
@@ -157,13 +350,40 @@
               "Type": "System.Byte[]"
             }
           ],
-          "ReturnType": "System.Boolean"
+          "ReturnType": "System.Boolean",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
         }
       ]
     },
     {
       "Name": "Apps.Shared.Hosting.NoOpSessionFeature",
       "StandardElementType": "Dependency",
+      "LineNumber": 10,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": {
+        "Id": "AppSecurity.Web:ISessionFeature",
+        "FullName": "ISessionFeature",
+        "Name": "ISessionFeature",
+        "Namespace": "\u003Cglobal namespace\u003E",
+        "AssemblyName": "AppSecurity.Web",
+        "Kind": "Class",
+        "IsInCurrentProject": true,
+        "StandardElementType": "Dependency"
+      },
+      "Interfaces": [],
       "Properties": [
         {
           "Name": "Session",
@@ -173,6 +393,7 @@
       "Methods": []
     }
   ],
+  "Interfaces": [],
   "Links": [],
   "AnalysisItems": []
 }

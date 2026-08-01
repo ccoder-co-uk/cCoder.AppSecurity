@@ -6,6 +6,7 @@ using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Dependencies.Metadata;
 using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
+using cCoder.AppSecurity.Models.Exceptions;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.Data.Extensions;
 using cCoder.Data.Models.CMS;
@@ -22,18 +23,31 @@ public sealed class AppController(IAppManager service) : ODataController
     [HttpGet]
     public IActionResult GetMetadata()
     {
-        bool isExtendedMetaRequest = Request.Query["extend"] == "true";
+        try
+        {
+            bool isExtendedMetaRequest = Request.Query["extend"] == "true";
 
-        return isExtendedMetaRequest
-            ? Ok(
-value: new AppSecurityODataModelBroker()
-                    .SelectODataModel()
-                    .EDMModel.GetExtendedMetadataForType(context: "AppSecurity", type: typeof(App)))
-            : Ok(
-                value: MetadataDependency.CreateMetadataContainer(
-                    type: typeof(App),
-                    isEntity: true,
-                    hasEndpoint: false));
+            return isExtendedMetaRequest
+                ? Ok(
+                    value: new AppSecurityODataModelBroker()
+                        .SelectODataModel()
+                        .EDMModel.GetExtendedMetadataForType(
+                            context: "AppSecurity",
+                            type: typeof(App)))
+                : Ok(
+                    value: MetadataDependency.CreateMetadataContainer(
+                        type: typeof(App),
+                        isEntity: true,
+                        hasEndpoint: false));
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpGet]
@@ -46,8 +60,25 @@ value: new AppSecurityODataModelBroker()
         MaxExpansionDepth = 5
     )]
     [ActionName("Get")]
-    public IActionResult GetAll(ODataQueryOptions<App> queryOptions) =>
-        Ok(value: service.GetAll());
+    public IActionResult GetAll()
+    {
+        try
+        {
+            return Ok(value: service.GetAll());
+        }
+        catch (AppSecurityValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
+    }
 
     [HttpGet]
     [EnableQuery(
@@ -60,9 +91,26 @@ value: new AppSecurityODataModelBroker()
     )]
     public IActionResult Get([FromRoute] int key)
     {
-        IQueryable<App> result = service.GetAll()
-            .Where(predicate: app => app.Id == key);
+        try
+        {
+            App result = service.GetAll()
+                .FirstOrDefault(predicate: app => app.Id == key);
 
-        return Ok(value: SingleResult.Create(queryable: result));
+            return result is null
+                ? NotFound()
+                : Ok(value: result);
+        }
+        catch (AppSecurityValidationException)
+        {
+            return BadRequest();
+        }
+        catch (AppSecurityAuthorizationException)
+        {
+            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
+        }
+        catch (Exception)
+        {
+            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 }

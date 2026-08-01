@@ -31,7 +31,7 @@ public sealed partial class UserRoleControllerTests
 
         // Then
         actualStatusCode.Should()
-            .Be(expected: 200);
+            .Be(expected: 204);
 
         actualUserRole.Should()
             .BeNull();

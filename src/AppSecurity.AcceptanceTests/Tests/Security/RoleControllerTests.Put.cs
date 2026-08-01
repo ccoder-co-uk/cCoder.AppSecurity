@@ -100,10 +100,7 @@ public sealed partial class RoleControllerTests
 
         // Then
         statusCode.Should()
-            .Be(expected: 401, because: content);
-
-        content.Should()
-            .Contain(expected: "Access Denied!");
+            .Be(expected: 403, because: content);
 
         actualRole.Should()
             .NotBeNull();
