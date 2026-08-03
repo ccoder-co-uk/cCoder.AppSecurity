@@ -82,6 +82,17 @@ internal sealed partial class UserProcessingService(IUserService service, ICoreA
             : throw new SecurityException(message: "Access Denied!");
         });
 
+    public ValueTask<User> UpdateUserFromAccountEventAsync(
+        User updatedUser) =>
+        TryCatch(operation: ValueTask<User> () =>
+        {
+            ValidateUpdateUser(
+                updatedUser: updatedUser);
+
+            return service.UpdateUserFromAccountEventAsync(
+                user: updatedUser);
+        });
+
     public ValueTask DeleteAllUserAsync(IEnumerable<User> deletedUser) =>
         TryCatch(operation: async ValueTask () =>
         {
