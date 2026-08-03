@@ -16,6 +16,7 @@ internal interface IUserProcessingService
     IQueryable<User> GetAll(bool ignoreFilters = false);
     ValueTask<User> AddUserAsync(User entity);
     ValueTask<User> UpdateUserAsync(User entity);
+    ValueTask<User> UpdateUserFromAccountEventAsync(User entity);
     ValueTask DeleteAsync(string id);
     ValueTask DeleteAllUserAsync(IEnumerable<User> items);
 }

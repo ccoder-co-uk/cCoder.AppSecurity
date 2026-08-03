@@ -34,6 +34,12 @@ internal sealed partial class UserService
             updatedUser,
         ]);
 
+    private static void ValidateUserFromAccountEventOnUpdate(
+        User updatedUser) =>
+        ValidationRulesEngine.Validate(inputs: [
+            updatedUser,
+        ]);
+
     private static void ValidateUserOnDelete(string userId) =>
         ValidationRulesEngine.Validate(inputs: [
             userId,

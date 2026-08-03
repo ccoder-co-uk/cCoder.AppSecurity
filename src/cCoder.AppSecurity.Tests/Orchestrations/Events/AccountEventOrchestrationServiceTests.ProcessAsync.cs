@@ -191,4 +191,79 @@ user: It.IsAny<User>(),
 appId: app.Id),
             times: Times.Once);
     }
+
+    [Fact]
+    public async Task ShouldUpdateExistingUserFromTrustedAccountEventAsync()
+    {
+        // Given
+        var app = CreateApp();
+
+        User existingUser = new()
+        {
+            Id = "existing.user",
+            DefaultCultureId = "en-GB",
+            DisplayName = "Old name",
+            Email = "old@example.com",
+            IsActive = false
+        };
+
+        SecurityAccountEvent accountEvent = new()
+        {
+            RequestDomain = "https://example.com",
+            Culture = "fr-FR",
+            User = new SSOUser
+            {
+                Id = existingUser.Id,
+                DisplayName = "Updated name",
+                Email = "updated@example.com",
+                LockoutEnabled = false
+            }
+        };
+
+        appProcessingServiceMock
+            .Setup(expression: service => service.GetByDomain(
+                domain: app.Domain))
+            .Returns(value: app);
+
+        userProcessingServiceMock
+            .Setup(expression: service => service.GetAll(
+                ignoreFilters: true))
+            .Returns(value: new[] { existingUser }.AsQueryable());
+
+        userProcessingServiceMock
+            .Setup(expression: service =>
+                service.UpdateUserFromAccountEventAsync(
+                    entity: It.Is<User>(match: user =>
+                        user.Id == existingUser.Id
+                        && user.DefaultCultureId == "fr-FR"
+                        && user.DisplayName == "Updated name"
+                        && user.Email == "updated@example.com"
+                        && user.IsActive)))
+            .ReturnsAsync(valueFunction: (User user) => user);
+
+        accountRoleAssignmentProcessingServiceMock
+            .Setup(expression: service => service.AttachUsersRoleAsync(
+                user: It.Is<User>(match: user =>
+                    user.Id == existingUser.Id),
+                appId: app.Id))
+            .Returns(value: ValueTask.CompletedTask);
+
+        // When
+        await accountEventOrchestrationService
+            .ProcessSecurityAccountEventAsync(
+                accountEvent: accountEvent);
+
+        // Then
+        userProcessingServiceMock.Verify(
+            expression: service =>
+                service.UpdateUserFromAccountEventAsync(
+                    entity: It.IsAny<User>()),
+            times: Times.Once);
+
+        accountRoleAssignmentProcessingServiceMock.Verify(
+            expression: service => service.AttachUsersRoleAsync(
+                user: It.IsAny<User>(),
+                appId: app.Id),
+            times: Times.Once);
+    }
 }

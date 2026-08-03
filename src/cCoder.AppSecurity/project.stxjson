@@ -557,7 +557,7 @@
               "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
               "MethodName": "CreateExtendedMetadataContainer",
               "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateExtendedMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Unknown",
+              "StandardElementType": "Dependency",
               "IsDependencyBoundary": false
             }
           ],
@@ -3775,7 +3775,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
-      "StandardElementType": "Unknown",
+      "StandardElementType": "Dependency",
       "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
@@ -3808,7 +3808,7 @@
               "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
               "MethodName": "CreateMetadataContainer",
               "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Unknown",
+              "StandardElementType": "Dependency",
               "IsDependencyBoundary": false
             }
           ],
@@ -4408,7 +4408,7 @@
               "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
               "MethodName": "CreateMetadataContainer",
               "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Unknown",
+              "StandardElementType": "Dependency",
               "IsDependencyBoundary": false
             }
           ],
@@ -4726,7 +4726,7 @@
               "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
               "MethodName": "CreateMetadataContainer",
               "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Unknown",
+              "StandardElementType": "Dependency",
               "IsDependencyBoundary": false
             }
           ],
@@ -5324,7 +5324,7 @@
               "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
               "MethodName": "CreateMetadataContainer",
               "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Unknown",
+              "StandardElementType": "Dependency",
               "IsDependencyBoundary": false
             }
           ],
@@ -6010,7 +6010,7 @@
               "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
               "MethodName": "CreateMetadataContainer",
               "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Unknown",
+              "StandardElementType": "Dependency",
               "IsDependencyBoundary": false
             }
           ],
@@ -6599,7 +6599,7 @@
               "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
               "MethodName": "CreateMetadataContainer",
               "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Unknown",
+              "StandardElementType": "Dependency",
               "IsDependencyBoundary": false
             }
           ],
@@ -10623,7 +10623,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 130,
+          "LineNumber": 135,
           "Inputs": [
             {
               "Name": "userId",
@@ -10859,20 +10859,6 @@
               "MethodId": "cCoder.AppSecurity.Brokers.Storages.IUserBroker.GetAppId(cCoder.Data.Models.Security.User)",
               "StandardElementType": "Broker",
               "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Storages.IUserBroker",
-              "MethodName": "UpdateUserAsync",
-              "MethodId": "cCoder.AppSecurity.Brokers.Storages.IUserBroker.UpdateUserAsync(cCoder.Data.Models.Security.User)",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.Data.Models.Security.User",
-              "MethodName": ".ctor",
-              "MethodId": "cCoder.Data.Models.Security.User..ctor()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [
@@ -10885,6 +10871,45 @@
           "IncomingExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
             "System.Security.SecurityException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Foundations.UserService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
+          "Name": "UpdateUserFromAccountEventAsync",
+          "LineNumber": 122,
+          "Inputs": [
+            {
+              "Name": "updatedUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Foundations.IUserService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)"
+          ],
+          "Calls": [],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
           ],
@@ -15071,7 +15096,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.DeleteAllUserAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "DeleteAllUserAsync",
-          "LineNumber": 85,
+          "LineNumber": 96,
           "Inputs": [
             {
               "Name": "deletedUser",
@@ -15377,6 +15402,59 @@
           ],
           "IncomingExceptionTypes": [
             "System.Security.SecurityException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
+          "Name": "UpdateUserFromAccountEventAsync",
+          "LineNumber": 85,
+          "Inputs": [
+            {
+              "Name": "updatedUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Processings.IUserProcessingService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Foundations.IUserService",
+              "MethodName": "UpdateUserFromAccountEventAsync",
+              "MethodId": "cCoder.AppSecurity.Services.Foundations.IUserService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
@@ -19984,7 +20062,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IUserService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 19,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "id",
@@ -20089,6 +20167,31 @@
           "Id": "cCoder.AppSecurity.Services.Foundations.IUserService.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
           "LineNumber": 18,
+          "Inputs": [
+            {
+              "Name": "user",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Foundations.IUserService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
+          "Name": "UpdateUserFromAccountEventAsync",
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "user",
@@ -21219,7 +21322,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.DeleteAllUserAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "DeleteAllUserAsync",
-          "LineNumber": 20,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "items",
@@ -21244,7 +21347,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 19,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "id",
@@ -21349,6 +21452,31 @@
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
           "LineNumber": 18,
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
+          "Name": "UpdateUserFromAccountEventAsync",
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "entity",
@@ -21896,13 +22024,6 @@
       "LineNumber": 96
     },
     {
-      "Code": "ODATA0001",
-      "Description": "An OData entity creation must return the created resource in a 201 response.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 129
-    },
-    {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
@@ -21992,13 +22113,6 @@
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
       "LineNumber": 96
-    },
-    {
-      "Code": "ODATA0001",
-      "Description": "An OData entity creation must return the created resource in a 201 response.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 129
     },
     {
       "Code": "RFC0007",
@@ -22106,13 +22220,6 @@
       "LineNumber": 124
     },
     {
-      "Code": "ODATA0001",
-      "Description": "An OData entity creation must return the created resource in a 201 response.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 157
-    },
-    {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
@@ -22188,13 +22295,6 @@
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
       "LineNumber": 53
-    },
-    {
-      "Code": "ODATA0001",
-      "Description": "An OData entity creation must return the created resource in a 201 response.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 74
     },
     {
       "Code": "RFC0007",

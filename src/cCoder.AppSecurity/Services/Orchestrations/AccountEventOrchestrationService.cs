@@ -120,7 +120,8 @@ internal sealed partial class AccountEventOrchestrationService(
             user.DefaultCultureId = accountEvent.Culture;
         }
 
-        return await userProcessingService.UpdateUserAsync(entity: user);
+        return await userProcessingService
+            .UpdateUserFromAccountEventAsync(entity: user);
     }
 
     private static string NormalizeDomain(string requestDomain)

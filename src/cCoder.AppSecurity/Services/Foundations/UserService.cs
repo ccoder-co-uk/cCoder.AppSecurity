@@ -107,23 +107,28 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
             ValidateUserOnUpdate(
                 updatedUser: updatedUser);
 
-            DataUser internalUser = new()
-            {
-                Id = updatedUser.Id,
-                DefaultCultureId = updatedUser.DefaultCultureId,
-                DisplayName = updatedUser.DisplayName,
-                Email = updatedUser.Email,
-                IsActive = updatedUser.IsActive
-            };
+            DataUser internalUser = ToExternalUser(item: updatedUser);
 
-            authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_update");
-            DataUser result = await userBroker.UpdateUserAsync(entity: internalUser);
-            updatedUser.Id = result.Id;
-            updatedUser.DefaultCultureId = result.DefaultCultureId;
-            updatedUser.DisplayName = result.DisplayName;
-            updatedUser.Email = result.Email;
-            updatedUser.IsActive = result.IsActive;
-            return updatedUser;
+            authorizationBroker.Authorize(
+                appId: userBroker.GetAppId(entity: internalUser),
+                privilege: $"{nameof(User)}_update");
+
+            return await UpdateUserValueAsync(
+                updatedUser: updatedUser,
+                internalUser: internalUser);
+
+        });
+
+    public ValueTask<User> UpdateUserFromAccountEventAsync(
+        User updatedUser) =>
+        TryCatch(operation: async ValueTask<User> () =>
+        {
+            ValidateUserFromAccountEventOnUpdate(
+                updatedUser: updatedUser);
+
+            return await UpdateUserValueAsync(
+                updatedUser: updatedUser,
+                internalUser: ToExternalUser(item: updatedUser));
 
         });
 
@@ -152,6 +157,21 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
             Roles = item.Roles?.Select(selector: ToLocalUserRole)
                 .ToArray(),
         };
+
+    private async ValueTask<User> UpdateUserValueAsync(
+        User updatedUser,
+        DataUser internalUser)
+    {
+        DataUser result = await userBroker.UpdateUserAsync(
+            entity: internalUser);
+
+        updatedUser.Id = result.Id;
+        updatedUser.DefaultCultureId = result.DefaultCultureId;
+        updatedUser.DisplayName = result.DisplayName;
+        updatedUser.Email = result.Email;
+        updatedUser.IsActive = result.IsActive;
+        return updatedUser;
+    }
 
     static DataUser ToExternalUser(User item) =>
         new()
