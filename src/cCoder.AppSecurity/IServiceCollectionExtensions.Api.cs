@@ -75,7 +75,13 @@ public static partial class IServiceCollectionExtensions
         this IServiceCollection services,
         Action<IServiceCollection, AppSecurityConfiguration> configure)
     {
-        AppSecurityConfiguration configuration = new();
+        AppSecurityConfiguration configuration = new()
+        {
+            ConnectionString = string.Empty,
+            RootPath = "Api/AppSecurity",
+            IncludeLegacyCoreContext = true,
+            EventProviders = [],
+        };
         configure?.Invoke(arg1: services, arg2: configuration);
         return configuration;
     }

@@ -8,14 +8,6 @@ namespace cCoder.AppSecurity.Models;
 
 public class AppSecurityConfiguration
 {
-    public AppSecurityConfiguration()
-    {
-        ConnectionString = string.Empty;
-        RootPath = "Api/AppSecurity";
-        IncludeLegacyCoreContext = true;
-        EventProviders = [];
-    }
-
     public string ConnectionString { get; set; }
     public bool AggregateDomains { get; set; }
     public bool DebugInfo { get; set; }
