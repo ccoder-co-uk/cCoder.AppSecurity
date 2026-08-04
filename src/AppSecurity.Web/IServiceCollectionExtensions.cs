@@ -15,7 +15,11 @@ public static class IServiceCollectionExtensions
         IConfiguration configuration,
         Action<AppSecurityWebConfiguration> configure = null)
     {
-        AppSecurityWebConfiguration applicationConfiguration = new();
+        AppSecurityWebConfiguration applicationConfiguration = new()
+        {
+            AppSecurity = new cCoder.AppSecurity.Models.AppSecurityConfiguration(),
+            Security = new cCoder.Security.Models.SecurityConfiguration(),
+        };
         configuration.Bind(applicationConfiguration);
         configure?.Invoke(applicationConfiguration);
 

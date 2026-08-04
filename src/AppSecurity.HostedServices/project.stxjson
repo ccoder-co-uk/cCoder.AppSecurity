@@ -50,6 +50,20 @@
               "MethodId": "System.Action\u003CT\u003E.Invoke(T)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Models.AppSecurityConfiguration",
+              "MethodName": ".ctor",
+              "MethodId": "cCoder.AppSecurity.Models.AppSecurityConfiguration..ctor()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.Models.SecurityConfiguration",
+              "MethodName": ".ctor",
+              "MethodId": "cCoder.Security.Models.SecurityConfiguration..ctor()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [],

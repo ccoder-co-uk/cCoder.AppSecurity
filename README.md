@@ -1,5 +1,7 @@
 # cCoder.AppSecurity
 
+[View the latest code coverage report](https://ccoder-co-uk.github.io/cCoder.AppSecurity/)
+
 `cCoder.AppSecurity` contains the App Security domain for the cCoder platform.
 
 It owns application-level users, roles, privileges, and user-role links. SSO users and account tokens remain owned by `cCoder.Security`.
