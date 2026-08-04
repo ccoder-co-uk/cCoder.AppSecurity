@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.Data.Models.Security;
+using cCoder.AppSecurity.Models.Exceptions;
 using cCoder.Security.Models.Entities;
 using cCoder.Security.Models.Events;
 using Moq;
@@ -130,6 +131,77 @@ public partial class AccountEventOrchestrationServiceTests
             times: Times.Exactly(callCount: 2));
 
         userProcessingServiceMock.VerifyNoOtherCalls();
+        accountRoleAssignmentProcessingServiceMock.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public async Task ShouldRetainConcurrentlyCreatedGuestBeforeFirstAppForProcessAsync()
+    {
+        // Given
+        SecurityAccountEvent accountEvent = new()
+        {
+            RequestDomain = "https://localhost",
+            User = new SSOUser
+            {
+                Id = "bootstrap.user",
+                DisplayName = "Bootstrap User",
+                Email = "bootstrap.user@example.com"
+            }
+        };
+
+        User guestUser = new()
+        {
+            Id = "Guest",
+            DisplayName = "Guest",
+            IsActive = true
+        };
+
+        appProcessingServiceMock
+            .Setup(expression: service => service.GetByDomain(
+                domain: "localhost"))
+            .Returns(value: null);
+
+        appProcessingServiceMock
+            .Setup(expression: service => service.GetAll())
+            .Returns(value: Array.Empty<cCoder.Data.Models.CMS.App>()
+                .AsQueryable());
+
+        userProcessingServiceMock
+            .SetupSequence(expression: service => service.GetAll(
+                ignoreFilters: true))
+            .Returns(value: Array.Empty<User>()
+                .AsQueryable())
+            .Returns(value: new[] { guestUser }
+                .AsQueryable())
+            .Returns(value: new[] { guestUser }
+                .AsQueryable());
+
+        userProcessingServiceMock
+            .Setup(expression: service => service.AddUserAsync(
+                entity: It.Is<User>(match: user => user.Id == "Guest")))
+            .ThrowsAsync(exception: new AppSecurityProcessingServiceException(
+                innerException: new InvalidOperationException()));
+
+        userProcessingServiceMock
+            .Setup(expression: service => service.AddUserAsync(
+                entity: It.Is<User>(match: user =>
+                    user.Id == accountEvent.User.Id)))
+            .ReturnsAsync(valueFunction: (User user) => user);
+
+        // When
+        await accountEventOrchestrationService
+            .ProcessSecurityAccountEventAsync(accountEvent: accountEvent);
+
+        // Then
+        userProcessingServiceMock.Verify(
+            expression: service => service.GetAll(ignoreFilters: true),
+            times: Times.Exactly(callCount: 3));
+
+        userProcessingServiceMock.Verify(
+            expression: service => service.AddUserAsync(
+                entity: It.IsAny<User>()),
+            times: Times.Exactly(callCount: 2));
+
         accountRoleAssignmentProcessingServiceMock.VerifyNoOtherCalls();
     }
 
