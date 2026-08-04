@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.AppSecurity.Models.Exceptions;
 using cCoder.AppSecurity.Services.Processings;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -60,14 +61,28 @@ internal sealed partial class AccountEventOrchestrationService(
 
         if (!guestExists)
         {
-            await userProcessingService.AddUserAsync(entity: new User
+            try
             {
-                Id = "Guest",
-                DefaultCultureId = string.Empty,
-                DisplayName = "Guest",
-                Email = string.Empty,
-                IsActive = true
-            });
+                await userProcessingService.AddUserAsync(entity: new User
+                {
+                    Id = "Guest",
+                    DefaultCultureId = string.Empty,
+                    DisplayName = "Guest",
+                    Email = string.Empty,
+                    IsActive = true
+                });
+            }
+            catch (AppSecurityProcessingServiceException)
+            {
+                bool guestWasCreatedByAnotherProcess = userProcessingService
+                    .GetAll(ignoreFilters: true)
+                    .Any(predicate: user => user.Id == "Guest");
+
+                if (!guestWasCreatedByAnotherProcess)
+                {
+                    throw;
+                }
+            }
         }
     }
 
