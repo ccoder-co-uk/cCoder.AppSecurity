@@ -7,3 +7,4 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("cCoder.AppSecurity.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: InternalsVisibleTo("ProxyBuilder")]
