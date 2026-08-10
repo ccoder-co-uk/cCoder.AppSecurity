@@ -118,7 +118,8 @@ internal sealed partial class AccountEventOrchestrationService(
                 IsActive = app is null || !accountEvent.User.LockoutEnabled
             };
 
-            return await userProcessingService.AddUserAsync(entity: user);
+            return await userProcessingService
+                .AddUserFromAccountEventAsync(entity: user);
         }
 
         if (app is null)
