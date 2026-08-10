@@ -61,24 +61,26 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
         });
 
     void ListenToAppAddEvents() =>
-        eventHubBroker.ListenToEvent<App, Services.Orchestrations.IAppOrchestrationService>(
-eventName: "app_add",
-handler: (service, app) => service.AddAppAsync(app: app));
+        eventHubBroker.ListenToEvent<App, IAppRelationshipAggregationService>(
+            eventName: "app_add",
+            handler: (service, app) => service.AddAppAsync(newApp: app));
 
     void ListenToAppUpdateEvents() =>
-        eventHubBroker.ListenToEvent<App, Services.Orchestrations.IAppOrchestrationService>(
-eventName: "app_update",
-handler: (service, app) => service.UpdateAppAsync(app: app));
+        eventHubBroker.ListenToEvent<App, IAppRelationshipAggregationService>(
+            eventName: "app_update",
+            handler: (service, app) => service.UpdateAppAsync(updatedApp: app));
 
     void ListenToAppDeleteEvent() =>
-        eventHubBroker.ListenToEvent<App, Services.Orchestrations.IAppOrchestrationService>(
-eventName: "app_delete",
-handler: (service, app) => service.DeleteAsync(appId: app.Id));
+        eventHubBroker.ListenToEvent<App, IAppRelationshipAggregationService>(
+            eventName: "app_delete",
+            handler: (service, app) => service.DeleteAppAsync(deletedApp: app));
 
     void ListenToPackageImportEvents() =>
         eventHubBroker.ListenToEvent<(int appId, Package package), IAppSecurityMigrationAggregationService>(
-eventName: "package_import",
-handler: (service, args) => service.ImportPackageAppSecurityPackageAsync(appId: args.appId, package: ToLocalPackage(package: args.package)));
+            eventName: "package_import",
+            handler: (service, args) => service.ImportPackageAppSecurityPackageAsync(
+                appId: args.appId,
+                package: ToLocalPackage(package: args.package)));
 
     void ListenToSecurityRegistrationCreatedEvent() =>
         ListenToSecurityAccountEvent(

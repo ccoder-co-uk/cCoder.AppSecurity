@@ -2977,6 +2977,188 @@
       ]
     },
     {
+      "Name": "cCoder.AppSecurity.Brokers.Storages.PageRoleBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 18,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.AppSecurity:cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker",
+          "FullName": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker",
+          "Name": "IPageRoleBroker",
+          "Namespace": "cCoder.AppSecurity.Brokers.Storages",
+          "AssemblyName": "cCoder.AppSecurity",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "Broker"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Storages.PageRoleBroker.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)",
+          "Name": "AddPageRoleAsync",
+          "LineNumber": 37,
+          "Inputs": [
+            {
+              "Name": "newPageRole",
+              "Type": "cCoder.Data.Models.Security.PageRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.PageRole\u003E",
+          "Implements": [
+            "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.EntityFrameworkCore.DbContext",
+              "MethodName": "SaveChangesAsync",
+              "MethodId": "Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(System.Threading.CancellationToken)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.EntityFrameworkCore.DbSet\u003CTEntity\u003E",
+              "MethodName": "AddAsync",
+              "MethodId": "Microsoft.EntityFrameworkCore.DbSet\u003CTEntity\u003E.AddAsync(TEntity,System.Threading.CancellationToken)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Data.ICoreContextFactory",
+              "MethodName": "CreateCoreContext",
+              "MethodId": "cCoder.Data.ICoreContextFactory.CreateCoreContext()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException"
+          ],
+          "IncomingExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException"
+          ],
+          "ThrowsExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Storages.PageRoleBroker.GetAllPageRoles()",
+          "Name": "GetAllPageRoles",
+          "LineNumber": 20,
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.PageRole\u003E",
+          "Implements": [
+            "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.GetAllPageRoles()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions",
+              "MethodName": "IgnoreQueryFilters",
+              "MethodId": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.IgnoreQueryFilters(System.Linq.IQueryable\u003CTEntity\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Data.ICoreContextFactory",
+              "MethodName": "CreateCoreContext",
+              "MethodId": "cCoder.Data.ICoreContextFactory.CreateCoreContext()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Storages.PageRoleBroker.GetPageId(System.Int32,System.String)",
+          "Name": "GetPageId",
+          "LineNumber": 26,
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "path",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Int32",
+          "Implements": [
+            "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.GetPageId(System.Int32,System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions",
+              "MethodName": "IgnoreQueryFilters",
+              "MethodId": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.IgnoreQueryFilters(System.Linq.IQueryable\u003CTEntity\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Queryable",
+              "MethodName": "FirstOrDefault",
+              "MethodId": "System.Linq.Queryable.FirstOrDefault(System.Linq.IQueryable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Queryable",
+              "MethodName": "Select",
+              "MethodId": "System.Linq.Queryable.Select(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, TResult\u003E\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Queryable",
+              "MethodName": "Where",
+              "MethodId": "System.Linq.Queryable.Where(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, System.Boolean\u003E\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Data.ICoreContextFactory",
+              "MethodName": "CreateCoreContext",
+              "MethodId": "cCoder.Data.ICoreContextFactory.CreateCoreContext()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "cCoder.AppSecurity.Brokers.Storages.UserBroker",
       "StandardElementType": "Broker",
       "LineNumber": 22,
@@ -4189,7 +4371,11 @@
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
@@ -4244,10 +4430,15 @@
           ],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "System.ArgumentException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
@@ -7091,10 +7282,12 @@
           ],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "System.ArgumentException",
             "System.Security.SecurityException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
@@ -7142,10 +7335,17 @@
           ],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
           ],
@@ -7186,6 +7386,9 @@
           ],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
@@ -7608,6 +7811,30 @@
       "Methods": []
     },
     {
+      "Name": "cCoder.AppSecurity.Models.AppSecurityPackageMapping",
+      "StandardElementType": "Model",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [
+        {
+          "Name": "App",
+          "Type": "cCoder.Data.Models.CMS.App"
+        },
+        {
+          "Name": "AppId",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "Package",
+          "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
+        }
+      ],
+      "Methods": []
+    },
+    {
       "Name": "cCoder.AppSecurity.Models.AuditResultByProperty",
       "StandardElementType": "Model",
       "LineNumber": 7,
@@ -8024,6 +8251,26 @@
       "Methods": []
     },
     {
+      "Name": "cCoder.AppSecurity.Models.PageRoleInfo",
+      "StandardElementType": "Model",
+      "LineNumber": 7,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [
+        {
+          "Name": "Path",
+          "Type": "System.String"
+        },
+        {
+          "Name": "Role",
+          "Type": "System.String"
+        }
+      ],
+      "Methods": []
+    },
+    {
       "Name": "cCoder.AppSecurity.ODataConventionModelBuilderExtensions",
       "StandardElementType": "Exposure",
       "LineNumber": 10,
@@ -8035,9 +8282,227 @@
       "Methods": []
     },
     {
+      "Name": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService",
+      "StandardElementType": "AggregationService",
+      "LineNumber": 10,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.AppSecurity:cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService",
+          "FullName": "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService",
+          "Name": "IAppRelationshipAggregationService",
+          "Namespace": "cCoder.AppSecurity.Services.Aggregations",
+          "AssemblyName": "cCoder.AppSecurity",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "AggregationService"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService.AddAppAsync(cCoder.Data.Models.CMS.App)",
+          "Name": "AddAppAsync",
+          "LineNumber": 15,
+          "Inputs": [
+            {
+              "Name": "newApp",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService.AddAppAsync(cCoder.Data.Models.CMS.App)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService",
+              "MethodName": "AddAppAsync",
+              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService.AddAppAsync(cCoder.Data.Models.CMS.App)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService",
+              "MethodName": "AddOrUpdateAppPageRolesAsync",
+              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService.AddOrUpdateAppPageRolesAsync(cCoder.Data.Models.CMS.App)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService.DeleteAppAsync(cCoder.Data.Models.CMS.App)",
+          "Name": "DeleteAppAsync",
+          "LineNumber": 31,
+          "Inputs": [
+            {
+              "Name": "deletedApp",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService.DeleteAppAsync(cCoder.Data.Models.CMS.App)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService",
+              "MethodName": "DeleteAsync",
+              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService.DeleteAsync(System.Int32)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService.UpdateAppAsync(cCoder.Data.Models.CMS.App)",
+          "Name": "UpdateAppAsync",
+          "LineNumber": 23,
+          "Inputs": [
+            {
+              "Name": "updatedApp",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService.UpdateAppAsync(cCoder.Data.Models.CMS.App)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService",
+              "MethodName": "UpdateAppAsync",
+              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService.UpdateAppAsync(cCoder.Data.Models.CMS.App)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService",
+              "MethodName": "AddOrUpdateAppPageRolesAsync",
+              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService.AddOrUpdateAppPageRolesAsync(cCoder.Data.Models.CMS.App)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",
       "StandardElementType": "AggregationService",
-      "LineNumber": 12,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -8075,38 +8540,10 @@
           ],
           "Calls": [
             {
-              "TypeName": "System.Linq.Enumerable",
-              "MethodName": "ToArray",
-              "MethodId": "System.Linq.Enumerable.ToArray(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Linq.Queryable",
-              "MethodName": "Select",
-              "MethodId": "System.Linq.Queryable.Select(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, TResult\u003E\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Linq.Queryable",
-              "MethodName": "Where",
-              "MethodId": "System.Linq.Queryable.Where(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, System.Boolean\u003E\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Services.Processings.IJsonProcessingService",
-              "MethodName": "Serialize",
-              "MethodId": "cCoder.AppSecurity.Services.Processings.IJsonProcessingService.Serialize(System.Object)",
-              "StandardElementType": "ProcessingService",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService",
-              "MethodName": "GetAll",
-              "MethodId": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.GetAll(System.Boolean)",
-              "StandardElementType": "ProcessingService",
+              "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageExportOrchestrationService",
+              "MethodName": "ExportAppSecurityPackage",
+              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageExportOrchestrationService.ExportAppSecurityPackage(System.Int32,System.String)",
+              "StandardElementType": "OrchestrationService",
               "IsDependencyBoundary": false
             }
           ],
@@ -8114,7 +8551,11 @@
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
@@ -8125,9 +8566,9 @@
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException"
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
           ],
           "ThrowsExceptionTypes": [
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
@@ -8146,7 +8587,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService.ImportPackageAppSecurityPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)",
           "Name": "ImportPackageAppSecurityPackageAsync",
-          "LineNumber": 17,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "appId",
@@ -8163,33 +8604,38 @@
           ],
           "Calls": [
             {
-              "TypeName": "System.Linq.Enumerable",
-              "MethodName": "Where",
-              "MethodId": "System.Linq.Enumerable.Where(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, System.Boolean\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
+              "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService",
+              "MethodName": "UpdateAppAsync",
+              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService.UpdateAppAsync(cCoder.Data.Models.CMS.App)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
             },
             {
-              "TypeName": "System.String",
-              "MethodName": "StartsWith",
-              "MethodId": "System.String.StartsWith(System.String)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
+              "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService",
+              "MethodName": "MapAppSecurityPackageMapping",
+              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMapping(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
             },
             {
-              "TypeName": "cCoder.AppSecurity.Services.Processings.IJsonProcessingService",
-              "MethodName": "ParseJson",
-              "MethodId": "cCoder.AppSecurity.Services.Processings.IJsonProcessingService.ParseJson(System.String)",
-              "StandardElementType": "ProcessingService",
+              "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService",
+              "MethodName": "AddOrUpdateAppPageRolesAsync",
+              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService.AddOrUpdateAppPageRolesAsync(cCoder.Data.Models.CMS.App)",
+              "StandardElementType": "OrchestrationService",
               "IsDependencyBoundary": false
             }
           ],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "System.ArgumentException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
@@ -8200,9 +8646,10 @@
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException"
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
           ],
           "ThrowsExceptionTypes": [
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
@@ -8707,10 +9154,12 @@
           "Calls": [],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "System.ArgumentException",
             "System.Security.SecurityException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
@@ -8753,18 +9202,25 @@
           "Calls": [],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
           ],
           "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
           ],
           "ThrowsExceptionTypes": [
@@ -8792,6 +9248,9 @@
           "Calls": [],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
@@ -8800,10 +9259,10 @@
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
           ],
           "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
           ],
           "ThrowsExceptionTypes": [
@@ -9787,6 +10246,165 @@
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.PageRoleService",
+      "StandardElementType": "FoundationService",
+      "LineNumber": 10,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.AppSecurity:cCoder.AppSecurity.Services.Foundations.IPageRoleService",
+          "FullName": "cCoder.AppSecurity.Services.Foundations.IPageRoleService",
+          "Name": "IPageRoleService",
+          "Namespace": "cCoder.AppSecurity.Services.Foundations",
+          "AssemblyName": "cCoder.AppSecurity",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "FoundationService"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Foundations.PageRoleService.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)",
+          "Name": "AddPageRoleAsync",
+          "LineNumber": 28,
+          "Inputs": [
+            {
+              "Name": "newPageRole",
+              "Type": "cCoder.Data.Models.Security.PageRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.PageRole\u003E",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Foundations.IPageRoleService.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker",
+              "MethodName": "AddPageRoleAsync",
+              "MethodId": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Foundations.PageRoleService.GetAll()",
+          "Name": "GetAll",
+          "LineNumber": 12,
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.PageRole\u003E",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Foundations.IPageRoleService.GetAll()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker",
+              "MethodName": "GetAllPageRoles",
+              "MethodId": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.GetAllPageRoles()",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Foundations.PageRoleService.GetPageId(System.Int32,System.String)",
+          "Name": "GetPageId",
+          "LineNumber": 20,
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "path",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Int32",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Foundations.IPageRoleService.GetPageId(System.Int32,System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker",
+              "MethodName": "GetPageId",
+              "MethodId": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.GetPageId(System.Int32,System.String)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
           ],
           "HttpMethods": [],
           "HttpResponses": [],
@@ -11581,6 +12199,386 @@
           "ThrowsExceptionTypes": [
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageExportOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "LineNumber": 10,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.AppSecurity:cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageExportOrchestrationService",
+          "FullName": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageExportOrchestrationService",
+          "Name": "IAppSecurityPackageExportOrchestrationService",
+          "Namespace": "cCoder.AppSecurity.Services.Orchestrations",
+          "AssemblyName": "cCoder.AppSecurity",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "OrchestrationService"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageExportOrchestrationService.ExportAppSecurityPackage(System.Int32,System.String)",
+          "Name": "ExportAppSecurityPackage",
+          "LineNumber": 15,
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "packageName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Models.AppSecurityPackage",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageExportOrchestrationService.ExportAppSecurityPackage(System.Int32,System.String)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "ToArray",
+              "MethodId": "System.Linq.Enumerable.ToArray(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Queryable",
+              "MethodName": "Select",
+              "MethodId": "System.Linq.Queryable.Select(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, TResult\u003E\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Queryable",
+              "MethodName": "Where",
+              "MethodId": "System.Linq.Queryable.Where(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, System.Boolean\u003E\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Processings.IJsonProcessingService",
+              "MethodName": "Serialize",
+              "MethodId": "cCoder.AppSecurity.Services.Processings.IJsonProcessingService.Serialize(System.Object)",
+              "StandardElementType": "ProcessingService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService",
+              "MethodName": "GetAll",
+              "MethodId": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.GetAll(System.Boolean)",
+              "StandardElementType": "ProcessingService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "LineNumber": 12,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.AppSecurity:cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService",
+          "FullName": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService",
+          "Name": "IAppSecurityPackageOrchestrationService",
+          "Namespace": "cCoder.AppSecurity.Services.Orchestrations",
+          "AssemblyName": "cCoder.AppSecurity",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "OrchestrationService"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageOrchestrationService.MapAppSecurityPackageMapping(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
+          "Name": "MapAppSecurityPackageMapping",
+          "LineNumber": 17,
+          "Inputs": [
+            {
+              "Name": "mapping",
+              "Type": "cCoder.AppSecurity.Models.AppSecurityPackageMapping"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Models.AppSecurityPackageMapping",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMapping(cCoder.AppSecurity.Models.AppSecurityPackageMapping)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "Distinct",
+              "MethodId": "System.Linq.Enumerable.Distinct(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Collections.Generic.IEqualityComparer\u003CTSource\u003E?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "Select",
+              "MethodId": "System.Linq.Enumerable.Select(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, TResult\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "ToArray",
+              "MethodId": "System.Linq.Enumerable.ToArray(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Queryable",
+              "MethodName": "Where",
+              "MethodId": "System.Linq.Queryable.Where(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, System.Boolean\u003E\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.MemoryExtensions",
+              "MethodName": "Contains",
+              "MethodId": "System.MemoryExtensions.Contains(System.ReadOnlySpan\u003CT\u003E,T)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService",
+              "MethodName": "GetAll",
+              "MethodId": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.GetAll(System.Boolean)",
+              "StandardElementType": "ProcessingService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Data.Models.CMS.App",
+              "MethodName": ".ctor",
+              "MethodId": "cCoder.Data.Models.CMS.App..ctor()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "System.ArgumentException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "System.ArgumentException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "LineNumber": 11,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.AppSecurity:cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService",
+          "FullName": "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService",
+          "Name": "IPageRoleOrchestrationService",
+          "Namespace": "cCoder.AppSecurity.Services.Orchestrations",
+          "AssemblyName": "cCoder.AppSecurity",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "OrchestrationService"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService.AddOrUpdateAppPageRolesAsync(cCoder.Data.Models.CMS.App)",
+          "Name": "AddOrUpdateAppPageRolesAsync",
+          "LineNumber": 16,
+          "Inputs": [
+            {
+              "Name": "app",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService.AddOrUpdateAppPageRolesAsync(cCoder.Data.Models.CMS.App)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Collections.Generic.Dictionary\u003CTKey, TValue\u003E",
+              "MethodName": "TryGetValue",
+              "MethodId": "System.Collections.Generic.Dictionary\u003CTKey, TValue\u003E.TryGetValue(TKey,TValue)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "First",
+              "MethodId": "System.Linq.Enumerable.First(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "GroupBy",
+              "MethodId": "System.Linq.Enumerable.GroupBy(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, TKey\u003E,System.Collections.Generic.IEqualityComparer\u003CTKey\u003E?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "ToArray",
+              "MethodId": "System.Linq.Enumerable.ToArray(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "ToDictionary",
+              "MethodId": "System.Linq.Enumerable.ToDictionary(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, TKey\u003E,System.Func\u003CTSource, TElement\u003E,System.Collections.Generic.IEqualityComparer\u003CTKey\u003E?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "Where",
+              "MethodId": "System.Linq.Enumerable.Where(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, System.Boolean\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Queryable",
+              "MethodName": "Where",
+              "MethodId": "System.Linq.Queryable.Where(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, System.Boolean\u003E\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.String",
+              "MethodName": "IsNullOrWhiteSpace",
+              "MethodId": "System.String.IsNullOrWhiteSpace(System.String?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Processings.IPageRoleProcessingService",
+              "MethodName": "AddOrUpdatePageRolesAsync",
+              "MethodId": "cCoder.AppSecurity.Services.Processings.IPageRoleProcessingService.AddOrUpdatePageRolesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
+              "StandardElementType": "ProcessingService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService",
+              "MethodName": "GetAll",
+              "MethodId": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.GetAll(System.Boolean)",
+              "StandardElementType": "ProcessingService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
           ],
           "HttpMethods": [],
@@ -14000,6 +14998,117 @@
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.PageRoleProcessingService",
+      "StandardElementType": "ProcessingService",
+      "LineNumber": 10,
+      "IsPublic": false,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "cCoder.AppSecurity:cCoder.AppSecurity.Services.Processings.IPageRoleProcessingService",
+          "FullName": "cCoder.AppSecurity.Services.Processings.IPageRoleProcessingService",
+          "Name": "IPageRoleProcessingService",
+          "Namespace": "cCoder.AppSecurity.Services.Processings",
+          "AssemblyName": "cCoder.AppSecurity",
+          "Kind": "Interface",
+          "IsInCurrentProject": true,
+          "StandardElementType": "ProcessingService"
+        }
+      ],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Processings.PageRoleProcessingService.AddOrUpdatePageRolesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
+          "Name": "AddOrUpdatePageRolesAsync",
+          "LineNumber": 13,
+          "Inputs": [
+            {
+              "Name": "roles",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Processings.IPageRoleProcessingService.AddOrUpdatePageRolesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "Any",
+              "MethodId": "System.Linq.Enumerable.Any(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, System.Boolean\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "ToArray",
+              "MethodId": "System.Linq.Enumerable.ToArray(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Foundations.IPageRoleService",
+              "MethodName": "AddPageRoleAsync",
+              "MethodId": "cCoder.AppSecurity.Services.Foundations.IPageRoleService.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Foundations.IPageRoleService",
+              "MethodName": "GetAll",
+              "MethodId": "cCoder.AppSecurity.Services.Foundations.IPageRoleService.GetAll()",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Foundations.IPageRoleService",
+              "MethodName": "GetPageId",
+              "MethodId": "cCoder.AppSecurity.Services.Foundations.IPageRoleService.GetPageId(System.Int32,System.String)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.Data.Models.Security.PageRole",
+              "MethodName": ".ctor",
+              "MethodId": "cCoder.Data.Models.Security.PageRole..ctor()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
           ],
           "ThrowsExceptionTypes": [
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
@@ -16468,6 +17577,10 @@
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
             "System.Security.SecurityException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
@@ -16515,6 +17628,10 @@
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
             "System.Security.SecurityException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
@@ -17688,6 +18805,92 @@
             }
           ],
           "ReturnType": "cCoder.Data.Models.CMS.App",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker",
+      "StandardElementType": "Broker",
+      "LineNumber": 11,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)",
+          "Name": "AddPageRoleAsync",
+          "LineNumber": 15,
+          "Inputs": [
+            {
+              "Name": "newPageRole",
+              "Type": "cCoder.Data.Models.Security.PageRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.PageRole\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.GetAllPageRoles()",
+          "Name": "GetAllPageRoles",
+          "LineNumber": 13,
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.PageRole\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.GetPageId(System.Int32,System.String)",
+          "Name": "GetPageId",
+          "LineNumber": 14,
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "path",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Int32",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -19176,6 +20379,93 @@
       ]
     },
     {
+      "Name": "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService",
+      "StandardElementType": "AggregationService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService.AddAppAsync(cCoder.Data.Models.CMS.App)",
+          "Name": "AddAppAsync",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "newApp",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService.DeleteAppAsync(cCoder.Data.Models.CMS.App)",
+          "Name": "DeleteAppAsync",
+          "LineNumber": 13,
+          "Inputs": [
+            {
+              "Name": "deletedApp",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService.UpdateAppAsync(cCoder.Data.Models.CMS.App)",
+          "Name": "UpdateAppAsync",
+          "LineNumber": 12,
+          "Inputs": [
+            {
+              "Name": "updatedApp",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "cCoder.AppSecurity.Services.Aggregations.IAppSecurityMigrationAggregationService",
       "StandardElementType": "AggregationService",
       "LineNumber": 12,
@@ -19886,6 +21176,92 @@
             }
           ],
           "ReturnType": "System.String",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Foundations.IPageRoleService",
+      "StandardElementType": "FoundationService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Foundations.IPageRoleService.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)",
+          "Name": "AddPageRoleAsync",
+          "LineNumber": 13,
+          "Inputs": [
+            {
+              "Name": "newPageRole",
+              "Type": "cCoder.Data.Models.Security.PageRole"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.PageRole\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Foundations.IPageRoleService.GetAll()",
+          "Name": "GetAll",
+          "LineNumber": 11,
+          "Inputs": [],
+          "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.PageRole\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Foundations.IPageRoleService.GetPageId(System.Int32,System.String)",
+          "Name": "GetPageId",
+          "LineNumber": 12,
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "path",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "System.Int32",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -20867,6 +22243,121 @@
       ]
     },
     {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageExportOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageExportOrchestrationService.ExportAppSecurityPackage(System.Int32,System.String)",
+          "Name": "ExportAppSecurityPackage",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "packageName",
+              "Type": "System.String"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Models.AppSecurityPackage",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "LineNumber": 10,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMapping(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
+          "Name": "MapAppSecurityPackageMapping",
+          "LineNumber": 12,
+          "Inputs": [
+            {
+              "Name": "mapping",
+              "Type": "cCoder.AppSecurity.Models.AppSecurityPackageMapping"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Models.AppSecurityPackageMapping",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService",
+      "StandardElementType": "OrchestrationService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService.AddOrUpdateAppPageRolesAsync(cCoder.Data.Models.CMS.App)",
+          "Name": "AddOrUpdateAppPageRolesAsync",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "app",
+              "Type": "cCoder.Data.Models.CMS.App"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.IPrivilegeOrchestrationService",
       "StandardElementType": "OrchestrationService",
       "LineNumber": 9,
@@ -21135,6 +22626,43 @@
             }
           ],
           "ReturnType": "System.String",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        }
+      ]
+    },
+    {
+      "Name": "cCoder.AppSecurity.Services.Processings.IPageRoleProcessingService",
+      "StandardElementType": "ProcessingService",
+      "LineNumber": 9,
+      "IsPublic": false,
+      "Kind": "Interface",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [],
+      "Methods": [
+        {
+          "Id": "cCoder.AppSecurity.Services.Processings.IPageRoleProcessingService.AddOrUpdatePageRolesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
+          "Name": "AddOrUpdatePageRolesAsync",
+          "LineNumber": 11,
+          "Inputs": [
+            {
+              "Name": "roles",
+              "Type": "System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -22314,12 +23842,28 @@
       "ToType": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService"
     },
     {
-      "FromType": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",
-      "ToType": "cCoder.AppSecurity.Services.Processings.JsonProcessingService"
+      "FromType": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService",
+      "ToType": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService",
+      "ToType": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService"
     },
     {
       "FromType": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",
-      "ToType": "cCoder.AppSecurity.Services.Processings.RoleProcessingService"
+      "ToType": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",
+      "ToType": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageExportOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",
+      "ToType": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageOrchestrationService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",
+      "ToType": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService"
     },
     {
       "FromType": "cCoder.AppSecurity.Services.Foundations.AccountRoleAssignmentService",
@@ -22380,6 +23924,10 @@
     {
       "FromType": "cCoder.AppSecurity.Services.Foundations.JsonService",
       "ToType": "cCoder.AppSecurity.Brokers.JsonBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Foundations.PageRoleService",
+      "ToType": "cCoder.AppSecurity.Brokers.Storages.PageRoleBroker"
     },
     {
       "FromType": "cCoder.AppSecurity.Services.Foundations.PrivilegeService",
@@ -22454,6 +24002,30 @@
       "ToType": "cCoder.AppSecurity.Services.Foundations.RoleService"
     },
     {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageExportOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.JsonProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageExportOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.RoleProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.JsonProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.RoleProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.PageRoleProcessingService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService",
+      "ToType": "cCoder.AppSecurity.Services.Processings.RoleProcessingService"
+    },
+    {
       "FromType": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService",
       "ToType": "cCoder.AppSecurity.Services.Processings.PrivilegeEventProcessingService"
     },
@@ -22500,6 +24072,10 @@
     {
       "FromType": "cCoder.AppSecurity.Services.Processings.JsonProcessingService",
       "ToType": "cCoder.AppSecurity.Services.Foundations.JsonService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.PageRoleProcessingService",
+      "ToType": "cCoder.AppSecurity.Services.Foundations.PageRoleService"
     },
     {
       "FromType": "cCoder.AppSecurity.Services.Processings.PrivilegeEventProcessingService",

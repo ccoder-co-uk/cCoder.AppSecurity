@@ -77,12 +77,6 @@ internal sealed partial class RoleService(
 
             AuthorizeMutationOrAllowBootstrap(appId: newRole.AppId, privilege: $"{nameof(Role)}_create", assignedPrivileges: newRole.Privs);
             DataRole result = await roleBroker.AddRoleAsync(entity: internalRole);
-
-            await AddPageRolesAsync(
-                roleId: result.Id,
-                appId: result.AppId,
-                pageRoles: newRole.Pages ?? []);
-
             await SaveUserRolesAsync(role: newRole, roleId: result.Id);
             newRole.Id = result.Id;
             newRole.AppId = result.AppId;
@@ -109,12 +103,6 @@ internal sealed partial class RoleService(
             };
 
             DataRole result = await roleBroker.AddRoleAsync(entity: internalRole);
-
-            await AddPageRolesAsync(
-                roleId: result.Id,
-                appId: result.AppId,
-                pageRoles: newRole.Pages ?? []);
-
             newRole.Id = result.Id;
             newRole.AppId = result.AppId;
             newRole.Name = result.Name;
@@ -141,12 +129,6 @@ internal sealed partial class RoleService(
 
             AuthorizeMutationOrAllowBootstrap(appId: updatedRole.AppId, privilege: $"{nameof(Role)}_update", assignedPrivileges: updatedRole.Privs);
             DataRole result = await roleBroker.UpdateRoleAsync(entity: internalRole);
-
-            await AddPageRolesAsync(
-                roleId: result.Id,
-                appId: result.AppId,
-                pageRoles: updatedRole.Pages ?? []);
-
             await SaveUserRolesAsync(role: updatedRole, roleId: result.Id);
             updatedRole.Id = result.Id;
             updatedRole.AppId = result.AppId;
@@ -173,12 +155,6 @@ internal sealed partial class RoleService(
             };
 
             DataRole result = await roleBroker.UpdateRoleAsync(entity: internalRole);
-
-            await AddPageRolesAsync(
-                roleId: result.Id,
-                appId: result.AppId,
-                pageRoles: updatedRole.Pages ?? []);
-
             updatedRole.Id = result.Id;
             updatedRole.AppId = result.AppId;
             updatedRole.Name = result.Name;
@@ -206,47 +182,6 @@ internal sealed partial class RoleService(
             await DeleteRoleAsync(deletedRole: role);
 
         });
-
-    private async ValueTask AddPageRolesAsync(
-        Guid roleId,
-        int appId,
-        IEnumerable<PageRole> pageRoles)
-    {
-        PageRole[] requestedPageRoles = pageRoles?.ToArray() ?? [];
-
-        if (requestedPageRoles.Length == 0)
-        {
-            return;
-        }
-
-        int[] existingPageIds = roleBroker.GetPageRolesByRoleId(roleId: roleId)
-            .Select(selector: pageRole => pageRole.PageId)
-            .ToArray();
-
-        foreach (PageRole pageRole in requestedPageRoles)
-        {
-            int pageId = pageRole.PageId == 0
-                ? roleBroker.GetPageIdByPath(
-                    appId: appId,
-                    path: pageRole.Page?.Path)
-                : pageRole.PageId;
-
-            if (pageId == 0)
-            {
-                throw new ArgumentException(
-                    message: $"The page path '{pageRole.Page?.Path}' could not be resolved for app '{appId}'.");
-            }
-
-            if (!existingPageIds.Contains(value: pageId))
-            {
-                _ = await roleBroker.AddPageRoleAsync(newPageRole: new PageRole
-                {
-                    PageId = pageId,
-                    RoleId = roleId,
-                });
-            }
-        }
-    }
 
     public ValueTask DeleteValidatedAsync(Guid roleId) =>
         TryCatch(operation: async ValueTask () =>
