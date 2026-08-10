@@ -9,9 +9,6 @@ namespace cCoder.AppSecurity.Services.Foundations;
 
 internal sealed partial class PageRoleService
 {
-    private static void ValidateAllOnGet() =>
-        ValidationRulesEngine.Validate(inputs: []);
-
     private static void ValidatePageIdOnGet(int appId, string path) =>
         ValidationRulesEngine.Validate(inputs: [appId]);
 

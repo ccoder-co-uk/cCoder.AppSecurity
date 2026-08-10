@@ -4,14 +4,13 @@
 
 using cCoder.AppSecurity.Brokers.Events;
 using cCoder.AppSecurity.Models;
+using cCoder.AppSecurity.Services.Aggregations;
 using cCoder.AppSecurity.Services.Orchestrations;
 using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
-using cCoder.AppSecurity.Services.Aggregations;
 using cCoder.Data.Models.Packaging;
+using cCoder.Data.Models.Security;
 using cCoder.Security.Models.Events;
 using DataPackageItem = cCoder.Data.Models.Packaging.PackageItem;
-
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
@@ -48,8 +47,6 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
     public void ListenToPackageEvents() =>
         TryCatch(operation: void () =>
         {
-            ValidateListenToPackageEvents();
-
             ListenToPackageEventsValue();
         });
 

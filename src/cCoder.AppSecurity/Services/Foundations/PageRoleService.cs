@@ -12,8 +12,6 @@ internal sealed partial class PageRoleService(IPageRoleBroker pageRoleBroker) : 
     public IQueryable<PageRole> GetAll() =>
         TryCatch(operation: IQueryable<PageRole> () =>
         {
-            ValidateAllOnGet();
-
             return pageRoleBroker.GetAllPageRoles();
         });
 
