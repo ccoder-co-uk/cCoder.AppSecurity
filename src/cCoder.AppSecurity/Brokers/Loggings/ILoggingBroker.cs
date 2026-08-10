@@ -2,10 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Dependencies;
+namespace cCoder.AppSecurity.Brokers.Loggings;
 
-namespace cCoder.AppSecurity.Services.Foundations.Events;
-
-internal sealed partial class EventHandlerService
+public interface ILoggingBroker
 {
+    void LogError(Exception exception, string message, params object[] args);
 }

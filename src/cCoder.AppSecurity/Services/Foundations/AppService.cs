@@ -12,7 +12,6 @@ internal sealed partial class AppService(IAppBroker appBroker) : IAppService
     public IQueryable<App> GetAll() =>
         TryCatch(operation: IQueryable<App> () =>
         {
-            ValidateAllOnGet();
 
             return appBroker.GetAll();
         });

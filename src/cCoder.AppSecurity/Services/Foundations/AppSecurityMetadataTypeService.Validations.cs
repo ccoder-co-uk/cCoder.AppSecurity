@@ -8,6 +8,4 @@ namespace cCoder.AppSecurity.Services.Foundations;
 
 internal sealed partial class AppSecurityMetadataTypeService
 {
-    private static void ValidateGetKnownMetadata() =>
-        ValidationRulesEngine.Validate(inputs: []);
 }

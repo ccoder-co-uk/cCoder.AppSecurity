@@ -8,8 +8,6 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal sealed partial class AppProcessingService
 {
-    private static void ValidateGetAll() =>
-        ValidationRulesEngine.Validate(inputs: []);
 
     private static void ValidateGetByDomain(string domain) =>
         ValidationRulesEngine.Validate(inputs: [
