@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Api.OData;
+using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Dependencies.Metadata;
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Models.Exceptions;
@@ -17,7 +18,8 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
 public sealed partial class UserRoleController(
-    IUserRoleManager service)
+    IUserRoleManager service,
+    ILoggingBroker loggingBroker)
     : ODataController
 {
     [HttpGet]
@@ -30,12 +32,14 @@ public sealed partial class UserRoleController(
                 isEntity: true,
                 hasEndpoint: true));
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -56,16 +60,19 @@ public sealed partial class UserRoleController(
         {
             return Ok(value: service.GetAll());
         }
-        catch (AppSecurityOrchestrationValidationException)
+        catch (AppSecurityOrchestrationValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -84,16 +91,19 @@ public sealed partial class UserRoleController(
                 statusCode: StatusCodes.Status201Created,
                 value: await service.AddUserRoleAsync(entity: newUserRole));
         }
-        catch (AppSecurityOrchestrationValidationException)
+        catch (AppSecurityOrchestrationValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -112,16 +122,19 @@ public sealed partial class UserRoleController(
 
             return NoContent();
         }
-        catch (AppSecurityOrchestrationValidationException)
+        catch (AppSecurityOrchestrationValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -139,16 +152,19 @@ public sealed partial class UserRoleController(
 
             return NoContent();
         }
-        catch (AppSecurityOrchestrationValidationException)
+        catch (AppSecurityOrchestrationValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }

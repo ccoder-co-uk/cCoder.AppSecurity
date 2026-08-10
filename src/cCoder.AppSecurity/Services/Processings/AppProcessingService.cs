@@ -12,7 +12,6 @@ internal sealed partial class AppProcessingService(IAppService service) : IAppPr
     public IQueryable<App> GetAll() =>
         TryCatch(operation: IQueryable<App> () =>
         {
-            ValidateGetAll();
 
             return service.GetAll();
         });

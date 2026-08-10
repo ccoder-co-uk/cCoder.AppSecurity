@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Api.OData;
+using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Exposures;
 using cCoder.AppSecurity.Exposures.EventHandlers;
 using cCoder.AppSecurity.Dependencies.HostedServices;
@@ -154,6 +155,7 @@ public static partial class IServiceCollectionExtensions
 
     private static void AddBrokers(this IServiceCollection services)
     {
+        services.AddTransient<ILoggingBroker, LoggingBroker>();
         services.AddTransient<IAuthorizationBroker, AuthorizationBroker>();
         services.AddTransient<IAuthInfoBroker, AuthInfoBroker>();
         services.AddTransient<ISecurityDbContextBroker, SecurityDbContextBroker>();

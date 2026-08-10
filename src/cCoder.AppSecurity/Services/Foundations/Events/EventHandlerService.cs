@@ -21,7 +21,6 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
     public void ListenToAllEvents() =>
         TryCatch(operation: void () =>
         {
-            ValidateListenToAllEvents();
 
             ListenToAppCreateAndUpdateEventsValue();
             ListenToAppDeleteEventsValue();
@@ -33,7 +32,6 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
     public void ListenToAppCreateAndUpdateEvents() =>
         TryCatch(operation: void () =>
         {
-            ValidateListenToAppCreateAndUpdateEvents();
 
             ListenToAppAddEvents();
             ListenToAppUpdateEvents();
@@ -43,7 +41,6 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
     public void ListenToAppDeleteEvents() =>
         TryCatch(operation: void () =>
         {
-            ValidateListenToAppDeleteEvents();
 
             ListenToAppDeleteEvent();
         });
@@ -54,7 +51,6 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
     public void ListenToSecurityAccountEvents() =>
         TryCatch(operation: void () =>
         {
-            ValidateListenToSecurityAccountEvents();
 
             ListenToSecurityRegistrationCreatedEvent();
             ListenToSecurityRegistrationConfirmedEvent();

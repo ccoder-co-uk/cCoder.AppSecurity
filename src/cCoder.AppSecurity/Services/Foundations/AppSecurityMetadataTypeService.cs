@@ -14,7 +14,6 @@ internal sealed partial class AppSecurityMetadataTypeService : IAppSecurityMetad
     public IEnumerable<MetadataContainerSet> GetKnownMetadata() =>
         TryCatch(operation: IEnumerable<MetadataContainerSet> () =>
         {
-            ValidateGetKnownMetadata();
 
             return [
         new MetadataContainerSet

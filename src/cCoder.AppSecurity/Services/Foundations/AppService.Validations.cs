@@ -8,8 +8,6 @@ namespace cCoder.AppSecurity.Services.Foundations;
 
 internal sealed partial class AppService
 {
-    private static void ValidateAllOnGet() =>
-        ValidationRulesEngine.Validate(inputs: []);
 
     private static void ValidateByDomainOnGet(string domain) =>
         ValidationRulesEngine.Validate(inputs: [

@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Api.OData;
+using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Dependencies.Metadata;
 using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
@@ -24,7 +25,8 @@ namespace cCoder.AppSecurity.Exposures.Controllers;
 
 public sealed partial class UserController(
     IUserManager service,
-    ICoreAuthInfo authInfo)
+    ICoreAuthInfo authInfo,
+    ILoggingBroker loggingBroker)
     : ODataController
 {
     [HttpGet]
@@ -39,16 +41,19 @@ public sealed partial class UserController(
                 ? NotFound()
                 : Ok(value: user);
         }
-        catch (AppSecurityOrchestrationValidationException)
+        catch (AppSecurityOrchestrationValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -71,12 +76,14 @@ public sealed partial class UserController(
                     isEntity: true,
                     hasEndpoint: true));
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -97,16 +104,19 @@ public sealed partial class UserController(
         {
             return Ok(value: service.GetAll());
         }
-        catch (AppSecurityOrchestrationValidationException)
+        catch (AppSecurityOrchestrationValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -131,16 +141,19 @@ public sealed partial class UserController(
                 ? NotFound()
                 : Ok(value: result);
         }
-        catch (AppSecurityOrchestrationValidationException)
+        catch (AppSecurityOrchestrationValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -167,16 +180,19 @@ public sealed partial class UserController(
                 statusCode: StatusCodes.Status201Created,
                 value: await service.AddUserAsync(entity: newUser));
         }
-        catch (AppSecurityOrchestrationValidationException)
+        catch (AppSecurityOrchestrationValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -203,16 +219,19 @@ public sealed partial class UserController(
 
             return Ok(value: await service.UpdateUserAsync(entity: updatedUser));
         }
-        catch (AppSecurityOrchestrationValidationException)
+        catch (AppSecurityOrchestrationValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -234,16 +253,19 @@ public sealed partial class UserController(
 
             return Ok(value: await service.UpdateUserAsync(entity: originalEntity));
         }
-        catch (AppSecurityOrchestrationValidationException)
+        catch (AppSecurityOrchestrationValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -257,16 +279,19 @@ public sealed partial class UserController(
 
             return NoContent();
         }
-        catch (AppSecurityOrchestrationValidationException)
+        catch (AppSecurityOrchestrationValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }

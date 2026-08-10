@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Api.OData;
+using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Dependencies.Metadata;
 using cCoder.AppSecurity.Brokers.OData;
 using cCoder.AppSecurity.Models;
@@ -18,7 +19,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace cCoder.AppSecurity.Exposures.Controllers;
 
-public sealed class AppController(IAppManager service) : ODataController
+public sealed class AppController(IAppManager service, ILoggingBroker loggingBroker) : ODataController
 {
     [HttpGet]
     public IActionResult GetMetadata()
@@ -40,12 +41,14 @@ public sealed class AppController(IAppManager service) : ODataController
                         isEntity: true,
                         hasEndpoint: false));
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -66,16 +69,19 @@ public sealed class AppController(IAppManager service) : ODataController
         {
             return Ok(value: service.GetAll());
         }
-        catch (AppSecurityValidationException)
+        catch (AppSecurityValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
@@ -100,16 +106,19 @@ public sealed class AppController(IAppManager service) : ODataController
                 ? NotFound()
                 : Ok(value: result);
         }
-        catch (AppSecurityValidationException)
+        catch (AppSecurityValidationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
         }
-        catch (AppSecurityAuthorizationException)
+        catch (AppSecurityAuthorizationException exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
         }
     }
