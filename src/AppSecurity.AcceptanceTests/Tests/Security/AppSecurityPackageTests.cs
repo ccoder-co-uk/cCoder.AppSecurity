@@ -2,10 +2,13 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Exposures;
+using cCoder.AppSecurity.Exposures.EventHandlers;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
+using cCoder.Data.Models.Packaging;
 using cCoder.Data.Models.Security;
+using cCoder.Eventing;
+using cCoder.Eventing.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Web.AcceptanceTests.Infrastructure;
@@ -17,12 +20,11 @@ namespace Web.AcceptanceTests.Tests.Security;
 public sealed partial class AppSecurityPackageTests(WebAcceptanceFixture fixture)
 {
     [Fact]
-    public async Task ShouldSkipRootGuestPageRoleFromGenericPackageImportAsync()
+    public async Task ShouldPersistFullPackageRelationshipsAfterPagesImportedAsync()
     {
         // Given
         int appId;
         int rootPageId;
-        Guid guestRoleId = Guid.NewGuid();
 
         using (IServiceScope scope = fixture.Factory.Services.CreateScope())
         {
@@ -42,14 +44,6 @@ public sealed partial class AppSecurityPackageTests(WebAcceptanceFixture fixture
 
             appId = app.Id;
 
-            _ = await core.AddRoleAsync(role: new Role
-            {
-                Id = guestRoleId,
-                AppId = appId,
-                Name = "Guests",
-                Privs = string.Empty,
-            });
-
             Page rootPage = await core.AddPageAsync(page: new Page
             {
                 AppId = appId,
@@ -66,11 +60,21 @@ public sealed partial class AppSecurityPackageTests(WebAcceptanceFixture fixture
             rootPageId = rootPage.Id;
         }
 
-        AppSecurityPackage package = new()
+        Package package = new()
         {
             Items =
             [
-                new AppSecurityPackageItem
+                new PackageItem
+                {
+                    Type = "ContentManagement/Page",
+                    Data = "[{\"Path\":\"\"}]",
+                },
+                new PackageItem
+                {
+                    Type = "AppSecurity/Role",
+                    Data = "[{\"Name\":\"Guests\",\"Privs\":\"\"}]",
+                },
+                new PackageItem
                 {
                     Type = "ContentManagement/PageRole",
                     Data = "[{\"Path\":\"\",\"Role\":\"Guests\"}]",
@@ -81,10 +85,24 @@ public sealed partial class AppSecurityPackageTests(WebAcceptanceFixture fixture
         // When
         using (IServiceScope scope = fixture.Factory.Services.CreateScope())
         {
-            IAppSecurityPackageManager packageManager = scope.ServiceProvider
-                .GetRequiredService<IAppSecurityPackageManager>();
+            IAppSecurityEventHandlers eventHandlers = scope.ServiceProvider
+                .GetRequiredService<IAppSecurityEventHandlers>();
 
-            await packageManager.ImportPackageAsync(appId: appId, package: package);
+            eventHandlers.ListenToPackageEvents();
+
+            IEventHub eventHub = scope.ServiceProvider.GetRequiredService<IEventHub>();
+
+            await eventHub.RaiseEventAsync(
+                name: "content_pages_imported",
+                message: new EventMessage<AppSecurityPackageEvent>
+                {
+                    AuthInfo = new EventAuthInfo { SSOUserId = "Acceptance" },
+                    Data = new AppSecurityPackageEvent
+                    {
+                        AppId = appId,
+                        Package = package,
+                    },
+                });
         }
 
         // Then
@@ -94,14 +112,19 @@ public sealed partial class AppSecurityPackageTests(WebAcceptanceFixture fixture
                 .GetRequiredService<cCoder.Data.ICoreContextFactory>()
                 .CreateCoreContext();
 
+            Role guestRole = await core.Roles
+                .IgnoreQueryFilters()
+                .SingleAsync(predicate: role =>
+                    role.AppId == appId && role.Name == "Guests");
+
             PageRole[] pageRoles = await core.PageRoles
                 .IgnoreQueryFilters()
                 .Where(predicate: pageRole =>
-                    pageRole.RoleId == guestRoleId
+                    pageRole.RoleId == guestRole.Id
                     && pageRole.PageId == rootPageId)
                 .ToArrayAsync();
 
-            Assert.Empty(collection: pageRoles);
+            Assert.Single(collection: pageRoles);
         }
     }
 }

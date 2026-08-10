@@ -80,13 +80,6 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
             eventName: "app_delete",
             handler: (service, app) => service.DeleteAppAsync(deletedApp: app));
 
-    void ListenToPackageImportEvents() =>
-        eventHubBroker.ListenToEvent<AppSecurityPackageEvent, IAppSecurityMigrationAggregationService>(
-            eventName: "package_import",
-            handler: (service, packageEvent) => service.ImportPackageAppSecurityPackageAsync(
-                appId: packageEvent.AppId,
-                package: ToLocalPackage(package: packageEvent.Package)));
-
     void ListenToContentPagesImportedEvents() =>
         eventHubBroker.ListenToEvent<AppSecurityPackageEvent, IAppSecurityMigrationAggregationService>(
             eventName: "content_pages_imported",
@@ -162,7 +155,6 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
 
     private void ListenToPackageEventsValue()
     {
-        ListenToPackageImportEvents();
         ListenToContentPagesImportedEvents();
     }
 }

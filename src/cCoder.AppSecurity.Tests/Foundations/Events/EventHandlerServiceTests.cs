@@ -17,60 +17,6 @@ namespace cCoder.AppSecurity.Tests.Foundations.Events;
 public sealed partial class EventHandlerServiceTests
 {
     [Fact]
-    public async Task ShouldHandleSerializedPackageImportEventAsync()
-    {
-        // Given
-        Mock<IEventHubBroker> eventHubBrokerMock = new(behavior: MockBehavior.Loose);
-        Mock<IAppSecurityMigrationAggregationService> migrationServiceMock = new();
-        Func<IAppSecurityMigrationAggregationService, AppSecurityPackageEvent, ValueTask> actualHandler = null;
-        const int expectedAppId = 530;
-
-        EventMessage<AppSecurityPackageEvent> outboundMessage = new()
-        {
-            Data = new AppSecurityPackageEvent
-            {
-                AppId = expectedAppId,
-                Package = new Package { Name = "Roles" }
-            }
-        };
-
-        eventHubBrokerMock.Setup(expression: broker => broker.ListenToEvent<
-                AppSecurityPackageEvent,
-                IAppSecurityMigrationAggregationService>(
-                    eventName: "package_import",
-                    handler: It.IsAny<Func<
-                        IAppSecurityMigrationAggregationService,
-                        AppSecurityPackageEvent,
-                        ValueTask>>()))
-            .Callback<string, Func<
-                IAppSecurityMigrationAggregationService,
-                AppSecurityPackageEvent,
-                ValueTask>>(action: (_, handler) => actualHandler = handler);
-
-        EventHandlerService eventHandlerService = new(
-            eventHubBroker: eventHubBrokerMock.Object);
-
-        // When
-        eventHandlerService.ListenToPackageEvents();
-
-        string httpData = JsonSerializer.Serialize(value: outboundMessage.Data);
-
-        AppSecurityPackageEvent inboundEvent =
-            JsonSerializer.Deserialize<AppSecurityPackageEvent>(json: httpData);
-
-        await actualHandler(
-            arg1: migrationServiceMock.Object,
-            arg2: inboundEvent);
-
-        // Then
-        migrationServiceMock.Verify(
-            expression: service => service.ImportPackageAppSecurityPackageAsync(
-                appId: expectedAppId,
-                package: It.Is<AppSecurityPackage>(match: package => package.Name == "Roles")),
-            times: Times.Once);
-    }
-
-    [Fact]
     public async Task ShouldHandleSerializedContentPagesImportedEventAsync()
     {
         // Given

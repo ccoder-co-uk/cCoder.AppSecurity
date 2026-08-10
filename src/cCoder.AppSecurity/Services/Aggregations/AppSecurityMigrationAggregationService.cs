@@ -28,16 +28,7 @@ internal sealed partial class AppSecurityMigrationAggregationService(
                 return;
             }
 
-            AppSecurityPackageMapping mapping = packageOrchestrationService
-                .MapAppSecurityPackageMappingRoles(mapping: new AppSecurityPackageMapping
-                {
-                    AppId = appId,
-                    Package = package,
-                });
-
-            App app = mapping.App;
-
-            await appOrchestrationService.UpdateAppAsync(app: app);
+            await ImportRolesAsync(appId: appId, package: package);
         });
 
     public ValueTask ImportPageRolesAppSecurityPackageAsync(
@@ -48,6 +39,18 @@ internal sealed partial class AppSecurityMigrationAggregationService(
             ValidateImportPackagePageRoles(appId: appId, package: package);
 
             if (package.Items is null || !package.Items.Any(predicate: item =>
+                item.Type is "Core/Role" or "AppSecurity/Role" or "ContentManagement/PageRole"))
+            {
+                return;
+            }
+
+            if (package.Items.Any(predicate: item =>
+                item.Type is "Core/Role" or "AppSecurity/Role"))
+            {
+                await ImportRolesAsync(appId: appId, package: package);
+            }
+
+            if (!package.Items.Any(predicate: item =>
                 item.Type == "ContentManagement/PageRole"))
             {
                 return;
@@ -64,6 +67,20 @@ internal sealed partial class AppSecurityMigrationAggregationService(
 
             await pageRoleOrchestrationService.AddOrUpdateAppPageRolesAsync(app: app);
         });
+
+    private async ValueTask ImportRolesAsync(
+        int appId,
+        AppSecurityPackage package)
+    {
+        AppSecurityPackageMapping mapping = packageOrchestrationService
+            .MapAppSecurityPackageMappingRoles(mapping: new AppSecurityPackageMapping
+            {
+                AppId = appId,
+                Package = package,
+            });
+
+        await appOrchestrationService.UpdateAppAsync(app: mapping.App);
+    }
 
     public AppSecurityPackage ExportPackage(int appId, string packageName) =>
         TryCatch(operation: AppSecurityPackage () =>
