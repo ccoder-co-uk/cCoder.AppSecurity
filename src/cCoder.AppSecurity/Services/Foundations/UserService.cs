@@ -92,12 +92,20 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
             }
 
             DataUser result = await userBroker.AddUserAsync(entity: internalUser);
-            newUser.Id = result.Id;
-            newUser.DefaultCultureId = result.DefaultCultureId;
-            newUser.DisplayName = result.DisplayName;
-            newUser.Email = result.Email;
-            newUser.IsActive = result.IsActive;
-            return newUser;
+            return MapAddedUser(newUser: newUser, result: result);
+
+        });
+
+    public ValueTask<User> AddUserFromAccountEventAsync(User newUser) =>
+        TryCatch(operation: async ValueTask<User> () =>
+        {
+            ValidateUserFromAccountEventOnAdd(
+                newUser: newUser);
+
+            DataUser result = await userBroker.AddUserAsync(
+                entity: ToExternalUser(item: newUser));
+
+            return MapAddedUser(newUser: newUser, result: result);
 
         });
 
@@ -185,6 +193,16 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
             Roles = item.Roles?.Select(selector: ToExternalUserRole)
                 .ToArray(),
         };
+
+    private static User MapAddedUser(User newUser, DataUser result)
+    {
+        newUser.Id = result.Id;
+        newUser.DefaultCultureId = result.DefaultCultureId;
+        newUser.DisplayName = result.DisplayName;
+        newUser.Email = result.Email;
+        newUser.IsActive = result.IsActive;
+        return newUser;
+    }
 
     static UserRole ToLocalUserRole(DataUserRole item) =>
         new()

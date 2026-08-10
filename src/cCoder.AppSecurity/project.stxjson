@@ -10621,9 +10621,56 @@
           "HasTryCatch": false
         },
         {
+          "Id": "cCoder.AppSecurity.Services.Foundations.UserService.AddUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
+          "Name": "AddUserFromAccountEventAsync",
+          "LineNumber": 99,
+          "Inputs": [
+            {
+              "Name": "newUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Foundations.IUserService.AddUserFromAccountEventAsync(cCoder.Data.Models.Security.User)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Storages.IUserBroker",
+              "MethodName": "AddUserAsync",
+              "MethodId": "cCoder.AppSecurity.Brokers.Storages.IUserBroker.AddUserAsync(cCoder.Data.Models.Security.User)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 135,
+          "LineNumber": 143,
           "Inputs": [
             {
               "Name": "userId",
@@ -10834,7 +10881,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 104,
+          "LineNumber": 112,
           "Inputs": [
             {
               "Name": "updatedUser",
@@ -10890,7 +10937,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserFromAccountEventAsync",
-          "LineNumber": 122,
+          "LineNumber": 130,
           "Inputs": [
             {
               "Name": "updatedUser",
@@ -15094,9 +15141,76 @@
           "HasTryCatch": false
         },
         {
+          "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.AddUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
+          "Name": "AddUserFromAccountEventAsync",
+          "LineNumber": 60,
+          "Inputs": [
+            {
+              "Name": "newUser",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Processings.IUserProcessingService.AddUserFromAccountEventAsync(cCoder.Data.Models.Security.User)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Linq.Queryable",
+              "MethodName": "FirstOrDefault",
+              "MethodId": "System.Linq.Queryable.FirstOrDefault(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, System.Boolean\u003E\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Foundations.IUserService",
+              "MethodName": "AddUserFromAccountEventAsync",
+              "MethodId": "cCoder.AppSecurity.Services.Foundations.IUserService.AddUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Foundations.IUserService",
+              "MethodName": "GetAll",
+              "MethodId": "cCoder.AppSecurity.Services.Foundations.IUserService.GetAll(System.Boolean)",
+              "StandardElementType": "FoundationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.DeleteAllUserAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "DeleteAllUserAsync",
-          "LineNumber": 96,
+          "LineNumber": 115,
           "Inputs": [
             {
               "Name": "deletedUser",
@@ -15140,7 +15254,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 60,
+          "LineNumber": 79,
           "Inputs": [
             {
               "Name": "userId",
@@ -15363,7 +15477,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 74,
+          "LineNumber": 93,
           "Inputs": [
             {
               "Name": "updatedUser",
@@ -15425,7 +15539,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserFromAccountEventAsync",
-          "LineNumber": 85,
+          "LineNumber": 104,
           "Inputs": [
             {
               "Name": "updatedUser",
@@ -20060,9 +20174,34 @@
           "HasTryCatch": false
         },
         {
+          "Id": "cCoder.AppSecurity.Services.Foundations.IUserService.AddUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
+          "Name": "AddUserFromAccountEventAsync",
+          "LineNumber": 18,
+          "Inputs": [
+            {
+              "Name": "user",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
           "Id": "cCoder.AppSecurity.Services.Foundations.IUserService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 20,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "id",
@@ -20166,7 +20305,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IUserService.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "user",
@@ -20191,7 +20330,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IUserService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserFromAccountEventAsync",
-          "LineNumber": 19,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "user",
@@ -21320,9 +21459,34 @@
           "HasTryCatch": false
         },
         {
+          "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.AddUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
+          "Name": "AddUserFromAccountEventAsync",
+          "LineNumber": 18,
+          "Inputs": [
+            {
+              "Name": "entity",
+              "Type": "cCoder.Data.Models.Security.User"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask\u003CcCoder.Data.Models.Security.User\u003E",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.DeleteAllUserAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "DeleteAllUserAsync",
-          "LineNumber": 21,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "items",
@@ -21347,7 +21511,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 20,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "id",
@@ -21451,7 +21615,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "entity",
@@ -21476,7 +21640,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserFromAccountEventAsync",
-          "LineNumber": 19,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "entity",

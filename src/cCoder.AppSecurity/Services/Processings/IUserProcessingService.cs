@@ -15,6 +15,7 @@ internal interface IUserProcessingService
     User GetByEmail(string email, bool ignoreFilters = false);
     IQueryable<User> GetAll(bool ignoreFilters = false);
     ValueTask<User> AddUserAsync(User entity);
+    ValueTask<User> AddUserFromAccountEventAsync(User entity);
     ValueTask<User> UpdateUserAsync(User entity);
     ValueTask<User> UpdateUserFromAccountEventAsync(User entity);
     ValueTask DeleteAsync(string id);

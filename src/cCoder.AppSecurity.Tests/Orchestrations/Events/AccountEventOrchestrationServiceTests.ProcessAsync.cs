@@ -53,7 +53,8 @@ public partial class AccountEventOrchestrationServiceTests
             .ReturnsAsync(valueFunction: (User user) => user);
 
         userProcessingServiceMock
-            .Setup(expression: service => service.AddUserAsync(
+            .Setup(expression: service =>
+                service.AddUserFromAccountEventAsync(
                 entity: It.Is<User>(match: user =>
                     user.Id == accountEvent.User.Id
                     && user.DefaultCultureId == string.Empty
@@ -71,7 +72,13 @@ public partial class AccountEventOrchestrationServiceTests
         userProcessingServiceMock.Verify(
             expression: service => service.AddUserAsync(
                 entity: It.IsAny<User>()),
-            times: Times.Exactly(callCount: 2));
+            times: Times.Once);
+
+        userProcessingServiceMock.Verify(
+            expression: service =>
+                service.AddUserFromAccountEventAsync(
+                    entity: It.IsAny<User>()),
+            times: Times.Once);
 
         accountRoleAssignmentProcessingServiceMock.VerifyNoOtherCalls();
     }
@@ -183,7 +190,8 @@ public partial class AccountEventOrchestrationServiceTests
                 innerException: new InvalidOperationException()));
 
         userProcessingServiceMock
-            .Setup(expression: service => service.AddUserAsync(
+            .Setup(expression: service =>
+                service.AddUserFromAccountEventAsync(
                 entity: It.Is<User>(match: user =>
                     user.Id == accountEvent.User.Id)))
             .ReturnsAsync(valueFunction: (User user) => user);
@@ -200,7 +208,13 @@ public partial class AccountEventOrchestrationServiceTests
         userProcessingServiceMock.Verify(
             expression: service => service.AddUserAsync(
                 entity: It.IsAny<User>()),
-            times: Times.Exactly(callCount: 2));
+            times: Times.Once);
+
+        userProcessingServiceMock.Verify(
+            expression: service =>
+                service.AddUserFromAccountEventAsync(
+                    entity: It.IsAny<User>()),
+            times: Times.Once);
 
         accountRoleAssignmentProcessingServiceMock.VerifyNoOtherCalls();
     }
@@ -233,12 +247,14 @@ public partial class AccountEventOrchestrationServiceTests
             .AsQueryable());
 
         userProcessingServiceMock
-            .Setup(expression: service => service.AddUserAsync(entity: It.Is<User>(match: user =>
-                user.Id == accountEvent.User.Id
-                && user.DefaultCultureId == accountEvent.Culture
-                && user.DisplayName == accountEvent.User.DisplayName
-                && user.Email == accountEvent.User.Email
-                && user.IsActive)))
+            .Setup(expression: service =>
+                service.AddUserFromAccountEventAsync(
+                    entity: It.Is<User>(match: user =>
+                        user.Id == accountEvent.User.Id
+                        && user.DefaultCultureId == accountEvent.Culture
+                        && user.DisplayName == accountEvent.User.DisplayName
+                        && user.Email == accountEvent.User.Email
+                        && user.IsActive)))
             .ReturnsAsync(valueFunction: (User user) => user);
 
         accountRoleAssignmentProcessingServiceMock
@@ -254,8 +270,10 @@ public partial class AccountEventOrchestrationServiceTests
 
         // Then
         userProcessingServiceMock.Verify(
-expression: service => service.AddUserAsync(entity: It.IsAny<User>()),
-times: Times.Once);
+            expression: service =>
+                service.AddUserFromAccountEventAsync(
+                    entity: It.IsAny<User>()),
+            times: Times.Once);
 
         accountRoleAssignmentProcessingServiceMock.Verify(
             expression: service => service.AttachUsersRoleAsync(

@@ -57,6 +57,25 @@ internal sealed partial class UserProcessingService(IUserService service, ICoreA
 
         });
 
+    public ValueTask<User> AddUserFromAccountEventAsync(User newUser) =>
+        TryCatch(operation: async ValueTask<User> () =>
+        {
+            ValidateAddUser(
+                newUser: newUser);
+
+            User existingUser = service
+                .GetAll(ignoreFilters: true)
+                .FirstOrDefault(predicate: user =>
+                    user.Id == newUser.Id
+                    || user.Email == newUser.Email);
+
+            return existingUser is not null
+                ? existingUser
+                : await service.AddUserFromAccountEventAsync(
+                    user: newUser);
+
+        });
+
     public ValueTask DeleteAsync(string userId) =>
         TryCatch(operation: ValueTask () =>
         {
