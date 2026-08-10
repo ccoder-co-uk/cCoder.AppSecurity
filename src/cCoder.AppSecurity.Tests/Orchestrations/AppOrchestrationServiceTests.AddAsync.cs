@@ -58,16 +58,18 @@ public partial class AppOrchestrationServiceTests
             new() { Id = Guid.NewGuid(), AppId = appId, Name = "Guests" }
         ];
 
+        IQueryable<Privilege> privileges = new[]
+        {
+            new Privilege { Id = "app_read", Operation = "Read", Type = "App" }
+        }.AsQueryable();
+
         authorizationServiceMock
             .Setup(expression: service => service.GetCurrentUser())
             .Returns(value: new User { Id = userId });
 
         privilegeServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))
-            .Returns(value: new[]
-            {
-                new Privilege { Id = "app_read", Operation = "Read", Type = "App" }
-            }.AsQueryable());
+            .Returns(value: privileges);
 
         roleServiceMock
             .Setup(expression: service => service.GetAll(ignoreFilters: true))
@@ -76,12 +78,12 @@ public partial class AppOrchestrationServiceTests
         roleServiceMock
             .Setup(expression: service => service.UpdateValidatedRoleAsync(
                 role: It.IsAny<Role>()))
-            .ReturnsAsync(valueFunction: (Role role) => role);
+            .ReturnsAsync(value: new Role());
 
         roleServiceMock
             .Setup(expression: service => service.AddValidatedRoleAsync(
                 role: It.IsAny<Role>()))
-            .ReturnsAsync(valueFunction: (Role role) => role);
+            .ReturnsAsync(value: new Role());
 
         // When
         await orchestrationService.AddAppAsync(newApp: app);

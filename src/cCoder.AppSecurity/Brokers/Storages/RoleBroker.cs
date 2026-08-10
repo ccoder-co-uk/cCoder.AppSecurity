@@ -4,6 +4,7 @@
 
 using cCoder.Data;
 using cCoder.Data.Models.Security;
+using cCoder.Data.Models.CMS;
 using Microsoft.EntityFrameworkCore;
 
 namespace cCoder.AppSecurity.Brokers;
@@ -13,6 +14,9 @@ public interface IRoleBroker
     IQueryable<Role> GetAllRoles(bool ignoreFilters);
     ValueTask<Role> AddRoleAsync(Role entity);
     ValueTask<Role> UpdateRoleAsync(Role entity);
+    IQueryable<PageRole> GetPageRolesByRoleId(Guid roleId);
+    int GetPageIdByPath(int appId, string path);
+    ValueTask<PageRole> AddPageRoleAsync(PageRole newPageRole);
     ValueTask DeleteFolderRolesByRoleIdAsync(Guid roleId);
     ValueTask DeletePageRolesByRoleIdAsync(Guid roleId);
     ValueTask<int> DeleteRoleAsync(Role entity);
@@ -48,6 +52,35 @@ internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRole
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
         Role result = coreDataContext.Roles.Update(entity: updatedRole).Entity;
+        _ = await coreDataContext.SaveChangesAsync();
+        return result;
+    }
+
+    public IQueryable<PageRole> GetPageRolesByRoleId(Guid roleId)
+    {
+        CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
+        return coreDataContext.PageRoles
+            .IgnoreQueryFilters()
+            .Where(predicate: pageRole => pageRole.RoleId == roleId);
+    }
+
+    public int GetPageIdByPath(int appId, string path)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+
+        return coreDataContext.Pages
+            .IgnoreQueryFilters()
+            .Where(predicate: page => page.AppId == appId && page.Path == path)
+            .Select(selector: page => page.Id)
+            .FirstOrDefault();
+    }
+
+    public async ValueTask<PageRole> AddPageRoleAsync(PageRole newPageRole)
+    {
+        using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
+        PageRole result = (await coreDataContext.PageRoles.AddAsync(entity: newPageRole)).Entity;
+
         _ = await coreDataContext.SaveChangesAsync();
         return result;
     }

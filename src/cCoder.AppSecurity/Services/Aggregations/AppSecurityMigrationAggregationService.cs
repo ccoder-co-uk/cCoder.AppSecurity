@@ -26,17 +26,43 @@ internal sealed partial class AppSecurityMigrationAggregationService(
                 return;
             }
 
-            foreach (AppSecurityPackageItem item in package.Items.Where(predicate: item =>
-                item.Type is "Core/Role" or "AppSecurity/Role"))
-            {
-                Role[] items = item.Data.StartsWith(value: "{")
+            Role[] roles = package.Items
+                .Where(predicate: item =>
+                    item.Type is "Core/Role" or "AppSecurity/Role")
+                .SelectMany(selector: item => item.Data.StartsWith(value: "{")
                     ? [jsonProcessingService.ParseJson<Role>(json: item.Data)]
-                    : jsonProcessingService.ParseJson<Role[]>(json: item.Data);
+                    : jsonProcessingService.ParseJson<Role[]>(json: item.Data))
+                .ToArray();
 
-                await ImportRolesAsync(
-                    appId: appId,
-                    roles: items);
+            PageRoleInfo[] pageRoleInfos = package.Items
+                .Where(predicate: item => item.Type == "ContentManagement/PageRole")
+                .SelectMany(selector: item => item.Data.StartsWith(value: "{")
+                    ? [jsonProcessingService.ParseJson<PageRoleInfo>(json: item.Data)]
+                    : jsonProcessingService.ParseJson<PageRoleInfo[]>(json: item.Data))
+                .ToArray();
+
+            if (roles.Length == 0 && pageRoleInfos.Length > 0)
+            {
+                string[] roleNames = pageRoleInfos
+                    .Select(selector: pageRole => pageRole.Role)
+                    .Distinct(comparer: StringComparer.OrdinalIgnoreCase)
+                    .ToArray();
+
+                roles = roleProcessingService.GetAll(ignoreFilters: true)
+                    .Where(predicate: role =>
+                        role.AppId == appId
+                        && roleNames.Contains(value: role.Name))
+                    .ToArray();
             }
+
+            AttachPageRoles(
+                appId: appId,
+                roles: roles,
+                pageRoleInfos: pageRoleInfos);
+
+            await ImportRolesAsync(
+                appId: appId,
+                roles: roles);
 
         });
 
@@ -104,6 +130,42 @@ internal sealed partial class AppSecurityMigrationAggregationService(
                 await roleProcessingService.UpdateValidatedRoleAsync(
                     entity: role);
             }
+        }
+    }
+
+    private static void AttachPageRoles(
+        int appId,
+        IEnumerable<Role> roles,
+        IEnumerable<PageRoleInfo> pageRoleInfos)
+    {
+        foreach (Role role in roles)
+        {
+            role.AppId = appId;
+            role.Pages ??= [];
+        }
+
+        foreach (PageRoleInfo pageRoleInfo in pageRoleInfos)
+        {
+            Role role = roles.FirstOrDefault(predicate: candidate =>
+                string.Equals(
+                    a: candidate.Name,
+                    b: pageRoleInfo.Role,
+                    comparisonType: StringComparison.OrdinalIgnoreCase));
+
+            if (role is null)
+            {
+                throw new System.ComponentModel.DataAnnotations.ValidationException(
+                    message: $"Role '{pageRoleInfo.Role}' was not available for page-role import.");
+            }
+
+            role.Pages.Add(item: new PageRole
+            {
+                Page = new Page
+                {
+                    AppId = appId,
+                    Path = pageRoleInfo.Path,
+                },
+            });
         }
     }
 }
