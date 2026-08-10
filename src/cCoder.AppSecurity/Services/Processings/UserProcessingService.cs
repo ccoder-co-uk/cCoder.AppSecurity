@@ -69,10 +69,31 @@ internal sealed partial class UserProcessingService(IUserService service, ICoreA
                     user.Id == newUser.Id
                     || user.Email == newUser.Email);
 
-            return existingUser is not null
-                ? existingUser
-                : await service.AddUserFromAccountEventAsync(
+            if (existingUser is not null)
+            {
+                return existingUser;
+            }
+
+            try
+            {
+                return await service.AddUserFromAccountEventAsync(
                     user: newUser);
+            }
+            catch (Models.Exceptions.AppSecurityServiceException)
+            {
+                User concurrentlyAddedUser = service
+                    .GetAll(ignoreFilters: true)
+                    .FirstOrDefault(predicate: user =>
+                        user.Id == newUser.Id
+                        || user.Email == newUser.Email);
+
+                if (concurrentlyAddedUser is null)
+                {
+                    throw;
+                }
+
+                return concurrentlyAddedUser;
+            }
 
         });
 
