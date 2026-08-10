@@ -15205,12 +15205,12 @@
           "HasFromBodyParameter": false,
           "HasKeyParameter": false,
           "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
+          "HasTryCatch": true
         },
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.DeleteAllUserAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "DeleteAllUserAsync",
-          "LineNumber": 115,
+          "LineNumber": 136,
           "Inputs": [
             {
               "Name": "deletedUser",
@@ -15254,7 +15254,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 79,
+          "LineNumber": 100,
           "Inputs": [
             {
               "Name": "userId",
@@ -15477,7 +15477,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 93,
+          "LineNumber": 114,
           "Inputs": [
             {
               "Name": "updatedUser",
@@ -15539,7 +15539,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserFromAccountEventAsync",
-          "LineNumber": 104,
+          "LineNumber": 125,
           "Inputs": [
             {
               "Name": "updatedUser",
