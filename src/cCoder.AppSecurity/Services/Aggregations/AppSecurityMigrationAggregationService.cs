@@ -3,107 +3,92 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Models;
+using cCoder.AppSecurity.Services.Orchestrations;
 using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
-using cCoder.AppSecurity.Services.Processings;
 
 namespace cCoder.AppSecurity.Services.Aggregations;
 
 internal sealed partial class AppSecurityMigrationAggregationService(
-    IRoleProcessingService roleProcessingService,
-    IJsonProcessingService jsonProcessingService
-) : IAppSecurityMigrationAggregationService
+    IAppSecurityPackageOrchestrationService packageOrchestrationService,
+    IAppSecurityPackageExportOrchestrationService packageExportOrchestrationService,
+    IAppOrchestrationService appOrchestrationService,
+    IPageRoleOrchestrationService pageRoleOrchestrationService)
+        : IAppSecurityMigrationAggregationService
 {
-    public ValueTask ImportPackageAppSecurityPackageAsync(int appId, AppSecurityPackage package) =>
+    public ValueTask ImportPackageAppSecurityPackageAsync(
+        int appId,
+        AppSecurityPackage package) =>
         TryCatch(operation: async ValueTask () =>
         {
-            ValidateImportPackageAppSecurityPackage(
-                appId: appId,
-                package: package);
+            ValidateImportPackageAppSecurityPackage(appId: appId, package: package);
 
-            if (package.Items is null || package.Items.Count == 0)
+            if (package.Items is null || !package.Items.Any(predicate: item =>
+                item.Type is "Core/Role" or "AppSecurity/Role"))
             {
                 return;
             }
 
-            foreach (AppSecurityPackageItem item in package.Items.Where(predicate: item =>
-                item.Type is "Core/Role" or "AppSecurity/Role"))
-            {
-                Role[] items = item.Data.StartsWith(value: "{")
-                    ? [jsonProcessingService.ParseJson<Role>(json: item.Data)]
-                    : jsonProcessingService.ParseJson<Role[]>(json: item.Data);
-
-                await ImportRolesAsync(
-                    appId: appId,
-                    roles: items);
-            }
-
+            await ImportRolesAsync(appId: appId, package: package);
         });
 
-    public AppSecurityPackage ExportPackage(int appId, string packageName) =>
-        TryCatch(operation: AppSecurityPackage () =>
+    public ValueTask ImportPageRolesAppSecurityPackageAsync(
+        int appId,
+        AppSecurityPackage package) =>
+        TryCatch(operation: async ValueTask () =>
         {
-            ValidateExportPackage(
-                appId: appId,
-                packageName: packageName);
+            ValidateImportPackagePageRoles(appId: appId, package: package);
 
-            return packageName == "Roles"
-            ? new AppSecurityPackage
+            if (package.Items is null || !package.Items.Any(predicate: item =>
+                item.Type is "Core/Role" or "AppSecurity/Role" or "ContentManagement/PageRole"))
             {
-                Name = "Roles",
-                Items =
-                [
-                    new AppSecurityPackageItem
-                    {
-                        Type = "Core/Role",
-                        Data = jsonProcessingService.Serialize(
-                            value: roleProcessingService
-                            .GetAll(ignoreFilters: true)
-                            .Where(predicate: role => role.AppId == appId)
-                            .Select(selector: role => new { role.Name, role.Privs })
-                            .ToArray()),
-                    },
-                ],
+                return;
             }
-            : new AppSecurityPackage
+
+            if (package.Items.Any(predicate: item =>
+                item.Type is "Core/Role" or "AppSecurity/Role"))
             {
-                Name = packageName,
-                Items = [],
-            };
+                await ImportRolesAsync(appId: appId, package: package);
+            }
+
+            if (!package.Items.Any(predicate: item =>
+                item.Type == "ContentManagement/PageRole"))
+            {
+                return;
+            }
+
+            AppSecurityPackageMapping mapping = packageOrchestrationService
+                .MapAppSecurityPackageMappingPageRoles(mapping: new AppSecurityPackageMapping
+                {
+                    AppId = appId,
+                    Package = package,
+                });
+
+            App app = mapping.App;
+
+            await pageRoleOrchestrationService.AddOrUpdateAppPageRolesAsync(app: app);
         });
 
     private async ValueTask ImportRolesAsync(
         int appId,
-        IEnumerable<Role> roles)
+        AppSecurityPackage package)
     {
-        var dbVersions = roleProcessingService
-            .GetAll(ignoreFilters: true)
-            .Where(predicate: role => role.AppId == appId)
-            .Select(selector: role => new
+        AppSecurityPackageMapping mapping = packageOrchestrationService
+            .MapAppSecurityPackageMappingRoles(mapping: new AppSecurityPackageMapping
             {
-                role.Id,
-                role.Name,
-            })
-            .ToArray();
+                AppId = appId,
+                Package = package,
+            });
 
-        foreach (Role role in roles)
-        {
-            role.AppId = appId;
-
-            role.Id = dbVersions
-                .FirstOrDefault(predicate: existing => existing.Name == role.Name)
-                ?.Id ?? Guid.Empty;
-
-            if (role.Id == Guid.Empty)
-            {
-                await roleProcessingService.AddValidatedRoleAsync(
-                    entity: role);
-            }
-            else
-            {
-                await roleProcessingService.UpdateValidatedRoleAsync(
-                    entity: role);
-            }
-        }
+        await appOrchestrationService.UpdateAppAsync(app: mapping.App);
     }
+
+    public AppSecurityPackage ExportPackage(int appId, string packageName) =>
+        TryCatch(operation: AppSecurityPackage () =>
+        {
+            ValidateExportPackage(appId: appId, packageName: packageName);
+
+            return packageExportOrchestrationService.ExportAppSecurityPackage(
+                appId: appId,
+                packageName: packageName);
+        });
 }

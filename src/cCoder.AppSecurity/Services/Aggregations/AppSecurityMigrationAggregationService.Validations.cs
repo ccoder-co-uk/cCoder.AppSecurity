@@ -14,6 +14,12 @@ internal sealed partial class AppSecurityMigrationAggregationService
             package,
         ]);
 
+    private static void ValidateImportPackagePageRoles(int appId, AppSecurityPackage package) =>
+        ValidationRulesEngine.Validate(inputs: [
+            appId,
+            package,
+        ]);
+
     private static void ValidateExportPackage(int appId, string packageName) =>
         ValidationRulesEngine.Validate(inputs: [
             appId,

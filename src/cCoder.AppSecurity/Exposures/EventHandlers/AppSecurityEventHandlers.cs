@@ -18,6 +18,9 @@ internal class AppSecurityEventHandlers(IEventHandlerService eventHandlerService
     public void ListenToAppDeleteEvents() =>
         eventHandlerService.ListenToAppDeleteEvents();
 
+    public void ListenToPackageEvents() =>
+        eventHandlerService.ListenToPackageEvents();
+
     public void ListenToSecurityAccountEvents() =>
         eventHandlerService.ListenToSecurityAccountEvents();
 }

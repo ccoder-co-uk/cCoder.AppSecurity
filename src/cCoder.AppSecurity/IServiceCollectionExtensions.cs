@@ -4,6 +4,7 @@
 
 using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Brokers.Loggings;
+using cCoder.AppSecurity.Brokers.Storages;
 using cCoder.AppSecurity.Exposures;
 using cCoder.AppSecurity.Exposures.EventHandlers;
 using cCoder.AppSecurity.Dependencies.HostedServices;
@@ -146,7 +147,7 @@ public static partial class IServiceCollectionExtensions
         services.AddEventingForType<Privilege>();
         services.AddEventingForType<Package>();
         services.AddEventingForType<PackageItem>();
-        services.AddEventingForType<(int, Package)>();
+        services.AddEventingForType<AppSecurityPackageEvent>();
         services.AddEventingForType<Role>();
         services.AddEventingForType<User>();
         services.AddEventingForType<UserRole>();
@@ -170,6 +171,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IPrivilegeBroker, PrivilegeBroker>();
         services.AddTransient<IUserBroker, UserBroker>();
         services.AddTransient<IUserRoleBroker, UserRoleBroker>();
+        services.AddTransient<IPageRoleBroker, PageRoleBroker>();
         services.AddTransient<IAppBroker, AppBroker>();
     }
 
@@ -190,6 +192,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IAppManager, AppService>();
         services.AddTransient<IRoleEventService, RoleEventService>();
         services.AddTransient<IRoleService, RoleService>();
+        services.AddTransient<IPageRoleService, PageRoleService>();
         services.AddTransient<IUserEventService, UserEventService>();
         services.AddTransient<IUserRoleEventService, UserRoleEventService>();
         services.AddTransient<IUserRoleFoundationService, UserRoleService>();
@@ -206,6 +209,9 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IPrivilegeOrchestrationService, PrivilegeOrchestrationService>();
         services.AddTransient<IPrivilegeManager, PrivilegeOrchestrationService>();
         services.AddTransient<IRoleOrchestrationService, RoleOrchestrationService>();
+        services.AddTransient<IPageRoleOrchestrationService, PageRoleOrchestrationService>();
+        services.AddTransient<IAppSecurityPackageOrchestrationService, AppSecurityPackageOrchestrationService>();
+        services.AddTransient<IAppSecurityPackageExportOrchestrationService, AppSecurityPackageExportOrchestrationService>();
         services.AddTransient<IRoleManager, RoleOrchestrationService>();
         services.AddTransient<IUserOrchestrationService, UserOrchestrationService>();
         services.AddTransient<IUserManager, UserOrchestrationService>();
@@ -216,6 +222,7 @@ public static partial class IServiceCollectionExtensions
     private static void AddAggregations(this IServiceCollection services)
     {
         services.AddTransient<IAppSecurityMigrationAggregationService, AppSecurityMigrationAggregationService>();
+        services.AddTransient<IAppRelationshipAggregationService, AppRelationshipAggregationService>();
     }
 
     private static void AddExposures(this IServiceCollection services)
@@ -233,6 +240,7 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IPrivilegeProcessingService, PrivilegeProcessingService>();
         services.AddTransient<IRoleEventProcessingService, RoleEventProcessingService>();
         services.AddTransient<IRoleProcessingService, RoleProcessingService>();
+        services.AddTransient<IPageRoleProcessingService, PageRoleProcessingService>();
         services.AddTransient<IUserEventProcessingService, UserEventProcessingService>();
         services.AddTransient<IUserProcessingService, UserProcessingService>();
         services.AddTransient<IUserRoleEventProcessingService, UserRoleEventProcessingService>();

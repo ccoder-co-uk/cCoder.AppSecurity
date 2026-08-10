@@ -127,6 +127,19 @@ internal sealed partial class AppOrchestrationService(
     {
         string[] builtInRoleNames = ["Administrators", "Users", "Guests"];
 
+        Dictionary<string, IEnumerable<PageRole>> postedPagesByRoleName = (app.Roles ?? [])
+            .Where(predicate: role => builtInRoleNames.Contains(
+                value: role.Name,
+                comparer: StringComparer.OrdinalIgnoreCase))
+            .GroupBy(
+                keySelector: role => role.Name,
+                comparer: StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(
+                keySelector: group => group.Key,
+                elementSelector: group => group.SelectMany(
+                    selector: role => role.Pages ?? []),
+                comparer: StringComparer.OrdinalIgnoreCase);
+
         app.Roles = [.. (app.Roles ?? [])
             .Where(predicate: role => !builtInRoleNames.Contains(
                 value: role.Name,
@@ -147,10 +160,40 @@ internal sealed partial class AppOrchestrationService(
                     && !IsWorkflowType(type: privilege.Type))
                 .Select(selector: privilege => privilege.Id)];
 
-        AddBuiltInRole(newApp: app, roleName: "Administrators", privileges: administratorPrivileges, userId: currentUserId);
-        AddBuiltInRole(newApp: app, roleName: "Users", privileges: userPrivileges, userId: currentUserId);
-        AddBuiltInRole(newApp: app, roleName: "Guests", privileges: userPrivileges, userId: "Guest");
+        AddBuiltInRole(
+            newApp: app,
+            roleName: "Administrators",
+            privileges: administratorPrivileges,
+            userId: currentUserId,
+            pages: GetPostedPages(
+                postedPagesByRoleName: postedPagesByRoleName,
+                roleName: "Administrators"));
+
+        AddBuiltInRole(
+            newApp: app,
+            roleName: "Users",
+            privileges: userPrivileges,
+            userId: currentUserId,
+            pages: GetPostedPages(
+                postedPagesByRoleName: postedPagesByRoleName,
+                roleName: "Users"));
+
+        AddBuiltInRole(
+            newApp: app,
+            roleName: "Guests",
+            privileges: userPrivileges,
+            userId: "Guest",
+            pages: GetPostedPages(
+                postedPagesByRoleName: postedPagesByRoleName,
+                roleName: "Guests"));
     }
+
+    private static IEnumerable<PageRole> GetPostedPages(
+        IReadOnlyDictionary<string, IEnumerable<PageRole>> postedPagesByRoleName,
+        string roleName) =>
+        postedPagesByRoleName.TryGetValue(key: roleName, value: out IEnumerable<PageRole> pages)
+            ? pages
+            : [];
 
     private static bool IsWorkflowType(string type) =>
         type.StartsWith(value: "Flow", comparisonType: StringComparison.OrdinalIgnoreCase)
@@ -160,7 +203,8 @@ internal sealed partial class AppOrchestrationService(
         App newApp,
         string roleName,
         IEnumerable<string> privileges,
-        string userId)
+        string userId,
+        IEnumerable<PageRole> pages)
     {
         Role newRole = new()
         {
@@ -169,7 +213,7 @@ internal sealed partial class AppOrchestrationService(
             App = newApp,
             Name = roleName,
             Users = [],
-            Pages = [],
+            Pages = [.. pages],
             Folders = [],
             Privileges = [.. privileges],
         };

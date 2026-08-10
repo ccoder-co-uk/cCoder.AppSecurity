@@ -2,8 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Dependencies;
+namespace cCoder.AppSecurity.Models;
 
-namespace cCoder.AppSecurity.Services.Foundations.Events;
+internal sealed class PageRoleInfo
+{
+    public string Path { get; set; }
 
-internal sealed partial class EventHandlerService;
+    public string Role { get; set; }
+}
