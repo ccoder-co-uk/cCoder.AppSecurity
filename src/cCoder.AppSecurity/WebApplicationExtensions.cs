@@ -22,9 +22,14 @@ public static partial class WebApplicationExtensions
             .UseAppSecurityEventHandlers()
             .UseAppSecurityDeleteEventHandlers();
 
-    public static WebApplication StartAppSecurityHostedServices(this WebApplication app) =>
-        app.UseAppSecurityEventHandlers()
+    public static WebApplication StartAppSecurityHostedServices(
+        this WebApplication app)
+    {
+        PopulateMetadataTypeCache(app: app);
+
+        return app.UseAppSecurityEventHandlers()
             .UseAppSecurityDeleteEventHandlers();
+    }
 
     private static WebApplication UseAppSecurityExposure(this WebApplication app, ILogger log = null)
     {
