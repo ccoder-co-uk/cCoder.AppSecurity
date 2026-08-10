@@ -9,5 +9,6 @@ public interface IAppSecurityEventHandlers
     void ListenToAllEvents();
     void ListenToAppCreateAndUpdateEvents();
     void ListenToAppDeleteEvents();
+    void ListenToPackageEvents();
     void ListenToSecurityAccountEvents();
 }

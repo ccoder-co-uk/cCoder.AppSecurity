@@ -23,7 +23,7 @@ public sealed partial class EventHandlerServiceTests
             eventHubBroker: eventHubBrokerMock.Object);
 
         // When
-        eventHandlerService.ListenToAllEvents();
+        eventHandlerService.ListenToPackageEvents();
 
         // Then
         eventHubBrokerMock.Verify(

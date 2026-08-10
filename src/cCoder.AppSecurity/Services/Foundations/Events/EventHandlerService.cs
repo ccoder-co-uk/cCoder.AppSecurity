@@ -24,7 +24,7 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
 
             ListenToAppCreateAndUpdateEventsValue();
             ListenToAppDeleteEventsValue();
-            ListenToPackageEvents();
+            ListenToPackageEventsValue();
             ListenToSecurityAccountEventsValue();
 
         });
@@ -45,11 +45,13 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
             ListenToAppDeleteEvent();
         });
 
-    void ListenToPackageEvents()
-    {
-        ListenToPackageImportEvents();
-        ListenToContentPagesImportedEvents();
-    }
+    public void ListenToPackageEvents() =>
+        TryCatch(operation: void () =>
+        {
+            ValidateListenToPackageEvents();
+
+            ListenToPackageEventsValue();
+        });
 
     public void ListenToSecurityAccountEvents() =>
         TryCatch(operation: void () =>
@@ -157,4 +159,10 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
 
     private void ListenToSecurityAccountEventsValue() =>
         ListenToSecurityAccountEvents();
+
+    private void ListenToPackageEventsValue()
+    {
+        ListenToPackageImportEvents();
+        ListenToContentPagesImportedEvents();
+    }
 }

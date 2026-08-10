@@ -28,7 +28,8 @@ public static partial class WebApplicationExtensions
         PopulateMetadataTypeCache(app: app);
 
         return app.UseAppSecurityEventHandlers()
-            .UseAppSecurityDeleteEventHandlers();
+            .UseAppSecurityDeleteEventHandlers()
+            .UseAppSecurityPackageEventHandlers();
     }
 
     private static WebApplication UseAppSecurityExposure(this WebApplication app, ILogger log = null)
@@ -60,6 +61,19 @@ public static partial class WebApplicationExtensions
         foreach (IAppSecurityEventHandlers handlers in services.GetServices<IAppSecurityEventHandlers>())
         {
             handlers.ListenToAppDeleteEvents();
+        }
+
+        return app;
+    }
+
+    private static WebApplication UseAppSecurityPackageEventHandlers(this WebApplication app)
+    {
+        using IServiceScope scope = app.Services.CreateScope();
+        IServiceProvider services = scope.ServiceProvider;
+
+        foreach (IAppSecurityEventHandlers handlers in services.GetServices<IAppSecurityEventHandlers>())
+        {
+            handlers.ListenToPackageEvents();
         }
 
         return app;
