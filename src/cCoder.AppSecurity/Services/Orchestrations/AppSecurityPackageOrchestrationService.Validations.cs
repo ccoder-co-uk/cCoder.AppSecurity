@@ -9,6 +9,9 @@ namespace cCoder.AppSecurity.Services.Orchestrations;
 
 internal sealed partial class AppSecurityPackageOrchestrationService
 {
-    private static void ValidateAppSecurityPackageMappingOnMap(AppSecurityPackageMapping mapping) =>
+    private static void ValidateAppSecurityPackageMappingRolesOnMap(AppSecurityPackageMapping mapping) =>
+        ValidationRulesEngine.Validate(inputs: [mapping]);
+
+    private static void ValidateAppSecurityPackageMappingPageRolesOnMap(AppSecurityPackageMapping mapping) =>
         ValidationRulesEngine.Validate(inputs: [mapping]);
 }

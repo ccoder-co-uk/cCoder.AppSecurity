@@ -14,28 +14,43 @@ internal sealed partial class AppSecurityPackageOrchestrationService(
     IJsonProcessingService jsonProcessingService)
         : IAppSecurityPackageOrchestrationService
 {
-    public AppSecurityPackageMapping MapAppSecurityPackageMapping(AppSecurityPackageMapping mapping) =>
+    public AppSecurityPackageMapping MapAppSecurityPackageMappingRoles(AppSecurityPackageMapping mapping) =>
         TryCatch(operation: AppSecurityPackageMapping () =>
         {
-            ValidateAppSecurityPackageMappingOnMap(mapping: mapping);
+            ValidateAppSecurityPackageMappingRolesOnMap(mapping: mapping);
             int appId = mapping.AppId;
             AppSecurityPackage package = mapping.Package;
             Role[] roles = GetRoles(package: package);
+
+            foreach (Role role in roles)
+            {
+                role.AppId = appId;
+                role.Pages = [];
+            }
+
+            mapping.App = new App { Id = appId, Roles = roles };
+            return mapping;
+        });
+
+    public AppSecurityPackageMapping MapAppSecurityPackageMappingPageRoles(
+        AppSecurityPackageMapping mapping) =>
+        TryCatch(operation: AppSecurityPackageMapping () =>
+        {
+            ValidateAppSecurityPackageMappingPageRolesOnMap(mapping: mapping);
+            int appId = mapping.AppId;
+            AppSecurityPackage package = mapping.Package;
             PageRoleInfo[] pageRoleInfos = GetPageRoleInfos(package: package);
 
-            if (roles.Length == 0 && pageRoleInfos.Length > 0)
-            {
-                string[] roleNames = pageRoleInfos
-                    .Select(selector: pageRole => pageRole.Role)
-                    .Distinct(comparer: StringComparer.OrdinalIgnoreCase)
-                    .ToArray();
+            string[] roleNames = pageRoleInfos
+                .Select(selector: pageRole => pageRole.Role)
+                .Distinct(comparer: StringComparer.OrdinalIgnoreCase)
+                .ToArray();
 
-                roles = roleProcessingService.GetAll(ignoreFilters: true)
-                    .Where(predicate: role =>
-                        role.AppId == appId
-                        && roleNames.Contains(value: role.Name))
-                    .ToArray();
-            }
+            Role[] roles = roleProcessingService.GetAll(ignoreFilters: true)
+                .Where(predicate: role =>
+                    role.AppId == appId
+                    && roleNames.Contains(value: role.Name))
+                .ToArray();
 
             AttachPageRoles(appId: appId, roles: roles, pageRoleInfos: pageRoleInfos);
 

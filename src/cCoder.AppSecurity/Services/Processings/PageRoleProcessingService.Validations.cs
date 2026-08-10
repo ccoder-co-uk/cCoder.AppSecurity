@@ -11,7 +11,7 @@ namespace cCoder.AppSecurity.Services.Processings;
 internal sealed partial class PageRoleProcessingService
 {
     private static void ValidatePageRolesOnAddOrUpdate(IEnumerable<Role> roles) =>
-        ValidationRulesEngine.Validate(inputs: [roles]);
+        ValidationRulesEngine.Validate(inputs: roles is null ? [] : [roles]);
 
     private static void ValidatePageRoleDependenciesOnAddOrUpdate(
         Guid roleId,

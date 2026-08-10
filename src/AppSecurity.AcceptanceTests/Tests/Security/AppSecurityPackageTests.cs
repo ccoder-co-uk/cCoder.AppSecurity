@@ -17,7 +17,7 @@ namespace Web.AcceptanceTests.Tests.Security;
 public sealed partial class AppSecurityPackageTests(WebAcceptanceFixture fixture)
 {
     [Fact]
-    public async Task ShouldPersistRootGuestPageRoleFromPageRoleOnlyPackageAsync()
+    public async Task ShouldSkipRootGuestPageRoleFromGenericPackageImportAsync()
     {
         // Given
         int appId;
@@ -101,7 +101,7 @@ public sealed partial class AppSecurityPackageTests(WebAcceptanceFixture fixture
                     && pageRole.PageId == rootPageId)
                 .ToArrayAsync();
 
-            Assert.Single(collection: pageRoles);
+            Assert.Empty(collection: pageRoles);
         }
     }
 }

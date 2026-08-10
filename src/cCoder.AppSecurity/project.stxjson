@@ -1807,72 +1807,6 @@
       ]
     },
     {
-      "Name": "cCoder.AppSecurity.Brokers.Loggings.LoggingBroker",
-      "StandardElementType": "Broker",
-      "LineNumber": 9,
-      "IsPublic": false,
-      "Kind": "Class",
-      "BaseType": null,
-      "Interfaces": [
-        {
-          "Id": "cCoder.AppSecurity:cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-          "FullName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-          "Name": "ILoggingBroker",
-          "Namespace": "cCoder.AppSecurity.Brokers.Loggings",
-          "AssemblyName": "cCoder.AppSecurity",
-          "Kind": "Interface",
-          "IsInCurrentProject": true,
-          "StandardElementType": "Broker"
-        }
-      ],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.AppSecurity.Brokers.Loggings.LoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-          "Name": "LogError",
-          "LineNumber": 11,
-          "Inputs": [
-            {
-              "Name": "exception",
-              "Type": "System.Exception"
-            },
-            {
-              "Name": "message",
-              "Type": "System.String"
-            },
-            {
-              "Name": "args",
-              "Type": "System.Object[]"
-            }
-          ],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])"
-          ],
-          "Calls": [
-            {
-              "TypeName": "Microsoft.Extensions.Logging.LoggerExtensions",
-              "MethodName": "LogError",
-              "MethodId": "Microsoft.Extensions.Logging.LoggerExtensions.LogError(Microsoft.Extensions.Logging.ILogger,System.Exception?,System.String?,System.Object?[])",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
       "Name": "cCoder.AppSecurity.Brokers.OData.AppSecurityODataModelBroker",
       "StandardElementType": "Broker",
       "LineNumber": 14,
@@ -4430,7 +4364,6 @@
           ],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
-            "System.ArgumentException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
@@ -4469,7 +4402,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.AppController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 22,
+      "LineNumber": 21,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -4488,7 +4421,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.AppController.Get(System.Int32)",
           "Name": "Get",
-          "LineNumber": 98,
+          "LineNumber": 92,
           "Inputs": [
             {
               "Name": "key",
@@ -4520,13 +4453,6 @@
               "IsDependencyBoundary": true
             },
             {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
               "TypeName": "cCoder.AppSecurity.Exposures.IAppManager",
               "MethodName": "GetAll",
               "MethodId": "cCoder.AppSecurity.Exposures.IAppManager.GetAll()",
@@ -4555,8 +4481,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -4565,8 +4490,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 404,
@@ -4575,8 +4499,7 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4589,7 +4512,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.AppController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 66,
+          "LineNumber": 63,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -4600,13 +4523,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IAppManager",
@@ -4637,8 +4553,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -4647,8 +4562,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4661,7 +4575,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.AppController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 25,
+          "LineNumber": 24,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -4671,13 +4585,6 @@
               "MethodName": "GetExtendedMetadataForType",
               "MethodId": "cCoder.AppSecurity.Api.OData.EdmModelExtensions.GetExtendedMetadataForType(Microsoft.OData.Edm.IEdmModel,System.String,System.Type,System.Boolean)",
               "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             },
             {
@@ -4709,8 +4616,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4725,7 +4631,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 25,
+      "LineNumber": 24,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -4744,7 +4650,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Delete(System.String)",
           "Name": "Delete",
-          "LineNumber": 243,
+          "LineNumber": 224,
           "Inputs": [
             {
               "Name": "key",
@@ -4760,13 +4666,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IPrivilegeManager",
@@ -4807,8 +4706,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -4817,8 +4715,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4831,7 +4728,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 103,
+          "LineNumber": 96,
           "Inputs": [
             {
               "Name": "key",
@@ -4854,13 +4751,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.NotFound(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IPrivilegeManager",
@@ -4900,8 +4790,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -4910,8 +4799,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 404,
@@ -4920,8 +4808,7 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -4934,7 +4821,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 70,
+          "LineNumber": 66,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -4945,13 +4832,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IPrivilegeManager",
@@ -4991,8 +4871,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -5001,8 +4880,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5015,7 +4893,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 31,
+          "LineNumber": 29,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -5025,13 +4903,6 @@
               "MethodName": "GetExtendedMetadataForType",
               "MethodId": "cCoder.AppSecurity.Api.OData.EdmModelExtensions.GetExtendedMetadataForType(Microsoft.OData.Edm.IEdmModel,System.String,System.Type,System.Boolean)",
               "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             },
             {
@@ -5063,8 +4934,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5077,7 +4947,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Post(cCoder.Data.Models.Security.Privilege)",
           "Name": "Post",
-          "LineNumber": 139,
+          "LineNumber": 129,
           "Inputs": [
             {
               "Name": "newPrivilege",
@@ -5093,13 +4963,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IPrivilegeManager",
@@ -5140,8 +5003,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -5150,8 +5012,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5164,7 +5025,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Put(System.String,Microsoft.AspNetCore.OData.Deltas.Delta\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "Put",
-          "LineNumber": 210,
+          "LineNumber": 194,
           "Inputs": [
             {
               "Name": "key",
@@ -5198,13 +5059,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.NotFound(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IPrivilegeManager",
@@ -5252,8 +5106,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -5262,8 +5115,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 404,
@@ -5272,8 +5124,7 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5286,7 +5137,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Put(System.String,cCoder.Data.Models.Security.Privilege)",
           "Name": "Put",
-          "LineNumber": 178,
+          "LineNumber": 165,
           "Inputs": [
             {
               "Name": "key",
@@ -5306,13 +5157,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IPrivilegeManager",
@@ -5353,8 +5197,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -5363,8 +5206,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -5373,8 +5215,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5389,7 +5230,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 25,
+      "LineNumber": 24,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -5408,7 +5249,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Delete(System.Guid)",
           "Name": "Delete",
-          "LineNumber": 243,
+          "LineNumber": 224,
           "Inputs": [
             {
               "Name": "key",
@@ -5424,13 +5265,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IRoleManager",
@@ -5471,8 +5305,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -5481,8 +5314,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5495,7 +5327,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 103,
+          "LineNumber": 96,
           "Inputs": [
             {
               "Name": "key",
@@ -5518,13 +5350,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.NotFound(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IRoleManager",
@@ -5564,8 +5389,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -5574,8 +5398,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 404,
@@ -5584,8 +5407,7 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5598,7 +5420,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 70,
+          "LineNumber": 66,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -5609,13 +5431,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IRoleManager",
@@ -5654,8 +5469,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -5664,8 +5478,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5678,7 +5491,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 31,
+          "LineNumber": 29,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -5688,13 +5501,6 @@
               "MethodName": "GetExtendedMetadataForType",
               "MethodId": "cCoder.AppSecurity.Api.OData.EdmModelExtensions.GetExtendedMetadataForType(Microsoft.OData.Edm.IEdmModel,System.String,System.Type,System.Boolean)",
               "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             },
             {
@@ -5726,8 +5532,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5740,7 +5545,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Post(cCoder.Data.Models.Security.Role)",
           "Name": "Post",
-          "LineNumber": 139,
+          "LineNumber": 129,
           "Inputs": [
             {
               "Name": "newRole",
@@ -5756,13 +5561,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IRoleManager",
@@ -5803,8 +5601,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -5813,8 +5610,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5827,7 +5623,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Put(System.Guid,Microsoft.AspNetCore.OData.Deltas.Delta\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "Put",
-          "LineNumber": 210,
+          "LineNumber": 194,
           "Inputs": [
             {
               "Name": "key",
@@ -5861,13 +5657,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.NotFound(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IRoleManager",
@@ -5915,8 +5704,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -5925,8 +5713,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 404,
@@ -5935,8 +5722,7 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -5949,7 +5735,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Put(System.Guid,cCoder.Data.Models.Security.Role)",
           "Name": "Put",
-          "LineNumber": 178,
+          "LineNumber": 165,
           "Inputs": [
             {
               "Name": "key",
@@ -5969,13 +5755,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IRoleManager",
@@ -6016,8 +5795,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -6026,8 +5804,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -6036,8 +5813,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6052,7 +5828,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.UserController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 26,
+      "LineNumber": 25,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -6071,7 +5847,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Delete(System.String)",
           "Name": "Delete",
-          "LineNumber": 274,
+          "LineNumber": 252,
           "Inputs": [
             {
               "Name": "key",
@@ -6087,13 +5863,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IUserManager",
@@ -6134,8 +5903,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -6144,8 +5912,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6158,7 +5925,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 134,
+          "LineNumber": 124,
           "Inputs": [
             {
               "Name": "key",
@@ -6181,13 +5948,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.NotFound(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IUserManager",
@@ -6227,8 +5987,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -6237,8 +5996,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 404,
@@ -6247,8 +6005,7 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6261,7 +6018,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 101,
+          "LineNumber": 94,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -6272,13 +6029,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IUserManager",
@@ -6317,8 +6067,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -6327,8 +6076,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6341,7 +6089,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.GetMe()",
           "Name": "GetMe",
-          "LineNumber": 34,
+          "LineNumber": 32,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -6359,13 +6107,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.NotFound(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IUserManager",
@@ -6405,8 +6146,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -6415,8 +6155,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 404,
@@ -6425,8 +6164,7 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6439,7 +6177,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 62,
+          "LineNumber": 57,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -6449,13 +6187,6 @@
               "MethodName": "GetExtendedMetadataForType",
               "MethodId": "cCoder.AppSecurity.Api.OData.EdmModelExtensions.GetExtendedMetadataForType(Microsoft.OData.Edm.IEdmModel,System.String,System.Type,System.Boolean)",
               "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             },
             {
@@ -6487,8 +6218,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6501,7 +6231,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Post(cCoder.Data.Models.Security.User)",
           "Name": "Post",
-          "LineNumber": 170,
+          "LineNumber": 157,
           "Inputs": [
             {
               "Name": "newUser",
@@ -6517,13 +6247,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IUserManager",
@@ -6564,8 +6287,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -6574,8 +6296,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6588,7 +6309,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Put(System.String,Microsoft.AspNetCore.OData.Deltas.Delta\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "Put",
-          "LineNumber": 241,
+          "LineNumber": 222,
           "Inputs": [
             {
               "Name": "key",
@@ -6622,13 +6343,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.NotFound(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IUserManager",
@@ -6676,8 +6390,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -6686,8 +6399,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 404,
@@ -6696,8 +6408,7 @@
               "IsExceptionPath": false,
               "IsNullPath": true,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6710,7 +6421,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Put(System.String,cCoder.Data.Models.Security.User)",
           "Name": "Put",
-          "LineNumber": 209,
+          "LineNumber": 193,
           "Inputs": [
             {
               "Name": "key",
@@ -6730,13 +6441,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IUserManager",
@@ -6777,8 +6481,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -6787,8 +6490,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -6797,8 +6499,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6813,7 +6514,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 20,
+      "LineNumber": 19,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -6832,7 +6533,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController.Delete(System.Guid,System.String)",
           "Name": "Delete",
-          "LineNumber": 143,
+          "LineNumber": 130,
           "Inputs": [
             {
               "Name": "keyRoleId",
@@ -6852,13 +6553,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IUserRoleManager",
@@ -6906,8 +6600,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -6916,8 +6609,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -6930,7 +6622,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController.DeleteAll(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.UserRole\u003E)",
           "Name": "DeleteAll",
-          "LineNumber": 112,
+          "LineNumber": 102,
           "Inputs": [
             {
               "Name": "deletedUserRole",
@@ -6946,13 +6638,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IUserRoleManager",
@@ -6993,8 +6678,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -7003,8 +6687,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -7013,8 +6696,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -7027,7 +6709,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 57,
+          "LineNumber": 53,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -7038,13 +6720,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IUserRoleManager",
@@ -7083,8 +6758,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -7093,8 +6767,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -7107,18 +6780,11 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController.GetMetadata()",
           "Name": "GetMetadata",
-          "LineNumber": 26,
+          "LineNumber": 24,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
           "Calls": [
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
             {
               "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
               "MethodName": "CreateMetadataContainer",
@@ -7141,8 +6807,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -7155,7 +6820,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController.Post(cCoder.Data.Models.Security.UserRole)",
           "Name": "Post",
-          "LineNumber": 81,
+          "LineNumber": 74,
           "Inputs": [
             {
               "Name": "newUserRole",
@@ -7171,13 +6836,6 @@
               "MethodId": "Microsoft.AspNetCore.OData.Routing.Controllers.ODataController.BadRequest(System.String)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
             },
             {
               "TypeName": "cCoder.AppSecurity.Exposures.IUserRoleManager",
@@ -7218,8 +6876,7 @@
               "IsExceptionPath": false,
               "IsNullPath": false,
               "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
+              "ExposesExceptionDetails": false
             },
             {
               "StatusCode": 400,
@@ -7228,8 +6885,7 @@
               "IsExceptionPath": true,
               "IsNullPath": false,
               "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
+              "ExposesExceptionDetails": false
             }
           ],
           "IsHttpRequestHandler": true,
@@ -8523,7 +8179,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService.ExportPackage(System.Int32,System.String)",
           "Name": "ExportPackage",
-          "LineNumber": 43,
+          "LineNumber": 68,
           "Inputs": [
             {
               "Name": "appId",
@@ -8604,6 +8260,13 @@
           ],
           "Calls": [
             {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "Any",
+              "MethodId": "System.Linq.Enumerable.Any(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, System.Boolean\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
               "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService",
               "MethodName": "UpdateAppAsync",
               "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService.UpdateAppAsync(cCoder.Data.Models.CMS.App)",
@@ -8612,8 +8275,81 @@
             },
             {
               "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService",
-              "MethodName": "MapAppSecurityPackageMapping",
-              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMapping(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
+              "MethodName": "MapAppSecurityPackageMappingRoles",
+              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
+              "StandardElementType": "OrchestrationService",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService.ImportPageRolesAppSecurityPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)",
+          "Name": "ImportPageRolesAppSecurityPackageAsync",
+          "LineNumber": 43,
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "package",
+              "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Aggregations.IAppSecurityMigrationAggregationService.ImportPageRolesAppSecurityPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "Any",
+              "MethodId": "System.Linq.Enumerable.Any(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, System.Boolean\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService",
+              "MethodName": "MapAppSecurityPackageMappingPageRoles",
+              "MethodId": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingPageRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
               "StandardElementType": "OrchestrationService",
               "IsDependencyBoundary": false
             },
@@ -8648,7 +8384,6 @@
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
           ],
           "ThrowsExceptionTypes": [
@@ -9012,7 +8747,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.AppService.GetByDomain(System.String)",
           "Name": "GetByDomain",
-          "LineNumber": 19,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "domain",
@@ -9193,7 +8928,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService.ListenToAppCreateAndUpdateEvents()",
           "Name": "ListenToAppCreateAndUpdateEvents",
-          "LineNumber": 32,
+          "LineNumber": 33,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
@@ -9239,7 +8974,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService.ListenToAppDeleteEvents()",
           "Name": "ListenToAppDeleteEvents",
-          "LineNumber": 41,
+          "LineNumber": 43,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
@@ -9281,7 +9016,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService.ListenToSecurityAccountEvents()",
           "Name": "ListenToSecurityAccountEvents",
-          "LineNumber": 51,
+          "LineNumber": 57,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
@@ -12346,9 +12081,9 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageOrchestrationService.MapAppSecurityPackageMapping(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
-          "Name": "MapAppSecurityPackageMapping",
-          "LineNumber": 17,
+          "Id": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingPageRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
+          "Name": "MapAppSecurityPackageMappingPageRoles",
+          "LineNumber": 35,
           "Inputs": [
             {
               "Name": "mapping",
@@ -12357,7 +12092,7 @@
           ],
           "ReturnType": "cCoder.AppSecurity.Models.AppSecurityPackageMapping",
           "Implements": [
-            "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMapping(cCoder.AppSecurity.Models.AppSecurityPackageMapping)"
+            "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingPageRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)"
           ],
           "Calls": [
             {
@@ -12425,6 +12160,63 @@
           ],
           "IncomingExceptionTypes": [
             "System.ArgumentException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException"
+          ],
+          "ThrowsExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
+          ],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
+          "Name": "MapAppSecurityPackageMappingRoles",
+          "LineNumber": 17,
+          "Inputs": [
+            {
+              "Name": "mapping",
+              "Type": "cCoder.AppSecurity.Models.AppSecurityPackageMapping"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Models.AppSecurityPackageMapping",
+          "Implements": [
+            "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.Data.Models.CMS.App",
+              "MethodName": ".ctor",
+              "MethodId": "cCoder.Data.Models.CMS.App..ctor()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            }
+          ],
+          "PossibleExceptionTypes": [
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+          ],
+          "IncomingExceptionTypes": [
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
@@ -14835,7 +14627,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.AppProcessingService.GetByDomain(System.String)",
           "Name": "GetByDomain",
-          "LineNumber": 19,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "domain",
@@ -18636,51 +18428,6 @@
       ]
     },
     {
-      "Name": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-      "StandardElementType": "Broker",
-      "LineNumber": 7,
-      "IsPublic": true,
-      "Kind": "Interface",
-      "BaseType": null,
-      "Interfaces": [],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-          "Name": "LogError",
-          "LineNumber": 9,
-          "Inputs": [
-            {
-              "Name": "exception",
-              "Type": "System.Exception"
-            },
-            {
-              "Name": "message",
-              "Type": "System.String"
-            },
-            {
-              "Name": "args",
-              "Type": "System.Object[]"
-            }
-          ],
-          "ReturnType": "System.Void",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
       "Name": "cCoder.AppSecurity.Brokers.OData.IAppSecurityODataModelBroker",
       "StandardElementType": "Broker",
       "LineNumber": 9,
@@ -20478,7 +20225,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.IAppSecurityMigrationAggregationService.ExportPackage(System.Int32,System.String)",
           "Name": "ExportPackage",
-          "LineNumber": 16,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "appId",
@@ -20508,6 +20255,35 @@
           "Id": "cCoder.AppSecurity.Services.Aggregations.IAppSecurityMigrationAggregationService.ImportPackageAppSecurityPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)",
           "Name": "ImportPackageAppSecurityPackageAsync",
           "LineNumber": 14,
+          "Inputs": [
+            {
+              "Name": "appId",
+              "Type": "System.Int32"
+            },
+            {
+              "Name": "package",
+              "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Aggregations.IAppSecurityMigrationAggregationService.ImportPageRolesAppSecurityPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)",
+          "Name": "ImportPageRolesAppSecurityPackageAsync",
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "appId",
@@ -22294,8 +22070,33 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMapping(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
-          "Name": "MapAppSecurityPackageMapping",
+          "Id": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingPageRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
+          "Name": "MapAppSecurityPackageMappingPageRoles",
+          "LineNumber": 13,
+          "Inputs": [
+            {
+              "Name": "mapping",
+              "Type": "cCoder.AppSecurity.Models.AppSecurityPackageMapping"
+            }
+          ],
+          "ReturnType": "cCoder.AppSecurity.Models.AppSecurityPackageMapping",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
+          "Name": "MapAppSecurityPackageMappingRoles",
           "LineNumber": 12,
           "Inputs": [
             {
@@ -23799,15 +23600,7 @@
     },
     {
       "FromType": "cCoder.AppSecurity.Exposures.Controllers.AppController",
-      "ToType": "cCoder.AppSecurity.Brokers.Loggings.LoggingBroker"
-    },
-    {
-      "FromType": "cCoder.AppSecurity.Exposures.Controllers.AppController",
       "ToType": "cCoder.AppSecurity.Services.Foundations.AppService"
-    },
-    {
-      "FromType": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "ToType": "cCoder.AppSecurity.Brokers.Loggings.LoggingBroker"
     },
     {
       "FromType": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
@@ -23815,23 +23608,11 @@
     },
     {
       "FromType": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "ToType": "cCoder.AppSecurity.Brokers.Loggings.LoggingBroker"
-    },
-    {
-      "FromType": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
       "ToType": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService"
     },
     {
       "FromType": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "ToType": "cCoder.AppSecurity.Brokers.Loggings.LoggingBroker"
-    },
-    {
-      "FromType": "cCoder.AppSecurity.Exposures.Controllers.UserController",
       "ToType": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService"
-    },
-    {
-      "FromType": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "ToType": "cCoder.AppSecurity.Brokers.Loggings.LoggingBroker"
     },
     {
       "FromType": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
@@ -24120,371 +23901,371 @@
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.AppController",
-      "LineNumber": 25
+      "LineNumber": 24
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.AppController",
+      "LineNumber": 63
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.AppController",
+      "LineNumber": 92
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
+      "LineNumber": 29
+    },
+    {
+      "Code": "RFC0007",
+      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
       "LineNumber": 66
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.AppController",
-      "LineNumber": 98
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 31
+      "LineNumber": 66
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 70
+      "LineNumber": 96
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 70
+      "LineNumber": 96
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 103
+      "LineNumber": 129
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 103
+      "LineNumber": 129
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 139
+      "LineNumber": 165
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 139
+      "LineNumber": 165
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 178
+      "LineNumber": 194
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 178
+      "LineNumber": 194
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 210
+      "LineNumber": 224
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 210
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 243
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 243
+      "LineNumber": 224
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 31
+      "LineNumber": 29
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 70
+      "LineNumber": 66
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 70
+      "LineNumber": 66
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 103
+      "LineNumber": 96
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 103
+      "LineNumber": 96
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 139
+      "LineNumber": 129
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 139
+      "LineNumber": 129
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 178
+      "LineNumber": 165
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 178
+      "LineNumber": 165
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 210
+      "LineNumber": 194
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 210
+      "LineNumber": 194
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 243
+      "LineNumber": 224
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 243
+      "LineNumber": 224
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 34
+      "LineNumber": 32
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 34
+      "LineNumber": 32
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 62
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 101
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 101
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 134
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 134
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 170
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 170
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 209
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 209
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 241
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 241
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 274
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 274
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 26
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 57
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
       "LineNumber": 57
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 81
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 94
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 94
+    },
+    {
+      "Code": "RFC0007",
+      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 124
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 124
+    },
+    {
+      "Code": "RFC0007",
+      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 157
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 157
+    },
+    {
+      "Code": "RFC0007",
+      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 193
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 193
+    },
+    {
+      "Code": "RFC0007",
+      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 222
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 222
+    },
+    {
+      "Code": "RFC0007",
+      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 252
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 252
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 81
+      "LineNumber": 24
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 112
+      "LineNumber": 53
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 112
+      "LineNumber": 53
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 143
+      "LineNumber": 74
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 143
+      "LineNumber": 74
+    },
+    {
+      "Code": "RFC0007",
+      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
+      "LineNumber": 102
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
+      "LineNumber": 102
+    },
+    {
+      "Code": "RFC0007",
+      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
+      "LineNumber": 130
+    },
+    {
+      "Code": "STXAPI005",
+      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
+      "LineNumber": 130
     }
   ]
 }

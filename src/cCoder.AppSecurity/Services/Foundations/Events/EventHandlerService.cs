@@ -45,8 +45,11 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
             ListenToAppDeleteEvent();
         });
 
-    void ListenToPackageEvents() =>
+    void ListenToPackageEvents()
+    {
         ListenToPackageImportEvents();
+        ListenToContentPagesImportedEvents();
+    }
 
     public void ListenToSecurityAccountEvents() =>
         TryCatch(operation: void () =>
@@ -79,6 +82,13 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
         eventHubBroker.ListenToEvent<(int appId, Package package), IAppSecurityMigrationAggregationService>(
             eventName: "package_import",
             handler: (service, args) => service.ImportPackageAppSecurityPackageAsync(
+                appId: args.appId,
+                package: ToLocalPackage(package: args.package)));
+
+    void ListenToContentPagesImportedEvents() =>
+        eventHubBroker.ListenToEvent<(int appId, Package package), IAppSecurityMigrationAggregationService>(
+            eventName: "content_pages_imported",
+            handler: (service, args) => service.ImportPageRolesAppSecurityPackageAsync(
                 appId: args.appId,
                 package: ToLocalPackage(package: args.package)));
 

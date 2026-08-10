@@ -22,13 +22,14 @@ internal sealed partial class AppSecurityMigrationAggregationService(
         {
             ValidateImportPackageAppSecurityPackage(appId: appId, package: package);
 
-            if (package.Items is null || package.Items.Count == 0)
+            if (package.Items is null || !package.Items.Any(predicate: item =>
+                item.Type is "Core/Role" or "AppSecurity/Role"))
             {
                 return;
             }
 
             AppSecurityPackageMapping mapping = packageOrchestrationService
-                .MapAppSecurityPackageMapping(mapping: new AppSecurityPackageMapping
+                .MapAppSecurityPackageMappingRoles(mapping: new AppSecurityPackageMapping
                 {
                     AppId = appId,
                     Package = package,
@@ -37,6 +38,30 @@ internal sealed partial class AppSecurityMigrationAggregationService(
             App app = mapping.App;
 
             await appOrchestrationService.UpdateAppAsync(app: app);
+        });
+
+    public ValueTask ImportPageRolesAppSecurityPackageAsync(
+        int appId,
+        AppSecurityPackage package) =>
+        TryCatch(operation: async ValueTask () =>
+        {
+            ValidateImportPackagePageRoles(appId: appId, package: package);
+
+            if (package.Items is null || !package.Items.Any(predicate: item =>
+                item.Type == "ContentManagement/PageRole"))
+            {
+                return;
+            }
+
+            AppSecurityPackageMapping mapping = packageOrchestrationService
+                .MapAppSecurityPackageMappingPageRoles(mapping: new AppSecurityPackageMapping
+                {
+                    AppId = appId,
+                    Package = package,
+                });
+
+            App app = mapping.App;
+
             await pageRoleOrchestrationService.AddOrUpdateAppPageRolesAsync(app: app);
         });
 
