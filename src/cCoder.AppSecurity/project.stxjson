@@ -7487,6 +7487,26 @@
       "Methods": []
     },
     {
+      "Name": "cCoder.AppSecurity.Models.AppSecurityPackageEvent",
+      "StandardElementType": "Model",
+      "LineNumber": 9,
+      "IsPublic": true,
+      "Kind": "Class",
+      "BaseType": null,
+      "Interfaces": [],
+      "Properties": [
+        {
+          "Name": "AppId",
+          "Type": "System.Int32"
+        },
+        {
+          "Name": "Package",
+          "Type": "cCoder.Data.Models.Packaging.Package"
+        }
+      ],
+      "Methods": []
+    },
+    {
       "Name": "cCoder.AppSecurity.Models.AppSecurityPackageItem",
       "StandardElementType": "Model",
       "LineNumber": 7,

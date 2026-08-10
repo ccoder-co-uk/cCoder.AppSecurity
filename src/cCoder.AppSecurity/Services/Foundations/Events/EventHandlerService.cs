@@ -81,18 +81,18 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
             handler: (service, app) => service.DeleteAppAsync(deletedApp: app));
 
     void ListenToPackageImportEvents() =>
-        eventHubBroker.ListenToEvent<(int appId, Package package), IAppSecurityMigrationAggregationService>(
+        eventHubBroker.ListenToEvent<AppSecurityPackageEvent, IAppSecurityMigrationAggregationService>(
             eventName: "package_import",
-            handler: (service, args) => service.ImportPackageAppSecurityPackageAsync(
-                appId: args.appId,
-                package: ToLocalPackage(package: args.package)));
+            handler: (service, packageEvent) => service.ImportPackageAppSecurityPackageAsync(
+                appId: packageEvent.AppId,
+                package: ToLocalPackage(package: packageEvent.Package)));
 
     void ListenToContentPagesImportedEvents() =>
-        eventHubBroker.ListenToEvent<(int appId, Package package), IAppSecurityMigrationAggregationService>(
+        eventHubBroker.ListenToEvent<AppSecurityPackageEvent, IAppSecurityMigrationAggregationService>(
             eventName: "content_pages_imported",
-            handler: (service, args) => service.ImportPageRolesAppSecurityPackageAsync(
-                appId: args.appId,
-                package: ToLocalPackage(package: args.package)));
+            handler: (service, packageEvent) => service.ImportPageRolesAppSecurityPackageAsync(
+                appId: packageEvent.AppId,
+                package: ToLocalPackage(package: packageEvent.Package)));
 
     void ListenToSecurityRegistrationCreatedEvent() =>
         ListenToSecurityAccountEvent(
