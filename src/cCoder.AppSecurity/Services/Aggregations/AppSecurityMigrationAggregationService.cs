@@ -23,22 +23,6 @@ internal sealed partial class AppSecurityMigrationAggregationService(
             ValidateImportPackageAppSecurityPackage(appId: appId, package: package);
 
             if (package.Items is null || !package.Items.Any(predicate: item =>
-                item.Type is "Core/Role" or "AppSecurity/Role"))
-            {
-                return;
-            }
-
-            await ImportRolesAsync(appId: appId, package: package);
-        });
-
-    public ValueTask ImportPageRolesAppSecurityPackageAsync(
-        int appId,
-        AppSecurityPackage package) =>
-        TryCatch(operation: async ValueTask () =>
-        {
-            ValidateImportPackagePageRoles(appId: appId, package: package);
-
-            if (package.Items is null || !package.Items.Any(predicate: item =>
                 item.Type is "Core/Role" or "AppSecurity/Role" or "ContentManagement/PageRole"))
             {
                 return;

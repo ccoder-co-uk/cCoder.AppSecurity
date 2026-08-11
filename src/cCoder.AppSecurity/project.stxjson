@@ -4430,6 +4430,7 @@
           ],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
+            "System.ArgumentException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
@@ -7281,7 +7282,6 @@
           ],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
-            "System.ArgumentException",
             "System.Security.SecurityException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
@@ -7413,61 +7413,9 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.AppSecurity.Exposures.EventHandlers.AppSecurityEventHandlers.ListenToPackageEvents()",
-          "Name": "ListenToPackageEvents",
-          "LineNumber": 21,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers.ListenToPackageEvents()"
-          ],
-          "Calls": [
-            {
-              "TypeName": "cCoder.AppSecurity.Services.Foundations.Events.IEventHandlerService",
-              "MethodName": "ListenToPackageEvents",
-              "MethodId": "cCoder.AppSecurity.Services.Foundations.Events.IEventHandlerService.ListenToPackageEvents()",
-              "StandardElementType": "FoundationService",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [
-            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
-            "System.ArgumentException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
-          ],
-          "ThrowsExceptionTypes": [
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
-          ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
           "Id": "cCoder.AppSecurity.Exposures.EventHandlers.AppSecurityEventHandlers.ListenToSecurityAccountEvents()",
           "Name": "ListenToSecurityAccountEvents",
-          "LineNumber": 24,
+          "LineNumber": 21,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
@@ -7825,26 +7773,6 @@
         {
           "Name": "SourceApi",
           "Type": "System.String"
-        }
-      ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.AppSecurity.Models.AppSecurityPackageEvent",
-      "StandardElementType": "Model",
-      "LineNumber": 9,
-      "IsPublic": true,
-      "Kind": "Class",
-      "BaseType": null,
-      "Interfaces": [],
-      "Properties": [
-        {
-          "Name": "AppId",
-          "Type": "System.Int32"
-        },
-        {
-          "Name": "Package",
-          "Type": "cCoder.Data.Models.Packaging.Package"
         }
       ],
       "Methods": []
@@ -8594,7 +8522,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService.ExportPackage(System.Int32,System.String)",
           "Name": "ExportPackage",
-          "LineNumber": 85,
+          "LineNumber": 69,
           "Inputs": [
             {
               "Name": "appId",
@@ -8672,72 +8600,6 @@
           "ReturnType": "System.Threading.Tasks.ValueTask",
           "Implements": [
             "cCoder.AppSecurity.Services.Aggregations.IAppSecurityMigrationAggregationService.ImportPackageAppSecurityPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)"
-          ],
-          "Calls": [
-            {
-              "TypeName": "System.Linq.Enumerable",
-              "MethodName": "Any",
-              "MethodId": "System.Linq.Enumerable.Any(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, System.Boolean\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            }
-          ],
-          "PossibleExceptionTypes": [
-            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
-          ],
-          "ThrowsExceptionTypes": [
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException"
-          ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService.ImportPageRolesAppSecurityPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)",
-          "Name": "ImportPageRolesAppSecurityPackageAsync",
-          "LineNumber": 34,
-          "Inputs": [
-            {
-              "Name": "appId",
-              "Type": "System.Int32"
-            },
-            {
-              "Name": "package",
-              "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask",
-          "Implements": [
-            "cCoder.AppSecurity.Services.Aggregations.IAppSecurityMigrationAggregationService.ImportPageRolesAppSecurityPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)"
           ],
           "Calls": [
             {
@@ -9261,7 +9123,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 17,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -9282,7 +9144,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService.ListenToAllEvents()",
           "Name": "ListenToAllEvents",
-          "LineNumber": 20,
+          "LineNumber": 18,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
@@ -9291,7 +9153,6 @@
           "Calls": [],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
-            "System.ArgumentException",
             "System.Security.SecurityException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
@@ -9308,9 +9169,6 @@
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
           ],
           "IncomingExceptionTypes": [
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
           ],
@@ -9330,7 +9188,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService.ListenToAppCreateAndUpdateEvents()",
           "Name": "ListenToAppCreateAndUpdateEvents",
-          "LineNumber": 31,
+          "LineNumber": 28,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
@@ -9376,7 +9234,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService.ListenToAppDeleteEvents()",
           "Name": "ListenToAppDeleteEvents",
-          "LineNumber": 40,
+          "LineNumber": 37,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
@@ -9416,56 +9274,9 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService.ListenToPackageEvents()",
-          "Name": "ListenToPackageEvents",
-          "LineNumber": 47,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [
-            "cCoder.AppSecurity.Services.Foundations.Events.IEventHandlerService.ListenToPackageEvents()"
-          ],
-          "Calls": [],
-          "PossibleExceptionTypes": [
-            "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
-            "System.ArgumentException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
-          ],
-          "ThrowsExceptionTypes": [
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
-          ],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService.ListenToSecurityAccountEvents()",
           "Name": "ListenToSecurityAccountEvents",
-          "LineNumber": 53,
+          "LineNumber": 44,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
@@ -17817,7 +17628,6 @@
           "Calls": [],
           "PossibleExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
-            "System.ArgumentException",
             "System.Security.SecurityException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
@@ -19629,29 +19439,9 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers.ListenToPackageEvents()",
-          "Name": "ListenToPackageEvents",
-          "LineNumber": 12,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
           "Id": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers.ListenToSecurityAccountEvents()",
           "Name": "ListenToSecurityAccountEvents",
-          "LineNumber": 13,
+          "LineNumber": 12,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [],
@@ -20740,7 +20530,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.IAppSecurityMigrationAggregationService.ExportPackage(System.Int32,System.String)",
           "Name": "ExportPackage",
-          "LineNumber": 17,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "appId",
@@ -20770,35 +20560,6 @@
           "Id": "cCoder.AppSecurity.Services.Aggregations.IAppSecurityMigrationAggregationService.ImportPackageAppSecurityPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)",
           "Name": "ImportPackageAppSecurityPackageAsync",
           "LineNumber": 14,
-          "Inputs": [
-            {
-              "Name": "appId",
-              "Type": "System.Int32"
-            },
-            {
-              "Name": "package",
-              "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.ValueTask",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
-          "Id": "cCoder.AppSecurity.Services.Aggregations.IAppSecurityMigrationAggregationService.ImportPageRolesAppSecurityPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)",
-          "Name": "ImportPageRolesAppSecurityPackageAsync",
-          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "appId",
@@ -20897,29 +20658,9 @@
           "HasTryCatch": false
         },
         {
-          "Id": "cCoder.AppSecurity.Services.Foundations.Events.IEventHandlerService.ListenToPackageEvents()",
-          "Name": "ListenToPackageEvents",
-          "LineNumber": 12,
-          "Inputs": [],
-          "ReturnType": "System.Void",
-          "Implements": [],
-          "Calls": [],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        },
-        {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IEventHandlerService.ListenToSecurityAccountEvents()",
           "Name": "ListenToSecurityAccountEvents",
-          "LineNumber": 13,
+          "LineNumber": 12,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [],

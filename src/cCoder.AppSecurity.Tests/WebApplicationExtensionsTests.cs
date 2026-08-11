@@ -13,19 +13,24 @@ namespace cCoder.AppSecurity.Tests;
 
 public sealed partial class WebApplicationExtensionsTests
 {
-    [Fact]
-    public async Task ShouldRegisterAllHostedServiceEventsOnceAsync()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task ShouldNotRegisterPackageEventsOnStartupAsync(
+        bool hostedServices)
     {
         // Given
-        Mock<IAppSecurityEventHandlers> eventHandlersMock = new(behavior: MockBehavior.Strict);
-        Mock<IMetadataTypeCache> metadataTypeCacheMock = new(behavior: MockBehavior.Strict);
+        Mock<IAppSecurityEventHandlers> eventHandlersMock = new(
+            behavior: MockBehavior.Strict);
+
+        Mock<IMetadataTypeCache> metadataTypeCacheMock = new(
+            behavior: MockBehavior.Strict);
+
         WebApplicationBuilder builder = WebApplication.CreateBuilder();
 
         eventHandlersMock
-            .Setup(expression: handlers => handlers.ListenToPackageEvents());
-
-        eventHandlersMock
-            .Setup(expression: handlers => handlers.ListenToAppCreateAndUpdateEvents());
+            .Setup(expression: handlers =>
+                handlers.ListenToAppCreateAndUpdateEvents());
 
         eventHandlersMock
             .Setup(expression: handlers => handlers.ListenToAppDeleteEvents());
@@ -46,15 +51,14 @@ public sealed partial class WebApplicationExtensionsTests
         await using WebApplication app = builder.Build();
 
         // When
-        _ = app.StartAppSecurityHostedServices();
+        _ = hostedServices
+            ? app.StartAppSecurityHostedServices()
+            : app.StartAppSecurityWeb();
 
         // Then
         eventHandlersMock.Verify(
-            expression: handlers => handlers.ListenToPackageEvents(),
-            times: Times.Once);
-
-        eventHandlersMock.Verify(
-            expression: handlers => handlers.ListenToAppCreateAndUpdateEvents(),
+            expression: handlers =>
+                handlers.ListenToAppCreateAndUpdateEvents(),
             times: Times.Once);
 
         eventHandlersMock.Verify(
