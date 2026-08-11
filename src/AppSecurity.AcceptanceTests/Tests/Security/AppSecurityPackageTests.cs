@@ -2,13 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Exposures.EventHandlers;
+using cCoder.AppSecurity.Exposures;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Packaging;
 using cCoder.Data.Models.Security;
-using cCoder.Eventing;
-using cCoder.Eventing.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Web.AcceptanceTests.Infrastructure;
@@ -60,21 +57,21 @@ public sealed partial class AppSecurityPackageTests(WebAcceptanceFixture fixture
             rootPageId = rootPage.Id;
         }
 
-        Package package = new()
+        AppSecurityPackage package = new()
         {
             Items =
             [
-                new PackageItem
+                new AppSecurityPackageItem
                 {
                     Type = "ContentManagement/Page",
                     Data = "[{\"Path\":\"\"}]",
                 },
-                new PackageItem
+                new AppSecurityPackageItem
                 {
                     Type = "AppSecurity/Role",
                     Data = "[{\"Name\":\"Guests\",\"Privs\":\"\"}]",
                 },
-                new PackageItem
+                new AppSecurityPackageItem
                 {
                     Type = "ContentManagement/PageRole",
                     Data = "[{\"Path\":\"\",\"Role\":\"Guests\"}]",
@@ -85,24 +82,12 @@ public sealed partial class AppSecurityPackageTests(WebAcceptanceFixture fixture
         // When
         using (IServiceScope scope = fixture.Factory.Services.CreateScope())
         {
-            IAppSecurityEventHandlers eventHandlers = scope.ServiceProvider
-                .GetRequiredService<IAppSecurityEventHandlers>();
+            IAppSecurityPackageManager packageManager = scope.ServiceProvider
+                .GetRequiredService<IAppSecurityPackageManager>();
 
-            eventHandlers.ListenToPackageEvents();
-
-            IEventHub eventHub = scope.ServiceProvider.GetRequiredService<IEventHub>();
-
-            await eventHub.RaiseEventAsync(
-                name: "content_pages_imported",
-                message: new EventMessage<AppSecurityPackageEvent>
-                {
-                    AuthInfo = new EventAuthInfo { SSOUserId = "Acceptance" },
-                    Data = new AppSecurityPackageEvent
-                    {
-                        AppId = appId,
-                        Package = package,
-                    },
-                });
+            await packageManager.ImportPackageAsync(
+                appId: appId,
+                package: package);
         }
 
         // Then

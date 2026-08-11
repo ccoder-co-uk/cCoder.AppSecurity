@@ -9,6 +9,5 @@ internal interface IEventHandlerService
     void ListenToAllEvents();
     void ListenToAppCreateAndUpdateEvents();
     void ListenToAppDeleteEvents();
-    void ListenToPackageEvents();
     void ListenToSecurityAccountEvents();
 }

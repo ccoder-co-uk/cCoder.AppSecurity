@@ -147,7 +147,6 @@ public static partial class IServiceCollectionExtensions
         services.AddEventingForType<Privilege>();
         services.AddEventingForType<Package>();
         services.AddEventingForType<PackageItem>();
-        services.AddEventingForType<AppSecurityPackageEvent>();
         services.AddEventingForType<Role>();
         services.AddEventingForType<User>();
         services.AddEventingForType<UserRole>();

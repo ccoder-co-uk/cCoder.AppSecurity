@@ -53,7 +53,7 @@ public sealed partial class AppSecurityMigrationAggregationServiceTests
             pageRoleOrchestrationService: pageRoleMock.Object);
 
         // When
-        await aggregationService.ImportPageRolesAppSecurityPackageAsync(
+        await aggregationService.ImportPackageAppSecurityPackageAsync(
             appId: appId,
             package: package);
 
@@ -64,25 +64,7 @@ public sealed partial class AppSecurityMigrationAggregationServiceTests
     }
 
     [Fact]
-    public async Task ShouldSkipPageRolesDuringGenericPackageImportAsync()
-    {
-        // Given
-        AppSecurityPackage package = CreatePageRoleOnlyPackage();
-
-        AppSecurityMigrationAggregationService aggregationService = CreateAggregationService(
-            packageOrchestrationServiceMock: out Mock<IAppSecurityPackageOrchestrationService> packageMock,
-            pageRoleOrchestrationServiceMock: out Mock<IPageRoleOrchestrationService> pageRoleMock);
-
-        // When
-        await aggregationService.ImportPackageAppSecurityPackageAsync(appId: 7, package: package);
-
-        // Then
-        packageMock.VerifyNoOtherCalls();
-        pageRoleMock.VerifyNoOtherCalls();
-    }
-
-    [Fact]
-    public async Task ShouldProcessPageRolesDuringContentPagesImportedAsync()
+    public async Task ShouldProcessPageRolesDuringNormalPackageImportAsync()
     {
         // Given
         const int appId = 7;
@@ -110,7 +92,7 @@ public sealed partial class AppSecurityMigrationAggregationServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await aggregationService.ImportPageRolesAppSecurityPackageAsync(
+        await aggregationService.ImportPackageAppSecurityPackageAsync(
             appId: appId,
             package: package);
 

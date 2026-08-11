@@ -7,10 +7,8 @@ using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Aggregations;
 using cCoder.AppSecurity.Services.Orchestrations;
 using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Packaging;
 using cCoder.Data.Models.Security;
 using cCoder.Security.Models.Events;
-using DataPackageItem = cCoder.Data.Models.Packaging.PackageItem;
 
 namespace cCoder.AppSecurity.Services.Foundations.Events;
 
@@ -23,7 +21,6 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
 
             ListenToAppCreateAndUpdateEventsValue();
             ListenToAppDeleteEventsValue();
-            ListenToPackageEventsValue();
             ListenToSecurityAccountEventsValue();
 
         });
@@ -42,12 +39,6 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
         {
 
             ListenToAppDeleteEvent();
-        });
-
-    public void ListenToPackageEvents() =>
-        TryCatch(operation: void () =>
-        {
-            ListenToPackageEventsValue();
         });
 
     public void ListenToSecurityAccountEvents() =>
@@ -76,13 +67,6 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
         eventHubBroker.ListenToEvent<App, IAppRelationshipAggregationService>(
             eventName: "app_delete",
             handler: (service, app) => service.DeleteAppAsync(deletedApp: app));
-
-    void ListenToContentPagesImportedEvents() =>
-        eventHubBroker.ListenToEvent<AppSecurityPackageEvent, IAppSecurityMigrationAggregationService>(
-            eventName: "content_pages_imported",
-            handler: (service, packageEvent) => service.ImportPageRolesAppSecurityPackageAsync(
-                appId: packageEvent.AppId,
-                package: ToLocalPackage(package: packageEvent.Package)));
 
     void ListenToSecurityRegistrationCreatedEvent() =>
         ListenToSecurityAccountEvent(
@@ -120,27 +104,6 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
             handler: (service, accountEvent) =>
                 service.ProcessSecurityAccountEventAsync(accountEvent: accountEvent));
 
-    static AppSecurityPackage ToLocalPackage(Package package) =>
-        package == null ? null : new AppSecurityPackage
-        {
-            Id = package.Id,
-            Name = package.Name,
-            Description = package.Description,
-            Category = package.Category,
-            SourceApi = package.SourceApi,
-            Items = package.Items?.Select(selector: ToLocalPackageItem)
-                .ToArray(),
-        };
-
-    static AppSecurityPackageItem ToLocalPackageItem(DataPackageItem packageItem) =>
-        packageItem == null ? null : new AppSecurityPackageItem
-        {
-            Id = packageItem.Id,
-            PackageId = packageItem.PackageId,
-            Type = packageItem.Type,
-            Data = packageItem.Data,
-        };
-
     private void ListenToAppCreateAndUpdateEventsValue() =>
         ListenToAppCreateAndUpdateEvents();
 
@@ -150,8 +113,4 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
     private void ListenToSecurityAccountEventsValue() =>
         ListenToSecurityAccountEvents();
 
-    private void ListenToPackageEventsValue()
-    {
-        ListenToContentPagesImportedEvents();
-    }
 }
