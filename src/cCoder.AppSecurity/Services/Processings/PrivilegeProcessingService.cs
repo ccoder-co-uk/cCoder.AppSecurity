@@ -84,12 +84,6 @@ internal sealed partial class PrivilegeProcessingService(
 
         });
 
-    private ValueTask<Privilege> AddPrivilegeValueAsync(Privilege newPrivilege) =>
-        AddPrivilegeAsync(newPrivilege: newPrivilege);
-
-    private ValueTask<Privilege> UpdatePrivilegeValueAsync(Privilege updatedPrivilege) =>
-        UpdatePrivilegeAsync(updatedPrivilege: updatedPrivilege);
-
     private ValueTask DeletePrivilegeValueAsync(string privilegeId)
     {
         authorizationBroker.Authorize(

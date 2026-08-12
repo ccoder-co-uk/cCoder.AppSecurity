@@ -8726,13 +8726,11 @@
           "IncomingExceptionTypes": [
             "Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
           ],
           "ThrowsExceptionTypes": [
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
           ],
           "HttpMethods": [],
           "HttpResponses": [],
@@ -8808,13 +8806,11 @@
           ],
           "IncomingExceptionTypes": [
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
           ],
           "ThrowsExceptionTypes": [
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
           ],
           "HttpMethods": [],
           "HttpResponses": [],
@@ -14627,14 +14623,11 @@
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException"
           ],
           "ThrowsExceptionTypes": [
             "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException"
+            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException"
           ],
           "HttpMethods": [],
           "HttpResponses": [],
@@ -14699,15 +14692,15 @@
             },
             {
               "TypeName": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions",
-              "MethodName": "IgnoreQueryFilters",
-              "MethodId": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.IgnoreQueryFilters(System.Linq.IQueryable\u003CTEntity\u003E)",
+              "MethodName": "ExecuteDeleteAsync",
+              "MethodId": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ExecuteDeleteAsync(System.Linq.IQueryable\u003CTSource\u003E,System.Threading.CancellationToken)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             },
             {
-              "TypeName": "Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions",
-              "MethodName": "ExecuteSqlRaw",
-              "MethodId": "Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRaw(Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade,System.String,System.Object?[])",
+              "TypeName": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions",
+              "MethodName": "IgnoreQueryFilters",
+              "MethodId": "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.IgnoreQueryFilters(System.Linq.IQueryable\u003CTEntity\u003E)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             },
@@ -14727,8 +14720,36 @@
             },
             {
               "TypeName": "System.Linq.Enumerable",
+              "MethodName": "AsEnumerable",
+              "MethodId": "System.Linq.Enumerable.AsEnumerable(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "Distinct",
+              "MethodId": "System.Linq.Enumerable.Distinct(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
               "MethodName": "FirstOrDefault",
               "MethodId": "System.Linq.Enumerable.FirstOrDefault(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "OrderByDescending",
+              "MethodId": "System.Linq.Enumerable.OrderByDescending(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, TKey\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "Select",
+              "MethodId": "System.Linq.Enumerable.Select(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Func\u003CTSource, TResult\u003E)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             },
@@ -14755,15 +14776,15 @@
             },
             {
               "TypeName": "System.Linq.Queryable",
-              "MethodName": "OrderByDescending",
-              "MethodId": "System.Linq.Queryable.OrderByDescending(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, TKey\u003E\u003E)",
+              "MethodName": "Select",
+              "MethodId": "System.Linq.Queryable.Select(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, TResult\u003E\u003E)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             },
             {
               "TypeName": "System.Linq.Queryable",
-              "MethodName": "Select",
-              "MethodId": "System.Linq.Queryable.Select(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, TResult\u003E\u003E)",
+              "MethodName": "Where",
+              "MethodId": "System.Linq.Queryable.Where(System.Linq.IQueryable\u003CTSource\u003E,System.Linq.Expressions.Expression\u003CSystem.Func\u003CTSource, System.Boolean\u003E\u003E)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             },

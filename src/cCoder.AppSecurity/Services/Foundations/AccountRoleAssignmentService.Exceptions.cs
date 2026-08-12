@@ -14,7 +14,7 @@ internal sealed partial class AccountRoleAssignmentService
         {
             return operation();
         }
-        catch (AppSecurityValidationException innerException)
+        catch (ArgumentException innerException)
         {
             throw new AppSecurityValidationException(
                 innerException: innerException);
@@ -38,7 +38,7 @@ internal sealed partial class AccountRoleAssignmentService
         {
             return await operation();
         }
-        catch (AppSecurityValidationException innerException)
+        catch (ArgumentException innerException)
         {
             throw new AppSecurityValidationException(
                 innerException: innerException);

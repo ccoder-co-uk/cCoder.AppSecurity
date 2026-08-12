@@ -149,9 +149,6 @@ internal sealed partial class UserProcessingService(IUserService service, ICoreA
     private User GetValue(string userId) =>
         Get(userId: userId);
 
-    private ValueTask<User> AddUserValueAsync(User newUser) =>
-        AddUserAsync(newUser: newUser);
-
     private ValueTask<User> UpdateUserValueAsync(User updatedUser) =>
         UpdateUserAsync(updatedUser: updatedUser);
 
