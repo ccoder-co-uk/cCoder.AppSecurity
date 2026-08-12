@@ -104,8 +104,8 @@ jobs:
           $percentage = [Math]::Round($lineRate * 100, 3)
           Write-Host "Services and exposures line coverage: $percentage% ($coveredLines/$($lines.Count))"
 
-          if ($lineRate -le 0.90) {
-            throw "Services and exposures line coverage must be greater than 90%; actual: $percentage%."
+          if ($lineRate -le 0.95) {
+            throw "Services and exposures line coverage must be greater than 95%; actual: $percentage%."
           }
 
       - name: Upload test and coverage results

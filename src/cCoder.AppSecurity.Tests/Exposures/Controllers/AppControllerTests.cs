@@ -6,6 +6,7 @@ using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Exposures;
 using cCoder.AppSecurity.Exposures.Controllers;
 using cCoder.AppSecurity.Models.Exceptions;
+using cCoder.Data.Models.CMS;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -82,6 +83,77 @@ public sealed partial class AppControllerTests
         result
             .Should()
             .BeOfType<OkObjectResult>();
+    }
+
+    [Fact]
+    public void ShouldReturnAppsWhenGetAll()
+    {
+        // Given
+        App app = new() { Id = 7 };
+
+        appManagerMock
+            .Setup(expression: manager => manager.GetAll())
+            .Returns(value: new[] { app }.AsQueryable());
+
+        AppController controller = CreateController();
+
+        // When
+        IActionResult result = controller.GetAll();
+
+        // Then
+        result
+            .Should()
+            .BeOfType<OkObjectResult>();
+    }
+
+    [Theory]
+    [InlineData(7, true)]
+    [InlineData(8, false)]
+    public void ShouldReturnExpectedResultWhenGet(int key, bool found)
+    {
+        // Given
+        App app = new() { Id = 7 };
+
+        appManagerMock
+            .Setup(expression: manager => manager.GetAll())
+            .Returns(value: new[] { app }.AsQueryable());
+
+        AppController controller = CreateController();
+
+        // When
+        IActionResult result = controller.Get(key: key);
+
+        // Then
+        if (found)
+        {
+            result
+                .Should()
+                .BeOfType<OkObjectResult>();
+        }
+        else
+        {
+            result
+                .Should()
+                .BeOfType<NotFoundResult>();
+        }
+    }
+
+    [Fact]
+    public void ShouldReturnInternalServerErrorWhenGetMetadataFails()
+    {
+        // Given
+        AppController controller = CreateController();
+
+        // When
+        IActionResult result = controller.GetMetadata();
+
+        // Then
+        result
+            .Should()
+            .BeOfType<StatusCodeResult>()
+            .Which.StatusCode
+            .Should()
+            .Be(expected: StatusCodes.Status500InternalServerError);
     }
 
     private void AssertExceptionStatusCodes(Func<Exception, IActionResult> invoke)
