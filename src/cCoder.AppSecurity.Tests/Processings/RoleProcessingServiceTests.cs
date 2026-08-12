@@ -3,13 +3,14 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Models;
-using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Services.Processings;
+using cCoder.Data.Models.CMS;
+using cCoder.Data.Models.Security;
 using FizzWare.NBuilder;
+using FluentAssertions;
 using Moq;
-
+using Xunit;
 
 namespace cCoder.Core.Services.Tests.Security.Processings;
 
@@ -21,8 +22,148 @@ public partial class RoleProcessingServiceTests
 
     public RoleProcessingServiceTests()
     {
-        roleProcessingService = new RoleProcessingService(service: roleServiceMock.Object);
+        roleProcessingService = new RoleProcessingService(
+            service: roleServiceMock.Object);
     }
+
+    [Fact]
+    public void ShouldReturnRolesWhenGetAll()
+    {
+        // Given
+        Role role = new() { Id = Guid.NewGuid() };
+
+        roleServiceMock
+            .Setup(expression: service => service.GetAll(ignoreFilters: false))
+            .Returns(value: new[] { role }.AsQueryable());
+
+        RoleProcessingService service = CreateService();
+
+        // When
+        IQueryable<Role> result = service.GetAll();
+
+        // Then
+        result
+            .Should()
+            .ContainSingle()
+            .Which
+            .Should()
+            .BeSameAs(expected: role);
+    }
+
+    [Fact]
+    public async Task ShouldReturnRoleWhenAddValidatedRoleAsync()
+    {
+        // Given
+        Role role = new() { Id = Guid.NewGuid() };
+
+        roleServiceMock
+            .Setup(expression: service => service.AddValidatedRoleAsync(role: role))
+            .ReturnsAsync(value: role);
+
+        RoleProcessingService service = CreateService();
+
+        // When
+        Role result = await service.AddValidatedRoleAsync(newRole: role);
+
+        // Then
+        result
+            .Should()
+            .BeSameAs(expected: role);
+    }
+
+    [Fact]
+    public async Task ShouldReturnRoleWhenUpdateRoleAsync()
+    {
+        // Given
+        Role role = new() { Id = Guid.NewGuid() };
+
+        roleServiceMock
+            .Setup(expression: service => service.UpdateRoleAsync(role: role))
+            .ReturnsAsync(value: role);
+
+        RoleProcessingService service = CreateService();
+
+        // When
+        Role result = await service.UpdateRoleAsync(updatedRole: role);
+
+        // Then
+        result
+            .Should()
+            .BeSameAs(expected: role);
+    }
+
+    [Fact]
+    public async Task ShouldReturnRoleWhenUpdateValidatedRoleAsync()
+    {
+        // Given
+        Role role = new() { Id = Guid.NewGuid() };
+
+        roleServiceMock
+            .Setup(expression: service => service.UpdateValidatedRoleAsync(role: role))
+            .ReturnsAsync(value: role);
+
+        RoleProcessingService service = CreateService();
+
+        // When
+        Role result = await service.UpdateValidatedRoleAsync(updatedRole: role);
+
+        // Then
+        result
+            .Should()
+            .BeSameAs(expected: role);
+    }
+
+    [Fact]
+    public async Task ShouldDeleteRoleWhenDeleteValidatedAsync()
+    {
+        // Given
+        Guid roleId = Guid.NewGuid();
+
+        roleServiceMock
+            .Setup(expression: service => service.DeleteValidatedAsync(id: roleId))
+            .Returns(value: ValueTask.CompletedTask);
+
+        RoleProcessingService service = CreateService();
+
+        // When
+        await service.DeleteValidatedAsync(roleId: roleId);
+
+        // Then
+        roleServiceMock.Verify(
+            expression: foundation => foundation.DeleteValidatedAsync(id: roleId),
+            times: Times.Once);
+    }
+
+    [Fact]
+    public async Task ShouldDeleteEveryRoleWhenDeleteAllRoleAsync()
+    {
+        // Given
+        Role firstRole = new() { Id = Guid.NewGuid() };
+        Role secondRole = new() { Id = Guid.NewGuid() };
+
+        roleServiceMock
+            .Setup(expression: service => service.DeleteAsync(id: firstRole.Id))
+            .Returns(value: ValueTask.CompletedTask);
+
+        roleServiceMock
+            .Setup(expression: service => service.DeleteAsync(id: secondRole.Id))
+            .Returns(value: ValueTask.CompletedTask);
+
+        RoleProcessingService service = CreateService();
+
+        // When
+        await service.DeleteAllRoleAsync(
+            deletedRole: new[] { firstRole, secondRole });
+
+        // Then
+        roleServiceMock.Verify(
+            expression: foundation => foundation.DeleteAsync(
+                id: It.IsAny<Guid>()),
+            times: Times.Exactly(callCount: 2));
+    }
+
+    private RoleProcessingService CreateService() =>
+        new(service: roleServiceMock.Object);
 
     private static User WithoutPrivileges() =>
         new()

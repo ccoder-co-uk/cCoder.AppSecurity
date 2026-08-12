@@ -147,6 +147,12 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
                 userId: userId);
 
             User user = GetValue(userId: userId);
+
+            if (user is null)
+            {
+                return;
+            }
+
             DataUser internalUser = ToExternalUser(item: user);
             authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_delete");
             _ = await userBroker.DeleteUserAsync(entity: internalUser);
@@ -154,7 +160,9 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
         });
 
     static User ToLocalUser(DataUser item) =>
-        new()
+        item is null
+            ? null
+            : new User
         {
             Id = item.Id,
             DefaultCultureId = item.DefaultCultureId,
@@ -164,7 +172,7 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
             DefaultCulture = item.DefaultCulture,
             Roles = item.Roles?.Select(selector: ToLocalUserRole)
                 .ToArray(),
-        };
+            };
 
     private async ValueTask<User> UpdateUserValueAsync(
         User updatedUser,
@@ -182,7 +190,9 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
     }
 
     static DataUser ToExternalUser(User item) =>
-        new()
+        item is null
+            ? null
+            : new DataUser
         {
             Id = item.Id,
             DefaultCultureId = item.DefaultCultureId,
@@ -192,7 +202,7 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
             DefaultCulture = item.DefaultCulture as cCoder.Data.Models.CMS.Culture,
             Roles = item.Roles?.Select(selector: ToExternalUserRole)
                 .ToArray(),
-        };
+            };
 
     private static User MapAddedUser(User newUser, DataUser result)
     {

@@ -119,17 +119,8 @@ internal sealed partial class UserRoleProcessingService(
 
         });
 
-    private IQueryable<UserRole> GetAllValue(bool ignoreFilters = false) =>
-        GetAll(ignoreFilters: ignoreFilters);
-
-    private ValueTask<UserRole> AddUserRoleValueAsync(UserRole newUserRole) =>
-        AddUserRoleAsync(newUserRole: newUserRole);
-
     private ValueTask DeleteUserRoleValueAsync(UserRole deletedUserRole) =>
         DeleteUserRoleAsync(deletedUserRole: deletedUserRole);
-
-    private ValueTask DeleteAllUserRoleValueAsync(IEnumerable<UserRole> deletedUserRole) =>
-        DeleteAllUserRoleAsync(deletedUserRole: deletedUserRole);
 
     private string GetCurrentUserId() =>
         service.GetCurrentUser()?.Id;

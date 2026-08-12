@@ -97,12 +97,6 @@ internal sealed partial class RoleProcessingService(IRoleService service) : IRol
 
         });
 
-    private ValueTask<Role> AddRoleValueAsync(Role newRole) =>
-        AddRoleAsync(newRole: newRole);
-
-    private ValueTask<Role> UpdateRoleValueAsync(Role updatedRole) =>
-        UpdateRoleAsync(updatedRole: updatedRole);
-
     private ValueTask DeleteRoleValueAsync(Guid roleId) =>
         DeleteAsync(roleId: roleId);
 }

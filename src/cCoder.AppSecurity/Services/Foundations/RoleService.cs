@@ -229,11 +229,6 @@ internal sealed partial class RoleService(
 
     private void AuthorizeAssignedPrivileges(int? appId, string assignedPrivileges)
     {
-        if (!appId.HasValue)
-        {
-            return;
-        }
-
         string[] assignedPrivilegeSet = ToPrivilegeSet(privileges: assignedPrivileges);
 
         if (assignedPrivilegeSet.Length == 0)
@@ -293,23 +288,6 @@ internal sealed partial class RoleService(
                 .Select(selector: privilege => privilege.ToLowerInvariant())
                 .Distinct()];
 
-    static Role ToLocalRole(DataRole item) =>
-        new()
-        {
-            Id = item.Id,
-            AppId = item.AppId,
-            Name = item.Name,
-            Description = item.Description,
-            Privs = item.Privs,
-            App = item.App == null ? null : ToLocalApp(item: item.App),
-            Users = item.Users?.Select(selector: ToLocalUserRole)
-                .ToArray(),
-            Pages = item.Pages?.Select(selector: ToLocalPageRole)
-                .ToArray(),
-            Folders = item.Folders?.Select(selector: ToLocalFolderRole)
-                .ToArray(),
-        };
-
     static DataRole ToExternalRole(Role item) =>
         new()
         {
@@ -325,47 +303,6 @@ internal sealed partial class RoleService(
                 .ToArray(),
             Folders = item.Folders?.Select(selector: ToExternalFolderRole)
                 .ToArray(),
-        };
-
-    static App ToLocalApp(DataApp item) =>
-        new()
-        {
-            Id = item.Id,
-            DefaultCultureId = item.DefaultCultureId,
-            TenantId = item.TenantId,
-            Name = item.Name,
-            Domain = item.Domain,
-            DefaultTheme = item.DefaultTheme,
-            ConfigJson = item.ConfigJson,
-        };
-
-    static DataApp ToExternalApp(App item) =>
-        new()
-        {
-            Id = item.Id,
-            DefaultCultureId = item.DefaultCultureId,
-            TenantId = item.TenantId,
-            Name = item.Name,
-            Domain = item.Domain,
-            DefaultTheme = item.DefaultTheme,
-            ConfigJson = item.ConfigJson,
-        };
-
-    static UserRole ToLocalUserRole(DataUserRole item) =>
-        new()
-        {
-            RoleId = item.RoleId,
-            UserId = item.UserId,
-            User = item.User == null ? null : new User
-            {
-                Id = item.User.Id,
-                DefaultCultureId = item.User.DefaultCultureId,
-                DisplayName = item.User.DisplayName,
-                Email = item.User.Email,
-                IsActive = item.User.IsActive,
-                DefaultCulture = item.User.DefaultCulture,
-            },
-            Role = null,
         };
 
     static DataUserRole ToExternalUserRole(UserRole item) =>
@@ -385,24 +322,10 @@ internal sealed partial class RoleService(
             Role = null,
         };
 
-    static PageRole ToLocalPageRole(DataPageRole item) =>
-        new()
-        {
-            PageId = item.PageId,
-            RoleId = item.RoleId,
-        };
-
     static DataPageRole ToExternalPageRole(PageRole item) =>
         new()
         {
             PageId = item.PageId,
-            RoleId = item.RoleId,
-        };
-
-    static FolderRole ToLocalFolderRole(DataFolderRole item) =>
-        new()
-        {
-            FolderId = item.FolderId,
             RoleId = item.RoleId,
         };
 

@@ -26,7 +26,10 @@ internal sealed partial class AnalysePlatformUsageProcessingService(
 
             List<DateTime> datesWithData = sso.UserEvents
                 .IgnoreQueryFilters()
-                .Select(selector: userEvent => userEvent.CreatedOn.Date)
+                .Select(selector: userEvent => userEvent.CreatedOn)
+                .Distinct()
+                .AsEnumerable()
+                .Select(selector: createdOn => createdOn.Date)
                 .Distinct()
                 .OrderByDescending(keySelector: date => date)
                 .ToList();
@@ -50,8 +53,11 @@ internal sealed partial class AnalysePlatformUsageProcessingService(
                 await sso.SaveChangesAsync(cancellationToken: cancellationToken);
             }
 
-            string sql = $"DELETE UserEvents WHERE CreatedOn < '{DateTime.Today.AddDays(value: -2):yyyy-MM-dd}'";
-            sso.Database.ExecuteSqlRaw(sql: sql);
+            await sso.UserEvents
+                .IgnoreQueryFilters()
+                .Where(predicate: userEvent =>
+                    userEvent.CreatedOn < DateTime.Today.AddDays(value: -2))
+                .ExecuteDeleteAsync(cancellationToken: cancellationToken);
 
         });
 

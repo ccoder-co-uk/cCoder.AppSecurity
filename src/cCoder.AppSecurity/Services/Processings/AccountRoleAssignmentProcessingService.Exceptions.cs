@@ -15,7 +15,7 @@ internal sealed partial class AccountRoleAssignmentProcessingService
         {
             await operation();
         }
-        catch (AppSecurityProcessingValidationException innerException)
+        catch (ArgumentException innerException)
         {
             throw new AppSecurityProcessingValidationException(
                 innerException: innerException);
