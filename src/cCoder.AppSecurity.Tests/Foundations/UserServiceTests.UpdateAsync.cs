@@ -23,6 +23,13 @@ public partial class UserServiceTests
 
         cCoder.Data.Models.Security.User submitted = null;
 
+        authorizationBrokerMock
+            .Setup(expression: x => x.GetCurrentUser())
+            .Returns(value: new cCoder.Data.Models.Security.User
+            {
+                Id = "administrator"
+            });
+
         userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Returns(value: (int?)7);
 
@@ -63,6 +70,7 @@ config: options => options
         userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_update"), times: Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.GetCurrentUser(), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
 
@@ -71,6 +79,13 @@ config: options => options
     {
         // Given
         User user = CreateRandomUser();
+
+        authorizationBrokerMock
+            .Setup(expression: x => x.GetCurrentUser())
+            .Returns(value: new cCoder.Data.Models.Security.User
+            {
+                Id = "unauthorized.user"
+            });
 
         userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Returns(value: (int?)7);
@@ -92,7 +107,55 @@ config: options => options
         userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_update"), times: Times.Once);
+        authorizationBrokerMock.Verify(expression: x => x.GetCurrentUser(), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public async Task ShouldAllowCurrentUserToUpdateOwnProfileWithoutPrivilegeAsync()
+    {
+        // Given
+        User user = CreateRandomUser(id: "current.user");
+
+        authorizationBrokerMock
+            .Setup(expression: x => x.GetCurrentUser())
+            .Returns(value: new cCoder.Data.Models.Security.User
+            {
+                Id = user.Id
+            });
+
+        userBrokerMock
+            .Setup(expression: x => x.UpdateUserAsync(
+                entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+            .ReturnsAsync(value: new cCoder.Data.Models.Security.User
+            {
+                Id = user.Id,
+                DisplayName = user.DisplayName,
+                Email = user.Email,
+                DefaultCultureId = user.DefaultCultureId,
+                IsActive = user.IsActive
+            });
+
+        // When
+        User result = await userService.UpdateUserAsync(updatedUser: user);
+
+        // Then
+        result.Id
+            .Should()
+            .Be(expected: user.Id);
+
+        authorizationBrokerMock.Verify(
+            expression: x => x.GetCurrentUser(),
+            times: Times.Once);
+
+        authorizationBrokerMock.VerifyNoOtherCalls();
+
+        userBrokerMock.Verify(
+            expression: x => x.UpdateUserAsync(
+                entity: It.IsAny<cCoder.Data.Models.Security.User>()),
+            times: Times.Once);
+
+        userBrokerMock.VerifyNoOtherCalls();
     }
 
 }

@@ -11622,7 +11622,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 143,
+          "LineNumber": 148,
           "Inputs": [
             {
               "Name": "userId",
@@ -11853,6 +11853,13 @@
               "IsDependencyBoundary": false
             },
             {
+              "TypeName": "cCoder.AppSecurity.Brokers.IAuthorizationBroker",
+              "MethodName": "GetCurrentUser",
+              "MethodId": "cCoder.AppSecurity.Brokers.IAuthorizationBroker.GetCurrentUser()",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
               "TypeName": "cCoder.AppSecurity.Brokers.Storages.IUserBroker",
               "MethodName": "GetAppId",
               "MethodId": "cCoder.AppSecurity.Brokers.Storages.IUserBroker.GetAppId(cCoder.Data.Models.Security.User)",
@@ -11889,7 +11896,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserFromAccountEventAsync",
-          "LineNumber": 130,
+          "LineNumber": 135,
           "Inputs": [
             {
               "Name": "updatedUser",

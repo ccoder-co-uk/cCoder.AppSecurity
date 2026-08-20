@@ -117,9 +117,14 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
 
             DataUser internalUser = ToExternalUser(item: updatedUser);
 
-            authorizationBroker.Authorize(
-                appId: userBroker.GetAppId(entity: internalUser),
-                privilege: $"{nameof(User)}_update");
+            DataUser currentUser = authorizationBroker.GetCurrentUser();
+
+            if (currentUser?.Id != internalUser.Id)
+            {
+                authorizationBroker.Authorize(
+                    appId: userBroker.GetAppId(entity: internalUser),
+                    privilege: $"{nameof(User)}_update");
+            }
 
             return await UpdateUserValueAsync(
                 updatedUser: updatedUser,
