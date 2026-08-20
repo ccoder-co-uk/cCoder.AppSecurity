@@ -140,7 +140,9 @@ config: options => options
         User result = await userService.UpdateUserAsync(updatedUser: user);
 
         // Then
-        result.Id.Should().Be(expected: user.Id);
+        result.Id
+            .Should()
+            .Be(expected: user.Id);
 
         authorizationBrokerMock.Verify(
             expression: x => x.GetCurrentUser(),
