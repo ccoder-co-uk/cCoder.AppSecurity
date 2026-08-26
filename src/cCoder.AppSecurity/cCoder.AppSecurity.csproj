@@ -49,8 +49,8 @@
     <PackageReference Include="cCoder.CodeAnalysis" Version="2026.8.26.1209" PrivateAssets="all" />
     <PackageReference Include="cCoder.Eventing" Version="2026.8.15.955" Condition="'$(UseLocalEventing)' != 'true'" />
     <PackageReference Include="cCoder.Data" Version="2026.8.12.1324" Condition="'$(UseLocalData)' != 'true'" />
-    <PackageReference Include="cCoder.Security" Version="2026.8.20.1304" Condition="'$(UseLocalSecurity)' != 'true'" />
-    <PackageReference Include="cCoder.Security.Data" Version="2026.8.20.1304" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security" Version="2026.8.26.1344" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security.Data" Version="2026.8.26.1344" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.11" />
