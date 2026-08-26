@@ -6,9 +6,9 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.8.26.1209" PrivateAssets="all" />
-    <PackageReference Include="cCoder.Data" Version="2026.8.12.1324" />
-    <PackageReference Include="cCoder.Eventing" Version="2026.8.15.955" />
+    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.8.26.2138" PrivateAssets="all" />
+    <PackageReference Include="cCoder.Data" Version="2026.8.26.2223" />
+    <PackageReference Include="cCoder.Eventing" Version="2026.8.26.2157" />
     <PackageReference Include="FluentAssertions" Version="8.10.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.11" />
