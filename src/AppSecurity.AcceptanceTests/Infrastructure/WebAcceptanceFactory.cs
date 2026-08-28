@@ -18,11 +18,11 @@ internal sealed class WebAcceptanceFactory(AcceptanceSettings settings)
         builder.UseEnvironment(environment: "Acceptance");
 
         builder.UseSetting(
-            key: "AppSecurity:ConnectionString",
+            key: "CoreData:ConnectionString",
             value: settings.CoreConnectionString);
 
         builder.UseSetting(
-            key: "Security:ConnectionString",
+            key: "SecurityData:ConnectionString",
             value: settings.SsoConnectionString);
 
         builder.UseSetting(

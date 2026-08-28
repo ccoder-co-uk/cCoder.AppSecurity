@@ -3,26 +3,26 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity;
+using cCoder.Data;
 using cCoder.Security;
+using cCoder.Security.Data.EF;
 using AppSecurity.HostedServices.Models;
 
 namespace AppSecurity.HostedServices;
 
 public static class IServiceCollectionExtensions
 {
-    public static void AddAppSecurityHostedServices(
+    public static void AddHostedServices(
         this IServiceCollection services,
         IConfiguration configuration,
-        Action<AppSecurityHostedServicesConfiguration> configure = null)
+        Action<AppConfiguration> configure = null)
     {
-        AppSecurityHostedServicesConfiguration applicationConfiguration = new()
-        {
-            AppSecurity = new cCoder.AppSecurity.Models.AppSecurityConfiguration(),
-            Security = new cCoder.Security.Models.SecurityConfiguration(),
-        };
+        AppConfiguration applicationConfiguration = new();
         configuration.Bind(applicationConfiguration);
         configure?.Invoke(applicationConfiguration);
 
+        services.AddData(applicationConfiguration.CoreData);
+        services.AddSecurityData(applicationConfiguration.SecurityData);
         services.AddSecurityHostedServices(
             applicationConfiguration.Security);
         services.AddAppSecurityHostedServices(

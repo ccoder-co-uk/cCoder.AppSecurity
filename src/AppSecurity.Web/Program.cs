@@ -11,7 +11,7 @@ public class Program
         WebApplicationBuilder builder =
             WebApplication.CreateBuilder(args);
 
-        builder.Services.AddAppSecurityWeb(
+        builder.Services.AddWeb(
             configuration: builder.Configuration);
 
         WebApplication app = builder.Build();

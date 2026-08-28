@@ -18,10 +18,10 @@ internal static class AcceptanceTestConfiguration
         return new AcceptanceSettings
         {
             CoreConnectionString = CreateAcceptanceConnectionString(
-                variableName: "AppSecurity__ConnectionString",
+                variableName: "CoreData__ConnectionString",
                 runId: runId),
             SsoConnectionString = CreateAcceptanceConnectionString(
-                variableName: "Security__ConnectionString",
+                variableName: "SecurityData__ConnectionString",
                 runId: runId),
             DecryptionKey = GetRequiredValue(
                 variableName: "Security__DecryptionKey"),
