@@ -3,13 +3,18 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Models;
+using cCoder.Data.Models;
 using cCoder.Security.Models;
 
 namespace AppSecurity.Web.Models;
 
-public sealed class AppSecurityWebConfiguration
+public sealed class AppConfiguration
 {
     public AppSecurityConfiguration AppSecurity { get; set; }
 
+    public CoreDataConfiguration CoreData { get; set; }
+
     public SecurityConfiguration Security { get; set; }
+
+    public SecurityDataConfiguration SecurityData { get; set; }
 }

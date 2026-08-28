@@ -14,7 +14,7 @@ public class Program
         builder.Logging.ClearProviders();
         builder.Logging.AddSimpleConsole();
 
-        builder.Services.AddAppSecurityHostedServices(
+        builder.Services.AddHostedServices(
             configuration: builder.Configuration);
 
         WebApplication app = builder.Build();

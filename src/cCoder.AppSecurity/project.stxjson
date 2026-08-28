@@ -6367,14 +6367,6 @@
           "Type": "System.Boolean"
         },
         {
-          "Name": "ConnectionString",
-          "Type": "System.String"
-        },
-        {
-          "Name": "DebugInfo",
-          "Type": "System.Boolean"
-        },
-        {
           "Name": "EventProviders",
           "Type": "EventProvider[]"
         },
@@ -6384,10 +6376,6 @@
         },
         {
           "Name": "IsMigrating",
-          "Type": "System.Boolean"
-        },
-        {
-          "Name": "LogSQL",
           "Type": "System.Boolean"
         },
         {

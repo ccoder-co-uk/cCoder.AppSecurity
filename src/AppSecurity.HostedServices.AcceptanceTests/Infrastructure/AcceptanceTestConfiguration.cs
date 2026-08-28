@@ -32,10 +32,10 @@ internal sealed class AcceptanceTestConfiguration
 
         return new AcceptanceTestConfiguration(
             appSecurityConnectionString: CreateAcceptanceConnectionString(
-                variableName: "AppSecurity__ConnectionString",
+                variableName: "CoreData__ConnectionString",
                 runId: runId),
             securityConnectionString: CreateAcceptanceConnectionString(
-                variableName: "Security__ConnectionString",
+                variableName: "SecurityData__ConnectionString",
                 runId: runId),
             securityDecryptionKey: GetRequiredValue(
                 variableName: "Security__DecryptionKey"));

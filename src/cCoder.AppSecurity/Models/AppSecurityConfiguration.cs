@@ -8,10 +8,7 @@ namespace cCoder.AppSecurity.Models;
 
 public class AppSecurityConfiguration
 {
-    public string ConnectionString { get; set; }
     public bool AggregateDomains { get; set; }
-    public bool DebugInfo { get; set; }
-    public bool LogSQL { get; set; }
     public string RootPath { get; set; }
     public bool IncludeLegacyCoreContext { get; set; }
     public bool IsMigrating { get; set; }

@@ -9,7 +9,7 @@
     {
       "Name": "AppSecurity.Web.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 11,
+      "LineNumber": 13,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -17,9 +17,9 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "AppSecurity.Web.IServiceCollectionExtensions.AddAppSecurityWeb(IServiceCollection,IConfiguration,System.Action\u003CAppSecurity.Web.Models.AppSecurityWebConfiguration\u003E)",
-          "Name": "AddAppSecurityWeb",
-          "LineNumber": 13,
+          "Id": "AppSecurity.Web.IServiceCollectionExtensions.AddWeb(IServiceCollection,IConfiguration,System.Action\u003CAppSecurity.Web.Models.AppConfiguration\u003E)",
+          "Name": "AddWeb",
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "services",
@@ -31,37 +31,16 @@
             },
             {
               "Name": "configure",
-              "Type": "System.Action\u003CAppSecurity.Web.Models.AppSecurityWebConfiguration\u003E"
+              "Type": "System.Action\u003CAppSecurity.Web.Models.AppConfiguration\u003E"
             }
           ],
           "ReturnType": "System.Void",
           "Implements": [],
           "Calls": [
             {
-              "TypeName": "AppSecurity.Web.IServiceCollectionExtensions",
-              "MethodName": "AddAppSecurityWeb",
-              "MethodId": "AppSecurity.Web.IServiceCollectionExtensions.AddAppSecurityWeb(IServiceCollection,IConfiguration,System.Action\u003CAppSecurity.Web.Models.AppSecurityWebConfiguration\u003E)",
-              "StandardElementType": "App",
-              "IsDependencyBoundary": false
-            },
-            {
               "TypeName": "System.Action\u003CT\u003E",
               "MethodName": "Invoke",
               "MethodId": "System.Action\u003CT\u003E.Invoke(T)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Models.AppSecurityConfiguration",
-              "MethodName": ".ctor",
-              "MethodId": "cCoder.AppSecurity.Models.AppSecurityConfiguration..ctor()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.Security.Models.SecurityConfiguration",
-              "MethodName": ".ctor",
-              "MethodId": "cCoder.Security.Models.SecurityConfiguration..ctor()",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             }
@@ -81,9 +60,9 @@
       ]
     },
     {
-      "Name": "AppSecurity.Web.Models.AppSecurityWebConfiguration",
+      "Name": "AppSecurity.Web.Models.AppConfiguration",
       "StandardElementType": "Model",
-      "LineNumber": 10,
+      "LineNumber": 11,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -94,8 +73,16 @@
           "Type": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
         },
         {
+          "Name": "CoreData",
+          "Type": "cCoder.Data.Models.CoreDataConfiguration"
+        },
+        {
           "Name": "Security",
           "Type": "cCoder.Security.Models.SecurityConfiguration"
+        },
+        {
+          "Name": "SecurityData",
+          "Type": "cCoder.Security.Models.SecurityDataConfiguration"
         }
       ],
       "Methods": []

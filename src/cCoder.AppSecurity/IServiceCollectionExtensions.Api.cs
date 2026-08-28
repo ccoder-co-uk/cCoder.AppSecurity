@@ -77,7 +77,6 @@ public static partial class IServiceCollectionExtensions
     {
         AppSecurityConfiguration configuration = new()
         {
-            ConnectionString = string.Empty,
             RootPath = "Api/AppSecurity",
             IncludeLegacyCoreContext = true,
             EventProviders = [],
@@ -92,18 +91,6 @@ public static partial class IServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(argument: configuration);
         services.AddSingleton(implementationInstance: configuration);
-
-        if (!string.IsNullOrWhiteSpace(
-                value: configuration.ConnectionString))
-        {
-            services.AddData(
-                configuration: new cCoder.Data.Models.DataConfiguration
-                {
-                    ConnectionString = configuration.ConnectionString,
-                    DebugInfo = configuration.DebugInfo,
-                    LogSQL = configuration.LogSQL,
-                });
-        }
 
         services.AddEventProviders(eventProviders: configuration.EventProviders);
     }

@@ -22,7 +22,7 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
             .WithWebHostBuilder(configuration: builder =>
             {
                 builder.UseSetting(
-                    key: "AppSecurity:ConnectionString",
+                    key: "CoreData:ConnectionString",
                     value: settings.AppSecurityConnectionString);
 
                 builder.UseSetting(
@@ -30,7 +30,7 @@ public sealed class HostedServicesAcceptanceFixture : IAsyncLifetime
                     value: bool.TrueString);
 
                 builder.UseSetting(
-                    key: "Security:ConnectionString",
+                    key: "SecurityData:ConnectionString",
                     value: settings.SecurityConnectionString);
 
                 builder.UseSetting(

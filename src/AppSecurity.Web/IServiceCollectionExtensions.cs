@@ -3,26 +3,26 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity;
+using cCoder.Data;
 using cCoder.Security;
+using cCoder.Security.Data.EF;
 using AppSecurity.Web.Models;
 
 namespace AppSecurity.Web;
 
 public static class IServiceCollectionExtensions
 {
-    public static void AddAppSecurityWeb(
+    public static void AddWeb(
         this IServiceCollection services,
         IConfiguration configuration,
-        Action<AppSecurityWebConfiguration> configure = null)
+        Action<AppConfiguration> configure = null)
     {
-        AppSecurityWebConfiguration applicationConfiguration = new()
-        {
-            AppSecurity = new cCoder.AppSecurity.Models.AppSecurityConfiguration(),
-            Security = new cCoder.Security.Models.SecurityConfiguration(),
-        };
+        AppConfiguration applicationConfiguration = new();
         configuration.Bind(applicationConfiguration);
         configure?.Invoke(applicationConfiguration);
 
+        services.AddData(applicationConfiguration.CoreData);
+        services.AddSecurityData(applicationConfiguration.SecurityData);
         services.AddSecurityWeb(applicationConfiguration.Security);
         services.AddAppSecurityWeb(applicationConfiguration.AppSecurity);
     }

@@ -8,13 +8,16 @@ It owns application-level users, roles, privileges, and user-role links. SSO use
 
 ## Local Configuration
 
-Configuration binds directly into `AppSecurityConfiguration`. Leave secrets
-empty in appsettings and define `AppSecurity__ConnectionString` as a user-level
-or machine-level environment variable. The standalone hosts also bind
-`SecurityConfiguration`; its secrets use `Security__ConnectionString` and
-`Security__DecryptionKey`. Restart Visual Studio, select the Web and
-HostedServices startup projects, and press F5. No configuration conversion step
-is required.
+Every executable host binds the complete configuration root into an
+`AppConfiguration` containing `AppSecurity`, `CoreData`, `Security`, and
+`SecurityData`. `cCoder.AppSecurity` owns business behavior only;
+`cCoder.Data` and `cCoder.Security.Data` own their respective persistence
+configuration and registration.
+
+Leave secrets empty in appsettings and define `CoreData__ConnectionString`,
+`SecurityData__ConnectionString`, and `Security__DecryptionKey` as user-level
+or machine-level environment variables. Restart Visual Studio, select the Web
+and HostedServices startup projects, and press F5.
 
 ## Contents
 
@@ -70,15 +73,32 @@ The runnable hosts read local secrets from environment variables rather than com
 
 Before running `src/AppSecurity.Web` or `src/AppSecurity.HostedServices`, set:
 
-- `AppSecurity__ConnectionString`
-- `Security__ConnectionString`
+- `CoreData__ConnectionString`
+- `SecurityData__ConnectionString`
 - `Security__DecryptionKey`
+
+Optional migration-only overrides:
+
+- `CoreData__AdminConnectionString`
+- `SecurityData__AdminConnectionString`
 
 The committed `appsettings.json` keeps these values blank so user or machine environment variables can supply them during local development.
 
 `AppSecurity.Web` exposes `/Health`, the App Security API endpoints, and a small manual test UI at `/`.
 
 `AppSecurity.HostedServices` exposes `/Health` plus `/`, which returns a plain-text report of hosted background services and event listeners.
+
+Standalone hosts compose storage and business domains side by side:
+
+```csharp
+services.AddData(configuration.CoreData);
+services.AddSecurityData(configuration.SecurityData);
+services.AddSecurityWeb(configuration.Security);
+services.AddAppSecurityWeb(configuration.AppSecurity);
+```
+
+Applications that consume `cCoder.Core` should use Core's composite API instead;
+Core deliberately composes all configured domains and their Data dependencies.
 
 When testing against a local `cCoder.Security` checkout, pass:
 
