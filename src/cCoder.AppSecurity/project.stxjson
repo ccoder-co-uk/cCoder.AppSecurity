@@ -6615,7 +6615,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 40,
       "IsPublic": false,
       "Kind": "Class",
@@ -6635,7 +6635,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 43,
       "IsPublic": false,
       "Kind": "Class",
@@ -6655,7 +6655,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 37,
       "IsPublic": false,
       "Kind": "Class",
@@ -6675,7 +6675,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
@@ -6695,7 +6695,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
@@ -6715,7 +6715,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 31,
       "IsPublic": false,
       "Kind": "Class",
@@ -6735,7 +6735,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 34,
       "IsPublic": false,
       "Kind": "Class",
@@ -6755,7 +6755,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 28,
       "IsPublic": false,
       "Kind": "Class",
@@ -6775,7 +6775,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 22,
       "IsPublic": false,
       "Kind": "Class",
@@ -6795,7 +6795,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 25,
       "IsPublic": false,
       "Kind": "Class",
@@ -6815,7 +6815,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 19,
       "IsPublic": false,
       "Kind": "Class",
@@ -6835,7 +6835,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 16,
       "IsPublic": false,
       "Kind": "Class",
@@ -6855,7 +6855,7 @@
     },
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException",
-      "StandardElementType": "Dependency",
+      "StandardElementType": "Model",
       "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Class",
@@ -22078,8 +22078,92 @@
   ],
   "Links": [
     {
+      "FromType": "cCoder.AppSecurity.Api.OData.BadRequestResult",
+      "ToType": "ModelStateDictionary"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo",
+      "ToType": "System.Type"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.AuthInfoBroker",
+      "ToType": "ICoreAuthInfo"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.AuthorizationBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Events.EventHubBroker",
+      "ToType": "IEventHub"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Events.PrivilegeEventBroker",
+      "ToType": "IEventHub"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Events.RoleEventBroker",
+      "ToType": "IEventHub"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Events.UserEventBroker",
+      "ToType": "IEventHub"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Events.UserRoleEventBroker",
+      "ToType": "IEventHub"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Loggings.LoggingBroker",
+      "ToType": "Microsoft.Extensions.Logging.ILogger\u003CcCoder.AppSecurity.Brokers.Loggings.LoggingBroker\u003E"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.OData.AppSecurityODataModelBroker",
+      "ToType": "ODataConventionModelBuilder"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.PrivilegeBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.RoleBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker",
+      "ToType": "ISecurityDbContextFactory"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Storages.AppBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Storages.PageRoleBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Storages.UserBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Storages.UserRoleBroker",
+      "ToType": "ICoreContextFactory"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Brokers.Tokens.TokenBroker",
+      "ToType": "ISecurityDbContextFactory"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Dependencies.HostedServices.AnalysePlatformUsageHostedService",
+      "ToType": "Microsoft.Extensions.DependencyInjection.IServiceScopeFactory"
+    },
+    {
       "FromType": "cCoder.AppSecurity.Dependencies.HostedServices.AnalysePlatformUsageHostedService",
       "ToType": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Dependencies.HostedServices.TokenCleanerHostedService",
+      "ToType": "Microsoft.Extensions.DependencyInjection.IServiceScopeFactory"
     },
     {
       "FromType": "cCoder.AppSecurity.Dependencies.HostedServices.TokenCleanerHostedService",
@@ -22119,6 +22203,10 @@
     },
     {
       "FromType": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "ToType": "ICoreAuthInfo"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Exposures.Controllers.UserController",
       "ToType": "cCoder.AppSecurity.Brokers.Loggings.LoggingBroker"
     },
     {
@@ -22136,6 +22224,58 @@
     {
       "FromType": "cCoder.AppSecurity.Exposures.EventHandlers.AppSecurityEventHandlers",
       "ToType": "cCoder.AppSecurity.Services.Foundations.Events.EventHandlerService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
+      "ToType": "System.Exception"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException",
+      "ToType": "System.Exception"
     },
     {
       "FromType": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService",
@@ -22396,6 +22536,10 @@
     {
       "FromType": "cCoder.AppSecurity.Services.Processings.UserEventProcessingService",
       "ToType": "cCoder.AppSecurity.Services.Foundations.Events.UserEventService"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.UserProcessingService",
+      "ToType": "ICoreAuthInfo"
     },
     {
       "FromType": "cCoder.AppSecurity.Services.Processings.UserProcessingService",
@@ -22781,6 +22925,13 @@
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
       "LineNumber": 143
+    },
+    {
+      "Code": "STXSTRUCT002",
+      "Description": "A source file must contain only one top-level class.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
+      "LineNumber": 7
     }
   ]
 }
