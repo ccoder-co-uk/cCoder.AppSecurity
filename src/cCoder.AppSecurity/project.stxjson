@@ -6616,7 +6616,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
       "StandardElementType": "Model",
-      "LineNumber": 40,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -6636,7 +6636,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
       "StandardElementType": "Model",
-      "LineNumber": 43,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -6656,7 +6656,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
       "StandardElementType": "Model",
-      "LineNumber": 37,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -6696,7 +6696,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
       "StandardElementType": "Model",
-      "LineNumber": 13,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -6716,7 +6716,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
       "StandardElementType": "Model",
-      "LineNumber": 31,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -6736,7 +6736,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
       "StandardElementType": "Model",
-      "LineNumber": 34,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -6756,7 +6756,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
       "StandardElementType": "Model",
-      "LineNumber": 28,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -6776,7 +6776,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
       "StandardElementType": "Model",
-      "LineNumber": 22,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -6796,7 +6796,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
       "StandardElementType": "Model",
-      "LineNumber": 25,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -6816,7 +6816,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
       "StandardElementType": "Model",
-      "LineNumber": 19,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -6836,7 +6836,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
       "StandardElementType": "Model",
-      "LineNumber": 16,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -6856,7 +6856,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException",
       "StandardElementType": "Model",
-      "LineNumber": 10,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -22925,13 +22925,6 @@
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
       "LineNumber": 143
-    },
-    {
-      "Code": "STXSTRUCT002",
-      "Description": "A source file must contain only one top-level class.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-      "LineNumber": 7
     }
   ]
 }
