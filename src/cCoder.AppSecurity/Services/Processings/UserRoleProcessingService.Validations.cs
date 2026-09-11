@@ -18,9 +18,9 @@ internal sealed partial class UserRoleProcessingService
             newUserRole,
         ]);
 
-    private static void ValidateSaveUserRole(UserRole entity) =>
+    private static void ValidateSaveUserRole(UserRole userRole) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            userRole,
         ]);
 
     private static void ValidateDeleteUserRole(UserRole deletedUserRole) =>

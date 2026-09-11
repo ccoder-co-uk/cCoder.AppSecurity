@@ -32,7 +32,7 @@ public partial class RoleServiceTests
 
         roleBrokerMock
             .Setup(expression: broker => broker.GetAppId(
-                entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+                role: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock
@@ -51,7 +51,7 @@ public partial class RoleServiceTests
 
         roleBrokerMock
             .Setup(expression: broker => broker.AddRoleAsync(
-                entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+                role: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .ReturnsAsync(value: ToExternalRole(item: role));
 
         // When
@@ -62,7 +62,7 @@ public partial class RoleServiceTests
 
         roleBrokerMock.Verify(
             expression: broker => broker.AddRoleAsync(
-                entity: It.IsAny<cCoder.Data.Models.Security.Role>()),
+                role: It.IsAny<cCoder.Data.Models.Security.Role>()),
             times: Times.Once);
 
         roleBrokerMock.Verify(
@@ -71,7 +71,7 @@ public partial class RoleServiceTests
 
         roleBrokerMock.Verify(
             expression: broker => broker.GetAppId(
-                entity: It.IsAny<cCoder.Data.Models.Security.Role>()),
+                role: It.IsAny<cCoder.Data.Models.Security.Role>()),
             times: Times.AtMostOnce());
 
         roleBrokerMock.VerifyNoOtherCalls();
@@ -113,7 +113,7 @@ public partial class RoleServiceTests
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
+        roleBrokerMock.Verify(expression: x => x.GetAppId(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_create"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
@@ -132,7 +132,7 @@ public partial class RoleServiceTests
             .AsQueryable());
 
         roleBrokerMock
-            .Setup(expression: x => x.AddRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+            .Setup(expression: x => x.AddRoleAsync(role: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .Callback<cCoder.Data.Models.Security.Role>(action: candidate => submitted = candidate)
             .ReturnsAsync(valueFunction: (cCoder.Data.Models.Security.Role value) => value);
 
@@ -162,8 +162,8 @@ config: options => options
                 .Excluding(expression: candidate => candidate.Users));
 
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.AddRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
+        roleBrokerMock.Verify(expression: x => x.AddRoleAsync(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.Once);
+        roleBrokerMock.Verify(expression: x => x.GetAppId(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

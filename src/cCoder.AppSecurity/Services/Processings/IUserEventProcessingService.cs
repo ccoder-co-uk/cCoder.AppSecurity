@@ -11,7 +11,7 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal interface IUserEventProcessingService
 {
-    ValueTask RaiseUserAddEventAsync(User entity);
-    ValueTask RaiseUserUpdateEventAsync(User entity);
-    ValueTask RaiseUserDeleteEventAsync(User entity);
+    ValueTask RaiseUserAddEventAsync(User user);
+    ValueTask RaiseUserUpdateEventAsync(User user);
+    ValueTask RaiseUserDeleteEventAsync(User user);
 }

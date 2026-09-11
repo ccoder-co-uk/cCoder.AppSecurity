@@ -11,6 +11,6 @@ namespace cCoder.AppSecurity.Services.Foundations.Events;
 
 internal interface IUserRoleEventService
 {
-    ValueTask RaiseUserRoleAddEventAsync(UserRole entity);
-    ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity);
+    ValueTask RaiseUserRoleAddEventAsync(UserRole userRole);
+    ValueTask RaiseUserRoleDeleteEventAsync(UserRole userRole);
 }

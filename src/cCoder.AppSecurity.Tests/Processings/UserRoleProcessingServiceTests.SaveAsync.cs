@@ -51,7 +51,7 @@ public partial class UserRoleProcessingServiceTests
             .ReturnsAsync(value: link);
 
         // When
-        UserRole result = await userRoleProcessingService.SaveUserRoleAsync(entity: link);
+        UserRole result = await userRoleProcessingService.SaveUserRoleAsync(userRole: link);
 
         // Then
         Assert.Same(expected: link, actual: result);

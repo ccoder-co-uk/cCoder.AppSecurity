@@ -52,7 +52,7 @@ internal sealed partial class AccountRoleAssignmentService(
             };
 
             await userRoleBroker.AddUserRoleAsync(
-                entity: userRole);
+                userRole: userRole);
 
             return newAccountRoleAssignment;
         });

@@ -29,7 +29,7 @@ public partial class PrivilegeOrchestrationServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         privilegeEventProcessingServiceMock
-            .Setup(expression: x => x.RaisePrivilegeDeleteEventAsync(entity: entity))
+            .Setup(expression: x => x.RaisePrivilegeDeleteEventAsync(privilege: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -38,7 +38,7 @@ public partial class PrivilegeOrchestrationServiceTests
         // Then
         privilegeProcessingServiceMock.Verify(expression: x => x.Get(id: id), times: Times.Once);
         privilegeProcessingServiceMock.Verify(expression: x => x.DeleteAsync(id: id), times: Times.Once);
-        privilegeEventProcessingServiceMock.Verify(expression: x => x.RaisePrivilegeDeleteEventAsync(entity: entity), times: Times.Once);
+        privilegeEventProcessingServiceMock.Verify(expression: x => x.RaisePrivilegeDeleteEventAsync(privilege: entity), times: Times.Once);
     }
 
 }

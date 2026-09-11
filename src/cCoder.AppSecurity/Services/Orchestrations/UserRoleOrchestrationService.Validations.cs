@@ -28,8 +28,8 @@ internal sealed partial class UserRoleOrchestrationService
             deletedUserRole,
         ]);
 
-    private static void ValidateSaveUserRole(UserRole entity) =>
+    private static void ValidateSaveUserRole(UserRole userRole) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            userRole,
         ]);
 }

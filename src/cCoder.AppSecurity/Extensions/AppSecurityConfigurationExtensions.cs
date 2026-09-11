@@ -10,11 +10,11 @@ namespace cCoder.AppSecurity.Extensions;
 public static class AppSecurityConfigurationExtensions
 {
     public static AppSecurityConfiguration WithEventProviders(
-        this AppSecurityConfiguration configuration,
+        this AppSecurityConfiguration appSecurityConfiguration,
         params EventProvider[] eventProviders)
     {
-        configuration.EventProviders = eventProviders ?? [];
+        appSecurityConfiguration.EventProviders = eventProviders ?? [];
 
-        return configuration;
+        return appSecurityConfiguration;
     }
 }

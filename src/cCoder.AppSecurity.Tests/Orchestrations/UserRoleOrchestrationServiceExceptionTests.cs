@@ -52,7 +52,7 @@ public sealed partial class UserRoleOrchestrationServiceExceptionTests
         UserRole userRole = new() { RoleId = Guid.NewGuid(), UserId = "user-one" };
 
         processingServiceMock
-            .Setup(expression: service => service.AddUserRoleAsync(entity: userRole))
+            .Setup(expression: service => service.AddUserRoleAsync(userRole: userRole))
             .Throws(exception: exception);
 
         UserRoleOrchestrationService service = CreateService();

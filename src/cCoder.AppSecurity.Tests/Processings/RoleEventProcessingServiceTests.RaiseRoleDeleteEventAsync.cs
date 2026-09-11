@@ -20,14 +20,14 @@ public partial class RoleEventProcessingServiceTests
         Role entity = CreateRandomRole();
 
         roleEventServiceMock
-            .Setup(expression: x => x.RaiseRoleDeleteEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseRoleDeleteEventAsync(role: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseRoleDeleteEventAsync(entity: entity);
+        await service.RaiseRoleDeleteEventAsync(role: entity);
 
         // Then
-        roleEventServiceMock.Verify(expression: x => x.RaiseRoleDeleteEventAsync(entity: entity), times: Times.Once);
+        roleEventServiceMock.Verify(expression: x => x.RaiseRoleDeleteEventAsync(role: entity), times: Times.Once);
         roleEventServiceMock.VerifyNoOtherCalls();
     }
 

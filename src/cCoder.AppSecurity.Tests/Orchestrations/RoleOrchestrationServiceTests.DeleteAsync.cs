@@ -28,7 +28,7 @@ public partial class RoleOrchestrationServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         roleEventProcessingServiceMock
-            .Setup(expression: x => x.RaiseRoleDeleteEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseRoleDeleteEventAsync(role: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -37,7 +37,7 @@ public partial class RoleOrchestrationServiceTests
         // Then
         roleProcessingServiceMock.Verify(expression: x => x.GetAll(ignoreFilters: true), times: Times.Once);
         roleProcessingServiceMock.Verify(expression: x => x.DeleteAsync(id: id), times: Times.Once);
-        roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleDeleteEventAsync(entity: entity), times: Times.Once);
+        roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleDeleteEventAsync(role: entity), times: Times.Once);
     }
 
 }

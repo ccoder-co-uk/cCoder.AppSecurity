@@ -8,18 +8,18 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal sealed partial class RoleEventProcessingService
 {
-    private static void ValidateRaiseRoleAddEvent(Role entity) =>
+    private static void ValidateRaiseRoleAddEvent(Role role) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            role,
         ]);
 
-    private static void ValidateRaiseRoleUpdateEvent(Role entity) =>
+    private static void ValidateRaiseRoleUpdateEvent(Role role) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            role,
         ]);
 
-    private static void ValidateRaiseRoleDeleteEvent(Role entity) =>
+    private static void ValidateRaiseRoleDeleteEvent(Role role) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            role,
         ]);
 }

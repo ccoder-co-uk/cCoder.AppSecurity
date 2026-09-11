@@ -35,7 +35,7 @@ public partial class UserServiceTests
 
         userBrokerMock
             .Setup(expression: broker => broker.UpdateUserAsync(
-                entity: It.IsAny<User>()))
+                user: It.IsAny<User>()))
             .ReturnsAsync(valueFunction: (User value) => value);
 
         // When

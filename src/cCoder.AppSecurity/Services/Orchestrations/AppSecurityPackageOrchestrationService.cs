@@ -14,12 +14,12 @@ internal sealed partial class AppSecurityPackageOrchestrationService(
     IJsonProcessingService jsonProcessingService)
         : IAppSecurityPackageOrchestrationService
 {
-    public AppSecurityPackageMapping MapAppSecurityPackageMappingRoles(AppSecurityPackageMapping mapping) =>
+    public AppSecurityPackageMapping MapAppSecurityPackageMappingRoles(AppSecurityPackageMapping appSecurityPackageMapping) =>
         TryCatch(operation: AppSecurityPackageMapping () =>
         {
-            ValidateAppSecurityPackageMappingRolesOnMap(mapping: mapping);
-            int appId = mapping.AppId;
-            AppSecurityPackage package = mapping.Package;
+            ValidateAppSecurityPackageMappingRolesOnMap(appSecurityPackageMapping: appSecurityPackageMapping);
+            int appId = appSecurityPackageMapping.AppId;
+            AppSecurityPackage package = appSecurityPackageMapping.Package;
             Role[] roles = GetRoles(package: package);
 
             foreach (Role role in roles)
@@ -28,17 +28,17 @@ internal sealed partial class AppSecurityPackageOrchestrationService(
                 role.Pages = [];
             }
 
-            mapping.App = new App { Id = appId, Roles = roles };
-            return mapping;
+            appSecurityPackageMapping.App = new App { Id = appId, Roles = roles };
+            return appSecurityPackageMapping;
         });
 
     public AppSecurityPackageMapping MapAppSecurityPackageMappingPageRoles(
-        AppSecurityPackageMapping mapping) =>
+        AppSecurityPackageMapping appSecurityPackageMapping) =>
         TryCatch(operation: AppSecurityPackageMapping () =>
         {
-            ValidateAppSecurityPackageMappingPageRolesOnMap(mapping: mapping);
-            int appId = mapping.AppId;
-            AppSecurityPackage package = mapping.Package;
+            ValidateAppSecurityPackageMappingPageRolesOnMap(appSecurityPackageMapping: appSecurityPackageMapping);
+            int appId = appSecurityPackageMapping.AppId;
+            AppSecurityPackage package = appSecurityPackageMapping.Package;
             PageRoleInfo[] pageRoleInfos = GetPageRoleInfos(package: package);
 
             string[] roleNames = pageRoleInfos
@@ -54,8 +54,8 @@ internal sealed partial class AppSecurityPackageOrchestrationService(
 
             AttachPageRoles(appId: appId, roles: roles, pageRoleInfos: pageRoleInfos);
 
-            mapping.App = new App { Id = appId, Roles = roles };
-            return mapping;
+            appSecurityPackageMapping.App = new App { Id = appId, Roles = roles };
+            return appSecurityPackageMapping;
         });
 
     private Role[] GetRoles(AppSecurityPackage package) =>

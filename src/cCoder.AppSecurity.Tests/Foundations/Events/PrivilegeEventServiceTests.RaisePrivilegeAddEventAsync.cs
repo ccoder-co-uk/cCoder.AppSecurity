@@ -28,7 +28,7 @@ public partial class PrivilegeEventServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaisePrivilegeAddEventAsync(entity: entity);
+        await service.RaisePrivilegeAddEventAsync(privilege: entity);
 
         // Then
         actualMessage.Should()

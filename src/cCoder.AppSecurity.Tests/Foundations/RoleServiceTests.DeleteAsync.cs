@@ -29,7 +29,7 @@ public partial class RoleServiceTests
             .Returns(value: Array.Empty<UserRole>()
             .AsQueryable());
 
-        roleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+        roleBrokerMock.Setup(expression: x => x.GetAppId(role: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_delete"));
@@ -40,7 +40,7 @@ public partial class RoleServiceTests
         roleBrokerMock.Setup(expression: x => x.DeleteFolderRolesByRoleIdAsync(roleId: roleId))
             .Returns(value: ValueTask.CompletedTask);
 
-        roleBrokerMock.Setup(expression: x => x.DeleteRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+        roleBrokerMock.Setup(expression: x => x.DeleteRoleAsync(role: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .ReturnsAsync(value: 1);
 
         // When
@@ -50,8 +50,8 @@ public partial class RoleServiceTests
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
         roleBrokerMock.Verify(expression: x => x.DeletePageRolesByRoleIdAsync(roleId: roleId), times: Times.Once);
         roleBrokerMock.Verify(expression: x => x.DeleteFolderRolesByRoleIdAsync(roleId: roleId), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.DeleteRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
+        roleBrokerMock.Verify(expression: x => x.DeleteRoleAsync(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.Once);
+        roleBrokerMock.Verify(expression: x => x.GetAppId(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         userRoleBrokerMock.Verify(expression: x => x.GetAllUserRoles(ignoreFilters: true), times: Times.Once);
         userRoleBrokerMock.VerifyNoOtherCalls();
@@ -88,7 +88,7 @@ public partial class RoleServiceTests
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
+        roleBrokerMock.Verify(expression: x => x.GetAppId(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         userRoleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_delete"), times: Times.Once);

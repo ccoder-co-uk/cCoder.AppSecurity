@@ -14,31 +14,6 @@ namespace cCoder.AppSecurity.Tests.Exposures.Controllers;
 
 public sealed partial class UserRoleControllerExceptionTests
 {
-    [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void ShouldReturnMetadataWhenGetMetadata(bool extended)
-    {
-        // Given
-        UserRoleController controller = CreateController();
-
-        controller.ControllerContext = new ControllerContext();
-
-        controller.ControllerContext.HttpContext = new DefaultHttpContext();
-
-        controller.Request.QueryString = extended
-            ? new QueryString(value: "?extend=true")
-            : QueryString.Empty;
-
-        // When
-        IActionResult result = controller.GetMetadata();
-
-        // Then
-        result
-            .Should()
-            .BeOfType<OkObjectResult>();
-    }
-
     [Fact]
     public void ShouldReturnUserRolesWhenGetAll()
     {

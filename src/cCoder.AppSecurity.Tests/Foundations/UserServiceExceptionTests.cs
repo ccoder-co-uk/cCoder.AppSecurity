@@ -59,7 +59,7 @@ public sealed partial class UserServiceExceptionTests
 
         userBrokerMock
             .Setup(expression: broker => broker.GetAppId(
-                entity: It.Is<User>(match: _ => true)))
+                user: It.Is<User>(match: _ => true)))
             .Throws(exception: exception);
 
         UserService service = CreateService();
@@ -90,7 +90,7 @@ public sealed partial class UserServiceExceptionTests
 
         userBrokerMock
             .Setup(expression: broker => broker.GetAppId(
-                entity: It.Is<User>(match: mapped => mapped.Id == user.Id)))
+                user: It.Is<User>(match: mapped => mapped.Id == user.Id)))
             .Throws(exception: exception);
 
         UserService service = CreateService();

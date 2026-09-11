@@ -2,20 +2,19 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Security.Data.EF;
-using cCoder.AppSecurity.Brokers.Security;
+using cCoder.AppSecurity.Brokers;
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
 internal sealed partial class AnalysePlatformUsageService(
-    ISecurityDbContextBroker securityDbContextBroker)
+    IJsonBroker jsonBroker)
     : IAnalysePlatformUsageService
 {
-    public SecurityDbContext CreateSecurityDbContext() =>
+    public string Serialize(object value) =>
         TryCatch(operation: () =>
         {
-            ValidateSecurityDbContextOnCreate();
+            ValidateValueOnSerialize(value: value);
 
-            return securityDbContextBroker.CreateSecurityDbContext();
+            return jsonBroker.Serialize(value: value);
         });
 }

@@ -45,7 +45,7 @@ public sealed partial class AppSecurityMigrationAggregationServiceExceptionTests
         // When
         await service.ImportPackageAppSecurityPackageAsync(
             appId: 7,
-            package: package);
+            appSecurityPackage: package);
 
         // Then
         packageServiceMock.VerifyNoOtherCalls();
@@ -65,14 +65,14 @@ public sealed partial class AppSecurityMigrationAggregationServiceExceptionTests
 
         packageServiceMock
             .Setup(expression: service => service.MapAppSecurityPackageMappingRoles(
-                mapping: It.Is<AppSecurityPackageMapping>(match: _ => true)))
+                appSecurityPackageMapping: It.Is<AppSecurityPackageMapping>(match: _ => true)))
             .Throws(exception: exception);
 
         AppSecurityMigrationAggregationService service = CreateService();
 
         // When
         Func<Task> action = async () => await service
-            .ImportPackageAppSecurityPackageAsync(appId: 7, package: package);
+            .ImportPackageAppSecurityPackageAsync(appId: 7, appSecurityPackage: package);
 
         // Then
         Exception thrown = (await action

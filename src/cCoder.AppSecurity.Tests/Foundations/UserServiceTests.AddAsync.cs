@@ -28,13 +28,13 @@ public partial class UserServiceTests
             .Returns(value: new[] { new cCoder.Data.Models.Security.User() }
                 .AsQueryable());
 
-        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+        userBrokerMock.Setup(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "User_create"));
 
         userBrokerMock
-            .Setup(expression: x => x.AddUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+            .Setup(expression: x => x.AddUserAsync(user: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Callback<cCoder.Data.Models.Security.User>(action: candidate => submitted = candidate)
             .ReturnsAsync(valueFunction: (cCoder.Data.Models.Security.User value) => value);
 
@@ -67,7 +67,7 @@ config: options => options
             .BeEquivalentTo(expectation: user);
 
         userBrokerMock.Verify(
-expression: x => x.AddUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>()),
+expression: x => x.AddUserAsync(user: It.IsAny<cCoder.Data.Models.Security.User>()),
 times: Times.Once
         );
 
@@ -75,7 +75,7 @@ times: Times.Once
             expression: x => x.GetAllUsers(ignoreFilters: true),
             times: Times.Once);
 
-        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
+        userBrokerMock.Verify(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_create"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
@@ -92,7 +92,7 @@ times: Times.Once
             .Returns(value: new[] { new cCoder.Data.Models.Security.User() }
                 .AsQueryable());
 
-        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+        userBrokerMock.Setup(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock
@@ -113,7 +113,7 @@ times: Times.Once
             expression: x => x.GetAllUsers(ignoreFilters: true),
             times: Times.Once);
 
-        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
+        userBrokerMock.Verify(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_create"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
@@ -141,7 +141,7 @@ times: Times.Once
 
         userBrokerMock
             .Setup(expression: x => x.AddUserAsync(
-                entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+                user: It.IsAny<cCoder.Data.Models.Security.User>()))
             .ReturnsAsync(valueFunction:
                 (cCoder.Data.Models.Security.User value) => value);
 
@@ -158,7 +158,7 @@ times: Times.Once
 
         userBrokerMock.Verify(
             expression: x => x.AddUserAsync(
-                entity: It.IsAny<cCoder.Data.Models.Security.User>()),
+                user: It.IsAny<cCoder.Data.Models.Security.User>()),
             times: Times.Once);
 
         userBrokerMock.VerifyNoOtherCalls();

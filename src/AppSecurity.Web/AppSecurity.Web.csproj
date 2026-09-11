@@ -14,7 +14,7 @@
     <UseLocalSecurity Condition="'$(UseLocalSecurity)' == 'true' and !Exists('$(LocalSecurityProject)')">false</UseLocalSecurity>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.9.9.809" PrivateAssets="all" />
+    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.9.11.1440" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.5.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.2.3" />

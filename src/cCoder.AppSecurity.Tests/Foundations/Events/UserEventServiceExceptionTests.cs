@@ -53,7 +53,7 @@ public sealed partial class UserEventServiceExceptionTests
 
         // When
         Func<Task> action = async () => await service.RaiseUserAddEventAsync(
-            entity: new User());
+            user: new User());
 
         // Then
         Exception thrown = (await action

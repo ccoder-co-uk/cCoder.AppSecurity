@@ -27,7 +27,7 @@ public sealed partial class AppSecurityPackageManagerTests
         migrationServiceMock
             .Setup(expression: service => service.ImportPackageAppSecurityPackageAsync(
                 appId: appId,
-                package: package))
+                appSecurityPackage: package))
             .Returns(value: ValueTask.CompletedTask);
 
         migrationServiceMock
@@ -40,7 +40,7 @@ public sealed partial class AppSecurityPackageManagerTests
             appSecurityMigrationAggregationService: migrationServiceMock.Object);
 
         // When
-        await manager.ImportPackageAsync(appId: appId, package: package);
+        await manager.ImportPackageAsync(appId: appId, appSecurityPackage: package);
 
         AppSecurityPackage actualPackage = manager.ExportPackage(
             appId: appId,
@@ -53,7 +53,7 @@ public sealed partial class AppSecurityPackageManagerTests
         migrationServiceMock.Verify(
             expression: service => service.ImportPackageAppSecurityPackageAsync(
                 appId: appId,
-                package: package),
+                appSecurityPackage: package),
             times: Times.Once);
 
         migrationServiceMock.Verify(

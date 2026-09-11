@@ -24,12 +24,12 @@ public partial class UserServiceTests
         userBrokerMock.Setup(expression: x => x.GetAllUsers(ignoreFilters: false))
             .Returns(value: new[] { ToExternalUser(item: user) }.AsQueryable());
 
-        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+        userBrokerMock.Setup(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "User_delete"));
 
-        userBrokerMock.Setup(expression: x => x.DeleteUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+        userBrokerMock.Setup(expression: x => x.DeleteUserAsync(user: It.IsAny<cCoder.Data.Models.Security.User>()))
             .ReturnsAsync(value: 1);
 
         // When
@@ -37,8 +37,8 @@ public partial class UserServiceTests
 
         // Then
         userBrokerMock.Verify(expression: x => x.GetAllUsers(ignoreFilters: false), times: Times.Once);
-        userBrokerMock.Verify(expression: x => x.DeleteUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.Once);
-        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
+        userBrokerMock.Verify(expression: x => x.DeleteUserAsync(user: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.Once);
+        userBrokerMock.Verify(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_delete"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
@@ -53,7 +53,7 @@ public partial class UserServiceTests
         userBrokerMock.Setup(expression: x => x.GetAllUsers(ignoreFilters: false))
             .Returns(value: new[] { ToExternalUser(item: user) }.AsQueryable());
 
-        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+        userBrokerMock.Setup(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock
@@ -71,7 +71,7 @@ public partial class UserServiceTests
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
         userBrokerMock.Verify(expression: x => x.GetAllUsers(ignoreFilters: false), times: Times.Once);
-        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
+        userBrokerMock.Verify(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_delete"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();

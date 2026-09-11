@@ -12,30 +12,30 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal sealed partial class UserEventProcessingService(IUserEventService eventService) : IUserEventProcessingService
 {
-    public ValueTask RaiseUserAddEventAsync(User entity) =>
+    public ValueTask RaiseUserAddEventAsync(User user) =>
         TryCatch(operation: ValueTask () =>
         {
             ValidateRaiseUserAddEvent(
-                entity: entity);
+                user: user);
 
-            return eventService.RaiseUserAddEventAsync(entity: entity);
+            return eventService.RaiseUserAddEventAsync(user: user);
         });
 
-    public ValueTask RaiseUserUpdateEventAsync(User entity) =>
+    public ValueTask RaiseUserUpdateEventAsync(User user) =>
         TryCatch(operation: ValueTask () =>
         {
             ValidateRaiseUserUpdateEvent(
-                entity: entity);
+                user: user);
 
-            return eventService.RaiseUserUpdateEventAsync(entity: entity);
+            return eventService.RaiseUserUpdateEventAsync(user: user);
         });
 
-    public ValueTask RaiseUserDeleteEventAsync(User entity) =>
+    public ValueTask RaiseUserDeleteEventAsync(User user) =>
         TryCatch(operation: ValueTask () =>
         {
             ValidateRaiseUserDeleteEvent(
-                entity: entity);
+                user: user);
 
-            return eventService.RaiseUserDeleteEventAsync(entity: entity);
+            return eventService.RaiseUserDeleteEventAsync(user: user);
         });
 }

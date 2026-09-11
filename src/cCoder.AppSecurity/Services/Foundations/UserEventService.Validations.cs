@@ -8,18 +8,18 @@ namespace cCoder.AppSecurity.Services.Foundations.Events;
 
 internal sealed partial class UserEventService
 {
-    private static void ValidateRaiseUserAddEvent(User entity) =>
+    private static void ValidateRaiseUserAddEvent(User user) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            user,
         ]);
 
-    private static void ValidateRaiseUserUpdateEvent(User entity) =>
+    private static void ValidateRaiseUserUpdateEvent(User user) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            user,
         ]);
 
-    private static void ValidateRaiseUserDeleteEvent(User entity) =>
+    private static void ValidateRaiseUserDeleteEvent(User user) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            user,
         ]);
 }

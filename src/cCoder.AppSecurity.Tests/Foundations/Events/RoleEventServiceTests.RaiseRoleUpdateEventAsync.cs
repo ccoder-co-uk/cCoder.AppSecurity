@@ -28,7 +28,7 @@ public partial class RoleEventServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseRoleUpdateEventAsync(entity: entity);
+        await service.RaiseRoleUpdateEventAsync(role: entity);
 
         // Then
         actualMessage.Should()

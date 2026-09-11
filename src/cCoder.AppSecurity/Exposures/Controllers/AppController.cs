@@ -22,38 +22,6 @@ namespace cCoder.AppSecurity.Exposures.Controllers;
 public sealed class AppController(IAppManager service, ILoggingBroker loggingBroker) : ODataController
 {
     [HttpGet]
-    public IActionResult GetMetadata()
-    {
-        try
-        {
-            bool isExtendedMetaRequest = Request.Query["extend"] == "true";
-
-            return isExtendedMetaRequest
-                ? Ok(
-                    value: new AppSecurityODataModelBroker()
-                        .SelectODataModel()
-                        .EDMModel.GetExtendedMetadataForType(
-                            context: "AppSecurity",
-                            type: typeof(App)))
-                : Ok(
-                    value: MetadataDependency.CreateMetadataContainer(
-                        type: typeof(App),
-                        isEntity: true,
-                        hasEndpoint: false));
-        }
-        catch (AppSecurityAuthorizationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [HttpGet]
     [EnableQuery(
         AllowedArithmeticOperators = AllowedArithmeticOperators.All,
         AllowedFunctions = AllowedFunctions.AllFunctions,

@@ -19,7 +19,7 @@ public partial class UserServiceTests
 
         userBrokerMock
             .Setup(expression: broker => broker.AddUserAsync(
-                entity: It.IsAny<User>()))
+                user: It.IsAny<User>()))
             .ReturnsAsync(valueFunction: (User value) => value);
 
         // When
@@ -32,7 +32,7 @@ public partial class UserServiceTests
 
         userBrokerMock.Verify(
             expression: broker => broker.AddUserAsync(
-                entity: It.IsAny<User>()),
+                user: It.IsAny<User>()),
             times: Times.Once);
 
         userBrokerMock.VerifyNoOtherCalls();

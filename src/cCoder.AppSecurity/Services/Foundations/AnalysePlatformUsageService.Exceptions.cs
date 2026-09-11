@@ -30,4 +30,5 @@ internal sealed partial class AnalysePlatformUsageService
                 innerException: innerException);
         }
     }
+
 }

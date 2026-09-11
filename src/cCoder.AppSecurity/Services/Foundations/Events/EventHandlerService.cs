@@ -102,7 +102,7 @@ internal sealed partial class EventHandlerService(IEventHubBroker eventHubBroker
         eventHubBroker.ListenToEvent<SecurityAccountEvent, IAccountEventOrchestrationService>(
             eventName: eventName,
             handler: (service, accountEvent) =>
-                service.ProcessSecurityAccountEventAsync(accountEvent: accountEvent));
+                service.ProcessSecurityAccountEventAsync(securityAccountEvent: accountEvent));
 
     private void ListenToAppCreateAndUpdateEventsValue() =>
         ListenToAppCreateAndUpdateEvents();

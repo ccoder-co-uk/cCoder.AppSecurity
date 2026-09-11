@@ -55,17 +55,17 @@ internal sealed partial class UserRoleProcessingService(
 
         });
 
-    public ValueTask<UserRole> SaveUserRoleAsync(UserRole entity) =>
+    public ValueTask<UserRole> SaveUserRoleAsync(UserRole userRole) =>
         TryCatch(operation: async ValueTask<UserRole> () =>
         {
             ValidateSaveUserRole(
-                entity: entity);
+                userRole: userRole);
 
             UserRole existingUserRole = service
                 .GetAll(ignoreFilters: true)
                 .FirstOrDefault(predicate: userRole =>
-                    userRole.UserId == entity.UserId
-                    && userRole.RoleId == entity.RoleId);
+                    userRole.UserId == userRole.UserId
+                    && userRole.RoleId == userRole.RoleId);
 
             if (existingUserRole != null)
             {
@@ -73,7 +73,7 @@ internal sealed partial class UserRoleProcessingService(
             }
 
             return await service.AddUserRoleAsync(
-                newUserRole: entity,
+                newUserRole: userRole,
                 authorize: false);
 
         });

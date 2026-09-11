@@ -20,14 +20,14 @@ public partial class UserEventProcessingServiceTests
         User entity = CreateRandomUser();
 
         userEventServiceMock
-            .Setup(expression: x => x.RaiseUserDeleteEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseUserDeleteEventAsync(user: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseUserDeleteEventAsync(entity: entity);
+        await service.RaiseUserDeleteEventAsync(user: entity);
 
         // Then
-        userEventServiceMock.Verify(expression: x => x.RaiseUserDeleteEventAsync(entity: entity), times: Times.Once);
+        userEventServiceMock.Verify(expression: x => x.RaiseUserDeleteEventAsync(user: entity), times: Times.Once);
         userEventServiceMock.VerifyNoOtherCalls();
     }
 

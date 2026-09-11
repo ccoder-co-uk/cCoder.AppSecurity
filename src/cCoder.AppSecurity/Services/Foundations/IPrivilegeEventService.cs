@@ -11,7 +11,7 @@ namespace cCoder.AppSecurity.Services.Foundations.Events;
 
 internal interface IPrivilegeEventService
 {
-    ValueTask RaisePrivilegeAddEventAsync(Privilege entity);
-    ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity);
-    ValueTask RaisePrivilegeDeleteEventAsync(Privilege entity);
+    ValueTask RaisePrivilegeAddEventAsync(Privilege privilege);
+    ValueTask RaisePrivilegeUpdateEventAsync(Privilege privilege);
+    ValueTask RaisePrivilegeDeleteEventAsync(Privilege privilege);
 }

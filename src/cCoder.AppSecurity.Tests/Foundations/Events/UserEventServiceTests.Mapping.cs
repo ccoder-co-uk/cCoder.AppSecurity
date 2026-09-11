@@ -56,7 +56,7 @@ public partial class UserEventServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseUserAddEventAsync(entity: entity);
+        await service.RaiseUserAddEventAsync(user: entity);
 
         // Then
         captured

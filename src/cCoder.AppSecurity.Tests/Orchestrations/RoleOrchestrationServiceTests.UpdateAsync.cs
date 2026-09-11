@@ -24,7 +24,7 @@ public partial class RoleOrchestrationServiceTests
             .ReturnsAsync(value: entity);
 
         roleEventProcessingServiceMock
-            .Setup(expression: x => x.RaiseRoleUpdateEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseRoleUpdateEventAsync(role: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -35,7 +35,7 @@ public partial class RoleOrchestrationServiceTests
             .BeSameAs(expected: entity);
 
         roleProcessingServiceMock.Verify(expression: x => x.UpdateRoleAsync(entity: entity), times: Times.Once);
-        roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleUpdateEventAsync(entity: entity), times: Times.Once);
+        roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleUpdateEventAsync(role: entity), times: Times.Once);
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public partial class RoleOrchestrationServiceTests
             .ReturnsAsync(value: entity);
 
         roleEventProcessingServiceMock
-            .Setup(expression: x => x.RaiseRoleUpdateEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseRoleUpdateEventAsync(role: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -59,7 +59,7 @@ public partial class RoleOrchestrationServiceTests
             .BeSameAs(expected: entity);
 
         roleProcessingServiceMock.Verify(expression: x => x.UpdateValidatedRoleAsync(entity: entity), times: Times.Once);
-        roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleUpdateEventAsync(entity: entity), times: Times.Once);
+        roleEventProcessingServiceMock.Verify(expression: x => x.RaiseRoleUpdateEventAsync(role: entity), times: Times.Once);
     }
 
 }

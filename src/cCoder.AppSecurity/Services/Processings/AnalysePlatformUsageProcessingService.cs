@@ -2,16 +2,15 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Api.OData;
-using cCoder.Security.Data.EF;
 using cCoder.AppSecurity.Services.Foundations;
+using cCoder.AppSecurity.Brokers.Security;
 using cCoder.Security.Models.Entities;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace cCoder.AppSecurity.Services.Processings;
 
 internal sealed partial class AnalysePlatformUsageProcessingService(
+    ISecurityDbContextBroker securityDbContextBroker,
     IAnalysePlatformUsageService analysePlatformUsageService)
     : IAnalysePlatformUsageProcessingService
 {
@@ -21,68 +20,63 @@ internal sealed partial class AnalysePlatformUsageProcessingService(
             ValidateRun(
                 cancellationToken: cancellationToken);
 
-            using var sso =
-                analysePlatformUsageService.CreateSecurityDbContext();
-
-            List<DateTime> datesWithData = sso.UserEvents
-                .IgnoreQueryFilters()
-                .Select(selector: userEvent => userEvent.CreatedOn)
-                .Distinct()
-                .AsEnumerable()
-                .Select(selector: createdOn => createdOn.Date)
-                .Distinct()
-                .OrderByDescending(keySelector: date => date)
-                .ToList();
+            List<DateTime> datesWithData =
+                securityDbContextBroker.SelectUserEventDates()
+                    .ToList();
 
             if (datesWithData.FirstOrDefault() == DateTime.Today)
             {
                 datesWithData.RemoveAt(index: 0);
             }
 
-            string[] tenants = sso.Tenants
-                .IgnoreQueryFilters()
-                .Select(selector: tenant => tenant.Id)
-                .ToArray();
+            string[] tenants = securityDbContextBroker.SelectTenantIds();
 
             foreach (DateTime date in datesWithData)
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                IEnumerable<TenantAnalysis> reports = GenerateDailyReports(tenants: tenants, forDate: date, sso: sso);
-                sso.AddRange(entities: reports);
-                await sso.SaveChangesAsync(cancellationToken: cancellationToken);
+                TenantAnalysis[] reports = GenerateDailyReports(
+                    tenants: tenants,
+                    forDate: date)
+                    .ToArray();
+
+                await securityDbContextBroker.AddTenantAnalysesAsync(
+                    newTenantAnalyses: reports,
+                    cancellationToken: cancellationToken);
             }
 
-            await sso.UserEvents
-                .IgnoreQueryFilters()
-                .Where(predicate: userEvent =>
-                    userEvent.CreatedOn < DateTime.Today.AddDays(value: -2))
-                .ExecuteDeleteAsync(cancellationToken: cancellationToken);
+            await securityDbContextBroker.DeleteUserEventsBeforeAsync(
+                createdBefore: DateTime.Today.AddDays(value: -2),
+                cancellationToken: cancellationToken);
 
         });
 
-    private static IEnumerable<TenantAnalysis> GenerateDailyReports(string[] tenants, DateTime forDate, SecurityDbContext sso)
+    private IEnumerable<TenantAnalysis> GenerateDailyReports(
+        string[] tenants,
+        DateTime forDate)
     {
         List<TenantAnalysis> results = [];
 
         foreach (string tenant in tenants)
         {
-            results.AddRange(collection: GenerateUserActivityReport(tenant: tenant, forDate: forDate, sso: sso));
+            results.AddRange(collection: GenerateUserActivityReport(
+                tenant: tenant,
+                forDate: forDate));
         }
 
         return results;
     }
 
-    private static IEnumerable<TenantAnalysis> GenerateUserActivityReport(string tenant, DateTime forDate, SecurityDbContext sso)
+    private IEnumerable<TenantAnalysis> GenerateUserActivityReport(
+        string tenant,
+        DateTime forDate)
     {
         List<TenantAnalysis> results = [];
 
-        TenantAnalysis existingReport = sso.TenantAnalysis
-            .IgnoreQueryFilters()
-            .FirstOrDefault(predicate: analysis =>
-                analysis.TenantId == tenant &&
-                analysis.CreatedOn == forDate &&
-                analysis.Name == "User Activity (Daily)");
+        TenantAnalysis existingReport =
+            securityDbContextBroker.SelectTenantAnalysis(
+                tenantId: tenant,
+                createdOn: forDate);
 
         if (existingReport == null)
         {
@@ -91,8 +85,10 @@ internal sealed partial class AnalysePlatformUsageProcessingService(
                 TenantId = tenant,
                 Key = "System",
                 Name = "User Activity (Daily)",
-                Value = AnalyseTenantUserActivity(tenantId: tenant, reportDate: forDate, sso: sso)
-                    .ToJsonForOdata(),
+                Value = analysePlatformUsageService.Serialize(
+                    value: AnalyseTenantUserActivity(
+                        tenantId: tenant,
+                        reportDate: forDate)),
                 CreatedOn = forDate
             });
         }
@@ -100,9 +96,12 @@ internal sealed partial class AnalysePlatformUsageProcessingService(
         return results;
     }
 
-    private static object AnalyseTenantUserActivity(string tenantId, DateTime reportDate, SecurityDbContext sso)
+    private object AnalyseTenantUserActivity(string tenantId, DateTime reportDate)
     {
-        UserActivity[] activityData = GetUserActivity(tenantId: tenantId, from: reportDate, to: reportDate.AddDays(value: 1), sso: sso);
+        UserActivity[] activityData = securityDbContextBroker.SelectUserActivities(
+            tenantId: tenantId,
+            from: reportDate,
+            to: reportDate.AddDays(value: 1));
 
         return new
         {
@@ -111,31 +110,6 @@ internal sealed partial class AnalysePlatformUsageProcessingService(
             ApiCalls = AnalyseApiActivity(data: activityData)
         };
     }
-
-    private static UserActivity[] GetUserActivity(string tenantId, DateTime from, DateTime to, SecurityDbContext sso) =>
-        sso.UserEvents
-            .IgnoreQueryFilters()
-            .Where(predicate: activity => activity.CreatedOn >= from && activity.CreatedOn <= to && activity.TenantId == tenantId)
-            .Select(selector: userEvent => new UserActivity
-            {
-                TenantId = userEvent.TenantId,
-                TenantName = userEvent.Tenant.Name,
-                TenantDescription = userEvent.Tenant.Description,
-                TenantCreatedBy = userEvent.Tenant.CreatedBy,
-                TenantLastUpdatedBy = userEvent.Tenant.LastUpdatedBy,
-                TenantCreatedOn = userEvent.Tenant.CreatedOn,
-                TenantLastUpdated = userEvent.Tenant.LastUpdated,
-                UserId = userEvent.CreatedBy,
-                UserDisplayName = userEvent.CreatedByUser.DisplayName,
-                UserEmail = userEvent.CreatedByUser.Email,
-                UserPhoneNumber = userEvent.TenantId,
-                EventId = userEvent.Id,
-                EventName = userEvent.EventName,
-                EventValue = userEvent.Value,
-                EventCreatedOn = userEvent.CreatedOn,
-                SessionId = userEvent.SessionId
-            })
-            .ToArray();
 
     private static object AnalyseUserActivity(IEnumerable<UserActivity> data) =>
         data

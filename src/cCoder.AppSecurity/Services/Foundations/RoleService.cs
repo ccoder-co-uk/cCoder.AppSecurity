@@ -76,7 +76,7 @@ internal sealed partial class RoleService(
             };
 
             AuthorizeMutationOrAllowBootstrap(appId: newRole.AppId, privilege: $"{nameof(Role)}_create", assignedPrivileges: newRole.Privs);
-            DataRole result = await roleBroker.AddRoleAsync(entity: internalRole);
+            DataRole result = await roleBroker.AddRoleAsync(role: internalRole);
             await SaveUserRolesAsync(role: newRole, roleId: result.Id);
             newRole.Id = result.Id;
             newRole.AppId = result.AppId;
@@ -102,7 +102,7 @@ internal sealed partial class RoleService(
                 Privs = newRole.Privs
             };
 
-            DataRole result = await roleBroker.AddRoleAsync(entity: internalRole);
+            DataRole result = await roleBroker.AddRoleAsync(role: internalRole);
             newRole.Id = result.Id;
             newRole.AppId = result.AppId;
             newRole.Name = result.Name;
@@ -128,7 +128,7 @@ internal sealed partial class RoleService(
             };
 
             AuthorizeMutationOrAllowBootstrap(appId: updatedRole.AppId, privilege: $"{nameof(Role)}_update", assignedPrivileges: updatedRole.Privs);
-            DataRole result = await roleBroker.UpdateRoleAsync(entity: internalRole);
+            DataRole result = await roleBroker.UpdateRoleAsync(role: internalRole);
             await SaveUserRolesAsync(role: updatedRole, roleId: result.Id);
             updatedRole.Id = result.Id;
             updatedRole.AppId = result.AppId;
@@ -154,7 +154,7 @@ internal sealed partial class RoleService(
                 Privs = updatedRole.Privs
             };
 
-            DataRole result = await roleBroker.UpdateRoleAsync(entity: internalRole);
+            DataRole result = await roleBroker.UpdateRoleAsync(role: internalRole);
             updatedRole.Id = result.Id;
             updatedRole.AppId = result.AppId;
             updatedRole.Name = result.Name;
@@ -213,7 +213,7 @@ internal sealed partial class RoleService(
 
         await roleBroker.DeletePageRolesByRoleIdAsync(roleId: deletedRole.Id);
         await roleBroker.DeleteFolderRolesByRoleIdAsync(roleId: deletedRole.Id);
-        _ = await roleBroker.DeleteRoleAsync(entity: ToExternalRole(item: deletedRole));
+        _ = await roleBroker.DeleteRoleAsync(role: ToExternalRole(item: deletedRole));
     }
 
     private void AuthorizeMutationOrAllowBootstrap(int? appId, string privilege, string assignedPrivileges)
@@ -275,7 +275,7 @@ internal sealed partial class RoleService(
             if (existingUserIds.Add(item: userRole.UserId))
             {
                 _ = await userRoleBroker.AddUserRoleAsync(
-                    entity: ToExternalUserRole(item: userRole));
+                    userRole: ToExternalUserRole(item: userRole));
             }
         }
     }

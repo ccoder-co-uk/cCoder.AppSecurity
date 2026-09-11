@@ -30,13 +30,13 @@ public partial class UserServiceTests
                 Id = "administrator"
             });
 
-        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+        userBrokerMock.Setup(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "User_update"));
 
         userBrokerMock
-            .Setup(expression: x => x.UpdateUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+            .Setup(expression: x => x.UpdateUserAsync(user: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Callback<cCoder.Data.Models.Security.User>(action: candidate => submitted = candidate)
             .ReturnsAsync(valueFunction: (cCoder.Data.Models.Security.User value) => value);
 
@@ -66,8 +66,8 @@ config: options => options
         result.Should()
             .BeEquivalentTo(expectation: user);
 
-        userBrokerMock.Verify(expression: x => x.UpdateUserAsync(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.Once);
-        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
+        userBrokerMock.Verify(expression: x => x.UpdateUserAsync(user: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.Once);
+        userBrokerMock.Verify(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_update"), times: Times.Once);
         authorizationBrokerMock.Verify(expression: x => x.GetCurrentUser(), times: Times.Once);
@@ -87,7 +87,7 @@ config: options => options
                 Id = "unauthorized.user"
             });
 
-        userBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+        userBrokerMock.Setup(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock
@@ -104,7 +104,7 @@ config: options => options
             .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
-        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
+        userBrokerMock.Verify(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "User_update"), times: Times.Once);
         authorizationBrokerMock.Verify(expression: x => x.GetCurrentUser(), times: Times.Once);
@@ -126,7 +126,7 @@ config: options => options
 
         userBrokerMock
             .Setup(expression: x => x.UpdateUserAsync(
-                entity: It.IsAny<cCoder.Data.Models.Security.User>()))
+                user: It.IsAny<cCoder.Data.Models.Security.User>()))
             .ReturnsAsync(value: new cCoder.Data.Models.Security.User
             {
                 Id = user.Id,
@@ -152,7 +152,7 @@ config: options => options
 
         userBrokerMock.Verify(
             expression: x => x.UpdateUserAsync(
-                entity: It.IsAny<cCoder.Data.Models.Security.User>()),
+                user: It.IsAny<cCoder.Data.Models.Security.User>()),
             times: Times.Once);
 
         userBrokerMock.VerifyNoOtherCalls();

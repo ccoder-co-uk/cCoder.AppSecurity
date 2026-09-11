@@ -8,18 +8,18 @@ namespace cCoder.AppSecurity.Services.Foundations.Events;
 
 internal sealed partial class PrivilegeEventService
 {
-    private static void ValidateRaisePrivilegeAddEvent(Privilege entity) =>
+    private static void ValidateRaisePrivilegeAddEvent(Privilege privilege) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            privilege,
         ]);
 
-    private static void ValidateRaisePrivilegeUpdateEvent(Privilege entity) =>
+    private static void ValidateRaisePrivilegeUpdateEvent(Privilege privilege) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            privilege,
         ]);
 
-    private static void ValidateRaisePrivilegeDeleteEvent(Privilege entity) =>
+    private static void ValidateRaisePrivilegeDeleteEvent(Privilege privilege) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            privilege,
         ]);
 }

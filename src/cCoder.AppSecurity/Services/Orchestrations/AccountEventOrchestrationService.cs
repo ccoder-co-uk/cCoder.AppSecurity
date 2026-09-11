@@ -16,18 +16,18 @@ internal sealed partial class AccountEventOrchestrationService(
     IAccountRoleAssignmentProcessingService accountRoleAssignmentProcessingService)
     : IAccountEventOrchestrationService
 {
-    public ValueTask ProcessSecurityAccountEventAsync(SecurityAccountEvent accountEvent) =>
+    public ValueTask ProcessSecurityAccountEventAsync(SecurityAccountEvent securityAccountEvent) =>
         TryCatch(operation: async ValueTask () =>
         {
             ValidateProcessSecurityAccountEvent(
-                accountEvent: accountEvent);
+                securityAccountEvent: securityAccountEvent);
 
-            if (accountEvent?.User is null)
+            if (securityAccountEvent?.User is null)
             {
                 return;
             }
 
-            App app = ResolveApp(requestDomain: accountEvent.RequestDomain);
+            App app = ResolveApp(requestDomain: securityAccountEvent.RequestDomain);
 
             if (app is null)
             {
@@ -38,14 +38,14 @@ internal sealed partial class AccountEventOrchestrationService(
                     await EnsureGuestUserAsync();
 
                     await AddOrUpdateUserAsync(
-                        accountEvent: accountEvent,
+                        securityAccountEvent: securityAccountEvent,
                         app: null);
                 }
 
                 return;
             }
 
-            User user = await AddOrUpdateUserAsync(accountEvent: accountEvent, app: app);
+            User user = await AddOrUpdateUserAsync(securityAccountEvent: securityAccountEvent, app: app);
 
             await accountRoleAssignmentProcessingService.AttachUsersRoleAsync(
                 user: user,
@@ -98,24 +98,24 @@ internal sealed partial class AccountEventOrchestrationService(
         return appProcessingService.GetByDomain(domain: normalizedDomain);
     }
 
-    private async ValueTask<User> AddOrUpdateUserAsync(SecurityAccountEvent accountEvent, App app)
+    private async ValueTask<User> AddOrUpdateUserAsync(SecurityAccountEvent securityAccountEvent, App app)
     {
         User user = userProcessingService.GetAll(ignoreFilters: true)
             .FirstOrDefault(predicate: user =>
-                user.Id == accountEvent.User.Id
-                || user.Email == accountEvent.User.Email);
+                user.Id == securityAccountEvent.User.Id
+                || user.Email == securityAccountEvent.User.Email);
 
         if (user is null)
         {
             user = new User
             {
-                Id = accountEvent.User.Id,
-                DefaultCultureId = string.IsNullOrWhiteSpace(value: accountEvent.Culture)
+                Id = securityAccountEvent.User.Id,
+                DefaultCultureId = string.IsNullOrWhiteSpace(value: securityAccountEvent.Culture)
                     ? app?.DefaultCultureId ?? string.Empty
-                    : accountEvent.Culture,
-                DisplayName = accountEvent.User.DisplayName,
-                Email = accountEvent.User.Email,
-                IsActive = app is null || !accountEvent.User.LockoutEnabled
+                    : securityAccountEvent.Culture,
+                DisplayName = securityAccountEvent.User.DisplayName,
+                Email = securityAccountEvent.User.Email,
+                IsActive = app is null || !securityAccountEvent.User.LockoutEnabled
             };
 
             return await userProcessingService
@@ -127,13 +127,13 @@ internal sealed partial class AccountEventOrchestrationService(
             return user;
         }
 
-        user.DisplayName = accountEvent.User.DisplayName;
-        user.Email = accountEvent.User.Email;
-        user.IsActive = !accountEvent.User.LockoutEnabled;
+        user.DisplayName = securityAccountEvent.User.DisplayName;
+        user.Email = securityAccountEvent.User.Email;
+        user.IsActive = !securityAccountEvent.User.LockoutEnabled;
 
-        if (!string.IsNullOrWhiteSpace(value: accountEvent.Culture))
+        if (!string.IsNullOrWhiteSpace(value: securityAccountEvent.Culture))
         {
-            user.DefaultCultureId = accountEvent.Culture;
+            user.DefaultCultureId = securityAccountEvent.Culture;
         }
 
         return await userProcessingService

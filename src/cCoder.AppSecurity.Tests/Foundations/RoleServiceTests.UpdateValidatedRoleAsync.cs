@@ -22,7 +22,7 @@ public partial class RoleServiceTests
 
         roleBrokerMock
             .Setup(expression: broker => broker.UpdateRoleAsync(
-                entity: It.IsAny<Role>()))
+                role: It.IsAny<Role>()))
             .ReturnsAsync(value: storedRole);
 
         // When
@@ -41,7 +41,7 @@ public partial class RoleServiceTests
             .BeEquivalentTo(expectation: storedRole);
 
         roleBrokerMock.Verify(
-            expression: broker => broker.UpdateRoleAsync(entity: It.IsAny<Role>()),
+            expression: broker => broker.UpdateRoleAsync(role: It.IsAny<Role>()),
             times: Times.Once);
 
         roleBrokerMock.VerifyNoOtherCalls();

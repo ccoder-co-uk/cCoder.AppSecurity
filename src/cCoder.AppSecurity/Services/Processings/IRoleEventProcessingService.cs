@@ -11,7 +11,7 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal interface IRoleEventProcessingService
 {
-    ValueTask RaiseRoleAddEventAsync(Role entity);
-    ValueTask RaiseRoleUpdateEventAsync(Role entity);
-    ValueTask RaiseRoleDeleteEventAsync(Role entity);
+    ValueTask RaiseRoleAddEventAsync(Role role);
+    ValueTask RaiseRoleUpdateEventAsync(Role role);
+    ValueTask RaiseRoleDeleteEventAsync(Role role);
 }

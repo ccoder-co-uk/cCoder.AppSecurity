@@ -24,7 +24,7 @@ public partial class UserOrchestrationServiceTests
             .ReturnsAsync(value: entity);
 
         userEventProcessingServiceMock
-            .Setup(expression: x => x.RaiseUserAddEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseUserAddEventAsync(user: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -35,7 +35,7 @@ public partial class UserOrchestrationServiceTests
             .BeSameAs(expected: entity);
 
         userProcessingServiceMock.Verify(expression: x => x.AddUserAsync(entity: entity), times: Times.Once);
-        userEventProcessingServiceMock.Verify(expression: x => x.RaiseUserAddEventAsync(entity: entity), times: Times.Once);
+        userEventProcessingServiceMock.Verify(expression: x => x.RaiseUserAddEventAsync(user: entity), times: Times.Once);
     }
 
 }

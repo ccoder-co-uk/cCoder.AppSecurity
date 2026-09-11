@@ -6,6 +6,7 @@ using cCoder.Security.Data.EF;
 using cCoder.Security.Models.Entities;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using Xunit;
 
 namespace cCoder.AppSecurity.Tests.Processings;
@@ -36,7 +37,8 @@ public sealed partial class AnalysePlatformUsageProcessingServiceTests
             Email = "user.one@example.com"
         };
 
-        securityDbContext.AddRange(
+        securityDbContext.AddRange(entities:
+        [
             tenant,
             user,
             CreateUserEvent(
@@ -56,7 +58,8 @@ public sealed partial class AnalysePlatformUsageProcessingServiceTests
                 user: user,
                 createdOn: reportDate,
                 eventName: "Page_GET/lib/client.js",
-                eventValue: "/lib/client.js"));
+                eventValue: "/lib/client.js")
+        ]);
 
         await securityDbContext.SaveChangesAsync();
 
@@ -100,6 +103,9 @@ public sealed partial class AnalysePlatformUsageProcessingServiceTests
             .Should()
             .HaveCount(expected: 3);
 
+        analysePlatformUsageServiceMock.Verify(
+            expression: service => service.Serialize(value: It.IsAny<object>()),
+            times: Times.Once);
     }
 
     private static UserEvent CreateUserEvent(

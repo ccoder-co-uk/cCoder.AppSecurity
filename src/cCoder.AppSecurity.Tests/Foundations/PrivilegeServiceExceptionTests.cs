@@ -53,7 +53,7 @@ public sealed partial class PrivilegeServiceExceptionTests
 
         privilegeBrokerMock
             .Setup(expression: broker => broker.GetAppId(
-                entity: It.Is<Privilege>(match: _ => true)))
+                privilege: It.Is<Privilege>(match: _ => true)))
             .Throws(exception: exception);
 
         PrivilegeService service = CreateService();
@@ -87,7 +87,7 @@ public sealed partial class PrivilegeServiceExceptionTests
 
         privilegeBrokerMock
             .Setup(expression: broker => broker.GetAppId(
-                entity: It.Is<Privilege>(match: _ => true)))
+                privilege: It.Is<Privilege>(match: _ => true)))
             .Throws(exception: exception);
 
         PrivilegeService service = CreateService();

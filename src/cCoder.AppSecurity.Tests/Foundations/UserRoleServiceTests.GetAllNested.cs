@@ -78,7 +78,7 @@ public partial class UserRoleServiceTests
 
         userRoleBrokerMock
             .Setup(expression: broker => broker.GetAppId(
-                entity: It.Is<DataUserRole>(match: _ => true)))
+                userRole: It.Is<DataUserRole>(match: _ => true)))
             .Returns(value: null);
 
         authorizationBrokerMock
@@ -88,7 +88,7 @@ public partial class UserRoleServiceTests
 
         userRoleBrokerMock
             .Setup(expression: broker => broker.AddUserRoleAsync(
-                entity: It.Is<DataUserRole>(match: _ => true)))
+                userRole: It.Is<DataUserRole>(match: _ => true)))
             .ReturnsAsync(value: userRole);
 
         // When

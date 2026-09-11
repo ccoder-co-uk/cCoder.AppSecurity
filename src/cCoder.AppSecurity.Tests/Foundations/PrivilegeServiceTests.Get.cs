@@ -31,7 +31,7 @@ public partial class PrivilegeServiceTests
             .BeEquivalentTo(expectation: privilege);
 
         privilegeBrokerMock.Verify(expression: x => x.GetAllPrivileges(ignoreFilters: false), times: Times.Once);
-        privilegeBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Privilege>()), times: Times.AtMostOnce());
+        privilegeBrokerMock.Verify(expression: x => x.GetAppId(privilege: It.IsAny<cCoder.Data.Models.Security.Privilege>()), times: Times.AtMostOnce());
         privilegeBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

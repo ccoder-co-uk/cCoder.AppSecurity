@@ -8,18 +8,18 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal sealed partial class PrivilegeEventProcessingService
 {
-    private static void ValidateRaisePrivilegeAddEvent(Privilege entity) =>
+    private static void ValidateRaisePrivilegeAddEvent(Privilege privilege) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            privilege,
         ]);
 
-    private static void ValidateRaisePrivilegeUpdateEvent(Privilege entity) =>
+    private static void ValidateRaisePrivilegeUpdateEvent(Privilege privilege) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            privilege,
         ]);
 
-    private static void ValidateRaisePrivilegeDeleteEvent(Privilege entity) =>
+    private static void ValidateRaisePrivilegeDeleteEvent(Privilege privilege) =>
         ValidationRulesEngine.Validate(inputs: [
-            entity,
+            privilege,
         ]);
 }

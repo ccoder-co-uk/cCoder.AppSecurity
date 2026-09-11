@@ -40,7 +40,7 @@ internal sealed partial class PrivilegeOrchestrationService(
                 newPrivilege: newPrivilege);
 
             var result = await processingService.AddPrivilegeAsync(entity: newPrivilege);
-            await eventService.RaisePrivilegeAddEventAsync(entity: result);
+            await eventService.RaisePrivilegeAddEventAsync(privilege: result);
             return result;
 
         });
@@ -52,7 +52,7 @@ internal sealed partial class PrivilegeOrchestrationService(
                 updatedPrivilege: updatedPrivilege);
 
             var result = await processingService.UpdatePrivilegeAsync(entity: updatedPrivilege);
-            await eventService.RaisePrivilegeUpdateEventAsync(entity: result);
+            await eventService.RaisePrivilegeUpdateEventAsync(privilege: result);
             return result;
 
         });
@@ -64,7 +64,7 @@ internal sealed partial class PrivilegeOrchestrationService(
                 privilegeId: privilegeId);
 
             var entity = processingService.Get(id: privilegeId);
-            await eventService.RaisePrivilegeDeleteEventAsync(entity: entity);
+            await eventService.RaisePrivilegeDeleteEventAsync(privilege: entity);
             await processingService.DeleteAsync(id: privilegeId);
 
         });

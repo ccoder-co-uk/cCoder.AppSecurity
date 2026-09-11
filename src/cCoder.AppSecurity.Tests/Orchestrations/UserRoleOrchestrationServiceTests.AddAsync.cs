@@ -20,11 +20,11 @@ public partial class UserRoleOrchestrationServiceTests
         // Given
         UserRole entity = CreateRandomUserRole();
 
-        userRoleProcessingServiceMock.Setup(expression: x => x.AddUserRoleAsync(entity: entity))
+        userRoleProcessingServiceMock.Setup(expression: x => x.AddUserRoleAsync(userRole: entity))
             .ReturnsAsync(value: entity);
 
         userRoleEventProcessingServiceMock
-            .Setup(expression: x => x.RaiseUserRoleAddEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseUserRoleAddEventAsync(userRole: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -34,8 +34,8 @@ public partial class UserRoleOrchestrationServiceTests
         result.Should()
             .BeSameAs(expected: entity);
 
-        userRoleProcessingServiceMock.Verify(expression: x => x.AddUserRoleAsync(entity: entity), times: Times.Once);
-        userRoleEventProcessingServiceMock.Verify(expression: x => x.RaiseUserRoleAddEventAsync(entity: entity), times: Times.Once);
+        userRoleProcessingServiceMock.Verify(expression: x => x.AddUserRoleAsync(userRole: entity), times: Times.Once);
+        userRoleEventProcessingServiceMock.Verify(expression: x => x.RaiseUserRoleAddEventAsync(userRole: entity), times: Times.Once);
     }
 
 }

@@ -35,7 +35,7 @@ public partial class UserServiceTests
             .BeEquivalentTo(expectation: user);
 
         userBrokerMock.Verify(expression: x => x.GetAllUsers(ignoreFilters: false), times: Times.Once);
-        userBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
+        userBrokerMock.Verify(expression: x => x.GetAppId(user: It.IsAny<cCoder.Data.Models.Security.User>()), times: Times.AtMostOnce());
         userBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }
