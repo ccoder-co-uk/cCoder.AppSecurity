@@ -17,34 +17,34 @@ internal sealed partial class AppSecurityMigrationAggregationService(
 {
     public ValueTask ImportPackageAppSecurityPackageAsync(
         int appId,
-        AppSecurityPackage package) =>
+        AppSecurityPackage appSecurityPackage) =>
         TryCatch(operation: async ValueTask () =>
         {
-            ValidateImportPackageAppSecurityPackage(appId: appId, package: package);
+            ValidateImportPackageAppSecurityPackage(appId: appId, appSecurityPackage: appSecurityPackage);
 
-            if (package.Items is null || !package.Items.Any(predicate: item =>
+            if (appSecurityPackage.Items is null || !appSecurityPackage.Items.Any(predicate: item =>
                 item.Type is "Core/Role" or "AppSecurity/Role" or "ContentManagement/PageRole"))
             {
                 return;
             }
 
-            if (package.Items.Any(predicate: item =>
+            if (appSecurityPackage.Items.Any(predicate: item =>
                 item.Type is "Core/Role" or "AppSecurity/Role"))
             {
-                await ImportRolesAsync(appId: appId, package: package);
+                await ImportRolesAsync(appId: appId, appSecurityPackage: appSecurityPackage);
             }
 
-            if (!package.Items.Any(predicate: item =>
+            if (!appSecurityPackage.Items.Any(predicate: item =>
                 item.Type == "ContentManagement/PageRole"))
             {
                 return;
             }
 
             AppSecurityPackageMapping mapping = packageOrchestrationService
-                .MapAppSecurityPackageMappingPageRoles(mapping: new AppSecurityPackageMapping
+                .MapAppSecurityPackageMappingPageRoles(appSecurityPackageMapping: new AppSecurityPackageMapping
                 {
                     AppId = appId,
-                    Package = package,
+                    Package = appSecurityPackage,
                 });
 
             App app = mapping.App;
@@ -54,13 +54,13 @@ internal sealed partial class AppSecurityMigrationAggregationService(
 
     private async ValueTask ImportRolesAsync(
         int appId,
-        AppSecurityPackage package)
+        AppSecurityPackage appSecurityPackage)
     {
         AppSecurityPackageMapping mapping = packageOrchestrationService
-            .MapAppSecurityPackageMappingRoles(mapping: new AppSecurityPackageMapping
+            .MapAppSecurityPackageMappingRoles(appSecurityPackageMapping: new AppSecurityPackageMapping
             {
                 AppId = appId,
-                Package = package,
+                Package = appSecurityPackage,
             });
 
         await appOrchestrationService.UpdateAppAsync(app: mapping.App);

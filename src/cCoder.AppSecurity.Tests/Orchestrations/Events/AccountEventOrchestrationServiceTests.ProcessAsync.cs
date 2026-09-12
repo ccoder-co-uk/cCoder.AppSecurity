@@ -66,7 +66,7 @@ public partial class AccountEventOrchestrationServiceTests
         // When
         await accountEventOrchestrationService
             .ProcessSecurityAccountEventAsync(
-                accountEvent: accountEvent);
+                securityAccountEvent: accountEvent);
 
         // Then
         userProcessingServiceMock.Verify(
@@ -130,7 +130,7 @@ public partial class AccountEventOrchestrationServiceTests
         // When
         await accountEventOrchestrationService
             .ProcessSecurityAccountEventAsync(
-                accountEvent: accountEvent);
+                securityAccountEvent: accountEvent);
 
         // Then
         userProcessingServiceMock.Verify(
@@ -198,7 +198,7 @@ public partial class AccountEventOrchestrationServiceTests
 
         // When
         await accountEventOrchestrationService
-            .ProcessSecurityAccountEventAsync(accountEvent: accountEvent);
+            .ProcessSecurityAccountEventAsync(securityAccountEvent: accountEvent);
 
         // Then
         userProcessingServiceMock.Verify(
@@ -266,7 +266,7 @@ public partial class AccountEventOrchestrationServiceTests
 
         // When
         await accountEventOrchestrationService.ProcessSecurityAccountEventAsync(
-            accountEvent: accountEvent);
+            securityAccountEvent: accountEvent);
 
         // Then
         userProcessingServiceMock.Verify(
@@ -341,7 +341,7 @@ appId: app.Id),
         // When
         await accountEventOrchestrationService
             .ProcessSecurityAccountEventAsync(
-                accountEvent: accountEvent);
+                securityAccountEvent: accountEvent);
 
         // Then
         userProcessingServiceMock.Verify(

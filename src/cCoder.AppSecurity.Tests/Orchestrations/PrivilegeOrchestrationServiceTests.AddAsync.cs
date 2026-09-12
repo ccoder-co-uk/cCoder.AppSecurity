@@ -24,7 +24,7 @@ public partial class PrivilegeOrchestrationServiceTests
             .ReturnsAsync(value: entity);
 
         privilegeEventProcessingServiceMock
-            .Setup(expression: x => x.RaisePrivilegeAddEventAsync(entity: entity))
+            .Setup(expression: x => x.RaisePrivilegeAddEventAsync(privilege: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -35,7 +35,7 @@ public partial class PrivilegeOrchestrationServiceTests
             .BeSameAs(expected: entity);
 
         privilegeProcessingServiceMock.Verify(expression: x => x.AddPrivilegeAsync(entity: entity), times: Times.Once);
-        privilegeEventProcessingServiceMock.Verify(expression: x => x.RaisePrivilegeAddEventAsync(entity: entity), times: Times.Once);
+        privilegeEventProcessingServiceMock.Verify(expression: x => x.RaisePrivilegeAddEventAsync(privilege: entity), times: Times.Once);
     }
 
 }

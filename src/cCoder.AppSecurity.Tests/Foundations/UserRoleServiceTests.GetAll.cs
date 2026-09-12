@@ -35,7 +35,7 @@ public partial class UserRoleServiceTests
             .BeEquivalentTo(expectation: userRole);
 
         userRoleBrokerMock.Verify(expression: x => x.GetAllUserRoles(ignoreFilters: false), times: Times.Once);
-        userRoleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()), times: Times.AtMostOnce());
+        userRoleBrokerMock.Verify(expression: x => x.GetAppId(userRole: It.IsAny<cCoder.Data.Models.Security.UserRole>()), times: Times.AtMostOnce());
         userRoleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

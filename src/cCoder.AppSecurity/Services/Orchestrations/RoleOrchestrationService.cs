@@ -40,7 +40,7 @@ internal sealed partial class RoleOrchestrationService(
                 newRole: newRole);
 
             var result = await processingService.AddRoleAsync(entity: newRole);
-            await eventService.RaiseRoleAddEventAsync(entity: result);
+            await eventService.RaiseRoleAddEventAsync(role: result);
             return result;
 
         });
@@ -52,7 +52,7 @@ internal sealed partial class RoleOrchestrationService(
                 newRole: newRole);
 
             var result = await processingService.AddValidatedRoleAsync(entity: newRole);
-            await eventService.RaiseRoleAddEventAsync(entity: result);
+            await eventService.RaiseRoleAddEventAsync(role: result);
             return result;
 
         });
@@ -64,7 +64,7 @@ internal sealed partial class RoleOrchestrationService(
                 updatedRole: updatedRole);
 
             var result = await processingService.UpdateRoleAsync(entity: updatedRole);
-            await eventService.RaiseRoleUpdateEventAsync(entity: result);
+            await eventService.RaiseRoleUpdateEventAsync(role: result);
             return result;
 
         });
@@ -76,7 +76,7 @@ internal sealed partial class RoleOrchestrationService(
                 updatedRole: updatedRole);
 
             var result = await processingService.UpdateValidatedRoleAsync(entity: updatedRole);
-            await eventService.RaiseRoleUpdateEventAsync(entity: result);
+            await eventService.RaiseRoleUpdateEventAsync(role: result);
             return result;
 
         });
@@ -95,7 +95,7 @@ internal sealed partial class RoleOrchestrationService(
                 return;
             }
 
-            await eventService.RaiseRoleDeleteEventAsync(entity: entity);
+            await eventService.RaiseRoleDeleteEventAsync(role: entity);
             await processingService.DeleteAsync(id: roleId);
 
         });
@@ -114,7 +114,7 @@ internal sealed partial class RoleOrchestrationService(
                 return;
             }
 
-            await eventService.RaiseRoleDeleteEventAsync(entity: entity);
+            await eventService.RaiseRoleDeleteEventAsync(role: entity);
             await processingService.DeleteValidatedAsync(id: roleId);
 
         });

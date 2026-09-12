@@ -87,7 +87,7 @@ public sealed partial class AppSecurityPackageTests(WebAcceptanceFixture fixture
 
             await packageManager.ImportPackageAsync(
                 appId: appId,
-                package: package);
+                appSecurityPackage: package);
         }
 
         // Then

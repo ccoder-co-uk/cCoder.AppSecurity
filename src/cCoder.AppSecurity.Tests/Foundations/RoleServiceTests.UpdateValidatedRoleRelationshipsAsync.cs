@@ -49,7 +49,7 @@ public partial class RoleServiceTests
 
         roleBrokerMock
             .Setup(expression: broker => broker.DeleteRoleAsync(
-                entity: It.Is<DataRole>(match: _ => true)))
+                role: It.Is<DataRole>(match: _ => true)))
             .Callback<DataRole>(action: submitted => captured = submitted)
             .Returns(value: new ValueTask<int>(result: 1));
 

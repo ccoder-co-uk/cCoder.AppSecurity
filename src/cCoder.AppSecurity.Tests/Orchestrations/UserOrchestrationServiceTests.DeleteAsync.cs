@@ -29,7 +29,7 @@ public partial class UserOrchestrationServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         userEventProcessingServiceMock
-            .Setup(expression: x => x.RaiseUserDeleteEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseUserDeleteEventAsync(user: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
@@ -38,7 +38,7 @@ public partial class UserOrchestrationServiceTests
         // Then
         userProcessingServiceMock.Verify(expression: x => x.Get(id: id), times: Times.Once);
         userProcessingServiceMock.Verify(expression: x => x.DeleteAsync(id: id), times: Times.Once);
-        userEventProcessingServiceMock.Verify(expression: x => x.RaiseUserDeleteEventAsync(entity: entity), times: Times.Once);
+        userEventProcessingServiceMock.Verify(expression: x => x.RaiseUserDeleteEventAsync(user: entity), times: Times.Once);
     }
 
 }

@@ -12,8 +12,8 @@ namespace cCoder.AppSecurity.Services.Processings;
 internal interface IUserRoleProcessingService
 {
     IQueryable<UserRole> GetAll(bool ignoreFilters = false);
-    ValueTask<UserRole> AddUserRoleAsync(UserRole entity);
-    ValueTask DeleteUserRoleAsync(UserRole entity);
+    ValueTask<UserRole> AddUserRoleAsync(UserRole userRole);
+    ValueTask DeleteUserRoleAsync(UserRole userRole);
     ValueTask DeleteAllUserRoleAsync(IEnumerable<UserRole> items);
-    ValueTask<UserRole> SaveUserRoleAsync(UserRole entity);
+    ValueTask<UserRole> SaveUserRoleAsync(UserRole userRole);
 }

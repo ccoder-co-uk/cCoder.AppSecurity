@@ -30,8 +30,8 @@ internal sealed partial class UserRoleOrchestrationService(
             ValidateAddUserRole(
                 newUserRole: newUserRole);
 
-            var result = await processingService.AddUserRoleAsync(entity: newUserRole);
-            await eventService.RaiseUserRoleAddEventAsync(entity: result);
+            var result = await processingService.AddUserRoleAsync(userRole: newUserRole);
+            await eventService.RaiseUserRoleAddEventAsync(userRole: result);
             return result;
 
         });
@@ -42,8 +42,8 @@ internal sealed partial class UserRoleOrchestrationService(
             ValidateDeleteUserRole(
                 deletedUserRole: deletedUserRole);
 
-            await eventService.RaiseUserRoleDeleteEventAsync(entity: deletedUserRole);
-            await processingService.DeleteUserRoleAsync(entity: deletedUserRole);
+            await eventService.RaiseUserRoleDeleteEventAsync(userRole: deletedUserRole);
+            await processingService.DeleteUserRoleAsync(userRole: deletedUserRole);
 
         });
 
@@ -56,12 +56,12 @@ internal sealed partial class UserRoleOrchestrationService(
             return processingService.DeleteAllUserRoleAsync(items: deletedUserRole);
         });
 
-    public ValueTask<UserRole> SaveUserRoleAsync(UserRole entity) =>
+    public ValueTask<UserRole> SaveUserRoleAsync(UserRole userRole) =>
         TryCatch(operation: ValueTask<UserRole> () =>
         {
             ValidateSaveUserRole(
-                entity: entity);
+                userRole: userRole);
 
-            return processingService.SaveUserRoleAsync(entity: entity);
+            return processingService.SaveUserRoleAsync(userRole: userRole);
         });
 }

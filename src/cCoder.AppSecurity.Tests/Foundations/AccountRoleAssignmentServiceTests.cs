@@ -80,7 +80,7 @@ public sealed partial class AccountRoleAssignmentServiceTests
 
         userRoleBrokerMock
             .Setup(expression: broker => broker.AddUserRoleAsync(
-                entity: It.Is<cCoder.Data.Models.Security.UserRole>(match: userRole =>
+                userRole: It.Is<cCoder.Data.Models.Security.UserRole>(match: userRole =>
                     userRole.RoleId == assignment.RoleId
                     && userRole.UserId == assignment.UserId)))
             .ReturnsAsync(value: new cCoder.Data.Models.Security.UserRole());
@@ -162,7 +162,7 @@ public sealed partial class AccountRoleAssignmentServiceTests
 
         userRoleBrokerMock
             .Setup(expression: broker => broker.AddUserRoleAsync(
-                entity: It.Is<cCoder.Data.Models.Security.UserRole>(match: _ => true)))
+                userRole: It.Is<cCoder.Data.Models.Security.UserRole>(match: _ => true)))
             .Throws(exception: exception);
 
         AccountRoleAssignmentService service = CreateService();

@@ -65,7 +65,7 @@ public sealed partial class RoleEventServiceMappingTests
             authInfoBroker: authInfoBrokerMock.Object);
 
         // When
-        await service.RaiseRoleAddEventAsync(entity: role);
+        await service.RaiseRoleAddEventAsync(role: role);
 
         // Then
         capturedMessage.Data.Users

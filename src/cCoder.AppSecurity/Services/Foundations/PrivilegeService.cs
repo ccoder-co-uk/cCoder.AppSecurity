@@ -71,11 +71,11 @@ internal sealed partial class PrivilegeService(
             };
 
             authorizationBroker.Authorize(
-    appId: privilegeBroker.GetAppId(entity: internalPrivilege),
+    appId: privilegeBroker.GetAppId(privilege: internalPrivilege),
     privilege: $"{nameof(Privilege)}_create"
             );
 
-            DataPrivilege result = await privilegeBroker.AddPrivilegeAsync(entity: internalPrivilege);
+            DataPrivilege result = await privilegeBroker.AddPrivilegeAsync(privilege: internalPrivilege);
             newPrivilege.Id = result.Id;
             newPrivilege.Type = result.Type;
             newPrivilege.Operation = result.Operation;
@@ -101,11 +101,11 @@ internal sealed partial class PrivilegeService(
             };
 
             authorizationBroker.Authorize(
-    appId: privilegeBroker.GetAppId(entity: internalPrivilege),
+    appId: privilegeBroker.GetAppId(privilege: internalPrivilege),
     privilege: $"{nameof(Privilege)}_update"
             );
 
-            DataPrivilege result = await privilegeBroker.UpdatePrivilegeAsync(entity: internalPrivilege);
+            DataPrivilege result = await privilegeBroker.UpdatePrivilegeAsync(privilege: internalPrivilege);
             updatedPrivilege.Id = result.Id;
             updatedPrivilege.Type = result.Type;
             updatedPrivilege.Operation = result.Operation;
@@ -125,11 +125,11 @@ internal sealed partial class PrivilegeService(
             DataPrivilege internalPrivilege = ToExternalPrivilege(item: privilege);
 
             authorizationBroker.Authorize(
-    appId: privilegeBroker.GetAppId(entity: internalPrivilege),
+    appId: privilegeBroker.GetAppId(privilege: internalPrivilege),
     privilege: $"{nameof(Privilege)}_delete"
             );
 
-            _ = await privilegeBroker.DeletePrivilegeAsync(entity: internalPrivilege);
+            _ = await privilegeBroker.DeletePrivilegeAsync(privilege: internalPrivilege);
 
         });
 

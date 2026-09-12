@@ -11,6 +11,6 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal interface IUserRoleEventProcessingService
 {
-    ValueTask RaiseUserRoleAddEventAsync(UserRole entity);
-    ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity);
+    ValueTask RaiseUserRoleAddEventAsync(UserRole userRole);
+    ValueTask RaiseUserRoleDeleteEventAsync(UserRole userRole);
 }

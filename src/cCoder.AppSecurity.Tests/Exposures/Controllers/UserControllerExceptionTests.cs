@@ -8,7 +8,6 @@ using cCoder.AppSecurity.Exposures.Controllers;
 using cCoder.Data;
 using cCoder.Data.Models.Security;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Deltas;
 using Moq;
 using Xunit;
 using static cCoder.AppSecurity.Tests.Exposures.Controllers.PrivilegeControllerTestSupport;
@@ -130,28 +129,6 @@ public sealed partial class UserControllerExceptionTests
                 .Throws(exception: exception);
 
             return controller.Put(key: "user-one", updatedUser: user);
-        });
-    }
-
-    [Fact]
-    public async Task ShouldReturnExpectedStatusCodesWhenPatchFailsAsync()
-    {
-        // Given
-        UserController controller = CreateController();
-        Delta<User> delta = new();
-
-        // When
-
-        // Then
-        await AssertExceptionStatusCodesAsync(invoke: exception =>
-        {
-            userManagerMock.Reset();
-
-            userManagerMock
-                .Setup(expression: manager => manager.Get(id: "user-one"))
-                .Throws(exception: exception);
-
-            return controller.Put(key: "user-one", updatedDelta: delta);
         });
     }
 

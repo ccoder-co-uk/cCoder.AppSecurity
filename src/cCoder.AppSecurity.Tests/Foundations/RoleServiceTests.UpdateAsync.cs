@@ -26,7 +26,7 @@ public partial class RoleServiceTests
         roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true))
             .Returns(value: new[] { ToExternalRole(item: role) }.AsQueryable());
 
-        roleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+        roleBrokerMock.Setup(expression: x => x.GetAppId(role: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock.Setup(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_update"));
@@ -41,7 +41,7 @@ public partial class RoleServiceTests
                 ]));
 
         roleBrokerMock
-            .Setup(expression: x => x.UpdateRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+            .Setup(expression: x => x.UpdateRoleAsync(role: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .Callback<cCoder.Data.Models.Security.Role>(action: candidate => submitted = candidate)
             .ReturnsAsync(valueFunction: (cCoder.Data.Models.Security.Role value) => value);
 
@@ -82,8 +82,8 @@ config: options => options
         );
 
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.UpdateRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
+        roleBrokerMock.Verify(expression: x => x.UpdateRoleAsync(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.Once);
+        roleBrokerMock.Verify(expression: x => x.GetAppId(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_update"), times: Times.Once);
         authorizationBrokerMock.Verify(expression: x => x.GetCurrentUser(), times: Times.Once);
@@ -122,7 +122,7 @@ config: options => options
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
+        roleBrokerMock.Verify(expression: x => x.GetAppId(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_update"), times: Times.Once);
         authorizationBrokerMock.Verify(expression: x => x.GetCurrentUser(), times: Times.Once);
@@ -153,7 +153,7 @@ config: options => options
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
+        roleBrokerMock.Verify(expression: x => x.GetAppId(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "Role_update"), times: Times.Once);
         authorizationBrokerMock.VerifyNoOtherCalls();
@@ -172,7 +172,7 @@ config: options => options
             .AsQueryable());
 
         roleBrokerMock
-            .Setup(expression: x => x.UpdateRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+            .Setup(expression: x => x.UpdateRoleAsync(role: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .Callback<cCoder.Data.Models.Security.Role>(action: candidate => submitted = candidate)
             .ReturnsAsync(valueFunction: (cCoder.Data.Models.Security.Role value) => value);
 
@@ -202,8 +202,8 @@ config: options => options
                 .Excluding(expression: candidate => candidate.Users));
 
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.UpdateRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
+        roleBrokerMock.Verify(expression: x => x.UpdateRoleAsync(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.Once);
+        roleBrokerMock.Verify(expression: x => x.GetAppId(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

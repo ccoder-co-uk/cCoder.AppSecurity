@@ -55,7 +55,7 @@ public sealed partial class UserRoleProcessingServiceExceptionTests
         UserRoleProcessingService service = CreateService();
 
         // When
-        Func<Task> action = async () => await service.SaveUserRoleAsync(entity: userRole);
+        Func<Task> action = async () => await service.SaveUserRoleAsync(userRole: userRole);
 
         // Then
         Exception thrown = (await action

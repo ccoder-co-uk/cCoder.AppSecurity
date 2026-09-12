@@ -18,48 +18,48 @@ internal sealed partial class PrivilegeEventService(
     IAuthInfoBroker authInfoBroker
 ) : IPrivilegeEventService
 {
-    public ValueTask RaisePrivilegeAddEventAsync(Privilege entity) =>
+    public ValueTask RaisePrivilegeAddEventAsync(Privilege privilege) =>
         TryCatch(operation: async ValueTask () =>
         {
             ValidateRaisePrivilegeAddEvent(
-                entity: entity);
+                privilege: privilege);
 
             EventMessage<DataPrivilege> message = new()
             {
                 AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
-                Data = ToExternalPrivilege(item: entity),
+                Data = ToExternalPrivilege(item: privilege),
             };
 
             await privilegeEventBroker.RaisePrivilegeAddEventAsync(message: message);
 
         });
 
-    public ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity) =>
+    public ValueTask RaisePrivilegeUpdateEventAsync(Privilege privilege) =>
         TryCatch(operation: async ValueTask () =>
         {
             ValidateRaisePrivilegeUpdateEvent(
-                entity: entity);
+                privilege: privilege);
 
             EventMessage<DataPrivilege> message = new()
             {
                 AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
-                Data = ToExternalPrivilege(item: entity),
+                Data = ToExternalPrivilege(item: privilege),
             };
 
             await privilegeEventBroker.RaisePrivilegeUpdateEventAsync(message: message);
 
         });
 
-    public ValueTask RaisePrivilegeDeleteEventAsync(Privilege entity) =>
+    public ValueTask RaisePrivilegeDeleteEventAsync(Privilege privilege) =>
         TryCatch(operation: async ValueTask () =>
         {
             ValidateRaisePrivilegeDeleteEvent(
-                entity: entity);
+                privilege: privilege);
 
             EventMessage<DataPrivilege> message = new()
             {
                 AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
-                Data = ToExternalPrivilege(item: entity),
+                Data = ToExternalPrivilege(item: privilege),
             };
 
             await privilegeEventBroker.RaisePrivilegeDeleteEventAsync(message: message);

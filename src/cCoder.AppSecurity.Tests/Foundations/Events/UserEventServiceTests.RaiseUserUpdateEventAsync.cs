@@ -28,7 +28,7 @@ public partial class UserEventServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseUserUpdateEventAsync(entity: entity);
+        await service.RaiseUserUpdateEventAsync(user: entity);
 
         // Then
         actualMessage.Should()

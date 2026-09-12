@@ -12,30 +12,30 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal sealed partial class PrivilegeEventProcessingService(IPrivilegeEventService eventService) : IPrivilegeEventProcessingService
 {
-    public ValueTask RaisePrivilegeAddEventAsync(Privilege entity) =>
+    public ValueTask RaisePrivilegeAddEventAsync(Privilege privilege) =>
         TryCatch(operation: ValueTask () =>
         {
             ValidateRaisePrivilegeAddEvent(
-                entity: entity);
+                privilege: privilege);
 
-            return eventService.RaisePrivilegeAddEventAsync(entity: entity);
+            return eventService.RaisePrivilegeAddEventAsync(privilege: privilege);
         });
 
-    public ValueTask RaisePrivilegeUpdateEventAsync(Privilege entity) =>
+    public ValueTask RaisePrivilegeUpdateEventAsync(Privilege privilege) =>
         TryCatch(operation: ValueTask () =>
         {
             ValidateRaisePrivilegeUpdateEvent(
-                entity: entity);
+                privilege: privilege);
 
-            return eventService.RaisePrivilegeUpdateEventAsync(entity: entity);
+            return eventService.RaisePrivilegeUpdateEventAsync(privilege: privilege);
         });
 
-    public ValueTask RaisePrivilegeDeleteEventAsync(Privilege entity) =>
+    public ValueTask RaisePrivilegeDeleteEventAsync(Privilege privilege) =>
         TryCatch(operation: ValueTask () =>
         {
             ValidateRaisePrivilegeDeleteEvent(
-                entity: entity);
+                privilege: privilege);
 
-            return eventService.RaisePrivilegeDeleteEventAsync(entity: entity);
+            return eventService.RaisePrivilegeDeleteEventAsync(privilege: privilege);
         });
 }

@@ -28,7 +28,7 @@ public sealed partial class AppSecurityMigrationAggregationServiceTests
 
         packageMock.InSequence(sequence: sequence)
             .Setup(expression: service => service.MapAppSecurityPackageMappingRoles(
-                mapping: It.Is<AppSecurityPackageMapping>(match: mapping =>
+                appSecurityPackageMapping: It.Is<AppSecurityPackageMapping>(match: mapping =>
                     mapping.AppId == appId && mapping.Package == package)))
             .Returns(value: new AppSecurityPackageMapping { App = roleApp });
 
@@ -38,7 +38,7 @@ public sealed partial class AppSecurityMigrationAggregationServiceTests
 
         packageMock.InSequence(sequence: sequence)
             .Setup(expression: service => service.MapAppSecurityPackageMappingPageRoles(
-                mapping: It.Is<AppSecurityPackageMapping>(match: mapping =>
+                appSecurityPackageMapping: It.Is<AppSecurityPackageMapping>(match: mapping =>
                     mapping.AppId == appId && mapping.Package == package)))
             .Returns(value: new AppSecurityPackageMapping { App = pageRoleApp });
 
@@ -55,7 +55,7 @@ public sealed partial class AppSecurityMigrationAggregationServiceTests
         // When
         await aggregationService.ImportPackageAppSecurityPackageAsync(
             appId: appId,
-            package: package);
+            appSecurityPackage: package);
 
         // Then
         packageMock.VerifyAll();
@@ -77,7 +77,7 @@ public sealed partial class AppSecurityMigrationAggregationServiceTests
 
         packageMock
             .Setup(expression: service => service.MapAppSecurityPackageMappingPageRoles(
-                mapping: It.Is<AppSecurityPackageMapping>(match: mapping =>
+                appSecurityPackageMapping: It.Is<AppSecurityPackageMapping>(match: mapping =>
                     mapping.AppId == appId
                     && mapping.Package == package)))
             .Returns(value: new AppSecurityPackageMapping
@@ -94,7 +94,7 @@ public sealed partial class AppSecurityMigrationAggregationServiceTests
         // When
         await aggregationService.ImportPackageAppSecurityPackageAsync(
             appId: appId,
-            package: package);
+            appSecurityPackage: package);
 
         // Then
         packageMock.VerifyAll();

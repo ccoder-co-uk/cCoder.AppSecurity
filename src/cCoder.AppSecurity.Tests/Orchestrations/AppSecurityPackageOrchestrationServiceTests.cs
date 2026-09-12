@@ -70,7 +70,7 @@ public sealed partial class AppSecurityPackageOrchestrationServiceTests
 
         // When
         AppSecurityPackageMapping result = orchestrationService
-            .MapAppSecurityPackageMappingPageRoles(mapping: mapping);
+            .MapAppSecurityPackageMappingPageRoles(appSecurityPackageMapping: mapping);
 
         // Then
         Role guestRole = Assert.Single(collection: result.App.Roles);

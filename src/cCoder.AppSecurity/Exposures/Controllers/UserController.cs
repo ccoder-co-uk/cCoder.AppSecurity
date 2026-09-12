@@ -15,7 +15,6 @@ using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Services.Orchestrations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
@@ -45,36 +44,6 @@ public sealed partial class UserController(
         {
             loggingBroker.LogError(exception: exception, message: "Controller request failed.");
             return BadRequest();
-        }
-        catch (AppSecurityAuthorizationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [HttpGet]
-    public IActionResult GetMetadata()
-    {
-        try
-        {
-            bool isExtendedMetaRequest = Request.Query["extend"] == "true";
-
-            return isExtendedMetaRequest
-                ? Ok(value: new AppSecurityODataModelBroker()
-                    .SelectODataModel()
-                    .EDMModel.GetExtendedMetadataForType(
-                        context: "AppSecurity",
-                        type: typeof(User)))
-                : Ok(value: MetadataDependency.CreateMetadataContainer(
-                    type: typeof(User),
-                    isEntity: true,
-                    hasEndpoint: true));
         }
         catch (AppSecurityAuthorizationException exception)
         {
@@ -218,40 +187,6 @@ public sealed partial class UserController(
             updatedUser.Id = key;
 
             return Ok(value: await service.UpdateUserAsync(entity: updatedUser));
-        }
-        catch (AppSecurityOrchestrationValidationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-            return BadRequest();
-        }
-        catch (AppSecurityAuthorizationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [AcceptVerbs("PATCH", "MERGE")]
-    [ActionName("Patch")]
-    public async Task<IActionResult> Put([FromRoute] string key, Delta<User> updatedDelta)
-    {
-        try
-        {
-            User originalEntity = service.Get(id: key);
-
-            if (originalEntity is null)
-            {
-                return NotFound();
-            }
-
-            updatedDelta.Patch(original: originalEntity);
-
-            return Ok(value: await service.UpdateUserAsync(entity: originalEntity));
         }
         catch (AppSecurityOrchestrationValidationException exception)
         {

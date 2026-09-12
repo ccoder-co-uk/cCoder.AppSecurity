@@ -71,7 +71,7 @@ public sealed partial class UserRoleServiceExceptionTests
 
         userRoleBrokerMock
             .Setup(expression: broker => broker.AddUserRoleAsync(
-                entity: It.Is<DataUserRole>(match: _ => true)))
+                userRole: It.Is<DataUserRole>(match: _ => true)))
             .Throws(exception: exception);
 
         UserRoleService service = CreateService();
@@ -104,7 +104,7 @@ public sealed partial class UserRoleServiceExceptionTests
 
         userRoleBrokerMock
             .Setup(expression: broker => broker.GetAppId(
-                entity: It.Is<DataUserRole>(match: _ => true)))
+                userRole: It.Is<DataUserRole>(match: _ => true)))
             .Returns(value: null);
 
         authorizationBrokerMock
@@ -114,7 +114,7 @@ public sealed partial class UserRoleServiceExceptionTests
 
         userRoleBrokerMock
             .Setup(expression: broker => broker.DeleteUserRoleAsync(
-                entity: It.Is<DataUserRole>(match: _ => true)))
+                userRole: It.Is<DataUserRole>(match: _ => true)))
             .Throws(exception: exception);
 
         UserRoleService service = CreateService();

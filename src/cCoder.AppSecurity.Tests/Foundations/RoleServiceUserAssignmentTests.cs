@@ -63,7 +63,7 @@ public sealed partial class RoleServiceUserAssignmentTests
                 .AsQueryable());
 
         roleBrokerMock
-            .Setup(expression: broker => broker.AddRoleAsync(entity: It.IsAny<Role>()))
+            .Setup(expression: broker => broker.AddRoleAsync(role: It.IsAny<Role>()))
             .ReturnsAsync(valueFunction: (Role submitted) => submitted);
 
         userRoleBrokerMock
@@ -75,7 +75,7 @@ public sealed partial class RoleServiceUserAssignmentTests
 
         userRoleBrokerMock
             .Setup(expression: broker => broker.AddUserRoleAsync(
-                entity: It.Is<UserRole>(match: assignment =>
+                userRole: It.Is<UserRole>(match: assignment =>
                     assignment.UserId == "new-user"
                     && assignment.User.DisplayName == "New")))
             .ReturnsAsync(value: new UserRole());
@@ -94,7 +94,7 @@ public sealed partial class RoleServiceUserAssignmentTests
             .BeSameAs(expected: role);
 
         userRoleBrokerMock.Verify(
-            expression: broker => broker.AddUserRoleAsync(entity: It.IsAny<UserRole>()),
+            expression: broker => broker.AddUserRoleAsync(userRole: It.IsAny<UserRole>()),
             times: Times.Once);
     }
 }

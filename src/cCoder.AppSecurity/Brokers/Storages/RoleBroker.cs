@@ -11,13 +11,13 @@ namespace cCoder.AppSecurity.Brokers;
 public interface IRoleBroker
 {
     IQueryable<Role> GetAllRoles(bool ignoreFilters);
-    ValueTask<Role> AddRoleAsync(Role entity);
-    ValueTask<Role> UpdateRoleAsync(Role entity);
+    ValueTask<Role> AddRoleAsync(Role role);
+    ValueTask<Role> UpdateRoleAsync(Role role);
     ValueTask DeleteFolderRolesByRoleIdAsync(Guid roleId);
     ValueTask DeletePageRolesByRoleIdAsync(Guid roleId);
-    ValueTask<int> DeleteRoleAsync(Role entity);
+    ValueTask<int> DeleteRoleAsync(Role role);
     ValueTask DeleteAllRolesAsync(IEnumerable<Role> items);
-    int? GetAppId(Role entity);
+    int? GetAppId(Role role);
 }
 
 internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRoleBroker
@@ -90,8 +90,8 @@ internal sealed class RoleBroker(ICoreContextFactory coreContextFactory) : IRole
         _ = await coreDataContext.SaveChangesAsync();
     }
 
-    public int? GetAppId(Role entity)
+    public int? GetAppId(Role role)
     {
-        return entity.AppId;
+        return role.AppId;
     }
 }

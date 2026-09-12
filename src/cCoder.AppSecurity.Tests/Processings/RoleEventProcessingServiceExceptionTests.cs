@@ -28,7 +28,7 @@ public sealed partial class RoleEventProcessingServiceExceptionTests
 
         eventServiceMock
             .Setup(expression: service => service.RaiseRoleAddEventAsync(
-                entity: role))
+                role: role))
             .Throws(exception: exception);
 
         RoleEventProcessingService service = new(
@@ -36,7 +36,7 @@ public sealed partial class RoleEventProcessingServiceExceptionTests
 
         // When
         Func<Task> action = async () => await service.RaiseRoleAddEventAsync(
-            entity: role);
+            role: role);
 
         // Then
         Exception thrown = (await action

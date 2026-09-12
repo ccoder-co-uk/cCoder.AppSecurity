@@ -12,10 +12,10 @@ namespace cCoder.AppSecurity.Brokers.Storages;
 public interface IUserRoleBroker
 {
     IQueryable<UserRole> GetAllUserRoles(bool ignoreFilters);
-    ValueTask<UserRole> AddUserRoleAsync(UserRole entity);
-    ValueTask<int> DeleteUserRoleAsync(UserRole entity);
+    ValueTask<UserRole> AddUserRoleAsync(UserRole userRole);
+    ValueTask<int> DeleteUserRoleAsync(UserRole userRole);
     ValueTask DeleteAllUserRolesAsync(IEnumerable<UserRole> items);
-    int? GetAppId(UserRole entity);
+    int? GetAppId(UserRole userRole);
 }
 
 internal sealed class UserRoleBroker(ICoreContextFactory coreContextFactory) : IUserRoleBroker
@@ -56,13 +56,13 @@ internal sealed class UserRoleBroker(ICoreContextFactory coreContextFactory) : I
         _ = await coreDataContext.SaveChangesAsync();
     }
 
-    public int? GetAppId(UserRole entity)
+    public int? GetAppId(UserRole userRole)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         return coreDataContext.Roles
 
-            .Where(predicate: role => role.Id == entity.RoleId)
+            .Where(predicate: role => role.Id == userRole.RoleId)
             .Select(selector: role => (int?)role.AppId)
             .FirstOrDefault();
 

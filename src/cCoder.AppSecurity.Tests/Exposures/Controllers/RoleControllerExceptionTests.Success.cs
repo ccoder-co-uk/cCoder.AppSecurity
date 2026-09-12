@@ -7,7 +7,6 @@ using cCoder.Data.Models.Security;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Deltas;
 using Moq;
 using Xunit;
 
@@ -15,31 +14,6 @@ namespace cCoder.AppSecurity.Tests.Exposures.Controllers;
 
 public sealed partial class RoleControllerExceptionTests
 {
-    [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void ShouldReturnMetadataWhenGetMetadata(bool extended)
-    {
-        // Given
-        RoleController controller = CreateController();
-
-        controller.ControllerContext = new ControllerContext();
-
-        controller.ControllerContext.HttpContext = new DefaultHttpContext();
-
-        controller.Request.QueryString = extended
-            ? new QueryString(value: "?extend=true")
-            : QueryString.Empty;
-
-        // When
-        IActionResult result = controller.GetMetadata();
-
-        // Then
-        result
-            .Should()
-            .BeOfType<OkObjectResult>();
-    }
-
     [Fact]
     public void ShouldReturnRolesWhenGetAll()
     {
@@ -153,29 +127,6 @@ public sealed partial class RoleControllerExceptionTests
         result
             .Should()
             .BeOfType<OkObjectResult>();
-    }
-
-    [Fact]
-    public async Task ShouldReturnNotFoundWhenPatchHasNoRoleAsync()
-    {
-        // Given
-        Guid roleId = Guid.NewGuid();
-
-        roleManagerMock
-            .Setup(expression: manager => manager.Get(id: roleId))
-            .Returns(value: null);
-
-        RoleController controller = CreateController();
-
-        // When
-        IActionResult result = await controller.Put(
-            key: roleId,
-            updatedDelta: new Delta<Role>());
-
-        // Then
-        result
-            .Should()
-            .BeOfType<NotFoundResult>();
     }
 
     [Fact]

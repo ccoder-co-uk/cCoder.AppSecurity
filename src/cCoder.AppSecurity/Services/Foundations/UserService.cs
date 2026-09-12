@@ -87,11 +87,11 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
             if (!isFirstUser)
             {
                 authorizationBroker.Authorize(
-                    appId: userBroker.GetAppId(entity: internalUser),
+                    appId: userBroker.GetAppId(user: internalUser),
                     privilege: $"{nameof(User)}_create");
             }
 
-            DataUser result = await userBroker.AddUserAsync(entity: internalUser);
+            DataUser result = await userBroker.AddUserAsync(user: internalUser);
             return MapAddedUser(newUser: newUser, result: result);
 
         });
@@ -103,7 +103,7 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
                 newUser: newUser);
 
             DataUser result = await userBroker.AddUserAsync(
-                entity: ToExternalUser(item: newUser));
+                user: ToExternalUser(item: newUser));
 
             return MapAddedUser(newUser: newUser, result: result);
 
@@ -122,7 +122,7 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
             if (currentUser?.Id != internalUser.Id)
             {
                 authorizationBroker.Authorize(
-                    appId: userBroker.GetAppId(entity: internalUser),
+                    appId: userBroker.GetAppId(user: internalUser),
                     privilege: $"{nameof(User)}_update");
             }
 
@@ -159,8 +159,8 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
             }
 
             DataUser internalUser = ToExternalUser(item: user);
-            authorizationBroker.Authorize(appId: userBroker.GetAppId(entity: internalUser), privilege: $"{nameof(User)}_delete");
-            _ = await userBroker.DeleteUserAsync(entity: internalUser);
+            authorizationBroker.Authorize(appId: userBroker.GetAppId(user: internalUser), privilege: $"{nameof(User)}_delete");
+            _ = await userBroker.DeleteUserAsync(user: internalUser);
 
         });
 
@@ -184,7 +184,7 @@ internal sealed partial class UserService(IUserBroker userBroker, IAuthorization
         DataUser internalUser)
     {
         DataUser result = await userBroker.UpdateUserAsync(
-            entity: internalUser);
+            user: internalUser);
 
         updatedUser.Id = result.Id;
         updatedUser.DefaultCultureId = result.DefaultCultureId;

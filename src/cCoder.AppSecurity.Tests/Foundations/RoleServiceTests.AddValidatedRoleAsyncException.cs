@@ -24,7 +24,7 @@ public partial class RoleServiceTests
 
         roleBrokerMock
             .Setup(expression: broker => broker.AddRoleAsync(
-                entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+                role: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .Returns(value: ValueTask.FromException<cCoder.Data.Models.Security.Role>(
                 exception: dependencyException));
 
@@ -55,7 +55,7 @@ public partial class RoleServiceTests
 
         roleBrokerMock
             .Setup(expression: broker => broker.AddRoleAsync(
-                entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+                role: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .Returns(value: ValueTask.FromException<cCoder.Data.Models.Security.Role>(
                 exception: dependencyException));
 
@@ -84,7 +84,7 @@ public partial class RoleServiceTests
 
         roleBrokerMock
             .Setup(expression: broker => broker.AddRoleAsync(
-                entity: It.IsAny<cCoder.Data.Models.Security.Role>()))
+                role: It.IsAny<cCoder.Data.Models.Security.Role>()))
             .Returns(value: ValueTask.FromException<cCoder.Data.Models.Security.Role>(
                 exception: unexpectedException));
 

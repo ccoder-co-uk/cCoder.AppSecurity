@@ -45,12 +45,12 @@ internal sealed partial class UserRoleService(
 
             if (authorize)
             {
-                int? appId = userRoleBroker.GetAppId(entity: internalUserRole);
+                int? appId = userRoleBroker.GetAppId(userRole: internalUserRole);
                 authorizationBroker.Authorize(appId: appId, privilege: $"{nameof(UserRole)}_create");
                 AuthorizeAssignedRolePrivileges(appId: appId, roleId: newUserRole.RoleId);
             }
 
-            DataUserRole result = await userRoleBroker.AddUserRoleAsync(entity: internalUserRole);
+            DataUserRole result = await userRoleBroker.AddUserRoleAsync(userRole: internalUserRole);
             newUserRole.RoleId = result.RoleId;
             newUserRole.UserId = result.UserId;
             return newUserRole;
@@ -66,11 +66,11 @@ internal sealed partial class UserRoleService(
             DataUserRole internalUserRole = ToExternalUserRole(item: deletedUserRole);
 
             authorizationBroker.Authorize(
-    appId: userRoleBroker.GetAppId(entity: internalUserRole),
+    appId: userRoleBroker.GetAppId(userRole: internalUserRole),
     privilege: $"{nameof(UserRole)}_delete"
             );
 
-            _ = await userRoleBroker.DeleteUserRoleAsync(entity: internalUserRole);
+            _ = await userRoleBroker.DeleteUserRoleAsync(userRole: internalUserRole);
 
         });
 

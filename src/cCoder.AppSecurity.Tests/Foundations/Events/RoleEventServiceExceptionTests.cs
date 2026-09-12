@@ -46,7 +46,7 @@ public sealed partial class RoleEventServiceExceptionTests
 
         // When
         Func<Task> action = async () => await service.RaiseRoleAddEventAsync(
-            entity: new Role());
+            role: new Role());
 
         // Then
         Exception thrown = (await action

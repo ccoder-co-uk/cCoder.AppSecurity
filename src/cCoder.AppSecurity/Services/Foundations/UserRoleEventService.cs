@@ -18,32 +18,32 @@ namespace cCoder.AppSecurity.Services.Foundations.Events;
 internal sealed partial class UserRoleEventService(IUserRoleEventBroker userRoleEventBroker, IAuthInfoBroker authInfoBroker)
     : IUserRoleEventService
 {
-    public ValueTask RaiseUserRoleAddEventAsync(UserRole entity) =>
+    public ValueTask RaiseUserRoleAddEventAsync(UserRole userRole) =>
         TryCatch(operation: async ValueTask () =>
         {
             ValidateRaiseUserRoleAddEvent(
-                entity: entity);
+                userRole: userRole);
 
             EventMessage<DataUserRole> message = new()
             {
                 AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
-                Data = ToExternalUserRole(item: entity),
+                Data = ToExternalUserRole(item: userRole),
             };
 
             await userRoleEventBroker.RaiseUserRoleAddEventAsync(message: message);
 
         });
 
-    public ValueTask RaiseUserRoleDeleteEventAsync(UserRole entity) =>
+    public ValueTask RaiseUserRoleDeleteEventAsync(UserRole userRole) =>
         TryCatch(operation: async ValueTask () =>
         {
             ValidateRaiseUserRoleDeleteEvent(
-                entity: entity);
+                userRole: userRole);
 
             EventMessage<DataUserRole> message = new()
             {
                 AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
-                Data = ToExternalUserRole(item: entity),
+                Data = ToExternalUserRole(item: userRole),
             };
 
             await userRoleEventBroker.RaiseUserRoleDeleteEventAsync(message: message);

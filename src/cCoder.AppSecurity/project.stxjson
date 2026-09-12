@@ -7,26 +7,6 @@
   },
   "Classes": [
     {
-      "Name": "cCoder.AppSecurity.Api.OData.BadRequestResult",
-      "StandardElementType": "Dependency",
-      "LineNumber": 10,
-      "IsPublic": true,
-      "Kind": "Class",
-      "BaseType": {
-        "Id": "cCoder.AppSecurity:BadRequestObjectResult",
-        "FullName": "BadRequestObjectResult",
-        "Name": "BadRequestObjectResult",
-        "Namespace": "\u003Cglobal namespace\u003E",
-        "AssemblyName": "cCoder.AppSecurity",
-        "Kind": "Class",
-        "IsInCurrentProject": true,
-        "StandardElementType": "Dependency"
-      },
-      "Interfaces": [],
-      "Properties": [],
-      "Methods": []
-    },
-    {
       "Name": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo",
       "StandardElementType": "Dependency",
       "LineNumber": 10,
@@ -449,77 +429,6 @@
       ]
     },
     {
-      "Name": "cCoder.AppSecurity.Api.OData.EdmModelExtensions",
-      "StandardElementType": "Exposure",
-      "LineNumber": 11,
-      "IsPublic": true,
-      "Kind": "Class",
-      "BaseType": null,
-      "Interfaces": [],
-      "Properties": [],
-      "Methods": [
-        {
-          "Id": "cCoder.AppSecurity.Api.OData.EdmModelExtensions.GetExtendedMetadataForType(IEdmModel,System.String,System.Type,System.Boolean)",
-          "Name": "GetExtendedMetadataForType",
-          "LineNumber": 13,
-          "Inputs": [
-            {
-              "Name": "model",
-              "Type": "IEdmModel"
-            },
-            {
-              "Name": "context",
-              "Type": "System.String"
-            },
-            {
-              "Name": "type",
-              "Type": "System.Type"
-            },
-            {
-              "Name": "hasEndpoint",
-              "Type": "System.Boolean"
-            }
-          ],
-          "ReturnType": "cCoder.AppSecurity.Api.OData.ExtendedMetadataContainer",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "System.Linq.Enumerable",
-              "MethodName": "ToList",
-              "MethodId": "System.Linq.Enumerable.ToList(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "System.Linq.Enumerable",
-              "MethodName": "Union",
-              "MethodId": "System.Linq.Enumerable.Union(System.Collections.Generic.IEnumerable\u003CTSource\u003E,System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
-              "MethodName": "CreateExtendedMetadataContainer",
-              "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateExtendedMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [],
-          "HttpResponses": [],
-          "IsHttpRequestHandler": false,
-          "IsODataControllerAction": false,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": false
-        }
-      ]
-    },
-    {
       "Name": "cCoder.AppSecurity.Api.OData.EnumerableExtensions",
       "StandardElementType": "Exposure",
       "LineNumber": 7,
@@ -689,17 +598,6 @@
           "Type": "IEdmModel"
         }
       ],
-      "Methods": []
-    },
-    {
-      "Name": "cCoder.AppSecurity.Api.OData.ObjectExtensions",
-      "StandardElementType": "Exposure",
-      "LineNumber": 10,
-      "IsPublic": false,
-      "Kind": "Class",
-      "BaseType": null,
-      "Interfaces": [],
-      "Properties": [],
       "Methods": []
     },
     {
@@ -1893,7 +1791,7 @@
           "LineNumber": 82,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -2147,7 +2045,7 @@
           "LineNumber": 93,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -2200,7 +2098,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2219,15 +2117,235 @@
       "Properties": [],
       "Methods": [
         {
+          "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.AddTenantAnalysesAsync(TenantAnalysis[],System.Threading.CancellationToken)",
+          "Name": "AddTenantAnalysesAsync",
+          "LineNumber": 91,
+          "Inputs": [
+            {
+              "Name": "newTenantAnalyses",
+              "Type": "TenantAnalysis[]"
+            },
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.AddTenantAnalysesAsync(TenantAnalysis[],System.Threading.CancellationToken)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker",
+              "MethodName": "CreateSecurityDbContext",
+              "MethodId": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.CreateSecurityDbContext()",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
           "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.CreateSecurityDbContext()",
           "Name": "CreateSecurityDbContext",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [],
           "ReturnType": "SecurityDbContext",
           "Implements": [
             "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.CreateSecurityDbContext()"
           ],
           "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.DeleteUserEventsBeforeAsync(System.DateTime,System.Threading.CancellationToken)",
+          "Name": "DeleteUserEventsBeforeAsync",
+          "LineNumber": 100,
+          "Inputs": [
+            {
+              "Name": "createdBefore",
+              "Type": "System.DateTime"
+            },
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [
+            "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.DeleteUserEventsBeforeAsync(System.DateTime,System.Threading.CancellationToken)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker",
+              "MethodName": "CreateSecurityDbContext",
+              "MethodId": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.CreateSecurityDbContext()",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.SelectTenantAnalysis(System.String,System.DateTime)",
+          "Name": "SelectTenantAnalysis",
+          "LineNumber": 44,
+          "Inputs": [
+            {
+              "Name": "tenantId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "createdOn",
+              "Type": "System.DateTime"
+            }
+          ],
+          "ReturnType": "TenantAnalysis",
+          "Implements": [
+            "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectTenantAnalysis(System.String,System.DateTime)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker",
+              "MethodName": "CreateSecurityDbContext",
+              "MethodId": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.CreateSecurityDbContext()",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.SelectTenantIds()",
+          "Name": "SelectTenantIds",
+          "LineNumber": 34,
+          "Inputs": [],
+          "ReturnType": "System.String[]",
+          "Implements": [
+            "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectTenantIds()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker",
+              "MethodName": "CreateSecurityDbContext",
+              "MethodId": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.CreateSecurityDbContext()",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.SelectUserActivities(System.String,System.DateTime,System.DateTime)",
+          "Name": "SelectUserActivities",
+          "LineNumber": 56,
+          "Inputs": [
+            {
+              "Name": "tenantId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "from",
+              "Type": "System.DateTime"
+            },
+            {
+              "Name": "to",
+              "Type": "System.DateTime"
+            }
+          ],
+          "ReturnType": "UserActivity[]",
+          "Implements": [
+            "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectUserActivities(System.String,System.DateTime,System.DateTime)"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker",
+              "MethodName": "CreateSecurityDbContext",
+              "MethodId": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.CreateSecurityDbContext()",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.SelectUserEventDates()",
+          "Name": "SelectUserEventDates",
+          "LineNumber": 19,
+          "Inputs": [],
+          "ReturnType": "System.DateTime[]",
+          "Implements": [
+            "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectUserEventDates()"
+          ],
+          "Calls": [
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker",
+              "MethodName": "CreateSecurityDbContext",
+              "MethodId": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.CreateSecurityDbContext()",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            }
+          ],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
           "ThrowsExceptionTypes": [],
@@ -2567,7 +2685,7 @@
           "LineNumber": 83,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -2820,7 +2938,7 @@
           "LineNumber": 59,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -3342,7 +3460,7 @@
               "Type": "System.Int32"
             },
             {
-              "Name": "package",
+              "Name": "appSecurityPackage",
               "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
             }
           ],
@@ -3418,7 +3536,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.AppController.Get(System.Int32)",
           "Name": "Get",
-          "LineNumber": 98,
+          "LineNumber": 66,
           "Inputs": [
             {
               "Name": "key",
@@ -3505,7 +3623,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.AppController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 66,
+          "LineNumber": 34,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -3566,75 +3684,13 @@
           "HasKeyParameter": false,
           "HandlesNullWithNotFound": false,
           "HasTryCatch": true
-        },
-        {
-          "Id": "cCoder.AppSecurity.Exposures.Controllers.AppController.GetMetadata()",
-          "Name": "GetMetadata",
-          "LineNumber": 25,
-          "Inputs": [],
-          "ReturnType": "IActionResult",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "cCoder.AppSecurity.Api.OData.EdmModelExtensions",
-              "MethodName": "GetExtendedMetadataForType",
-              "MethodId": "cCoder.AppSecurity.Api.OData.EdmModelExtensions.GetExtendedMetadataForType(IEdmModel,System.String,System.Type,System.Boolean)",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.OData.AppSecurityODataModelBroker",
-              "MethodName": "SelectODataModel",
-              "MethodId": "cCoder.AppSecurity.Brokers.OData.AppSecurityODataModelBroker.SelectODataModel()",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
-              "MethodName": "CreateMetadataContainer",
-              "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [
-            "GET"
-          ],
-          "HttpResponses": [
-            {
-              "StatusCode": 200,
-              "ResultMethod": "Ok",
-              "ExceptionType": "",
-              "IsExceptionPath": false,
-              "IsNullPath": false,
-              "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
-            }
-          ],
-          "IsHttpRequestHandler": true,
-          "IsODataControllerAction": true,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": true
         }
       ]
     },
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 25,
+      "LineNumber": 24,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -3653,7 +3709,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Delete(System.String)",
           "Name": "Delete",
-          "LineNumber": 243,
+          "LineNumber": 178,
           "Inputs": [
             {
               "Name": "key",
@@ -3733,7 +3789,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 103,
+          "LineNumber": 72,
           "Inputs": [
             {
               "Name": "key",
@@ -3822,7 +3878,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 70,
+          "LineNumber": 39,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -3894,71 +3950,9 @@
           "HasTryCatch": true
         },
         {
-          "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.GetMetadata()",
-          "Name": "GetMetadata",
-          "LineNumber": 31,
-          "Inputs": [],
-          "ReturnType": "IActionResult",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "cCoder.AppSecurity.Api.OData.EdmModelExtensions",
-              "MethodName": "GetExtendedMetadataForType",
-              "MethodId": "cCoder.AppSecurity.Api.OData.EdmModelExtensions.GetExtendedMetadataForType(IEdmModel,System.String,System.Type,System.Boolean)",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.OData.AppSecurityODataModelBroker",
-              "MethodName": "SelectODataModel",
-              "MethodId": "cCoder.AppSecurity.Brokers.OData.AppSecurityODataModelBroker.SelectODataModel()",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
-              "MethodName": "CreateMetadataContainer",
-              "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [
-            "GET"
-          ],
-          "HttpResponses": [
-            {
-              "StatusCode": 200,
-              "ResultMethod": "Ok",
-              "ExceptionType": "",
-              "IsExceptionPath": false,
-              "IsNullPath": false,
-              "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
-            }
-          ],
-          "IsHttpRequestHandler": true,
-          "IsODataControllerAction": true,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": true
-        },
-        {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Post(Privilege)",
           "Name": "Post",
-          "LineNumber": 139,
+          "LineNumber": 108,
           "Inputs": [
             {
               "Name": "newPrivilege",
@@ -4036,110 +4030,9 @@
           "HasTryCatch": true
         },
         {
-          "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Put(System.String,Delta\u003CPrivilege\u003E)",
-          "Name": "Put",
-          "LineNumber": 210,
-          "Inputs": [
-            {
-              "Name": "key",
-              "Type": "System.String"
-            },
-            {
-              "Name": "updatedDelta",
-              "Type": "Delta\u003CPrivilege\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Exposures.IPrivilegeManager",
-              "MethodName": "Get",
-              "MethodId": "cCoder.AppSecurity.Exposures.IPrivilegeManager.Get(System.String)",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Exposures.IPrivilegeManager",
-              "MethodName": "UpdatePrivilegeAsync",
-              "MethodId": "cCoder.AppSecurity.Exposures.IPrivilegeManager.UpdatePrivilegeAsync(Privilege)",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [
-            "System.InvalidOperationException",
-            "System.Security.SecurityException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
-          ],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [
-            "PUT"
-          ],
-          "HttpResponses": [
-            {
-              "StatusCode": 200,
-              "ResultMethod": "Ok",
-              "ExceptionType": "",
-              "IsExceptionPath": false,
-              "IsNullPath": false,
-              "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
-            },
-            {
-              "StatusCode": 400,
-              "ResultMethod": "BadRequest",
-              "ExceptionType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
-              "IsExceptionPath": true,
-              "IsNullPath": false,
-              "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
-            },
-            {
-              "StatusCode": 404,
-              "ResultMethod": "NotFound",
-              "ExceptionType": "",
-              "IsExceptionPath": false,
-              "IsNullPath": true,
-              "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
-            }
-          ],
-          "IsHttpRequestHandler": true,
-          "IsODataControllerAction": true,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": true,
-          "HasTryCatch": true
-        },
-        {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Put(System.String,Privilege)",
           "Name": "Put",
-          "LineNumber": 178,
+          "LineNumber": 147,
           "Inputs": [
             {
               "Name": "key",
@@ -4235,7 +4128,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 25,
+      "LineNumber": 24,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -4254,7 +4147,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Delete(System.Guid)",
           "Name": "Delete",
-          "LineNumber": 243,
+          "LineNumber": 178,
           "Inputs": [
             {
               "Name": "key",
@@ -4333,7 +4226,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 103,
+          "LineNumber": 72,
           "Inputs": [
             {
               "Name": "key",
@@ -4422,7 +4315,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 70,
+          "LineNumber": 39,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -4493,71 +4386,9 @@
           "HasTryCatch": true
         },
         {
-          "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.GetMetadata()",
-          "Name": "GetMetadata",
-          "LineNumber": 31,
-          "Inputs": [],
-          "ReturnType": "IActionResult",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "cCoder.AppSecurity.Api.OData.EdmModelExtensions",
-              "MethodName": "GetExtendedMetadataForType",
-              "MethodId": "cCoder.AppSecurity.Api.OData.EdmModelExtensions.GetExtendedMetadataForType(IEdmModel,System.String,System.Type,System.Boolean)",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.OData.AppSecurityODataModelBroker",
-              "MethodName": "SelectODataModel",
-              "MethodId": "cCoder.AppSecurity.Brokers.OData.AppSecurityODataModelBroker.SelectODataModel()",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
-              "MethodName": "CreateMetadataContainer",
-              "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [
-            "GET"
-          ],
-          "HttpResponses": [
-            {
-              "StatusCode": 200,
-              "ResultMethod": "Ok",
-              "ExceptionType": "",
-              "IsExceptionPath": false,
-              "IsNullPath": false,
-              "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
-            }
-          ],
-          "IsHttpRequestHandler": true,
-          "IsODataControllerAction": true,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": true
-        },
-        {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Post(Role)",
           "Name": "Post",
-          "LineNumber": 139,
+          "LineNumber": 108,
           "Inputs": [
             {
               "Name": "newRole",
@@ -4634,109 +4465,9 @@
           "HasTryCatch": true
         },
         {
-          "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Put(System.Guid,Delta\u003CRole\u003E)",
-          "Name": "Put",
-          "LineNumber": 210,
-          "Inputs": [
-            {
-              "Name": "key",
-              "Type": "System.Guid"
-            },
-            {
-              "Name": "updatedDelta",
-              "Type": "Delta\u003CRole\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Exposures.IRoleManager",
-              "MethodName": "Get",
-              "MethodId": "cCoder.AppSecurity.Exposures.IRoleManager.Get(System.Guid)",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Exposures.IRoleManager",
-              "MethodName": "UpdateRoleAsync",
-              "MethodId": "cCoder.AppSecurity.Exposures.IRoleManager.UpdateRoleAsync(Role)",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [
-            "System.Security.SecurityException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
-          ],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [
-            "PUT"
-          ],
-          "HttpResponses": [
-            {
-              "StatusCode": 200,
-              "ResultMethod": "Ok",
-              "ExceptionType": "",
-              "IsExceptionPath": false,
-              "IsNullPath": false,
-              "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
-            },
-            {
-              "StatusCode": 400,
-              "ResultMethod": "BadRequest",
-              "ExceptionType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
-              "IsExceptionPath": true,
-              "IsNullPath": false,
-              "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
-            },
-            {
-              "StatusCode": 404,
-              "ResultMethod": "NotFound",
-              "ExceptionType": "",
-              "IsExceptionPath": false,
-              "IsNullPath": true,
-              "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
-            }
-          ],
-          "IsHttpRequestHandler": true,
-          "IsODataControllerAction": true,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": true,
-          "HasTryCatch": true
-        },
-        {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Put(System.Guid,Role)",
           "Name": "Put",
-          "LineNumber": 178,
+          "LineNumber": 147,
           "Inputs": [
             {
               "Name": "key",
@@ -4831,7 +4562,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.UserController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 26,
+      "LineNumber": 25,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -4850,7 +4581,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Delete(System.String)",
           "Name": "Delete",
-          "LineNumber": 274,
+          "LineNumber": 209,
           "Inputs": [
             {
               "Name": "key",
@@ -4929,7 +4660,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 134,
+          "LineNumber": 103,
           "Inputs": [
             {
               "Name": "key",
@@ -5018,7 +4749,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 101,
+          "LineNumber": 70,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -5091,7 +4822,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.GetMe()",
           "Name": "GetMe",
-          "LineNumber": 34,
+          "LineNumber": 33,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -5173,71 +4904,9 @@
           "HasTryCatch": true
         },
         {
-          "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.GetMetadata()",
-          "Name": "GetMetadata",
-          "LineNumber": 62,
-          "Inputs": [],
-          "ReturnType": "IActionResult",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "cCoder.AppSecurity.Api.OData.EdmModelExtensions",
-              "MethodName": "GetExtendedMetadataForType",
-              "MethodId": "cCoder.AppSecurity.Api.OData.EdmModelExtensions.GetExtendedMetadataForType(IEdmModel,System.String,System.Type,System.Boolean)",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.OData.AppSecurityODataModelBroker",
-              "MethodName": "SelectODataModel",
-              "MethodId": "cCoder.AppSecurity.Brokers.OData.AppSecurityODataModelBroker.SelectODataModel()",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
-              "MethodName": "CreateMetadataContainer",
-              "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [
-            "GET"
-          ],
-          "HttpResponses": [
-            {
-              "StatusCode": 200,
-              "ResultMethod": "Ok",
-              "ExceptionType": "",
-              "IsExceptionPath": false,
-              "IsNullPath": false,
-              "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
-            }
-          ],
-          "IsHttpRequestHandler": true,
-          "IsODataControllerAction": true,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": true
-        },
-        {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Post(User)",
           "Name": "Post",
-          "LineNumber": 170,
+          "LineNumber": 139,
           "Inputs": [
             {
               "Name": "newUser",
@@ -5314,109 +4983,9 @@
           "HasTryCatch": true
         },
         {
-          "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Put(System.String,Delta\u003CUser\u003E)",
-          "Name": "Put",
-          "LineNumber": 241,
-          "Inputs": [
-            {
-              "Name": "key",
-              "Type": "System.String"
-            },
-            {
-              "Name": "updatedDelta",
-              "Type": "Delta\u003CUser\u003E"
-            }
-          ],
-          "ReturnType": "System.Threading.Tasks.Task\u003CIActionResult\u003E",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Exposures.IUserManager",
-              "MethodName": "Get",
-              "MethodId": "cCoder.AppSecurity.Exposures.IUserManager.Get(System.String)",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Exposures.IUserManager",
-              "MethodName": "UpdateUserAsync",
-              "MethodId": "cCoder.AppSecurity.Exposures.IUserManager.UpdateUserAsync(User)",
-              "StandardElementType": "Exposure",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [
-            "System.Security.SecurityException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException"
-          ],
-          "IncomingExceptionTypes": [
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
-            "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException"
-          ],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [
-            "PUT"
-          ],
-          "HttpResponses": [
-            {
-              "StatusCode": 200,
-              "ResultMethod": "Ok",
-              "ExceptionType": "",
-              "IsExceptionPath": false,
-              "IsNullPath": false,
-              "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
-            },
-            {
-              "StatusCode": 400,
-              "ResultMethod": "BadRequest",
-              "ExceptionType": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
-              "IsExceptionPath": true,
-              "IsNullPath": false,
-              "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": true
-            },
-            {
-              "StatusCode": 404,
-              "ResultMethod": "NotFound",
-              "ExceptionType": "",
-              "IsExceptionPath": false,
-              "IsNullPath": true,
-              "HasBody": false,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
-            }
-          ],
-          "IsHttpRequestHandler": true,
-          "IsODataControllerAction": true,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": true,
-          "HasTryCatch": true
-        },
-        {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Put(System.String,User)",
           "Name": "Put",
-          "LineNumber": 209,
+          "LineNumber": 178,
           "Inputs": [
             {
               "Name": "key",
@@ -5530,7 +5099,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController.Delete(System.Guid,System.String)",
           "Name": "Delete",
-          "LineNumber": 143,
+          "LineNumber": 121,
           "Inputs": [
             {
               "Name": "keyRoleId",
@@ -5613,7 +5182,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController.DeleteAll(System.Collections.Generic.IEnumerable\u003CUserRole\u003E)",
           "Name": "DeleteAll",
-          "LineNumber": 112,
+          "LineNumber": 90,
           "Inputs": [
             {
               "Name": "deletedUserRole",
@@ -5702,7 +5271,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 57,
+          "LineNumber": 35,
           "Inputs": [],
           "ReturnType": "IActionResult",
           "Implements": [],
@@ -5773,57 +5342,9 @@
           "HasTryCatch": true
         },
         {
-          "Id": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController.GetMetadata()",
-          "Name": "GetMetadata",
-          "LineNumber": 26,
-          "Inputs": [],
-          "ReturnType": "IActionResult",
-          "Implements": [],
-          "Calls": [
-            {
-              "TypeName": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
-              "MethodName": "LogError",
-              "MethodId": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
-              "StandardElementType": "Broker",
-              "IsDependencyBoundary": false
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency",
-              "MethodName": "CreateMetadataContainer",
-              "MethodId": "cCoder.AppSecurity.Dependencies.Metadata.MetadataDependency.CreateMetadataContainer(System.Type,System.Boolean,System.Boolean)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": false
-            }
-          ],
-          "PossibleExceptionTypes": [],
-          "IncomingExceptionTypes": [],
-          "ThrowsExceptionTypes": [],
-          "HttpMethods": [
-            "GET"
-          ],
-          "HttpResponses": [
-            {
-              "StatusCode": 200,
-              "ResultMethod": "Ok",
-              "ExceptionType": "",
-              "IsExceptionPath": false,
-              "IsNullPath": false,
-              "HasBody": true,
-              "ExposesExceptionDetails": false,
-              "LogsException": false
-            }
-          ],
-          "IsHttpRequestHandler": true,
-          "IsODataControllerAction": true,
-          "HasFromBodyParameter": false,
-          "HasKeyParameter": false,
-          "HandlesNullWithNotFound": false,
-          "HasTryCatch": true
-        },
-        {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController.Post(UserRole)",
           "Name": "Post",
-          "LineNumber": 81,
+          "LineNumber": 59,
           "Inputs": [
             {
               "Name": "newUserRole",
@@ -6134,7 +5655,7 @@
           "LineNumber": 12,
           "Inputs": [
             {
-              "Name": "configuration",
+              "Name": "appSecurityConfiguration",
               "Type": "cCoder.AppSecurity.Models.AppSecurityConfiguration"
             },
             {
@@ -7234,7 +6755,7 @@
               "Type": "System.Int32"
             },
             {
-              "Name": "package",
+              "Name": "appSecurityPackage",
               "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
             }
           ],
@@ -7457,7 +6978,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.AnalysePlatformUsageService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 10,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -7476,19 +6997,24 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "cCoder.AppSecurity.Services.Foundations.AnalysePlatformUsageService.CreateSecurityDbContext()",
-          "Name": "CreateSecurityDbContext",
-          "LineNumber": 14,
-          "Inputs": [],
-          "ReturnType": "SecurityDbContext",
+          "Id": "cCoder.AppSecurity.Services.Foundations.AnalysePlatformUsageService.Serialize(System.Object)",
+          "Name": "Serialize",
+          "LineNumber": 13,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String",
           "Implements": [
-            "cCoder.AppSecurity.Services.Foundations.IAnalysePlatformUsageService.CreateSecurityDbContext()"
+            "cCoder.AppSecurity.Services.Foundations.IAnalysePlatformUsageService.Serialize(System.Object)"
           ],
           "Calls": [
             {
-              "TypeName": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker",
-              "MethodName": "CreateSecurityDbContext",
-              "MethodId": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.CreateSecurityDbContext()",
+              "TypeName": "cCoder.AppSecurity.Brokers.IJsonBroker",
+              "MethodName": "Serialize",
+              "MethodId": "cCoder.AppSecurity.Brokers.IJsonBroker.Serialize(System.Object)",
               "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             }
@@ -7968,7 +7494,7 @@
           "LineNumber": 21,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -8020,7 +7546,7 @@
           "LineNumber": 53,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -8072,7 +7598,7 @@
           "LineNumber": 37,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -8147,7 +7673,7 @@
           "LineNumber": 24,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -8199,7 +7725,7 @@
           "LineNumber": 56,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -8251,7 +7777,7 @@
           "LineNumber": 40,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -8326,7 +7852,7 @@
           "LineNumber": 21,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -8378,7 +7904,7 @@
           "LineNumber": 53,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -8430,7 +7956,7 @@
           "LineNumber": 37,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -8505,7 +8031,7 @@
           "LineNumber": 21,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -8557,7 +8083,7 @@
           "LineNumber": 37,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -10337,7 +9863,7 @@
           "LineNumber": 19,
           "Inputs": [
             {
-              "Name": "accountEvent",
+              "Name": "securityAccountEvent",
               "Type": "SecurityAccountEvent"
             }
           ],
@@ -10721,7 +10247,7 @@
           "LineNumber": 35,
           "Inputs": [
             {
-              "Name": "mapping",
+              "Name": "appSecurityPackageMapping",
               "Type": "cCoder.AppSecurity.Models.AppSecurityPackageMapping"
             }
           ],
@@ -10815,7 +10341,7 @@
           "LineNumber": 17,
           "Inputs": [
             {
-              "Name": "mapping",
+              "Name": "appSecurityPackageMapping",
               "Type": "cCoder.AppSecurity.Models.AppSecurityPackageMapping"
             }
           ],
@@ -12834,7 +12360,7 @@
           "LineNumber": 59,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -12975,7 +12501,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 14,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -12996,7 +12522,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService.RunAsync(System.Threading.CancellationToken)",
           "Name": "RunAsync",
-          "LineNumber": 18,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -13030,6 +12556,20 @@
               "IsDependencyBoundary": true
             },
             {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "ToArray",
+              "MethodId": "System.Linq.Enumerable.ToArray(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "System.Linq.Enumerable",
+              "MethodName": "ToList",
+              "MethodId": "System.Linq.Enumerable.ToList(System.Collections.Generic.IEnumerable\u003CTSource\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
               "TypeName": "System.Threading.CancellationToken",
               "MethodName": "ThrowIfCancellationRequested",
               "MethodId": "System.Threading.CancellationToken.ThrowIfCancellationRequested()",
@@ -13037,10 +12577,31 @@
               "IsDependencyBoundary": true
             },
             {
-              "TypeName": "cCoder.AppSecurity.Services.Foundations.IAnalysePlatformUsageService",
-              "MethodName": "CreateSecurityDbContext",
-              "MethodId": "cCoder.AppSecurity.Services.Foundations.IAnalysePlatformUsageService.CreateSecurityDbContext()",
-              "StandardElementType": "FoundationService",
+              "TypeName": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker",
+              "MethodName": "AddTenantAnalysesAsync",
+              "MethodId": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.AddTenantAnalysesAsync(TenantAnalysis[],System.Threading.CancellationToken)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker",
+              "MethodName": "DeleteUserEventsBeforeAsync",
+              "MethodId": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.DeleteUserEventsBeforeAsync(System.DateTime,System.Threading.CancellationToken)",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker",
+              "MethodName": "SelectTenantIds",
+              "MethodId": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectTenantIds()",
+              "StandardElementType": "Broker",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker",
+              "MethodName": "SelectUserEventDates",
+              "MethodId": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectUserEventDates()",
+              "StandardElementType": "Broker",
               "IsDependencyBoundary": false
             }
           ],
@@ -13457,7 +13018,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -13509,7 +13070,7 @@
           "LineNumber": 33,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -13561,7 +13122,7 @@
           "LineNumber": 24,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -13983,7 +13544,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -14035,7 +13596,7 @@
           "LineNumber": 33,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -14087,7 +13648,7 @@
           "LineNumber": 24,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -14648,7 +14209,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -14700,7 +14261,7 @@
           "LineNumber": 33,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -14752,7 +14313,7 @@
           "LineNumber": 24,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -15361,7 +14922,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -15413,7 +14974,7 @@
           "LineNumber": 24,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -15761,7 +15322,7 @@
           "LineNumber": 58,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -16548,7 +16109,7 @@
           "LineNumber": 14,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -16598,7 +16159,7 @@
           "LineNumber": 16,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -16648,7 +16209,7 @@
           "LineNumber": 18,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -16673,7 +16234,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -16710,7 +16271,7 @@
           "LineNumber": 14,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -16810,7 +16371,7 @@
           "LineNumber": 18,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -16860,7 +16421,7 @@
           "LineNumber": 20,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -16885,7 +16446,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -17006,7 +16567,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -17014,11 +16575,171 @@
       "Properties": [],
       "Methods": [
         {
+          "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.AddTenantAnalysesAsync(TenantAnalysis[],System.Threading.CancellationToken)",
+          "Name": "AddTenantAnalysesAsync",
+          "LineNumber": 17,
+          "Inputs": [
+            {
+              "Name": "newTenantAnalyses",
+              "Type": "TenantAnalysis[]"
+            },
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
           "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.CreateSecurityDbContext()",
           "Name": "CreateSecurityDbContext",
-          "LineNumber": 11,
+          "LineNumber": 12,
           "Inputs": [],
           "ReturnType": "SecurityDbContext",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.DeleteUserEventsBeforeAsync(System.DateTime,System.Threading.CancellationToken)",
+          "Name": "DeleteUserEventsBeforeAsync",
+          "LineNumber": 18,
+          "Inputs": [
+            {
+              "Name": "createdBefore",
+              "Type": "System.DateTime"
+            },
+            {
+              "Name": "cancellationToken",
+              "Type": "System.Threading.CancellationToken"
+            }
+          ],
+          "ReturnType": "System.Threading.Tasks.ValueTask",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectTenantAnalysis(System.String,System.DateTime)",
+          "Name": "SelectTenantAnalysis",
+          "LineNumber": 15,
+          "Inputs": [
+            {
+              "Name": "tenantId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "createdOn",
+              "Type": "System.DateTime"
+            }
+          ],
+          "ReturnType": "TenantAnalysis",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectTenantIds()",
+          "Name": "SelectTenantIds",
+          "LineNumber": 14,
+          "Inputs": [],
+          "ReturnType": "System.String[]",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectUserActivities(System.String,System.DateTime,System.DateTime)",
+          "Name": "SelectUserActivities",
+          "LineNumber": 16,
+          "Inputs": [
+            {
+              "Name": "tenantId",
+              "Type": "System.String"
+            },
+            {
+              "Name": "from",
+              "Type": "System.DateTime"
+            },
+            {
+              "Name": "to",
+              "Type": "System.DateTime"
+            }
+          ],
+          "ReturnType": "UserActivity[]",
+          "Implements": [],
+          "Calls": [],
+          "PossibleExceptionTypes": [],
+          "IncomingExceptionTypes": [],
+          "ThrowsExceptionTypes": [],
+          "HttpMethods": [],
+          "HttpResponses": [],
+          "IsHttpRequestHandler": false,
+          "IsODataControllerAction": false,
+          "HasFromBodyParameter": false,
+          "HasKeyParameter": false,
+          "HandlesNullWithNotFound": false,
+          "HasTryCatch": false
+        },
+        {
+          "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectUserEventDates()",
+          "Name": "SelectUserEventDates",
+          "LineNumber": 13,
+          "Inputs": [],
+          "ReturnType": "System.DateTime[]",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -17194,7 +16915,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -17244,7 +16965,7 @@
           "LineNumber": 17,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -17294,7 +17015,7 @@
           "LineNumber": 19,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -17348,7 +17069,7 @@
           "LineNumber": 16,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -17385,7 +17106,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -17435,7 +17156,7 @@
           "LineNumber": 16,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -17485,7 +17206,7 @@
           "LineNumber": 18,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -17872,7 +17593,7 @@
               "Type": "System.Int32"
             },
             {
-              "Name": "package",
+              "Name": "appSecurityPackage",
               "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
             }
           ],
@@ -18785,7 +18506,7 @@
               "Type": "System.Int32"
             },
             {
-              "Name": "package",
+              "Name": "appSecurityPackage",
               "Type": "cCoder.AppSecurity.Models.AppSecurityPackage"
             }
           ],
@@ -18914,7 +18635,7 @@
           "LineNumber": 14,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -18939,7 +18660,7 @@
           "LineNumber": 16,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -18964,7 +18685,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -19001,7 +18722,7 @@
           "LineNumber": 14,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -19026,7 +18747,7 @@
           "LineNumber": 16,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -19051,7 +18772,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -19088,7 +18809,7 @@
           "LineNumber": 14,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -19113,7 +18834,7 @@
           "LineNumber": 16,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -19138,7 +18859,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -19175,7 +18896,7 @@
           "LineNumber": 14,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -19200,7 +18921,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -19286,7 +19007,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.IAnalysePlatformUsageService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 9,
+      "LineNumber": 7,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -19294,11 +19015,16 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "cCoder.AppSecurity.Services.Foundations.IAnalysePlatformUsageService.CreateSecurityDbContext()",
-          "Name": "CreateSecurityDbContext",
-          "LineNumber": 11,
-          "Inputs": [],
-          "ReturnType": "SecurityDbContext",
+          "Id": "cCoder.AppSecurity.Services.Foundations.IAnalysePlatformUsageService.Serialize(System.Object)",
+          "Name": "Serialize",
+          "LineNumber": 9,
+          "Inputs": [
+            {
+              "Name": "value",
+              "Type": "System.Object"
+            }
+          ],
+          "ReturnType": "System.String",
           "Implements": [],
           "Calls": [],
           "PossibleExceptionTypes": [],
@@ -20405,7 +20131,7 @@
           "LineNumber": 11,
           "Inputs": [
             {
-              "Name": "accountEvent",
+              "Name": "securityAccountEvent",
               "Type": "SecurityAccountEvent"
             }
           ],
@@ -20570,7 +20296,7 @@
           "LineNumber": 13,
           "Inputs": [
             {
-              "Name": "mapping",
+              "Name": "appSecurityPackageMapping",
               "Type": "cCoder.AppSecurity.Models.AppSecurityPackageMapping"
             }
           ],
@@ -20595,7 +20321,7 @@
           "LineNumber": 12,
           "Inputs": [
             {
-              "Name": "mapping",
+              "Name": "appSecurityPackageMapping",
               "Type": "cCoder.AppSecurity.Models.AppSecurityPackageMapping"
             }
           ],
@@ -20991,7 +20717,7 @@
           "LineNumber": 14,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -21016,7 +20742,7 @@
           "LineNumber": 16,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -21041,7 +20767,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "privilege",
               "Type": "Privilege"
             }
           ],
@@ -21240,7 +20966,7 @@
           "LineNumber": 14,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -21265,7 +20991,7 @@
           "LineNumber": 16,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -21290,7 +21016,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "role",
               "Type": "Role"
             }
           ],
@@ -21564,7 +21290,7 @@
           "LineNumber": 14,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -21589,7 +21315,7 @@
           "LineNumber": 16,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -21614,7 +21340,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "user",
               "Type": "User"
             }
           ],
@@ -21892,7 +21618,7 @@
           "LineNumber": 14,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -21917,7 +21643,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -21954,7 +21680,7 @@
           "LineNumber": 15,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -22004,7 +21730,7 @@
           "LineNumber": 16,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -22054,7 +21780,7 @@
           "LineNumber": 18,
           "Inputs": [
             {
-              "Name": "entity",
+              "Name": "userRole",
               "Type": "UserRole"
             }
           ],
@@ -22077,10 +21803,6 @@
     }
   ],
   "Links": [
-    {
-      "FromType": "cCoder.AppSecurity.Api.OData.BadRequestResult",
-      "ToType": "ModelStateDictionary"
-    },
     {
       "FromType": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo",
       "ToType": "System.Type"
@@ -22311,7 +22033,7 @@
     },
     {
       "FromType": "cCoder.AppSecurity.Services.Foundations.AnalysePlatformUsageService",
-      "ToType": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker"
+      "ToType": "cCoder.AppSecurity.Brokers.JsonBroker"
     },
     {
       "FromType": "cCoder.AppSecurity.Services.Foundations.AppService",
@@ -22499,6 +22221,10 @@
     },
     {
       "FromType": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService",
+      "ToType": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker"
+    },
+    {
+      "FromType": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService",
       "ToType": "cCoder.AppSecurity.Services.Foundations.AnalysePlatformUsageService"
     },
     {
@@ -22560,7 +22286,7 @@
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.AppController",
-      "LineNumber": 25
+      "LineNumber": 34
     },
     {
       "Code": "STXAPI005",
@@ -22570,60 +22296,60 @@
       "LineNumber": 66
     },
     {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
+      "Code": "RFC0007",
+      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.AppController",
-      "LineNumber": 98
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
+      "LineNumber": 39
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 31
+      "LineNumber": 39
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 70
+      "LineNumber": 72
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 70
+      "LineNumber": 72
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 103
+      "LineNumber": 108
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 103
+      "LineNumber": 108
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 139
+      "LineNumber": 147
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 139
+      "LineNumber": 147
     },
     {
       "Code": "RFC0007",
@@ -22643,78 +22369,57 @@
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 210
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 210
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 243
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 243
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
+      "LineNumber": 39
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 31
+      "LineNumber": 39
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 70
+      "LineNumber": 72
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 70
+      "LineNumber": 72
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 103
+      "LineNumber": 108
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 103
+      "LineNumber": 108
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 139
+      "LineNumber": 147
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 139
+      "LineNumber": 147
     },
     {
       "Code": "RFC0007",
@@ -22734,92 +22439,71 @@
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 210
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 33
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 210
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 243
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 243
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
+      "LineNumber": 33
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 34
+      "LineNumber": 70
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 34
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 62
+      "LineNumber": 70
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 101
+      "LineNumber": 103
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 101
+      "LineNumber": 103
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 134
+      "LineNumber": 139
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 134
+      "LineNumber": 139
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 170
+      "LineNumber": 178
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 170
+      "LineNumber": 178
     },
     {
       "Code": "RFC0007",
@@ -22839,92 +22523,57 @@
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 241
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 241
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 274
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 274
+      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
+      "LineNumber": 35
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 26
+      "LineNumber": 35
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 57
+      "LineNumber": 59
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 57
+      "LineNumber": 59
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 81
+      "LineNumber": 90
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 81
+      "LineNumber": 90
     },
     {
       "Code": "RFC0007",
       "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 112
+      "LineNumber": 121
     },
     {
       "Code": "STXAPI005",
       "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 112
-    },
-    {
-      "Code": "RFC0007",
-      "Description": "An authenticated caller denied an operation must receive 403 Forbidden.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 143
-    },
-    {
-      "Code": "STXAPI005",
-      "Description": "Every public HTTP handler must map success and caught failure paths to 2xx, 4xx, or 5xx responses.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.Controllers.UserRoleController",
-      "LineNumber": 143
+      "LineNumber": 121
     }
   ]
 }

@@ -20,14 +20,14 @@ public partial class UserRoleEventProcessingServiceTests
         UserRole entity = CreateRandomUserRole();
 
         userRoleEventServiceMock
-            .Setup(expression: x => x.RaiseUserRoleDeleteEventAsync(entity: entity))
+            .Setup(expression: x => x.RaiseUserRoleDeleteEventAsync(userRole: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseUserRoleDeleteEventAsync(entity: entity);
+        await service.RaiseUserRoleDeleteEventAsync(userRole: entity);
 
         // Then
-        userRoleEventServiceMock.Verify(expression: x => x.RaiseUserRoleDeleteEventAsync(entity: entity), times: Times.Once);
+        userRoleEventServiceMock.Verify(expression: x => x.RaiseUserRoleDeleteEventAsync(userRole: entity), times: Times.Once);
         userRoleEventServiceMock.VerifyNoOtherCalls();
     }
 

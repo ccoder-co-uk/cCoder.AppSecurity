@@ -7,7 +7,6 @@ using cCoder.Data.Models.Security;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Deltas;
 using Moq;
 using Xunit;
 
@@ -15,31 +14,6 @@ namespace cCoder.AppSecurity.Tests.Exposures.Controllers;
 
 public sealed partial class UserControllerExceptionTests
 {
-    [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void ShouldReturnMetadataWhenGetMetadata(bool extended)
-    {
-        // Given
-        UserController controller = CreateController();
-
-        controller.ControllerContext = new ControllerContext();
-
-        controller.ControllerContext.HttpContext = new DefaultHttpContext();
-
-        controller.Request.QueryString = extended
-            ? new QueryString(value: "?extend=true")
-            : QueryString.Empty;
-
-        // When
-        IActionResult result = controller.GetMetadata();
-
-        // Then
-        result
-            .Should()
-            .BeOfType<OkObjectResult>();
-    }
-
     [Fact]
     public void ShouldReturnUserWhenGetMe()
     {
@@ -186,27 +160,6 @@ public sealed partial class UserControllerExceptionTests
         result
             .Should()
             .BeOfType<OkObjectResult>();
-    }
-
-    [Fact]
-    public async Task ShouldReturnNotFoundWhenPatchHasNoUserAsync()
-    {
-        // Given
-        userManagerMock
-            .Setup(expression: manager => manager.Get(id: "missing"))
-            .Returns(value: null);
-
-        UserController controller = CreateController();
-
-        // When
-        IActionResult result = await controller.Put(
-            key: "missing",
-            updatedDelta: new Delta<User>());
-
-        // Then
-        result
-            .Should()
-            .BeOfType<NotFoundResult>();
     }
 
     [Fact]

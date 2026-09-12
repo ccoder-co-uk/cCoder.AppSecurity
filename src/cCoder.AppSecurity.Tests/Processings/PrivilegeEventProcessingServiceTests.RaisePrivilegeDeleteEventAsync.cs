@@ -20,14 +20,14 @@ public partial class PrivilegeEventProcessingServiceTests
         Privilege entity = CreateRandomPrivilege();
 
         privilegeEventServiceMock
-            .Setup(expression: x => x.RaisePrivilegeDeleteEventAsync(entity: entity))
+            .Setup(expression: x => x.RaisePrivilegeDeleteEventAsync(privilege: entity))
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaisePrivilegeDeleteEventAsync(entity: entity);
+        await service.RaisePrivilegeDeleteEventAsync(privilege: entity);
 
         // Then
-        privilegeEventServiceMock.Verify(expression: x => x.RaisePrivilegeDeleteEventAsync(entity: entity), times: Times.Once);
+        privilegeEventServiceMock.Verify(expression: x => x.RaisePrivilegeDeleteEventAsync(privilege: entity), times: Times.Once);
         privilegeEventServiceMock.VerifyNoOtherCalls();
     }
 

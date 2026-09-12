@@ -28,7 +28,7 @@ public partial class UserEventServiceTests
             .Returns(value: ValueTask.CompletedTask);
 
         // When
-        await service.RaiseUserDeleteEventAsync(entity: entity);
+        await service.RaiseUserDeleteEventAsync(user: entity);
 
         // Then
         actualMessage.Should()

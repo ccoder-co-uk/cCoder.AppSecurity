@@ -39,7 +39,7 @@ config: options => options
         );
 
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: false), times: Times.Once);
-        roleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
+        roleBrokerMock.Verify(expression: x => x.GetAppId(role: It.IsAny<cCoder.Data.Models.Security.Role>()), times: Times.AtMostOnce());
         roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.VerifyNoOtherCalls();
     }

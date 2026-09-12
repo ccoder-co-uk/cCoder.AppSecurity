@@ -23,7 +23,7 @@ public partial class UserRoleServiceTests
 
         cCoder.Data.Models.Security.UserRole submitted = null;
 
-        userRoleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
+        userRoleBrokerMock.Setup(expression: x => x.GetAppId(userRole: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
             .Returns(value: (int?)7);
 
         roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true))
@@ -51,7 +51,7 @@ public partial class UserRoleServiceTests
                 ]));
 
         userRoleBrokerMock
-            .Setup(expression: x => x.AddUserRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
+            .Setup(expression: x => x.AddUserRoleAsync(userRole: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
             .Callback<cCoder.Data.Models.Security.UserRole>(action: candidate => submitted = candidate)
             .ReturnsAsync(valueFunction: (cCoder.Data.Models.Security.UserRole value) => value);
 
@@ -78,11 +78,11 @@ public partial class UserRoleServiceTests
             .BeEquivalentTo(expectation: userRole);
 
         userRoleBrokerMock.Verify(
-expression: x => x.AddUserRoleAsync(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()),
+expression: x => x.AddUserRoleAsync(userRole: It.IsAny<cCoder.Data.Models.Security.UserRole>()),
 times: Times.Once
         );
 
-        userRoleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()), times: Times.AtMostOnce());
+        userRoleBrokerMock.Verify(expression: x => x.GetAppId(userRole: It.IsAny<cCoder.Data.Models.Security.UserRole>()), times: Times.AtMostOnce());
         userRoleBrokerMock.VerifyNoOtherCalls();
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
         roleBrokerMock.VerifyNoOtherCalls();
@@ -97,7 +97,7 @@ times: Times.Once
         // Given
         UserRole userRole = CreateRandomUserRole();
 
-        userRoleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
+        userRoleBrokerMock.Setup(expression: x => x.GetAppId(userRole: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
             .Returns(value: (int?)7);
 
         roleBrokerMock.Setup(expression: x => x.GetAllRoles(ignoreFilters: true))
@@ -133,7 +133,7 @@ times: Times.Once
             .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
-        userRoleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()), times: Times.AtMostOnce());
+        userRoleBrokerMock.Verify(expression: x => x.GetAppId(userRole: It.IsAny<cCoder.Data.Models.Security.UserRole>()), times: Times.AtMostOnce());
         userRoleBrokerMock.VerifyNoOtherCalls();
         roleBrokerMock.Verify(expression: x => x.GetAllRoles(ignoreFilters: true), times: Times.Once);
         roleBrokerMock.VerifyNoOtherCalls();
@@ -148,7 +148,7 @@ times: Times.Once
         // Given
         UserRole userRole = CreateRandomUserRole();
 
-        userRoleBrokerMock.Setup(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
+        userRoleBrokerMock.Setup(expression: x => x.GetAppId(userRole: It.IsAny<cCoder.Data.Models.Security.UserRole>()))
             .Returns(value: (int?)7);
 
         authorizationBrokerMock
@@ -165,7 +165,7 @@ times: Times.Once
             .WithInnerException<cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException, SecurityException>(because: string.Empty, becauseArgs: [])
             .WithMessage(expectedWildcardPattern: "Access Denied!");
 
-        userRoleBrokerMock.Verify(expression: x => x.GetAppId(entity: It.IsAny<cCoder.Data.Models.Security.UserRole>()), times: Times.AtMostOnce());
+        userRoleBrokerMock.Verify(expression: x => x.GetAppId(userRole: It.IsAny<cCoder.Data.Models.Security.UserRole>()), times: Times.AtMostOnce());
         userRoleBrokerMock.VerifyNoOtherCalls();
         roleBrokerMock.VerifyNoOtherCalls();
         authorizationBrokerMock.Verify(expression: x => x.Authorize(appId: (int?)7, privilege: "UserRole_create"), times: Times.Once);

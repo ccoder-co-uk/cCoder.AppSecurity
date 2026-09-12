@@ -43,7 +43,7 @@ public sealed partial class PrivilegeEventServiceExceptionTests
 
         // When
         Func<Task> action = async () => await service.RaisePrivilegeAddEventAsync(
-            entity: new Privilege());
+            privilege: new Privilege());
 
         // Then
         Exception thrown = (await action

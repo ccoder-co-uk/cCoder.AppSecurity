@@ -11,11 +11,11 @@ namespace cCoder.AppSecurity.Brokers;
 public interface IPrivilegeBroker
 {
     IQueryable<Privilege> GetAllPrivileges(bool ignoreFilters);
-    ValueTask<Privilege> AddPrivilegeAsync(Privilege entity);
-    ValueTask<Privilege> UpdatePrivilegeAsync(Privilege entity);
-    ValueTask<int> DeletePrivilegeAsync(Privilege entity);
+    ValueTask<Privilege> AddPrivilegeAsync(Privilege privilege);
+    ValueTask<Privilege> UpdatePrivilegeAsync(Privilege privilege);
+    ValueTask<int> DeletePrivilegeAsync(Privilege privilege);
     ValueTask DeleteAllPrivilegesAsync(IEnumerable<Privilege> items);
-    int? GetAppId(Privilege entity);
+    int? GetAppId(Privilege privilege);
 }
 
 internal sealed class PrivilegeBroker(ICoreContextFactory coreContextFactory) : IPrivilegeBroker
@@ -79,7 +79,7 @@ internal sealed class PrivilegeBroker(ICoreContextFactory coreContextFactory) : 
         _ = await coreDataContext.SaveChangesAsync();
     }
 
-    public int? GetAppId(Privilege entity)
+    public int? GetAppId(Privilege privilege)
     {
         return null;
     }

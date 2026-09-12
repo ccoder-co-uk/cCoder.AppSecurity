@@ -11,7 +11,7 @@ namespace cCoder.AppSecurity.Exposures;
 
 public interface IAppSecurityPackageManager
 {
-    ValueTask ImportPackageAsync(int appId, AppSecurityPackage package);
+    ValueTask ImportPackageAsync(int appId, AppSecurityPackage appSecurityPackage);
 
     AppSecurityPackage ExportPackage(int appId, string packageName);
 }

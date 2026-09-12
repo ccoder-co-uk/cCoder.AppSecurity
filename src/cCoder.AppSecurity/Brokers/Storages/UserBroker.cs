@@ -12,11 +12,11 @@ public interface IUserBroker
 {
     IQueryable<User> GetAllUsers(bool ignoreFilters);
     User GetUserByEmail(string email, bool ignoreFilters);
-    ValueTask<User> AddUserAsync(User entity);
-    ValueTask<User> UpdateUserAsync(User entity);
-    ValueTask<int> DeleteUserAsync(User entity);
+    ValueTask<User> AddUserAsync(User user);
+    ValueTask<User> UpdateUserAsync(User user);
+    ValueTask<int> DeleteUserAsync(User user);
     ValueTask DeleteAllUsersAsync(IEnumerable<User> items);
-    int? GetAppId(User entity);
+    int? GetAppId(User user);
 }
 
 internal sealed class UserBroker(ICoreContextFactory coreContextFactory) : IUserBroker
@@ -80,13 +80,13 @@ internal sealed class UserBroker(ICoreContextFactory coreContextFactory) : IUser
         _ = await coreDataContext.SaveChangesAsync();
     }
 
-    public int? GetAppId(User entity)
+    public int? GetAppId(User user)
     {
         using CoreDataContext coreDataContext = coreContextFactory.CreateCoreContext();
 
         return coreDataContext.UserRoles
 
-            .Where(predicate: userRole => userRole.UserId == entity.Id)
+            .Where(predicate: userRole => userRole.UserId == user.Id)
             .Join(inner: coreDataContext.Roles,
 outerKeySelector: userRole => userRole.RoleId,
 innerKeySelector: role => role.Id,

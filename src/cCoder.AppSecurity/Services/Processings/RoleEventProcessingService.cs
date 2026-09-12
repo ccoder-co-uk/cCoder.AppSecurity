@@ -12,30 +12,30 @@ namespace cCoder.AppSecurity.Services.Processings;
 
 internal sealed partial class RoleEventProcessingService(IRoleEventService eventService) : IRoleEventProcessingService
 {
-    public ValueTask RaiseRoleAddEventAsync(Role entity) =>
+    public ValueTask RaiseRoleAddEventAsync(Role role) =>
         TryCatch(operation: ValueTask () =>
         {
             ValidateRaiseRoleAddEvent(
-                entity: entity);
+                role: role);
 
-            return eventService.RaiseRoleAddEventAsync(entity: entity);
+            return eventService.RaiseRoleAddEventAsync(role: role);
         });
 
-    public ValueTask RaiseRoleUpdateEventAsync(Role entity) =>
+    public ValueTask RaiseRoleUpdateEventAsync(Role role) =>
         TryCatch(operation: ValueTask () =>
         {
             ValidateRaiseRoleUpdateEvent(
-                entity: entity);
+                role: role);
 
-            return eventService.RaiseRoleUpdateEventAsync(entity: entity);
+            return eventService.RaiseRoleUpdateEventAsync(role: role);
         });
 
-    public ValueTask RaiseRoleDeleteEventAsync(Role entity) =>
+    public ValueTask RaiseRoleDeleteEventAsync(Role role) =>
         TryCatch(operation: ValueTask () =>
         {
             ValidateRaiseRoleDeleteEvent(
-                entity: entity);
+                role: role);
 
-            return eventService.RaiseRoleDeleteEventAsync(entity: entity);
+            return eventService.RaiseRoleDeleteEventAsync(role: role);
         });
 }

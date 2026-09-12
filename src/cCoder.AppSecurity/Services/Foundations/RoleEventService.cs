@@ -21,48 +21,48 @@ namespace cCoder.AppSecurity.Services.Foundations.Events;
 internal sealed partial class RoleEventService(IRoleEventBroker roleEventBroker, IAuthInfoBroker authInfoBroker)
     : IRoleEventService
 {
-    public ValueTask RaiseRoleAddEventAsync(Role entity) =>
+    public ValueTask RaiseRoleAddEventAsync(Role role) =>
         TryCatch(operation: async ValueTask () =>
         {
             ValidateRaiseRoleAddEvent(
-                entity: entity);
+                role: role);
 
             EventMessage<DataRole> message = new()
             {
                 AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
-                Data = ToExternalRole(item: entity),
+                Data = ToExternalRole(item: role),
             };
 
             await roleEventBroker.RaiseRoleAddEventAsync(message: message);
 
         });
 
-    public ValueTask RaiseRoleUpdateEventAsync(Role entity) =>
+    public ValueTask RaiseRoleUpdateEventAsync(Role role) =>
         TryCatch(operation: async ValueTask () =>
         {
             ValidateRaiseRoleUpdateEvent(
-                entity: entity);
+                role: role);
 
             EventMessage<DataRole> message = new()
             {
                 AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
-                Data = ToExternalRole(item: entity),
+                Data = ToExternalRole(item: role),
             };
 
             await roleEventBroker.RaiseRoleUpdateEventAsync(message: message);
 
         });
 
-    public ValueTask RaiseRoleDeleteEventAsync(Role entity) =>
+    public ValueTask RaiseRoleDeleteEventAsync(Role role) =>
         TryCatch(operation: async ValueTask () =>
         {
             ValidateRaiseRoleDeleteEvent(
-                entity: entity);
+                role: role);
 
             EventMessage<DataRole> message = new()
             {
                 AuthInfo = new EventAuthInfo { SSOUserId = authInfoBroker.GetSSOUserId() },
-                Data = ToExternalRole(item: entity),
+                Data = ToExternalRole(item: role),
             };
 
             await roleEventBroker.RaiseRoleDeleteEventAsync(message: message);

@@ -62,29 +62,6 @@ public sealed partial class AppControllerTests
         });
     }
 
-    [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void ShouldReturnMetadataWhenGetMetadataSucceeds(bool extended)
-    {
-        // Given
-        AppController controller = CreateController();
-        controller.ControllerContext = new ControllerContext();
-        controller.ControllerContext.HttpContext = new DefaultHttpContext();
-
-        controller.Request.QueryString = extended
-            ? new QueryString(value: "?extend=true")
-            : QueryString.Empty;
-
-        // When
-        IActionResult result = controller.GetMetadata();
-
-        // Then
-        result
-            .Should()
-            .BeOfType<OkObjectResult>();
-    }
-
     [Fact]
     public void ShouldReturnAppsWhenGetAll()
     {
@@ -136,24 +113,6 @@ public sealed partial class AppControllerTests
                 .Should()
                 .BeOfType<NotFoundResult>();
         }
-    }
-
-    [Fact]
-    public void ShouldReturnInternalServerErrorWhenGetMetadataFails()
-    {
-        // Given
-        AppController controller = CreateController();
-
-        // When
-        IActionResult result = controller.GetMetadata();
-
-        // Then
-        result
-            .Should()
-            .BeOfType<StatusCodeResult>()
-            .Which.StatusCode
-            .Should()
-            .Be(expected: StatusCodes.Status500InternalServerError);
     }
 
     private void AssertExceptionStatusCodes(Func<Exception, IActionResult> invoke)

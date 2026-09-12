@@ -50,7 +50,7 @@ internal sealed partial class UserOrchestrationService(
                 newUser: newUser);
 
             var result = await processingService.AddUserAsync(entity: newUser);
-            await eventService.RaiseUserAddEventAsync(entity: result);
+            await eventService.RaiseUserAddEventAsync(user: result);
             return result;
 
         });
@@ -62,7 +62,7 @@ internal sealed partial class UserOrchestrationService(
                 updatedUser: updatedUser);
 
             var result = await processingService.UpdateUserAsync(entity: updatedUser);
-            await eventService.RaiseUserUpdateEventAsync(entity: result);
+            await eventService.RaiseUserUpdateEventAsync(user: result);
             return result;
 
         });
@@ -74,7 +74,7 @@ internal sealed partial class UserOrchestrationService(
                 userId: userId);
 
             var entity = processingService.Get(id: userId);
-            await eventService.RaiseUserDeleteEventAsync(entity: entity);
+            await eventService.RaiseUserDeleteEventAsync(user: entity);
             await processingService.DeleteAsync(id: userId);
 
         });

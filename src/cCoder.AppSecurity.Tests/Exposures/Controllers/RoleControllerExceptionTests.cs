@@ -6,7 +6,6 @@ using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Exposures;
 using cCoder.AppSecurity.Exposures.Controllers;
 using cCoder.Data.Models.Security;
-using Microsoft.AspNetCore.OData.Deltas;
 using Moq;
 using Xunit;
 using static cCoder.AppSecurity.Tests.Exposures.Controllers.PrivilegeControllerTestSupport;
@@ -102,29 +101,6 @@ public sealed partial class RoleControllerExceptionTests
                 .Throws(exception: exception);
 
             return controller.Put(key: role.Id, updatedRole: role);
-        });
-    }
-
-    [Fact]
-    public async Task ShouldReturnExpectedStatusCodesWhenPatchFailsAsync()
-    {
-        // Given
-        Guid roleId = Guid.NewGuid();
-        RoleController controller = CreateController();
-        Delta<Role> delta = new();
-
-        // When
-
-        // Then
-        await AssertExceptionStatusCodesAsync(invoke: exception =>
-        {
-            roleManagerMock.Reset();
-
-            roleManagerMock
-                .Setup(expression: manager => manager.Get(id: roleId))
-                .Throws(exception: exception);
-
-            return controller.Put(key: roleId, updatedDelta: delta);
         });
     }
 

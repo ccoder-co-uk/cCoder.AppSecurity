@@ -23,28 +23,6 @@ public sealed partial class UserRoleController(
     : ODataController
 {
     [HttpGet]
-    public IActionResult GetMetadata()
-    {
-        try
-        {
-            return Ok(value: MetadataDependency.CreateMetadataContainer(
-                type: typeof(UserRole),
-                isEntity: true,
-                hasEndpoint: true));
-        }
-        catch (AppSecurityAuthorizationException exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-            return StatusCode(statusCode: StatusCodes.Status403Forbidden);
-        }
-        catch (Exception exception)
-        {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
-            return StatusCode(statusCode: StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [HttpGet]
     [EnableQuery(
         AllowedArithmeticOperators = AllowedArithmeticOperators.All,
         AllowedFunctions = AllowedFunctions.AllFunctions,

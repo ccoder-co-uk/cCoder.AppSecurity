@@ -9,6 +9,6 @@ namespace cCoder.AppSecurity.Services.Orchestrations;
 
 internal interface IAppSecurityPackageOrchestrationService
 {
-    AppSecurityPackageMapping MapAppSecurityPackageMappingRoles(AppSecurityPackageMapping mapping);
-    AppSecurityPackageMapping MapAppSecurityPackageMappingPageRoles(AppSecurityPackageMapping mapping);
+    AppSecurityPackageMapping MapAppSecurityPackageMappingRoles(AppSecurityPackageMapping appSecurityPackageMapping);
+    AppSecurityPackageMapping MapAppSecurityPackageMappingPageRoles(AppSecurityPackageMapping appSecurityPackageMapping);
 }
