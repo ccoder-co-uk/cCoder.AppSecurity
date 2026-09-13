@@ -14,11 +14,11 @@
     <UseLocalSecurity Condition="'$(UseLocalSecurity)' == 'true' and !Exists('$(LocalSecurityProject)')">false</UseLocalSecurity>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.9.13.1130" PrivateAssets="all" />
-    <PackageReference Include="cCoder.Data" Version="2026.8.28.1700" Condition="'$(UseLocalData)' != 'true'" />
-    <PackageReference Include="cCoder.Eventing" Version="2026.8.27.1708" />
-    <PackageReference Include="cCoder.Security" Version="2026.8.28.1335" Condition="'$(UseLocalSecurity)' != 'true'" />
-    <PackageReference Include="cCoder.Security.Data" Version="2026.8.28.1335" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.9.13.1434" PrivateAssets="all" />
+    <PackageReference Include="cCoder.Data" Version="2026.9.13.1526" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Eventing" Version="2026.9.13.1448" />
+    <PackageReference Include="cCoder.Security" Version="2026.9.13.1506" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security.Data" Version="2026.9.13.1506" Condition="'$(UseLocalSecurity)' != 'true'" />
   </ItemGroup>
   <ItemGroup Condition="'$(UseLocalData)' == 'true'">
     <ProjectReference Include="$(LocalDataProject)" AdditionalProperties="UseLocalSecurity=$(UseLocalSecurity);UseLocalSecurityData=$(UseLocalSecurity)" />
