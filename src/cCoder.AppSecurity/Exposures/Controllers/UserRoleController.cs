@@ -4,7 +4,6 @@
 
 using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Brokers.Loggings;
-using cCoder.AppSecurity.Dependencies.Metadata;
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Models.Exceptions;
 using cCoder.Data.Models.CMS;
