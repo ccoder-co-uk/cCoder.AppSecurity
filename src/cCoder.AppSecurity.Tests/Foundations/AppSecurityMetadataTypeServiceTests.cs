@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.AppSecurity.Brokers.Metadata;
 using cCoder.AppSecurity.Services.Foundations;
 using FluentAssertions;
 using Xunit;
@@ -15,7 +16,8 @@ public sealed partial class AppSecurityMetadataTypeServiceTests
     public void ShouldReturnAppSecurityEntityMetadata()
     {
         // Given
-        var service = new AppSecurityMetadataTypeService();
+        var service = new AppSecurityMetadataTypeService(
+            metadataBroker: new MetadataBroker());
 
         // When
         var metadataSets = service.GetKnownMetadata()

@@ -46,7 +46,7 @@
     <ProjectReference Include="$(LocalSecurityDataProject)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.9.11.1440" PrivateAssets="all" />
+    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.9.16.1056" PrivateAssets="all" />
     <PackageReference Include="cCoder.Eventing" Version="2026.8.27.1708" Condition="'$(UseLocalEventing)' != 'true'" />
     <PackageReference Include="cCoder.Data" Version="2026.8.28.1700" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="cCoder.Security" Version="2026.8.28.1335" Condition="'$(UseLocalSecurity)' != 'true'" />
