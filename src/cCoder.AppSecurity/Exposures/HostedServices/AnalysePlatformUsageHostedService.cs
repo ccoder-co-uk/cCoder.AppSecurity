@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 
-namespace cCoder.AppSecurity.Dependencies.HostedServices;
+namespace cCoder.AppSecurity.Exposures.HostedServices;
 
 public sealed class AnalysePlatformUsageHostedService(
     IServiceScopeFactory serviceScopeFactory,

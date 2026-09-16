@@ -4,12 +4,13 @@
 
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using cCoder.AppSecurity.Api.OData;
 
-namespace cCoder.AppSecurity.Dependencies.Metadata;
+namespace cCoder.AppSecurity.Brokers.Metadata;
 
-internal static class MetadataDependency
+internal sealed class MetadataBroker : IMetadataBroker
 {
     private static readonly Dictionary<Type, string> Lookup = new()
     {
@@ -46,42 +47,7 @@ internal static class MetadataDependency
         { typeof(float?), "number" },
     };
 
-    public static MetadataContainer CreateMetadataContainer(
-        Type type,
-        bool isEntity,
-        bool hasEndpoint)
-    {
-        bool isValueType = type.IsValueType | type == typeof(string);
-
-        Func<PropertyContainer[]>[] propertySelectors =
-        [
-            () => type.GetProperties()
-                .Select(selector: CreatePropertyContainer)
-                .ToArray(),
-            () => [],
-        ];
-
-        PropertyContainer[] properties =
-            propertySelectors[Convert.ToInt32(value: isValueType)]
-                .Invoke();
-
-        return new MetadataContainer
-        {
-            IsValueType = isValueType,
-            Type = GetTypeName(type: type),
-            Name = type.Name,
-            DisplayName = type.Name,
-            Description = type.Name,
-            ServerType = type.AssemblyQualifiedName,
-            ServerTypeName = type.GetCSharpTypeName(),
-            Properties = properties,
-            IsEntity = isEntity,
-            IsJoinEntity = isEntity & type.IsJoinType(),
-            HasEndpoint = hasEndpoint,
-        };
-    }
-
-    public static ExtendedMetadataContainer CreateExtendedMetadataContainer(
+    public ExtendedMetadataContainer CreateExtendedMetadataContainer(
         Type type,
         bool isEntity,
         bool hasEndpoint)
@@ -109,6 +75,41 @@ internal static class MetadataDependency
         };
     }
 
+    private static MetadataContainer CreateMetadataContainer(
+        Type type,
+        bool isEntity,
+        bool hasEndpoint)
+    {
+        bool isValueType = type.IsValueType | type == typeof(string);
+
+        Func<PropertyContainer[]>[] propertySelectors =
+        [
+            () => type.GetProperties()
+                .Select(selector: CreatePropertyContainer)
+                .ToArray(),
+            () => [],
+        ];
+
+        PropertyContainer[] properties =
+            propertySelectors[Convert.ToInt32(value: isValueType)]
+                .Invoke();
+
+        return new MetadataContainer
+        {
+            IsValueType = isValueType,
+            Type = GetTypeName(type: type),
+            Name = type.Name,
+            DisplayName = type.Name,
+            Description = type.Name,
+            ServerType = type.AssemblyQualifiedName,
+            ServerTypeName = GetCSharpTypeName(type: type),
+            Properties = properties,
+            IsEntity = isEntity,
+            IsJoinEntity = isEntity & IsJoinType(type: type),
+            HasEndpoint = hasEndpoint,
+        };
+    }
+
     private static PropertyContainer CreatePropertyContainer(PropertyInfo property)
     {
         bool isNullableType = property.PropertyType.IsGenericType
@@ -119,18 +120,58 @@ internal static class MetadataDependency
             Name = property.Name,
             Type = GetTypeName(type: property.PropertyType),
             ServerType = property.PropertyType.ToString(),
-            ServerTypeName = property.PropertyType.GetCSharpTypeName(),
+            ServerTypeName = GetCSharpTypeName(type: property.PropertyType),
             IsValueType = property.PropertyType.IsValueType | property.PropertyType == typeof(string),
             DisplayName = property.Name,
             ShortDisplayName = property.Name,
             Description = property.Name,
             IsReadOnly = !property.CanWrite,
-            Template = property.GetCustomAttribute<KeyAttribute>() != null | property.Name == "Id"
-                ? "key"
-                : property.Name,
+            Template = GetTemplate(property: property),
             IsRequired = (!isNullableType & property.PropertyType.IsValueType)
                 | property.GetCustomAttribute<RequiredAttribute>() != null,
         };
+    }
+
+    private static string GetCSharpTypeName(Type type)
+    {
+        Func<string>[] typeNameSelectors =
+        [
+            () => type.Name,
+            () => $"{type.Name.Split(separator: '`')[0]}<{
+                string.Join(
+                    separator: ",",
+                    values: type.GenericTypeArguments.Select(selector: GetCSharpTypeName))}>"
+                .Replace(oldValue: "System.Object", newValue: "dynamic"),
+        ];
+
+        return typeNameSelectors[Convert.ToInt32(value: type.IsGenericType)]
+            .Invoke();
+    }
+
+    private static string GetTemplate(PropertyInfo property)
+    {
+        Func<string>[] templateSelectors =
+        [
+            () => property.Name,
+            () => "key",
+        ];
+
+        bool isKey = property.GetCustomAttribute<KeyAttribute>() != null
+            | property.Name == "Id";
+
+        return templateSelectors[Convert.ToInt32(value: isKey)]
+            .Invoke();
+    }
+
+    private static bool IsJoinType(Type type)
+    {
+        TableAttribute table = type.GetCustomAttribute<TableAttribute>();
+
+        return table != null
+            && type.GetProperties().Length == 4
+            && type.GetProperties()
+                .Where(predicate: property => property.PropertyType.IsValueType || property.PropertyType == typeof(string))
+                .All(predicate: property => property.GetCustomAttribute<ForeignKeyAttribute>() != null);
     }
 
     private static string GetTypeName(Type type)

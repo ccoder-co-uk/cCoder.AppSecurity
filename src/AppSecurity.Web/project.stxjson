@@ -17,17 +17,17 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "AppSecurity.Web.IServiceCollectionExtensions.AddWeb(IServiceCollection,IConfiguration,System.Action\u003CAppSecurity.Web.Models.AppConfiguration\u003E)",
+          "Id": "AppSecurity.Web.IServiceCollectionExtensions.AddWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CAppSecurity.Web.Models.AppConfiguration\u003E)",
           "Name": "AddWeb",
           "LineNumber": 15,
           "Inputs": [
             {
               "Name": "services",
-              "Type": "IServiceCollection"
+              "Type": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
             },
             {
               "Name": "configuration",
-              "Type": "IConfiguration"
+              "Type": "Microsoft.Extensions.Configuration.IConfiguration"
             },
             {
               "Name": "configure",
@@ -38,9 +38,44 @@
           "Implements": [],
           "Calls": [
             {
+              "TypeName": "Microsoft.Extensions.Configuration.ConfigurationBinder",
+              "MethodName": "Bind",
+              "MethodId": "Microsoft.Extensions.Configuration.ConfigurationBinder.Bind(Microsoft.Extensions.Configuration.IConfiguration,System.Object?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
               "TypeName": "System.Action\u003CT\u003E",
               "MethodName": "Invoke",
               "MethodId": "System.Action\u003CT\u003E.Invoke(T)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.IServiceCollectionExtensions",
+              "MethodName": "AddAppSecurityWeb",
+              "MethodId": "cCoder.AppSecurity.IServiceCollectionExtensions.AddAppSecurityWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.AppSecurity.Models.AppSecurityConfiguration,Microsoft.OData.ModelBuilder.ODataConventionModelBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Data.IServiceCollectionExtensions",
+              "MethodName": "AddData",
+              "MethodId": "cCoder.Data.IServiceCollectionExtensions.AddData(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Data.Models.DataConfiguration)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.Data.EF.IServiceCollectionExtensions",
+              "MethodName": "AddSecurityData",
+              "MethodId": "cCoder.Security.Data.EF.IServiceCollectionExtensions.AddSecurityData(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Security.Models.SecurityDataConfiguration)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.Security.IServiceCollectionExtensions",
+              "MethodName": "AddSecurityWeb",
+              "MethodId": "cCoder.Security.IServiceCollectionExtensions.AddSecurityWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.Security.Models.SecurityConfiguration,Microsoft.OData.ModelBuilder.ODataConventionModelBuilder)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             }
@@ -111,11 +146,39 @@
           "Implements": [],
           "Calls": [
             {
-              "TypeName": "AppSecurity.Web.WebApplicationExtensions",
-              "MethodName": "UseAppSecurityWebApplication",
-              "MethodId": "AppSecurity.Web.WebApplicationExtensions.UseAppSecurityWebApplication(WebApplication)",
+              "TypeName": "AppSecurity.Web.IServiceCollectionExtensions",
+              "MethodName": "AddWeb",
+              "MethodId": "AppSecurity.Web.IServiceCollectionExtensions.AddWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CAppSecurity.Web.Models.AppConfiguration\u003E)",
               "StandardElementType": "App",
               "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "AppSecurity.Web.WebApplicationExtensions",
+              "MethodName": "UseAppSecurityWebApplication",
+              "MethodId": "AppSecurity.Web.WebApplicationExtensions.UseAppSecurityWebApplication(Microsoft.AspNetCore.Builder.WebApplication)",
+              "StandardElementType": "App",
+              "IsDependencyBoundary": false
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.WebApplication",
+              "MethodName": "CreateBuilder",
+              "MethodId": "Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(System.String[])",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.WebApplication",
+              "MethodName": "Run",
+              "MethodId": "Microsoft.AspNetCore.Builder.WebApplication.Run(System.String?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.WebApplicationBuilder",
+              "MethodName": "Build",
+              "MethodId": "Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
             }
           ],
           "PossibleExceptionTypes": [],
@@ -143,22 +206,162 @@
       "Properties": [],
       "Methods": [
         {
-          "Id": "AppSecurity.Web.WebApplicationExtensions.UseAppSecurityWebApplication(WebApplication)",
+          "Id": "AppSecurity.Web.WebApplicationExtensions.UseAppSecurityWebApplication(Microsoft.AspNetCore.Builder.WebApplication)",
           "Name": "UseAppSecurityWebApplication",
           "LineNumber": 14,
           "Inputs": [
             {
               "Name": "app",
-              "Type": "WebApplication"
+              "Type": "Microsoft.AspNetCore.Builder.WebApplication"
             }
           ],
           "ReturnType": "System.Void",
           "Implements": [],
           "Calls": [
             {
+              "TypeName": "Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions",
+              "MethodName": "MapControllers",
+              "MethodId": "Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllers(Microsoft.AspNetCore.Routing.IEndpointRouteBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.CorsMiddlewareExtensions",
+              "MethodName": "UseCors",
+              "MethodId": "Microsoft.AspNetCore.Builder.CorsMiddlewareExtensions.UseCors(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action\u003CMicrosoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.EndpointRouteBuilderExtensions",
+              "MethodName": "MapGet",
+              "MethodId": "Microsoft.AspNetCore.Builder.EndpointRouteBuilderExtensions.MapGet(Microsoft.AspNetCore.Routing.IEndpointRouteBuilder,System.String,System.Delegate)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.EndpointRoutingApplicationBuilderExtensions",
+              "MethodName": "UseRouting",
+              "MethodId": "Microsoft.AspNetCore.Builder.EndpointRoutingApplicationBuilderExtensions.UseRouting(Microsoft.AspNetCore.Builder.IApplicationBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions",
+              "MethodName": "UseExceptionHandler",
+              "MethodId": "Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action\u003CMicrosoft.AspNetCore.Builder.IApplicationBuilder\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.HttpsPolicyBuilderExtensions",
+              "MethodName": "UseHttpsRedirection",
+              "MethodId": "Microsoft.AspNetCore.Builder.HttpsPolicyBuilderExtensions.UseHttpsRedirection(Microsoft.AspNetCore.Builder.IApplicationBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.RunExtensions",
+              "MethodName": "Run",
+              "MethodId": "Microsoft.AspNetCore.Builder.RunExtensions.Run(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Http.RequestDelegate)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.SessionMiddlewareExtensions",
+              "MethodName": "UseSession",
+              "MethodId": "Microsoft.AspNetCore.Builder.SessionMiddlewareExtensions.UseSession(Microsoft.AspNetCore.Builder.IApplicationBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.StaticFileExtensions",
+              "MethodName": "UseStaticFiles",
+              "MethodId": "Microsoft.AspNetCore.Builder.StaticFileExtensions.UseStaticFiles(Microsoft.AspNetCore.Builder.IApplicationBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.SwaggerBuilderExtensions",
+              "MethodName": "UseSwagger",
+              "MethodId": "Microsoft.AspNetCore.Builder.SwaggerBuilderExtensions.UseSwagger(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action\u003CSwashbuckle.AspNetCore.Swagger.SwaggerOptions\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.SwaggerUIBuilderExtensions",
+              "MethodName": "UseSwaggerUI",
+              "MethodId": "Microsoft.AspNetCore.Builder.SwaggerUIBuilderExtensions.UseSwaggerUI(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action\u003CSwashbuckle.AspNetCore.SwaggerUI.SwaggerUIOptions\u003E)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Builder.SwaggerUIOptionsExtensions",
+              "MethodName": "SwaggerEndpoint",
+              "MethodId": "Microsoft.AspNetCore.Builder.SwaggerUIOptionsExtensions.SwaggerEndpoint(Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIOptions,System.String,System.String)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder",
+              "MethodName": "AllowAnyHeader",
+              "MethodId": "Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.AllowAnyHeader()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder",
+              "MethodName": "AllowAnyMethod",
+              "MethodId": "Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.AllowAnyMethod()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder",
+              "MethodName": "AllowAnyOrigin",
+              "MethodId": "Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.AllowAnyOrigin()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Http.Results",
+              "MethodName": "Redirect",
+              "MethodId": "Microsoft.AspNetCore.Http.Results.Redirect(System.String,System.Boolean,System.Boolean)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.Http.Results",
+              "MethodName": "Text",
+              "MethodId": "Microsoft.AspNetCore.Http.Results.Text(System.String?,System.String?,System.Text.Encoding?,System.Int32?)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.AspNetCore.OData.ODataApplicationBuilderExtensions",
+              "MethodName": "UseODataBatching",
+              "MethodId": "Microsoft.AspNetCore.OData.ODataApplicationBuilderExtensions.UseODataBatching(Microsoft.AspNetCore.Builder.IApplicationBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
               "TypeName": "Microsoft.AspNetCore.OData.ODataApplicationBuilderExtensions",
               "MethodName": "UseODataRouteDebug",
               "MethodId": "Microsoft.AspNetCore.OData.ODataApplicationBuilderExtensions.UseODataRouteDebug(Microsoft.AspNetCore.Builder.IApplicationBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions",
+              "MethodName": "GetRequiredService",
+              "MethodId": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.WebApplicationExtensions",
+              "MethodName": "StartAppSecurityWeb",
+              "MethodId": "cCoder.AppSecurity.WebApplicationExtensions.StartAppSecurityWeb(Microsoft.AspNetCore.Builder.WebApplication,Microsoft.Extensions.Logging.ILogger)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             }
@@ -183,17 +386,19 @@
       "LineNumber": 7,
       "IsPublic": true,
       "Kind": "Class",
-      "BaseType": {
-        "Id": "AppSecurity.Web:ISession",
-        "FullName": "ISession",
-        "Name": "ISession",
-        "Namespace": "\u003Cglobal namespace\u003E",
-        "AssemblyName": "AppSecurity.Web",
-        "Kind": "Class",
-        "IsInCurrentProject": true,
-        "StandardElementType": "Dependency"
-      },
-      "Interfaces": [],
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Microsoft.AspNetCore.Http.Features:Microsoft.AspNetCore.Http.ISession",
+          "FullName": "Microsoft.AspNetCore.Http.ISession",
+          "Name": "ISession",
+          "Namespace": "Microsoft.AspNetCore.Http",
+          "AssemblyName": "Microsoft.AspNetCore.Http.Features",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        }
+      ],
       "Properties": [
         {
           "Name": "Id",
@@ -219,7 +424,9 @@
           "LineNumber": 25,
           "Inputs": [],
           "ReturnType": "System.Void",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.Clear()"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -244,7 +451,9 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.CommitAsync(System.Threading.CancellationToken)"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -269,7 +478,9 @@
             }
           ],
           "ReturnType": "System.Threading.Tasks.Task",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.LoadAsync(System.Threading.CancellationToken)"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -294,7 +505,9 @@
             }
           ],
           "ReturnType": "System.Void",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.Remove(System.String)"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -323,7 +536,9 @@
             }
           ],
           "ReturnType": "System.Void",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.Set(System.String,System.Byte[])"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -352,7 +567,9 @@
             }
           ],
           "ReturnType": "System.Boolean",
-          "Implements": [],
+          "Implements": [
+            "Microsoft.AspNetCore.Http.ISession.TryGetValue(System.String,System.Byte[]?)"
+          ],
           "Calls": [],
           "PossibleExceptionTypes": [],
           "IncomingExceptionTypes": [],
@@ -374,21 +591,23 @@
       "LineNumber": 10,
       "IsPublic": true,
       "Kind": "Class",
-      "BaseType": {
-        "Id": "AppSecurity.Web:ISessionFeature",
-        "FullName": "ISessionFeature",
-        "Name": "ISessionFeature",
-        "Namespace": "\u003Cglobal namespace\u003E",
-        "AssemblyName": "AppSecurity.Web",
-        "Kind": "Class",
-        "IsInCurrentProject": true,
-        "StandardElementType": "Dependency"
-      },
-      "Interfaces": [],
+      "BaseType": null,
+      "Interfaces": [
+        {
+          "Id": "Microsoft.AspNetCore.Http.Features:Microsoft.AspNetCore.Http.Features.ISessionFeature",
+          "FullName": "Microsoft.AspNetCore.Http.Features.ISessionFeature",
+          "Name": "ISessionFeature",
+          "Namespace": "Microsoft.AspNetCore.Http.Features",
+          "AssemblyName": "Microsoft.AspNetCore.Http.Features",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
+        }
+      ],
       "Properties": [
         {
           "Name": "Session",
-          "Type": "ISession"
+          "Type": "Microsoft.AspNetCore.Http.ISession"
         }
       ],
       "Methods": []
