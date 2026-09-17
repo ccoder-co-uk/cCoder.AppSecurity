@@ -5,7 +5,6 @@
 using System;
 using System.Text.Json;
 using cCoder.AppSecurity.Services.Foundations;
-using cCoder.AppSecurity.Exposures.EventHandlers;
 using cCoder.Data.Exposures;
 
 
@@ -18,50 +17,20 @@ public static partial class WebApplicationExtensions
     public static WebApplication StartAppSecurityWeb(
         this WebApplication app,
         ILogger log = null) =>
-        app.UseAppSecurityExposure(log: log)
-            .UseAppSecurityEventHandlers()
-            .UseAppSecurityDeleteEventHandlers();
+        app.UseAppSecurityExposure(log: log);
 
     public static WebApplication StartAppSecurityHostedServices(
         this WebApplication app)
     {
         PopulateMetadataTypeCache(app: app);
 
-        return app.UseAppSecurityEventHandlers()
-            .UseAppSecurityDeleteEventHandlers();
+        return app;
     }
 
     private static WebApplication UseAppSecurityExposure(this WebApplication app, ILogger log = null)
     {
         log?.LogInformation(message: "Initialising App Security");
         PopulateMetadataTypeCache(app: app);
-        return app;
-    }
-
-    private static WebApplication UseAppSecurityEventHandlers(this WebApplication app)
-    {
-        using IServiceScope scope = app.Services.CreateScope();
-        IServiceProvider services = scope.ServiceProvider;
-
-        foreach (IAppSecurityEventHandlers handlers in services.GetServices<IAppSecurityEventHandlers>())
-        {
-            handlers.ListenToAppCreateAndUpdateEvents();
-            handlers.ListenToSecurityAccountEvents();
-        }
-
-        return app;
-    }
-
-    private static WebApplication UseAppSecurityDeleteEventHandlers(this WebApplication app)
-    {
-        using IServiceScope scope = app.Services.CreateScope();
-        IServiceProvider services = scope.ServiceProvider;
-
-        foreach (IAppSecurityEventHandlers handlers in services.GetServices<IAppSecurityEventHandlers>())
-        {
-            handlers.ListenToAppDeleteEvents();
-        }
-
         return app;
     }
 

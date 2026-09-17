@@ -3,7 +3,6 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity;
-using cCoder.AppSecurity.Exposures.EventHandlers;
 
 namespace AppSecurity.HostedServices;
 
@@ -24,16 +23,7 @@ public static class WebApplicationExtensions
             pattern: "/Health",
             handler: () => Results.Text(content: "Healthy"));
 
-        using IServiceScope serviceScope = app.Services.CreateScope();
-        IServiceProvider services = serviceScope.ServiceProvider;
-
-        foreach (IAppSecurityEventHandlers handlers
-            in services.GetServices<IAppSecurityEventHandlers>())
-        {
-            handlers.ListenToAppCreateAndUpdateEvents();
-            handlers.ListenToSecurityAccountEvents();
-            handlers.ListenToAppDeleteEvents();
-        }
+        app.StartAppSecurityHostedServices();
     }
 
     private static string BuildHostedServicesReport(
