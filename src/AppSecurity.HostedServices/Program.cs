@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.AppSecurity;
+using cCoder.Eventing;
+
 namespace AppSecurity.HostedServices;
 
 public class Program
@@ -18,6 +21,9 @@ public class Program
             configuration: builder.Configuration);
 
         WebApplication app = builder.Build();
+        app.Services
+            .GetRequiredService<IEventHub>()
+            .ListenToAppSecurityEvents();
         app.UseHostedServicesApplication();
         app.Run();
     }

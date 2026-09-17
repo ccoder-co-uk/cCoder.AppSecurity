@@ -6,7 +6,6 @@ using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Brokers.Storages;
 using cCoder.AppSecurity.Exposures;
-using cCoder.AppSecurity.Exposures.EventHandlers;
 using cCoder.AppSecurity.Dependencies.HostedServices;
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Aggregations;
@@ -31,13 +30,11 @@ using AuthInfoBroker = cCoder.AppSecurity.Brokers.AuthInfoBroker;
 using SecurityDbContextBroker = cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker;
 using TokenBroker = cCoder.AppSecurity.Brokers.Tokens.TokenBroker;
 using AppBroker = cCoder.AppSecurity.Brokers.Storages.AppBroker;
-using EventHubBroker = cCoder.AppSecurity.Brokers.Events.EventHubBroker;
 using IAuthorizationBroker = cCoder.AppSecurity.Brokers.IAuthorizationBroker;
 using IAuthInfoBroker = cCoder.AppSecurity.Brokers.IAuthInfoBroker;
 using ISecurityDbContextBroker = cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker;
 using ITokenBroker = cCoder.AppSecurity.Brokers.Tokens.ITokenBroker;
 using IAppBroker = cCoder.AppSecurity.Brokers.Storages.IAppBroker;
-using IEventHubBroker = cCoder.AppSecurity.Brokers.Events.IEventHubBroker;
 using IJsonBroker = cCoder.AppSecurity.Brokers.IJsonBroker;
 using IPrivilegeBroker = cCoder.AppSecurity.Brokers.IPrivilegeBroker;
 using IPrivilegeEventBroker = cCoder.AppSecurity.Brokers.Events.IPrivilegeEventBroker;
@@ -85,7 +82,6 @@ public static partial class IServiceCollectionExtensions
         services.AddProcessings();
         services.AddOrchestrations();
         services.AddAggregations();
-        services.AddExposures();
     }
 
     public static void AddAppSecurityHostedServices(
@@ -107,7 +103,6 @@ public static partial class IServiceCollectionExtensions
         services.AddProcessings();
         services.AddOrchestrations();
         services.AddAggregations();
-        services.AddExposures();
         services.AddHostedServices();
     }
 
@@ -160,7 +155,6 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IAuthInfoBroker, AuthInfoBroker>();
         services.AddTransient<ISecurityDbContextBroker, SecurityDbContextBroker>();
         services.AddTransient<ITokenBroker, TokenBroker>();
-        services.AddTransient<IEventHubBroker, EventHubBroker>();
         services.AddTransient<IJsonBroker, JsonBroker>();
         services.AddTransient<IRoleEventBroker, RoleEventBroker>();
         services.AddTransient<IPrivilegeEventBroker, PrivilegeEventBroker>();
@@ -183,7 +177,6 @@ public static partial class IServiceCollectionExtensions
         services.AddTransient<IAnalysePlatformUsageService, AnalysePlatformUsageService>();
         services.AddTransient<IAppSecurityAppExposure, AppSecurityAppExposure>();
         services.AddTransient<IAppSecurityPackageManager, AppSecurityPackageManager>();
-        services.AddTransient<Services.Foundations.Events.IEventHandlerService, Services.Foundations.Events.EventHandlerService>();
         services.AddTransient<IPrivilegeEventService, PrivilegeEventService>();
         services.AddTransient<IPrivilegeService, PrivilegeService>();
         services.AddTransient<IAppSecurityMetadataTypeService, AppSecurityMetadataTypeService>();
@@ -222,11 +215,6 @@ public static partial class IServiceCollectionExtensions
     {
         services.AddTransient<IAppSecurityMigrationAggregationService, AppSecurityMigrationAggregationService>();
         services.AddTransient<IAppRelationshipAggregationService, AppRelationshipAggregationService>();
-    }
-
-    private static void AddExposures(this IServiceCollection services)
-    {
-        services.AddTransient<IAppSecurityEventHandlers, AppSecurityEventHandlers>();
     }
 
     private static void AddProcessings(this IServiceCollection services)
