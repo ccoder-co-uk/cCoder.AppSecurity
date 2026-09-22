@@ -7,7 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="cCoder.CodeAnalysis" Version="2026.9.17.1541" PrivateAssets="all" />
-    <PackageReference Include="cCoder.Data" Version="2026.8.28.1700" />
+    <PackageReference Include="cCoder.Data" Version="2026.9.22.1438" />
     <PackageReference Include="cCoder.Eventing" Version="2026.9.22.1323" />
     <PackageReference Include="FluentAssertions" Version="8.10.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
