@@ -125,7 +125,7 @@
     {
       "Name": "AppSecurity.HostedServices.Program",
       "StandardElementType": "App",
-      "LineNumber": 7,
+      "LineNumber": 10,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -135,7 +135,7 @@
         {
           "Id": "AppSecurity.HostedServices.Program.Main(System.String[])",
           "Name": "Main",
-          "LineNumber": 9,
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "args",
@@ -181,6 +181,13 @@
               "IsDependencyBoundary": true
             },
             {
+              "TypeName": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions",
+              "MethodName": "GetRequiredService",
+              "MethodId": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
               "TypeName": "Microsoft.Extensions.Logging.ConsoleLoggerExtensions",
               "MethodName": "AddSimpleConsole",
               "MethodId": "Microsoft.Extensions.Logging.ConsoleLoggerExtensions.AddSimpleConsole(Microsoft.Extensions.Logging.ILoggingBuilder)",
@@ -191,6 +198,13 @@
               "TypeName": "Microsoft.Extensions.Logging.LoggingBuilderExtensions",
               "MethodName": "ClearProviders",
               "MethodId": "Microsoft.Extensions.Logging.LoggingBuilderExtensions.ClearProviders(Microsoft.Extensions.Logging.ILoggingBuilder)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.IEventHubExtensions",
+              "MethodName": "ListenToAppSecurityEvents",
+              "MethodId": "cCoder.AppSecurity.IEventHubExtensions.ListenToAppSecurityEvents(cCoder.Eventing.IEventHub)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             }
@@ -212,7 +226,7 @@
     {
       "Name": "AppSecurity.HostedServices.WebApplicationExtensions",
       "StandardElementType": "App",
-      "LineNumber": 10,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -222,7 +236,7 @@
         {
           "Id": "AppSecurity.HostedServices.WebApplicationExtensions.UseHostedServicesApplication(Microsoft.AspNetCore.Builder.WebApplication)",
           "Name": "UseHostedServicesApplication",
-          "LineNumber": 12,
+          "LineNumber": 11,
           "Inputs": [
             {
               "Name": "app",
@@ -247,37 +261,9 @@
               "IsDependencyBoundary": true
             },
             {
-              "TypeName": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions",
-              "MethodName": "CreateScope",
-              "MethodId": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.CreateScope(System.IServiceProvider)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions",
-              "MethodName": "GetServices",
-              "MethodId": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetServices(System.IServiceProvider)",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers",
-              "MethodName": "ListenToAppCreateAndUpdateEvents",
-              "MethodId": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers.ListenToAppCreateAndUpdateEvents()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers",
-              "MethodName": "ListenToAppDeleteEvents",
-              "MethodId": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers.ListenToAppDeleteEvents()",
-              "StandardElementType": "Dependency",
-              "IsDependencyBoundary": true
-            },
-            {
-              "TypeName": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers",
-              "MethodName": "ListenToSecurityAccountEvents",
-              "MethodId": "cCoder.AppSecurity.Exposures.EventHandlers.IAppSecurityEventHandlers.ListenToSecurityAccountEvents()",
+              "TypeName": "cCoder.AppSecurity.WebApplicationExtensions",
+              "MethodName": "StartAppSecurityHostedServices",
+              "MethodId": "cCoder.AppSecurity.WebApplicationExtensions.StartAppSecurityHostedServices(Microsoft.AspNetCore.Builder.WebApplication)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             }
@@ -299,5 +285,13 @@
   ],
   "Interfaces": [],
   "Links": [],
-  "AnalysisItems": []
+  "AnalysisItems": [
+    {
+      "Code": "STXAPP004",
+      "Description": "WebApplicationExtensions must consume the service provider to start application services.",
+      "Severity": "Warning",
+      "Type": "AppSecurity.HostedServices.WebApplicationExtensions",
+      "LineNumber": 9
+    }
+  ]
 }

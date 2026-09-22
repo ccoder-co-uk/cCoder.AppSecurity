@@ -7,7 +7,6 @@ using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Brokers.Metadata;
 using cCoder.AppSecurity.Brokers.Storages;
 using cCoder.AppSecurity.Exposures;
-using cCoder.AppSecurity.Exposures.EventHandlers;
 using cCoder.AppSecurity.Exposures.HostedServices;
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Aggregations;

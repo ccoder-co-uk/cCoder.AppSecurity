@@ -125,7 +125,7 @@
     {
       "Name": "AppSecurity.Web.Program",
       "StandardElementType": "App",
-      "LineNumber": 7,
+      "LineNumber": 10,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -135,7 +135,7 @@
         {
           "Id": "AppSecurity.Web.Program.Main(System.String[])",
           "Name": "Main",
-          "LineNumber": 9,
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "args",
@@ -177,6 +177,20 @@
               "TypeName": "Microsoft.AspNetCore.Builder.WebApplicationBuilder",
               "MethodName": "Build",
               "MethodId": "Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions",
+              "MethodName": "GetRequiredService",
+              "MethodId": "Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)",
+              "StandardElementType": "Dependency",
+              "IsDependencyBoundary": true
+            },
+            {
+              "TypeName": "cCoder.AppSecurity.IEventHubExtensions",
+              "MethodName": "ListenToAppSecurityEvents",
+              "MethodId": "cCoder.AppSecurity.IEventHubExtensions.ListenToAppSecurityEvents(cCoder.Eventing.IEventHub)",
               "StandardElementType": "Dependency",
               "IsDependencyBoundary": true
             }
