@@ -3,13 +3,15 @@
 // ---------------------------------------------------------------
 
 using cCoder.AppSecurity.Api.OData;
-using cCoder.AppSecurity.Dependencies.Metadata;
+using cCoder.AppSecurity.Brokers.Metadata;
 using cCoder.Data.Models.Security;
 
 
 namespace cCoder.AppSecurity.Services.Foundations;
 
-internal sealed partial class AppSecurityMetadataTypeService : IAppSecurityMetadataTypeService
+internal sealed partial class AppSecurityMetadataTypeService(
+    IMetadataBroker metadataBroker)
+    : IAppSecurityMetadataTypeService
 {
     public IEnumerable<MetadataContainerSet> GetKnownMetadata() =>
         TryCatch(operation: IEnumerable<MetadataContainerSet> () =>
@@ -31,9 +33,9 @@ internal sealed partial class AppSecurityMetadataTypeService : IAppSecurityMetad
     ];
         });
 
-    private static ExtendedMetadataContainer Entity<T>()
+    private ExtendedMetadataContainer Entity<T>()
     {
-        ExtendedMetadataContainer metadata = MetadataDependency.CreateExtendedMetadataContainer(
+        ExtendedMetadataContainer metadata = metadataBroker.CreateExtendedMetadataContainer(
             type: typeof(T),
             isEntity: true,
             hasEndpoint: true);
