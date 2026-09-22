@@ -24269,6 +24269,20 @@
     },
     {
       "Code": "STXD005",
+      "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.IServiceScopeFactory.CreateScope()\u0027 must be isolated behind a broker or dependency.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
+      "LineNumber": 26
+    },
+    {
+      "Code": "STXD005",
+      "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)\u0027 must be isolated behind a broker or dependency.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
+      "LineNumber": 30
+    },
+    {
+      "Code": "STXD005",
       "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)\u0027 must be isolated behind a broker or dependency.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
@@ -24294,6 +24308,20 @@
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
       "LineNumber": 26
+    },
+    {
+      "Code": "STXD005",
+      "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.IServiceScopeFactory.CreateScope()\u0027 must be isolated behind a broker or dependency.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
+      "LineNumber": 26
+    },
+    {
+      "Code": "STXD005",
+      "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)\u0027 must be isolated behind a broker or dependency.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
+      "LineNumber": 29
     },
     {
       "Code": "STXD005",
