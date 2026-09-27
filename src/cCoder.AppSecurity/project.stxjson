@@ -4352,7 +4352,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.AppSecurityPackageManager",
       "StandardElementType": "Exposure",
-      "LineNumber": 13,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -4366,6 +4366,16 @@
           "Kind": "Interface",
           "IsInCurrentProject": true,
           "StandardElementType": "Exposure"
+        },
+        {
+          "Id": "cCoder.CodeAnalysis.Contracts:cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "FullName": "cCoder.CodeAnalysis.Exposures.ICompositionExposure",
+          "Name": "ICompositionExposure",
+          "Namespace": "cCoder.CodeAnalysis.Exposures",
+          "AssemblyName": "cCoder.CodeAnalysis.Contracts",
+          "Kind": "Interface",
+          "IsInCurrentProject": false,
+          "StandardElementType": "Dependency"
         }
       ],
       "Properties": [],
@@ -4373,7 +4383,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.AppSecurityPackageManager.ExportPackage(System.Int32,System.String)",
           "Name": "ExportPackage",
-          "LineNumber": 20,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "appId",
@@ -4434,7 +4444,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.AppSecurityPackageManager.ImportPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)",
           "Name": "ImportPackageAsync",
-          "LineNumber": 17,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "appId",

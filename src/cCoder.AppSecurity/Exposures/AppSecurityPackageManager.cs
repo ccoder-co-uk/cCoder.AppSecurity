@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.CodeAnalysis.Exposures;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
@@ -12,7 +13,7 @@ namespace cCoder.AppSecurity.Exposures;
 
 internal class AppSecurityPackageManager(
     IAppSecurityMigrationAggregationService appSecurityMigrationAggregationService
-) : IAppSecurityPackageManager
+) : IAppSecurityPackageManager, ICompositionExposure
 {
     public ValueTask ImportPackageAsync(int appId, AppSecurityPackage appSecurityPackage) =>
         appSecurityMigrationAggregationService.ImportPackageAppSecurityPackageAsync(appId: appId, appSecurityPackage: appSecurityPackage);
