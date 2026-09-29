@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Linq;
 using System.Reflection;
 using cCoder.AppSecurity.Services.Aggregations;
 using cCoder.AppSecurity.Services.Orchestrations;

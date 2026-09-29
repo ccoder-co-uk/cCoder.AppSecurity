@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Linq;
 using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Exposures;
 using cCoder.AppSecurity.Exposures.Controllers;

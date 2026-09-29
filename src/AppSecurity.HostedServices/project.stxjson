@@ -9,7 +9,7 @@
     {
       "Name": "AppSecurity.HostedServices.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 13,
+      "LineNumber": 17,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -19,7 +19,7 @@
         {
           "Id": "AppSecurity.HostedServices.IServiceCollectionExtensions.AddHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CAppSecurity.HostedServices.Models.AppConfiguration\u003E)",
           "Name": "AddHostedServices",
-          "LineNumber": 15,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "services",
@@ -125,7 +125,7 @@
     {
       "Name": "AppSecurity.HostedServices.Program",
       "StandardElementType": "App",
-      "LineNumber": 10,
+      "LineNumber": 14,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -135,7 +135,7 @@
         {
           "Id": "AppSecurity.HostedServices.Program.Main(System.String[])",
           "Name": "Main",
-          "LineNumber": 12,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "args",
@@ -226,7 +226,7 @@
     {
       "Name": "AppSecurity.HostedServices.WebApplicationExtensions",
       "StandardElementType": "App",
-      "LineNumber": 9,
+      "LineNumber": 14,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -236,7 +236,7 @@
         {
           "Id": "AppSecurity.HostedServices.WebApplicationExtensions.UseHostedServicesApplication(Microsoft.AspNetCore.Builder.WebApplication)",
           "Name": "UseHostedServicesApplication",
-          "LineNumber": 11,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "app",
@@ -291,7 +291,7 @@
       "Description": "WebApplicationExtensions must consume the service provider to start application services.",
       "Severity": "Warning",
       "Type": "AppSecurity.HostedServices.WebApplicationExtensions",
-      "LineNumber": 9
+      "LineNumber": 14
     }
   ]
 }

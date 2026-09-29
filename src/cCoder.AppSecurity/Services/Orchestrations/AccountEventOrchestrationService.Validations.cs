@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using cCoder.Security.Models.Events;
+
 using cCoder.AppSecurity.Dependencies;
 
 namespace cCoder.AppSecurity.Services.Orchestrations;

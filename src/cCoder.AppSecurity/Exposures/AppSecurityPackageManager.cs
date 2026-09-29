@@ -2,10 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Threading.Tasks;
+
 using cCoder.CodeAnalysis.Exposures;
 using cCoder.AppSecurity.Models;
-using cCoder.Data.Models.CMS;
-using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Services.Aggregations;
 
 

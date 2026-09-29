@@ -9,7 +9,7 @@
     {
       "Name": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo",
       "StandardElementType": "Dependency",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -57,7 +57,7 @@
         {
           "Id": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo.GetAccessors(System.Boolean)",
           "Name": "GetAccessors",
-          "LineNumber": 20,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "nonPublic",
@@ -96,7 +96,7 @@
         {
           "Id": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo.GetCustomAttributes(System.Boolean)",
           "Name": "GetCustomAttributes",
-          "LineNumber": 21,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "inherit",
@@ -129,7 +129,7 @@
         {
           "Id": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo.GetCustomAttributes(System.Type,System.Boolean)",
           "Name": "GetCustomAttributes",
-          "LineNumber": 22,
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "attributeType",
@@ -166,7 +166,7 @@
         {
           "Id": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo.GetGetMethod(System.Boolean)",
           "Name": "GetGetMethod",
-          "LineNumber": 24,
+          "LineNumber": 26,
           "Inputs": [
             {
               "Name": "nonPublic",
@@ -205,7 +205,7 @@
         {
           "Id": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo.GetIndexParameters()",
           "Name": "GetIndexParameters",
-          "LineNumber": 25,
+          "LineNumber": 27,
           "Inputs": [],
           "ReturnType": "System.Reflection.ParameterInfo[]",
           "Implements": [],
@@ -239,7 +239,7 @@
         {
           "Id": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo.GetSetMethod(System.Boolean)",
           "Name": "GetSetMethod",
-          "LineNumber": 26,
+          "LineNumber": 28,
           "Inputs": [
             {
               "Name": "nonPublic",
@@ -278,7 +278,7 @@
         {
           "Id": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo.GetValue(System.Object,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)",
           "Name": "GetValue",
-          "LineNumber": 27,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "obj",
@@ -333,7 +333,7 @@
         {
           "Id": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo.IsDefined(System.Type,System.Boolean)",
           "Name": "IsDefined",
-          "LineNumber": 29,
+          "LineNumber": 31,
           "Inputs": [
             {
               "Name": "attributeType",
@@ -370,7 +370,7 @@
         {
           "Id": "cCoder.AppSecurity.Api.OData.CompositePropertyInfo.SetValue(System.Object,System.Object,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)",
           "Name": "SetValue",
-          "LineNumber": 30,
+          "LineNumber": 32,
           "Inputs": [
             {
               "Name": "obj",
@@ -431,7 +431,7 @@
     {
       "Name": "cCoder.AppSecurity.Api.OData.EnumerableExtensions",
       "StandardElementType": "Exposure",
-      "LineNumber": 7,
+      "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -442,7 +442,7 @@
     {
       "Name": "cCoder.AppSecurity.Api.OData.ExtendedMetadataContainer",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -467,7 +467,7 @@
     {
       "Name": "cCoder.AppSecurity.Api.OData.MetadataContainer",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -603,7 +603,7 @@
     {
       "Name": "cCoder.AppSecurity.Api.OData.OperationContainer",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -752,7 +752,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.AuthorizationBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 22,
+      "LineNumber": 26,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -773,7 +773,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.AuthorizationBroker.Authorize(System.Int32?,System.String)",
           "Name": "Authorize",
-          "LineNumber": 51,
+          "LineNumber": 55,
           "Inputs": [
             {
               "Name": "appId",
@@ -839,7 +839,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.AuthorizationBroker.GetCurrentUser()",
           "Name": "GetCurrentUser",
-          "LineNumber": 24,
+          "LineNumber": 28,
           "Inputs": [],
           "ReturnType": "cCoder.Data.Models.Security.User",
           "Implements": [
@@ -869,7 +869,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.AuthorizationBroker.IsAdmin(System.Int32,System.String)",
           "Name": "IsAdmin",
-          "LineNumber": 36,
+          "LineNumber": 40,
           "Inputs": [
             {
               "Name": "appId",
@@ -936,7 +936,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.AuthorizationBroker.IsAdminOfApp(System.Int32?)",
           "Name": "IsAdminOfApp",
-          "LineNumber": 30,
+          "LineNumber": 34,
           "Inputs": [
             {
               "Name": "appId",
@@ -973,7 +973,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Events.PrivilegeEventBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 11,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -994,7 +994,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.PrivilegeEventBroker.RaisePrivilegeAddEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "RaisePrivilegeAddEventAsync",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "message",
@@ -1029,7 +1029,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.PrivilegeEventBroker.RaisePrivilegeDeleteEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "RaisePrivilegeDeleteEventAsync",
-          "LineNumber": 19,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "message",
@@ -1064,7 +1064,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.PrivilegeEventBroker.RaisePrivilegeUpdateEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "RaisePrivilegeUpdateEventAsync",
-          "LineNumber": 16,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "message",
@@ -1101,7 +1101,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Events.RoleEventBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 12,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1122,7 +1122,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.RoleEventBroker.RaiseRoleAddEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "RaiseRoleAddEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "message",
@@ -1157,7 +1157,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.RoleEventBroker.RaiseRoleDeleteEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "RaiseRoleDeleteEventAsync",
-          "LineNumber": 20,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "message",
@@ -1192,7 +1192,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.RoleEventBroker.RaiseRoleUpdateEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "RaiseRoleUpdateEventAsync",
-          "LineNumber": 17,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "message",
@@ -1229,7 +1229,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Events.UserEventBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 12,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1250,7 +1250,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.UserEventBroker.RaiseUserAddEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "RaiseUserAddEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "message",
@@ -1285,7 +1285,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.UserEventBroker.RaiseUserDeleteEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "RaiseUserDeleteEventAsync",
-          "LineNumber": 20,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "message",
@@ -1320,7 +1320,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.UserEventBroker.RaiseUserUpdateEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "RaiseUserUpdateEventAsync",
-          "LineNumber": 17,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "message",
@@ -1357,7 +1357,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Events.UserRoleEventBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 12,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1378,7 +1378,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.UserRoleEventBroker.RaiseUserRoleAddEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.UserRole\u003E)",
           "Name": "RaiseUserRoleAddEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "message",
@@ -1413,7 +1413,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.UserRoleEventBroker.RaiseUserRoleDeleteEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.UserRole\u003E)",
           "Name": "RaiseUserRoleDeleteEventAsync",
-          "LineNumber": 17,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "message",
@@ -1578,7 +1578,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Loggings.LoggingBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1599,7 +1599,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Loggings.LoggingBroker.LogError(System.Exception,System.String,System.Object[])",
           "Name": "LogError",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "exception",
@@ -1644,7 +1644,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Metadata.MetadataBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 13,
+      "LineNumber": 17,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1665,7 +1665,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Metadata.MetadataBroker.CreateExtendedMetadataContainer(System.Type,System.Boolean,System.Boolean)",
           "Name": "CreateExtendedMetadataContainer",
-          "LineNumber": 50,
+          "LineNumber": 54,
           "Inputs": [
             {
               "Name": "type",
@@ -1819,7 +1819,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.PrivilegeBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 21,
+      "LineNumber": 26,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -1840,7 +1840,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.PrivilegeBroker.AddPrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "AddPrivilegeAsync",
-          "LineNumber": 38,
+          "LineNumber": 43,
           "Inputs": [
             {
               "Name": "newPrivilege",
@@ -1902,7 +1902,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.PrivilegeBroker.DeleteAllPrivilegesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "DeleteAllPrivilegesAsync",
-          "LineNumber": 72,
+          "LineNumber": 77,
           "Inputs": [
             {
               "Name": "deletedPrivilege",
@@ -1964,7 +1964,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.PrivilegeBroker.DeletePrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "DeletePrivilegeAsync",
-          "LineNumber": 62,
+          "LineNumber": 67,
           "Inputs": [
             {
               "Name": "deletedPrivilege",
@@ -2026,7 +2026,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.PrivilegeBroker.GetAllPrivileges(System.Boolean)",
           "Name": "GetAllPrivileges",
-          "LineNumber": 24,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -2089,7 +2089,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.PrivilegeBroker.GetAppId(cCoder.Data.Models.Security.Privilege)",
           "Name": "GetAppId",
-          "LineNumber": 82,
+          "LineNumber": 87,
           "Inputs": [
             {
               "Name": "privilege",
@@ -2116,7 +2116,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.PrivilegeBroker.UpdatePrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "UpdatePrivilegeAsync",
-          "LineNumber": 50,
+          "LineNumber": 55,
           "Inputs": [
             {
               "Name": "updatedPrivilege",
@@ -2180,7 +2180,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.RoleBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 23,
+      "LineNumber": 28,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2201,7 +2201,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.RoleBroker.AddRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddRoleAsync",
-          "LineNumber": 39,
+          "LineNumber": 44,
           "Inputs": [
             {
               "Name": "newRole",
@@ -2256,7 +2256,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.RoleBroker.DeleteAllRolesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "DeleteAllRolesAsync",
-          "LineNumber": 86,
+          "LineNumber": 91,
           "Inputs": [
             {
               "Name": "deletedRole",
@@ -2311,7 +2311,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.RoleBroker.DeleteFolderRolesByRoleIdAsync(System.Guid)",
           "Name": "DeleteFolderRolesByRoleIdAsync",
-          "LineNumber": 55,
+          "LineNumber": 60,
           "Inputs": [
             {
               "Name": "roleId",
@@ -2380,7 +2380,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.RoleBroker.DeletePageRolesByRoleIdAsync(System.Guid)",
           "Name": "DeletePageRolesByRoleIdAsync",
-          "LineNumber": 67,
+          "LineNumber": 72,
           "Inputs": [
             {
               "Name": "roleId",
@@ -2449,7 +2449,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.RoleBroker.DeleteRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "DeleteRoleAsync",
-          "LineNumber": 79,
+          "LineNumber": 84,
           "Inputs": [
             {
               "Name": "deletedRole",
@@ -2504,7 +2504,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.RoleBroker.GetAllRoles(System.Boolean)",
           "Name": "GetAllRoles",
-          "LineNumber": 26,
+          "LineNumber": 31,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -2560,7 +2560,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.RoleBroker.GetAppId(cCoder.Data.Models.Security.Role)",
           "Name": "GetAppId",
-          "LineNumber": 93,
+          "LineNumber": 98,
           "Inputs": [
             {
               "Name": "role",
@@ -2587,7 +2587,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.RoleBroker.UpdateRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateRoleAsync",
-          "LineNumber": 47,
+          "LineNumber": 52,
           "Inputs": [
             {
               "Name": "updatedRole",
@@ -2644,7 +2644,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 12,
+      "LineNumber": 19,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -2665,7 +2665,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.AddTenantAnalysesAsync(cCoder.Security.Models.Entities.TenantAnalysis[],System.Threading.CancellationToken)",
           "Name": "AddTenantAnalysesAsync",
-          "LineNumber": 91,
+          "LineNumber": 98,
           "Inputs": [
             {
               "Name": "newTenantAnalyses",
@@ -2724,7 +2724,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.CreateSecurityDbContext()",
           "Name": "CreateSecurityDbContext",
-          "LineNumber": 16,
+          "LineNumber": 23,
           "Inputs": [],
           "ReturnType": "cCoder.Security.Data.EF.SecurityDbContext",
           "Implements": [
@@ -2754,7 +2754,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.DeleteUserEventsBeforeAsync(System.DateTime,System.Threading.CancellationToken)",
           "Name": "DeleteUserEventsBeforeAsync",
-          "LineNumber": 100,
+          "LineNumber": 107,
           "Inputs": [
             {
               "Name": "createdBefore",
@@ -2814,7 +2814,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.SelectTenantAnalysis(System.String,System.DateTime)",
           "Name": "SelectTenantAnalysis",
-          "LineNumber": 44,
+          "LineNumber": 51,
           "Inputs": [
             {
               "Name": "tenantId",
@@ -2867,7 +2867,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.SelectTenantIds()",
           "Name": "SelectTenantIds",
-          "LineNumber": 34,
+          "LineNumber": 41,
           "Inputs": [],
           "ReturnType": "System.String[]",
           "Implements": [
@@ -2918,7 +2918,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.SelectUserActivities(System.String,System.DateTime,System.DateTime)",
           "Name": "SelectUserActivities",
-          "LineNumber": 56,
+          "LineNumber": 63,
           "Inputs": [
             {
               "Name": "tenantId",
@@ -2996,7 +2996,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker.SelectUserEventDates()",
           "Name": "SelectUserEventDates",
-          "LineNumber": 19,
+          "LineNumber": 26,
           "Inputs": [],
           "ReturnType": "System.DateTime[]",
           "Implements": [
@@ -3084,7 +3084,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Storages.AppBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 11,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -3105,7 +3105,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.AppBroker.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.CMS.App\u003E",
           "Implements": [
@@ -3142,7 +3142,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.AppBroker.GetByDomain(System.String)",
           "Name": "GetByDomain",
-          "LineNumber": 21,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "domain",
@@ -3193,7 +3193,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Storages.PageRoleBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 18,
+      "LineNumber": 21,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -3214,7 +3214,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.PageRoleBroker.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)",
           "Name": "AddPageRoleAsync",
-          "LineNumber": 37,
+          "LineNumber": 40,
           "Inputs": [
             {
               "Name": "newPageRole",
@@ -3269,7 +3269,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.PageRoleBroker.GetAllPageRoles()",
           "Name": "GetAllPageRoles",
-          "LineNumber": 20,
+          "LineNumber": 23,
           "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.PageRole\u003E",
           "Implements": [
@@ -3306,7 +3306,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.PageRoleBroker.GetPageId(System.Int32,System.String)",
           "Name": "GetPageId",
-          "LineNumber": 26,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "appId",
@@ -3375,7 +3375,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Storages.UserBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 22,
+      "LineNumber": 27,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -3396,7 +3396,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserBroker.AddUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "AddUserAsync",
-          "LineNumber": 53,
+          "LineNumber": 58,
           "Inputs": [
             {
               "Name": "newUser",
@@ -3451,7 +3451,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserBroker.DeleteAllUsersAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "DeleteAllUsersAsync",
-          "LineNumber": 76,
+          "LineNumber": 81,
           "Inputs": [
             {
               "Name": "deletedUser",
@@ -3506,7 +3506,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserBroker.DeleteUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "DeleteUserAsync",
-          "LineNumber": 69,
+          "LineNumber": 74,
           "Inputs": [
             {
               "Name": "deletedUser",
@@ -3561,7 +3561,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserBroker.GetAllUsers(System.Boolean)",
           "Name": "GetAllUsers",
-          "LineNumber": 25,
+          "LineNumber": 30,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -3617,7 +3617,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserBroker.GetAppId(cCoder.Data.Models.Security.User)",
           "Name": "GetAppId",
-          "LineNumber": 83,
+          "LineNumber": 88,
           "Inputs": [
             {
               "Name": "user",
@@ -3673,7 +3673,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserBroker.GetUserByEmail(System.String,System.Boolean)",
           "Name": "GetUserByEmail",
-          "LineNumber": 38,
+          "LineNumber": 43,
           "Inputs": [
             {
               "Name": "email",
@@ -3740,7 +3740,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserBroker.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 61,
+          "LineNumber": 66,
           "Inputs": [
             {
               "Name": "updatedUser",
@@ -3797,7 +3797,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Storages.UserRoleBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 21,
+      "LineNumber": 26,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -3818,7 +3818,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserRoleBroker.AddUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "AddUserRoleAsync",
-          "LineNumber": 37,
+          "LineNumber": 42,
           "Inputs": [
             {
               "Name": "newUserRole",
@@ -3873,7 +3873,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserRoleBroker.DeleteAllUserRolesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.UserRole\u003E)",
           "Name": "DeleteAllUserRolesAsync",
-          "LineNumber": 52,
+          "LineNumber": 57,
           "Inputs": [
             {
               "Name": "deletedUserRole",
@@ -3928,7 +3928,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserRoleBroker.DeleteUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "DeleteUserRoleAsync",
-          "LineNumber": 45,
+          "LineNumber": 50,
           "Inputs": [
             {
               "Name": "deletedUserRole",
@@ -3983,7 +3983,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserRoleBroker.GetAllUserRoles(System.Boolean)",
           "Name": "GetAllUserRoles",
-          "LineNumber": 24,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -4039,7 +4039,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.UserRoleBroker.GetAppId(cCoder.Data.Models.Security.UserRole)",
           "Name": "GetAppId",
-          "LineNumber": 59,
+          "LineNumber": 64,
           "Inputs": [
             {
               "Name": "userRole",
@@ -4097,7 +4097,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Tokens.TokenBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -4118,7 +4118,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Tokens.TokenBroker.DeleteExpiredTokensAsync(System.Threading.CancellationToken)",
           "Name": "DeleteExpiredTokensAsync",
-          "LineNumber": 14,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -4176,7 +4176,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.AppSecurityAppExposure",
       "StandardElementType": "Exposure",
-      "LineNumber": 12,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -4197,7 +4197,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.AppSecurityAppExposure.AddAsync(cCoder.Data.Models.CMS.App)",
           "Name": "AddAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "newApp",
@@ -4248,7 +4248,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.AppSecurityAppExposure.DeleteAsync(System.Int32)",
           "Name": "DeleteAsync",
-          "LineNumber": 21,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "appId",
@@ -4299,7 +4299,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.AppSecurityAppExposure.UpdateAsync(cCoder.Data.Models.CMS.App)",
           "Name": "UpdateAsync",
-          "LineNumber": 18,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "updatedApp",
@@ -4509,7 +4509,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.AppController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 21,
+      "LineNumber": 18,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -4528,7 +4528,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.AppController.Get(System.Int32)",
           "Name": "Get",
-          "LineNumber": 65,
+          "LineNumber": 62,
           "Inputs": [
             {
               "Name": "key",
@@ -4663,7 +4663,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.AppController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 33,
+          "LineNumber": 30,
           "Inputs": [],
           "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
@@ -4771,7 +4771,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 23,
+      "LineNumber": 19,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -4790,7 +4790,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Delete(System.String)",
           "Name": "Delete",
-          "LineNumber": 177,
+          "LineNumber": 173,
           "Inputs": [
             {
               "Name": "key",
@@ -4911,7 +4911,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 71,
+          "LineNumber": 67,
           "Inputs": [
             {
               "Name": "key",
@@ -5048,7 +5048,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 38,
+          "LineNumber": 34,
           "Inputs": [],
           "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
@@ -5163,7 +5163,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Post(cCoder.Data.Models.Security.Privilege)",
           "Name": "Post",
-          "LineNumber": 107,
+          "LineNumber": 103,
           "Inputs": [
             {
               "Name": "newPrivilege",
@@ -5301,7 +5301,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController.Put(System.String,cCoder.Data.Models.Security.Privilege)",
           "Name": "Put",
-          "LineNumber": 146,
+          "LineNumber": 142,
           "Inputs": [
             {
               "Name": "key",
@@ -5445,7 +5445,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 23,
+      "LineNumber": 19,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -5464,7 +5464,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Delete(System.Guid)",
           "Name": "Delete",
-          "LineNumber": 177,
+          "LineNumber": 173,
           "Inputs": [
             {
               "Name": "key",
@@ -5585,7 +5585,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 71,
+          "LineNumber": 67,
           "Inputs": [
             {
               "Name": "key",
@@ -5722,7 +5722,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 38,
+          "LineNumber": 34,
           "Inputs": [],
           "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
@@ -5836,7 +5836,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Post(cCoder.Data.Models.Security.Role)",
           "Name": "Post",
-          "LineNumber": 107,
+          "LineNumber": 103,
           "Inputs": [
             {
               "Name": "newRole",
@@ -5974,7 +5974,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.RoleController.Put(System.Guid,cCoder.Data.Models.Security.Role)",
           "Name": "Put",
-          "LineNumber": 146,
+          "LineNumber": 142,
           "Inputs": [
             {
               "Name": "key",
@@ -6118,7 +6118,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.Controllers.UserController",
       "StandardElementType": "HttpExposure",
-      "LineNumber": 24,
+      "LineNumber": 20,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -6137,7 +6137,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Delete(System.String)",
           "Name": "Delete",
-          "LineNumber": 208,
+          "LineNumber": 204,
           "Inputs": [
             {
               "Name": "key",
@@ -6258,7 +6258,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 102,
+          "LineNumber": 98,
           "Inputs": [
             {
               "Name": "key",
@@ -6395,7 +6395,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 69,
+          "LineNumber": 65,
           "Inputs": [],
           "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
@@ -6509,7 +6509,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.GetMe()",
           "Name": "GetMe",
-          "LineNumber": 32,
+          "LineNumber": 28,
           "Inputs": [],
           "ReturnType": "Microsoft.AspNetCore.Mvc.IActionResult",
           "Implements": [],
@@ -6641,7 +6641,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Post(cCoder.Data.Models.Security.User)",
           "Name": "Post",
-          "LineNumber": 138,
+          "LineNumber": 134,
           "Inputs": [
             {
               "Name": "newUser",
@@ -6779,7 +6779,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.Controllers.UserController.Put(System.String,cCoder.Data.Models.Security.User)",
           "Name": "Put",
-          "LineNumber": 177,
+          "LineNumber": 173,
           "Inputs": [
             {
               "Name": "key",
@@ -7466,7 +7466,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
       "StandardElementType": "Exposure",
-      "LineNumber": 13,
+      "LineNumber": 17,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -7497,7 +7497,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
       "StandardElementType": "Exposure",
-      "LineNumber": 13,
+      "LineNumber": 17,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": {
@@ -7569,7 +7569,7 @@
     {
       "Name": "cCoder.AppSecurity.IEventHubExtensions",
       "StandardElementType": "Exposure",
-      "LineNumber": 14,
+      "LineNumber": 13,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -7579,7 +7579,7 @@
         {
           "Id": "cCoder.AppSecurity.IEventHubExtensions.ListenToAppSecurityEvents(cCoder.Eventing.IEventHub)",
           "Name": "ListenToAppSecurityEvents",
-          "LineNumber": 16,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "eventHub",
@@ -7636,7 +7636,7 @@
     {
       "Name": "cCoder.AppSecurity.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 19,
+      "LineNumber": 21,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -7646,7 +7646,7 @@
         {
           "Id": "cCoder.AppSecurity.IServiceCollectionExtensions.AddAppSecurityHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action\u003CcCoder.AppSecurity.Models.AppSecurityConfiguration\u003E)",
           "Name": "AddAppSecurityHostedServices",
-          "LineNumber": 88,
+          "LineNumber": 84,
           "Inputs": [
             {
               "Name": "services",
@@ -7690,7 +7690,7 @@
         {
           "Id": "cCoder.AppSecurity.IServiceCollectionExtensions.AddAppSecurityHostedServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.AppSecurity.Models.AppSecurityConfiguration)",
           "Name": "AddAppSecurityHostedServices",
-          "LineNumber": 97,
+          "LineNumber": 93,
           "Inputs": [
             {
               "Name": "services",
@@ -7719,7 +7719,7 @@
         {
           "Id": "cCoder.AppSecurity.IServiceCollectionExtensions.AddAppSecurityWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action\u003CcCoder.AppSecurity.Models.AppSecurityConfiguration\u003E,Microsoft.OData.ModelBuilder.ODataConventionModelBuilder)",
           "Name": "AddAppSecurityWeb",
-          "LineNumber": 63,
+          "LineNumber": 59,
           "Inputs": [
             {
               "Name": "services",
@@ -7767,7 +7767,7 @@
         {
           "Id": "cCoder.AppSecurity.IServiceCollectionExtensions.AddAppSecurityWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,cCoder.AppSecurity.Models.AppSecurityConfiguration,Microsoft.OData.ModelBuilder.ODataConventionModelBuilder)",
           "Name": "AddAppSecurityWeb",
-          "LineNumber": 73,
+          "LineNumber": 69,
           "Inputs": [
             {
               "Name": "services",
@@ -7802,7 +7802,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.AccountRoleAssignment",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -7862,7 +7862,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.AppSecurityPackage",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 10,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -7898,7 +7898,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.AppSecurityPackageItem",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -8090,7 +8090,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationDependencyException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8110,7 +8110,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationServiceException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8130,7 +8130,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAggregationValidationException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8150,7 +8150,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityAuthorizationException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8170,7 +8170,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityDependencyException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8190,7 +8190,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationDependencyException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8210,7 +8210,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationServiceException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8230,7 +8230,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityOrchestrationValidationException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8250,7 +8250,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingDependencyException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8270,7 +8270,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingServiceException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8290,7 +8290,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityProcessingValidationException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8310,7 +8310,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityServiceException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8330,7 +8330,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.Exceptions.AppSecurityValidationException",
       "StandardElementType": "Model",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": {
@@ -8350,7 +8350,7 @@
     {
       "Name": "cCoder.AppSecurity.Models.ODataCollection\u003CTCollectionType\u003E",
       "StandardElementType": "Model",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -8401,7 +8401,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService",
       "StandardElementType": "AggregationService",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -8422,7 +8422,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService.AddAppAsync(cCoder.Data.Models.CMS.App)",
           "Name": "AddAppAsync",
-          "LineNumber": 15,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "newApp",
@@ -8491,7 +8491,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService.DeleteAppAsync(cCoder.Data.Models.CMS.App)",
           "Name": "DeleteAppAsync",
-          "LineNumber": 31,
+          "LineNumber": 33,
           "Inputs": [
             {
               "Name": "deletedApp",
@@ -8548,7 +8548,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService.UpdateAppAsync(cCoder.Data.Models.CMS.App)",
           "Name": "UpdateAppAsync",
-          "LineNumber": 23,
+          "LineNumber": 25,
           "Inputs": [
             {
               "Name": "updatedApp",
@@ -8619,7 +8619,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService",
       "StandardElementType": "AggregationService",
-      "LineNumber": 11,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -8640,7 +8640,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService.ExportPackage(System.Int32,System.String)",
           "Name": "ExportPackage",
-          "LineNumber": 69,
+          "LineNumber": 72,
           "Inputs": [
             {
               "Name": "appId",
@@ -8704,7 +8704,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.AppSecurityMigrationAggregationService.ImportPackageAppSecurityPackageAsync(System.Int32,cCoder.AppSecurity.Models.AppSecurityPackage)",
           "Name": "ImportPackageAppSecurityPackageAsync",
-          "LineNumber": 18,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "appId",
@@ -8787,7 +8787,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.AccountRoleAssignmentService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 12,
+      "LineNumber": 16,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -8808,7 +8808,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.AccountRoleAssignmentService.AddAccountRoleAssignmentAsync(cCoder.AppSecurity.Models.AccountRoleAssignment)",
           "Name": "AddAccountRoleAssignmentAsync",
-          "LineNumber": 41,
+          "LineNumber": 45,
           "Inputs": [
             {
               "Name": "newAccountRoleAssignment",
@@ -8862,7 +8862,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.AccountRoleAssignmentService.GetAccountRoleAssignment(cCoder.AppSecurity.Models.AccountRoleAssignment)",
           "Name": "GetAccountRoleAssignment",
-          "LineNumber": 17,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "accountRoleAssignment",
@@ -9014,7 +9014,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.AppSecurityMetadataTypeService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 12,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -9035,7 +9035,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.AppSecurityMetadataTypeService.GetKnownMetadata()",
           "Name": "GetKnownMetadata",
-          "LineNumber": 16,
+          "LineNumber": 18,
           "Inputs": [],
           "ReturnType": "System.Collections.Generic.IEnumerable\u003CcCoder.AppSecurity.Api.OData.MetadataContainerSet\u003E",
           "Implements": [
@@ -9069,7 +9069,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.AppService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -9090,7 +9090,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.AppService.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 12,
+          "LineNumber": 14,
           "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.CMS.App\u003E",
           "Implements": [
@@ -9130,7 +9130,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.AppService.GetByDomain(System.String)",
           "Name": "GetByDomain",
-          "LineNumber": 19,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "domain",
@@ -9242,7 +9242,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.Events.PrivilegeEventService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 16,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -9263,7 +9263,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.PrivilegeEventService.RaisePrivilegeAddEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeAddEventAsync",
-          "LineNumber": 21,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "privilege",
@@ -9329,7 +9329,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.PrivilegeEventService.RaisePrivilegeDeleteEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeDeleteEventAsync",
-          "LineNumber": 53,
+          "LineNumber": 52,
           "Inputs": [
             {
               "Name": "privilege",
@@ -9395,7 +9395,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.PrivilegeEventService.RaisePrivilegeUpdateEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeUpdateEventAsync",
-          "LineNumber": 37,
+          "LineNumber": 36,
           "Inputs": [
             {
               "Name": "privilege",
@@ -9905,7 +9905,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.Events.UserRoleEventService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 18,
+      "LineNumber": 17,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -9926,7 +9926,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.UserRoleEventService.RaiseUserRoleAddEventAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "RaiseUserRoleAddEventAsync",
-          "LineNumber": 21,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "userRole",
@@ -9992,7 +9992,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.UserRoleEventService.RaiseUserRoleDeleteEventAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "RaiseUserRoleDeleteEventAsync",
-          "LineNumber": 37,
+          "LineNumber": 36,
           "Inputs": [
             {
               "Name": "userRole",
@@ -10177,7 +10177,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.PageRoleService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 10,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -10198,7 +10198,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.PageRoleService.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)",
           "Name": "AddPageRoleAsync",
-          "LineNumber": 26,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "newPageRole",
@@ -10245,7 +10245,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.PageRoleService.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 12,
+          "LineNumber": 15,
           "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.PageRole\u003E",
           "Implements": [
@@ -10285,7 +10285,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.PageRoleService.GetPageId(System.Int32,System.String)",
           "Name": "GetPageId",
-          "LineNumber": 18,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "appId",
@@ -10336,7 +10336,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.PrivilegeService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 16,
+      "LineNumber": 17,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -10357,7 +10357,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.PrivilegeService.AddPrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "AddPrivilegeAsync",
-          "LineNumber": 58,
+          "LineNumber": 59,
           "Inputs": [
             {
               "Name": "newPrivilege",
@@ -10427,7 +10427,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.PrivilegeService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 118,
+          "LineNumber": 119,
           "Inputs": [
             {
               "Name": "privilegeId",
@@ -10490,7 +10490,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.PrivilegeService.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 21,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "privilegeId",
@@ -10544,7 +10544,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.PrivilegeService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 47,
+          "LineNumber": 48,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -10603,7 +10603,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.PrivilegeService.UpdatePrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "UpdatePrivilegeAsync",
-          "LineNumber": 88,
+          "LineNumber": 89,
           "Inputs": [
             {
               "Name": "updatedPrivilege",
@@ -10675,7 +10675,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.RoleService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 22,
+      "LineNumber": 24,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -10696,7 +10696,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.RoleService.AddRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddRoleAsync",
-          "LineNumber": 63,
+          "LineNumber": 65,
           "Inputs": [
             {
               "Name": "newRole",
@@ -10752,7 +10752,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.RoleService.AddValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddValidatedRoleAsync",
-          "LineNumber": 90,
+          "LineNumber": 92,
           "Inputs": [
             {
               "Name": "newRole",
@@ -10806,7 +10806,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.RoleService.DeleteAsync(System.Guid)",
           "Name": "DeleteAsync",
-          "LineNumber": 167,
+          "LineNumber": 169,
           "Inputs": [
             {
               "Name": "roleId",
@@ -10862,7 +10862,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.RoleService.DeleteValidatedAsync(System.Guid)",
           "Name": "DeleteValidatedAsync",
-          "LineNumber": 186,
+          "LineNumber": 188,
           "Inputs": [
             {
               "Name": "roleId",
@@ -10909,7 +10909,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.RoleService.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 28,
+          "LineNumber": 30,
           "Inputs": [
             {
               "Name": "roleId",
@@ -10963,7 +10963,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.RoleService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 54,
+          "LineNumber": 56,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -11008,7 +11008,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.RoleService.UpdateRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateRoleAsync",
-          "LineNumber": 115,
+          "LineNumber": 117,
           "Inputs": [
             {
               "Name": "updatedRole",
@@ -11064,7 +11064,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.RoleService.UpdateValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateValidatedRoleAsync",
-          "LineNumber": 142,
+          "LineNumber": 144,
           "Inputs": [
             {
               "Name": "updatedRole",
@@ -11120,7 +11120,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.TokenCleanerService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 9,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -11141,7 +11141,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.TokenCleanerService.RunAsync(System.Threading.CancellationToken)",
           "Name": "RunAsync",
-          "LineNumber": 13,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -11190,7 +11190,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.UserRoleService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 17,
+      "LineNumber": 19,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -11211,7 +11211,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserRoleService.AddUserRoleAsync(cCoder.Data.Models.Security.UserRole,System.Boolean)",
           "Name": "AddUserRoleAsync",
-          "LineNumber": 33,
+          "LineNumber": 35,
           "Inputs": [
             {
               "Name": "newUserRole",
@@ -11285,7 +11285,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserRoleService.DeleteUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "DeleteUserRoleAsync",
-          "LineNumber": 60,
+          "LineNumber": 62,
           "Inputs": [
             {
               "Name": "deletedUserRole",
@@ -11348,7 +11348,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserRoleService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 24,
+          "LineNumber": 26,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -11395,7 +11395,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.UserService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 18,
+      "LineNumber": 19,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -11416,7 +11416,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.AddUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "AddUserAsync",
-          "LineNumber": 66,
+          "LineNumber": 67,
           "Inputs": [
             {
               "Name": "newUser",
@@ -11500,7 +11500,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.AddUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "AddUserFromAccountEventAsync",
-          "LineNumber": 99,
+          "LineNumber": 100,
           "Inputs": [
             {
               "Name": "newUser",
@@ -11547,7 +11547,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 148,
+          "LineNumber": 149,
           "Inputs": [
             {
               "Name": "userId",
@@ -11610,7 +11610,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 21,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "userId",
@@ -11664,7 +11664,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 57,
+          "LineNumber": 58,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -11709,7 +11709,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.GetByEmail(System.String,System.Boolean)",
           "Name": "GetByEmail",
-          "LineNumber": 47,
+          "LineNumber": 48,
           "Inputs": [
             {
               "Name": "email",
@@ -11758,7 +11758,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 112,
+          "LineNumber": 113,
           "Inputs": [
             {
               "Name": "updatedUser",
@@ -11821,7 +11821,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.UserService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserFromAccountEventAsync",
-          "LineNumber": 135,
+          "LineNumber": 136,
           "Inputs": [
             {
               "Name": "updatedUser",
@@ -11862,7 +11862,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.AccountEventOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 13,
+      "LineNumber": 17,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -11883,7 +11883,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.AccountEventOrchestrationService.ProcessSecurityAccountEventAsync(cCoder.Security.Models.Events.SecurityAccountEvent)",
           "Name": "ProcessSecurityAccountEventAsync",
-          "LineNumber": 19,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "securityAccountEvent",
@@ -11957,7 +11957,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 12,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -11978,7 +11978,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService.AddAppAsync(cCoder.Data.Models.CMS.App)",
           "Name": "AddAppAsync",
-          "LineNumber": 18,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "newApp",
@@ -12024,7 +12024,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService.DeleteAsync(System.Int32)",
           "Name": "DeleteAsync",
-          "LineNumber": 46,
+          "LineNumber": 49,
           "Inputs": [
             {
               "Name": "appId",
@@ -12091,7 +12091,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService.UpdateAppAsync(cCoder.Data.Models.CMS.App)",
           "Name": "UpdateAppAsync",
-          "LineNumber": 30,
+          "LineNumber": 33,
           "Inputs": [
             {
               "Name": "updatedApp",
@@ -12138,7 +12138,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageExportOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -12159,7 +12159,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageExportOrchestrationService.ExportAppSecurityPackage(System.Int32,System.String)",
           "Name": "ExportAppSecurityPackage",
-          "LineNumber": 15,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "appId",
@@ -12250,7 +12250,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 12,
+      "LineNumber": 16,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -12271,7 +12271,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingPageRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
           "Name": "MapAppSecurityPackageMappingPageRoles",
-          "LineNumber": 35,
+          "LineNumber": 39,
           "Inputs": [
             {
               "Name": "appSecurityPackageMapping",
@@ -12372,7 +12372,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.AppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
           "Name": "MapAppSecurityPackageMappingRoles",
-          "LineNumber": 17,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "appSecurityPackageMapping",
@@ -12431,7 +12431,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 11,
+      "LineNumber": 16,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -12452,7 +12452,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService.AddOrUpdateAppPageRolesAsync(cCoder.Data.Models.CMS.App)",
           "Name": "AddOrUpdateAppPageRolesAsync",
-          "LineNumber": 16,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "app",
@@ -12575,7 +12575,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 13,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -12596,7 +12596,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService.AddPrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "AddPrivilegeAsync",
-          "LineNumber": 36,
+          "LineNumber": 37,
           "Inputs": [
             {
               "Name": "newPrivilege",
@@ -12662,7 +12662,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService.DeleteAllPrivilegeAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "DeleteAllPrivilegeAsync",
-          "LineNumber": 72,
+          "LineNumber": 73,
           "Inputs": [
             {
               "Name": "deletedPrivilege",
@@ -12718,7 +12718,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 60,
+          "LineNumber": 61,
           "Inputs": [
             {
               "Name": "privilegeId",
@@ -12791,7 +12791,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "privilegeId",
@@ -12849,7 +12849,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 27,
+          "LineNumber": 28,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -12907,7 +12907,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService.UpdatePrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "UpdatePrivilegeAsync",
-          "LineNumber": 48,
+          "LineNumber": 49,
           "Inputs": [
             {
               "Name": "updatedPrivilege",
@@ -12975,7 +12975,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 13,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -12996,7 +12996,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService.AddRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddRoleAsync",
-          "LineNumber": 36,
+          "LineNumber": 38,
           "Inputs": [
             {
               "Name": "newRole",
@@ -13062,7 +13062,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService.AddValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddValidatedRoleAsync",
-          "LineNumber": 48,
+          "LineNumber": 50,
           "Inputs": [
             {
               "Name": "newRole",
@@ -13127,7 +13127,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService.DeleteAllRoleAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "DeleteAllRoleAsync",
-          "LineNumber": 152,
+          "LineNumber": 154,
           "Inputs": [
             {
               "Name": "deletedRole",
@@ -13186,7 +13186,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService.DeleteAsync(System.Guid)",
           "Name": "DeleteAsync",
-          "LineNumber": 84,
+          "LineNumber": 86,
           "Inputs": [
             {
               "Name": "roleId",
@@ -13266,7 +13266,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService.DeleteValidatedAsync(System.Guid)",
           "Name": "DeleteValidatedAsync",
-          "LineNumber": 103,
+          "LineNumber": 105,
           "Inputs": [
             {
               "Name": "roleId",
@@ -13345,7 +13345,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 18,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "roleId",
@@ -13403,7 +13403,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 27,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -13460,7 +13460,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService.ImportRoleAsync(System.Int32,System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "ImportRoleAsync",
-          "LineNumber": 122,
+          "LineNumber": 124,
           "Inputs": [
             {
               "Name": "appId",
@@ -13564,7 +13564,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService.UpdateRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateRoleAsync",
-          "LineNumber": 60,
+          "LineNumber": 62,
           "Inputs": [
             {
               "Name": "updatedRole",
@@ -13630,7 +13630,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService.UpdateValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateValidatedRoleAsync",
-          "LineNumber": 72,
+          "LineNumber": 74,
           "Inputs": [
             {
               "Name": "updatedRole",
@@ -13697,7 +13697,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 13,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -13718,7 +13718,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService.AddUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "AddUserAsync",
-          "LineNumber": 46,
+          "LineNumber": 47,
           "Inputs": [
             {
               "Name": "newUser",
@@ -13784,7 +13784,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService.DeleteAllUserAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "DeleteAllUserAsync",
-          "LineNumber": 82,
+          "LineNumber": 83,
           "Inputs": [
             {
               "Name": "deletedUser",
@@ -13843,7 +13843,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 70,
+          "LineNumber": 71,
           "Inputs": [
             {
               "Name": "userId",
@@ -13916,7 +13916,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "userId",
@@ -13974,7 +13974,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 37,
+          "LineNumber": 38,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -14031,7 +14031,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService.GetByEmail(System.String,System.Boolean)",
           "Name": "GetByEmail",
-          "LineNumber": 27,
+          "LineNumber": 28,
           "Inputs": [
             {
               "Name": "email",
@@ -14092,7 +14092,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 58,
+          "LineNumber": 59,
           "Inputs": [
             {
               "Name": "updatedUser",
@@ -14160,7 +14160,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 13,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -14181,7 +14181,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService.AddUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "AddUserRoleAsync",
-          "LineNumber": 27,
+          "LineNumber": 28,
           "Inputs": [
             {
               "Name": "newUserRole",
@@ -14247,7 +14247,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService.DeleteAllUserRoleAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.UserRole\u003E)",
           "Name": "DeleteAllUserRoleAsync",
-          "LineNumber": 50,
+          "LineNumber": 51,
           "Inputs": [
             {
               "Name": "deletedUserRole",
@@ -14306,7 +14306,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService.DeleteUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "DeleteUserRoleAsync",
-          "LineNumber": 39,
+          "LineNumber": 40,
           "Inputs": [
             {
               "Name": "deletedUserRole",
@@ -14372,7 +14372,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -14429,7 +14429,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService.SaveUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "SaveUserRoleAsync",
-          "LineNumber": 59,
+          "LineNumber": 60,
           "Inputs": [
             {
               "Name": "userRole",
@@ -14490,7 +14490,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.AccountRoleAssignmentProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 11,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -14511,7 +14511,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.AccountRoleAssignmentProcessingService.AttachUsersRoleAsync(cCoder.Data.Models.Security.User,System.Int32)",
           "Name": "AttachUsersRoleAsync",
-          "LineNumber": 15,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "user",
@@ -14575,7 +14575,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 12,
+      "LineNumber": 18,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -14596,7 +14596,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService.RunAsync(System.Threading.CancellationToken)",
           "Name": "RunAsync",
-          "LineNumber": 17,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -14716,7 +14716,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.AppProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -14737,7 +14737,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.AppProcessingService.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 12,
+          "LineNumber": 14,
           "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.CMS.App\u003E",
           "Implements": [
@@ -14784,7 +14784,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.AppProcessingService.GetByDomain(System.String)",
           "Name": "GetByDomain",
-          "LineNumber": 19,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "domain",
@@ -14967,7 +14967,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.PageRoleProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 10,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -14988,7 +14988,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.PageRoleProcessingService.AddOrUpdatePageRolesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "AddOrUpdatePageRolesAsync",
-          "LineNumber": 13,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "roles",
@@ -15078,7 +15078,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.PrivilegeEventProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 13,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -15099,7 +15099,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.PrivilegeEventProcessingService.RaisePrivilegeAddEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeAddEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "privilege",
@@ -15151,7 +15151,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.PrivilegeEventProcessingService.RaisePrivilegeDeleteEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeDeleteEventAsync",
-          "LineNumber": 33,
+          "LineNumber": 32,
           "Inputs": [
             {
               "Name": "privilege",
@@ -15203,7 +15203,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.PrivilegeEventProcessingService.RaisePrivilegeUpdateEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeUpdateEventAsync",
-          "LineNumber": 24,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "privilege",
@@ -15257,7 +15257,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 14,
+      "LineNumber": 16,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -15278,7 +15278,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService.AddPrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "AddPrivilegeAsync",
-          "LineNumber": 41,
+          "LineNumber": 43,
           "Inputs": [
             {
               "Name": "newPrivilege",
@@ -15336,7 +15336,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService.DeleteAllPrivilegeAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "DeleteAllPrivilegeAsync",
-          "LineNumber": 74,
+          "LineNumber": 76,
           "Inputs": [
             {
               "Name": "deletedPrivilege",
@@ -15379,7 +15379,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 63,
+          "LineNumber": 65,
           "Inputs": [
             {
               "Name": "privilegeId",
@@ -15422,7 +15422,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 19,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "privilegeId",
@@ -15483,7 +15483,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 30,
+          "LineNumber": 32,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -15544,7 +15544,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService.UpdatePrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "UpdatePrivilegeAsync",
-          "LineNumber": 52,
+          "LineNumber": 54,
           "Inputs": [
             {
               "Name": "updatedPrivilege",
@@ -15604,7 +15604,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.RoleEventProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 13,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -15625,7 +15625,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleEventProcessingService.RaiseRoleAddEventAsync(cCoder.Data.Models.Security.Role)",
           "Name": "RaiseRoleAddEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "role",
@@ -15677,7 +15677,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleEventProcessingService.RaiseRoleDeleteEventAsync(cCoder.Data.Models.Security.Role)",
           "Name": "RaiseRoleDeleteEventAsync",
-          "LineNumber": 33,
+          "LineNumber": 32,
           "Inputs": [
             {
               "Name": "role",
@@ -15729,7 +15729,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleEventProcessingService.RaiseRoleUpdateEventAsync(cCoder.Data.Models.Security.Role)",
           "Name": "RaiseRoleUpdateEventAsync",
-          "LineNumber": 24,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "role",
@@ -15783,7 +15783,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.RoleProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 13,
+      "LineNumber": 15,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -15804,7 +15804,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleProcessingService.AddRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddRoleAsync",
-          "LineNumber": 33,
+          "LineNumber": 35,
           "Inputs": [
             {
               "Name": "newRole",
@@ -15858,7 +15858,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleProcessingService.AddValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddValidatedRoleAsync",
-          "LineNumber": 42,
+          "LineNumber": 44,
           "Inputs": [
             {
               "Name": "newRole",
@@ -15911,7 +15911,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleProcessingService.DeleteAllRoleAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "DeleteAllRoleAsync",
-          "LineNumber": 87,
+          "LineNumber": 89,
           "Inputs": [
             {
               "Name": "deletedRole",
@@ -15955,7 +15955,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleProcessingService.DeleteAsync(System.Guid)",
           "Name": "DeleteAsync",
-          "LineNumber": 69,
+          "LineNumber": 71,
           "Inputs": [
             {
               "Name": "roleId",
@@ -16009,7 +16009,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleProcessingService.DeleteValidatedAsync(System.Guid)",
           "Name": "DeleteValidatedAsync",
-          "LineNumber": 78,
+          "LineNumber": 80,
           "Inputs": [
             {
               "Name": "roleId",
@@ -16062,7 +16062,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleProcessingService.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 15,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "roleId",
@@ -16115,7 +16115,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 24,
+          "LineNumber": 26,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -16167,7 +16167,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleProcessingService.UpdateRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateRoleAsync",
-          "LineNumber": 51,
+          "LineNumber": 53,
           "Inputs": [
             {
               "Name": "updatedRole",
@@ -16221,7 +16221,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.RoleProcessingService.UpdateValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateValidatedRoleAsync",
-          "LineNumber": 60,
+          "LineNumber": 62,
           "Inputs": [
             {
               "Name": "updatedRole",
@@ -16276,7 +16276,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.UserEventProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 13,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -16297,7 +16297,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserEventProcessingService.RaiseUserAddEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "RaiseUserAddEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "user",
@@ -16349,7 +16349,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserEventProcessingService.RaiseUserDeleteEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "RaiseUserDeleteEventAsync",
-          "LineNumber": 33,
+          "LineNumber": 32,
           "Inputs": [
             {
               "Name": "user",
@@ -16401,7 +16401,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserEventProcessingService.RaiseUserUpdateEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "RaiseUserUpdateEventAsync",
-          "LineNumber": 24,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "user",
@@ -16455,7 +16455,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.UserProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 15,
+      "LineNumber": 17,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -16476,7 +16476,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.AddUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "AddUserAsync",
-          "LineNumber": 46,
+          "LineNumber": 48,
           "Inputs": [
             {
               "Name": "newUser",
@@ -16544,7 +16544,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.AddUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "AddUserFromAccountEventAsync",
-          "LineNumber": 60,
+          "LineNumber": 62,
           "Inputs": [
             {
               "Name": "newUser",
@@ -16611,7 +16611,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.DeleteAllUserAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "DeleteAllUserAsync",
-          "LineNumber": 136,
+          "LineNumber": 138,
           "Inputs": [
             {
               "Name": "deletedUser",
@@ -16655,7 +16655,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 100,
+          "LineNumber": 102,
           "Inputs": [
             {
               "Name": "userId",
@@ -16717,7 +16717,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 18,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "userId",
@@ -16770,7 +16770,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 37,
+          "LineNumber": 39,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -16822,7 +16822,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.GetByEmail(System.String,System.Boolean)",
           "Name": "GetByEmail",
-          "LineNumber": 27,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "email",
@@ -16878,7 +16878,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 114,
+          "LineNumber": 116,
           "Inputs": [
             {
               "Name": "updatedUser",
@@ -16940,7 +16940,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserProcessingService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserFromAccountEventAsync",
-          "LineNumber": 125,
+          "LineNumber": 127,
           "Inputs": [
             {
               "Name": "updatedUser",
@@ -16995,7 +16995,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.UserRoleEventProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 13,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -17016,7 +17016,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserRoleEventProcessingService.RaiseUserRoleAddEventAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "RaiseUserRoleAddEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "userRole",
@@ -17068,7 +17068,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserRoleEventProcessingService.RaiseUserRoleDeleteEventAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "RaiseUserRoleDeleteEventAsync",
-          "LineNumber": 24,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "userRole",
@@ -17122,7 +17122,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 13,
+      "LineNumber": 16,
       "IsPublic": false,
       "Kind": "Class",
       "BaseType": null,
@@ -17143,7 +17143,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService.AddUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "AddUserRoleAsync",
-          "LineNumber": 26,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "newUserRole",
@@ -17247,7 +17247,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService.DeleteAllUserRoleAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.UserRole\u003E)",
           "Name": "DeleteAllUserRoleAsync",
-          "LineNumber": 109,
+          "LineNumber": 112,
           "Inputs": [
             {
               "Name": "deletedUserRole",
@@ -17291,7 +17291,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService.DeleteUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "DeleteUserRoleAsync",
-          "LineNumber": 81,
+          "LineNumber": 84,
           "Inputs": [
             {
               "Name": "deletedUserRole",
@@ -17381,7 +17381,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 17,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -17433,7 +17433,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService.SaveUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "SaveUserRoleAsync",
-          "LineNumber": 58,
+          "LineNumber": 61,
           "Inputs": [
             {
               "Name": "userRole",
@@ -17503,7 +17503,7 @@
     {
       "Name": "cCoder.AppSecurity.WebApplicationExtensions",
       "StandardElementType": "App",
-      "LineNumber": 13,
+      "LineNumber": 16,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -17513,7 +17513,7 @@
         {
           "Id": "cCoder.AppSecurity.WebApplicationExtensions.StartAppSecurityHostedServices(Microsoft.AspNetCore.Builder.WebApplication)",
           "Name": "StartAppSecurityHostedServices",
-          "LineNumber": 22,
+          "LineNumber": 25,
           "Inputs": [
             {
               "Name": "app",
@@ -17548,7 +17548,7 @@
         {
           "Id": "cCoder.AppSecurity.WebApplicationExtensions.StartAppSecurityWeb(Microsoft.AspNetCore.Builder.WebApplication,Microsoft.Extensions.Logging.ILogger)",
           "Name": "StartAppSecurityWeb",
-          "LineNumber": 17,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "app",
@@ -17591,7 +17591,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Events.IPrivilegeEventBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -17601,7 +17601,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.IPrivilegeEventBroker.RaisePrivilegeAddEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "RaisePrivilegeAddEventAsync",
-          "LineNumber": 12,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "message",
@@ -17626,7 +17626,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.IPrivilegeEventBroker.RaisePrivilegeDeleteEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "RaisePrivilegeDeleteEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "message",
@@ -17651,7 +17651,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.IPrivilegeEventBroker.RaisePrivilegeUpdateEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "RaisePrivilegeUpdateEventAsync",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "message",
@@ -17678,7 +17678,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Events.IRoleEventBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -17688,7 +17688,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.IRoleEventBroker.RaiseRoleAddEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "RaiseRoleAddEventAsync",
-          "LineNumber": 12,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "message",
@@ -17713,7 +17713,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.IRoleEventBroker.RaiseRoleDeleteEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "RaiseRoleDeleteEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "message",
@@ -17738,7 +17738,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.IRoleEventBroker.RaiseRoleUpdateEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "RaiseRoleUpdateEventAsync",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "message",
@@ -17765,7 +17765,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Events.IUserEventBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -17775,7 +17775,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.IUserEventBroker.RaiseUserAddEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "RaiseUserAddEventAsync",
-          "LineNumber": 12,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "message",
@@ -17800,7 +17800,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.IUserEventBroker.RaiseUserDeleteEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "RaiseUserDeleteEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "message",
@@ -17825,7 +17825,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.IUserEventBroker.RaiseUserUpdateEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "RaiseUserUpdateEventAsync",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "message",
@@ -17852,7 +17852,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Events.IUserRoleEventBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -17862,7 +17862,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.IUserRoleEventBroker.RaiseUserRoleAddEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.UserRole\u003E)",
           "Name": "RaiseUserRoleAddEventAsync",
-          "LineNumber": 12,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "message",
@@ -17887,7 +17887,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Events.IUserRoleEventBroker.RaiseUserRoleDeleteEventAsync(cCoder.Eventing.Models.EventMessage\u003CcCoder.Data.Models.Security.UserRole\u003E)",
           "Name": "RaiseUserRoleDeleteEventAsync",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "message",
@@ -17946,7 +17946,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.IAuthorizationBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 14,
+      "LineNumber": 18,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -17956,7 +17956,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IAuthorizationBroker.Authorize(System.Int32?,System.String)",
           "Name": "Authorize",
-          "LineNumber": 19,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "appId",
@@ -17985,7 +17985,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IAuthorizationBroker.GetCurrentUser()",
           "Name": "GetCurrentUser",
-          "LineNumber": 16,
+          "LineNumber": 20,
           "Inputs": [],
           "ReturnType": "cCoder.Data.Models.Security.User",
           "Implements": [],
@@ -18005,7 +18005,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IAuthorizationBroker.IsAdmin(System.Int32,System.String)",
           "Name": "IsAdmin",
-          "LineNumber": 18,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "appId",
@@ -18034,7 +18034,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IAuthorizationBroker.IsAdminOfApp(System.Int32?)",
           "Name": "IsAdminOfApp",
-          "LineNumber": 17,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "appId",
@@ -18148,7 +18148,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.IPrivilegeBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 11,
+      "LineNumber": 16,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -18158,7 +18158,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IPrivilegeBroker.AddPrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "AddPrivilegeAsync",
-          "LineNumber": 14,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "privilege",
@@ -18183,7 +18183,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IPrivilegeBroker.DeleteAllPrivilegesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "DeleteAllPrivilegesAsync",
-          "LineNumber": 17,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "items",
@@ -18208,7 +18208,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IPrivilegeBroker.DeletePrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "DeletePrivilegeAsync",
-          "LineNumber": 16,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "privilege",
@@ -18233,7 +18233,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IPrivilegeBroker.GetAllPrivileges(System.Boolean)",
           "Name": "GetAllPrivileges",
-          "LineNumber": 13,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -18258,7 +18258,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IPrivilegeBroker.GetAppId(cCoder.Data.Models.Security.Privilege)",
           "Name": "GetAppId",
-          "LineNumber": 18,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "privilege",
@@ -18283,7 +18283,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IPrivilegeBroker.UpdatePrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "UpdatePrivilegeAsync",
-          "LineNumber": 15,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "privilege",
@@ -18310,7 +18310,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.IRoleBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 11,
+      "LineNumber": 16,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -18320,7 +18320,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IRoleBroker.AddRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddRoleAsync",
-          "LineNumber": 14,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "role",
@@ -18345,7 +18345,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IRoleBroker.DeleteAllRolesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "DeleteAllRolesAsync",
-          "LineNumber": 19,
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "items",
@@ -18370,7 +18370,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IRoleBroker.DeleteFolderRolesByRoleIdAsync(System.Guid)",
           "Name": "DeleteFolderRolesByRoleIdAsync",
-          "LineNumber": 16,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "roleId",
@@ -18395,7 +18395,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IRoleBroker.DeletePageRolesByRoleIdAsync(System.Guid)",
           "Name": "DeletePageRolesByRoleIdAsync",
-          "LineNumber": 17,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "roleId",
@@ -18420,7 +18420,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IRoleBroker.DeleteRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "DeleteRoleAsync",
-          "LineNumber": 18,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "role",
@@ -18445,7 +18445,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IRoleBroker.GetAllRoles(System.Boolean)",
           "Name": "GetAllRoles",
-          "LineNumber": 13,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -18470,7 +18470,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IRoleBroker.GetAppId(cCoder.Data.Models.Security.Role)",
           "Name": "GetAppId",
-          "LineNumber": 20,
+          "LineNumber": 25,
           "Inputs": [
             {
               "Name": "role",
@@ -18495,7 +18495,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.IRoleBroker.UpdateRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateRoleAsync",
-          "LineNumber": 15,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "role",
@@ -18522,7 +18522,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 7,
+      "LineNumber": 9,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -18532,7 +18532,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Loggings.ILoggingBroker.LogError(System.Exception,System.String,System.Object[])",
           "Name": "LogError",
-          "LineNumber": 9,
+          "LineNumber": 11,
           "Inputs": [
             {
               "Name": "exception",
@@ -18567,7 +18567,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Metadata.IMetadataBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -18577,7 +18577,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Metadata.IMetadataBroker.CreateExtendedMetadataContainer(System.Type,System.Boolean,System.Boolean)",
           "Name": "CreateExtendedMetadataContainer",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "type",
@@ -18664,7 +18664,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 10,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -18674,7 +18674,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.AddTenantAnalysesAsync(cCoder.Security.Models.Entities.TenantAnalysis[],System.Threading.CancellationToken)",
           "Name": "AddTenantAnalysesAsync",
-          "LineNumber": 17,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "newTenantAnalyses",
@@ -18703,7 +18703,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.CreateSecurityDbContext()",
           "Name": "CreateSecurityDbContext",
-          "LineNumber": 12,
+          "LineNumber": 16,
           "Inputs": [],
           "ReturnType": "cCoder.Security.Data.EF.SecurityDbContext",
           "Implements": [],
@@ -18723,7 +18723,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.DeleteUserEventsBeforeAsync(System.DateTime,System.Threading.CancellationToken)",
           "Name": "DeleteUserEventsBeforeAsync",
-          "LineNumber": 18,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "createdBefore",
@@ -18752,7 +18752,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectTenantAnalysis(System.String,System.DateTime)",
           "Name": "SelectTenantAnalysis",
-          "LineNumber": 15,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "tenantId",
@@ -18781,7 +18781,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectTenantIds()",
           "Name": "SelectTenantIds",
-          "LineNumber": 14,
+          "LineNumber": 18,
           "Inputs": [],
           "ReturnType": "System.String[]",
           "Implements": [],
@@ -18801,7 +18801,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectUserActivities(System.String,System.DateTime,System.DateTime)",
           "Name": "SelectUserActivities",
-          "LineNumber": 16,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "tenantId",
@@ -18834,7 +18834,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Security.ISecurityDbContextBroker.SelectUserEventDates()",
           "Name": "SelectUserEventDates",
-          "LineNumber": 13,
+          "LineNumber": 17,
           "Inputs": [],
           "ReturnType": "System.DateTime[]",
           "Implements": [],
@@ -18856,7 +18856,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Storages.IAppBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -18866,7 +18866,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IAppBroker.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.CMS.App\u003E",
           "Implements": [],
@@ -18886,7 +18886,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IAppBroker.GetByDomain(System.String)",
           "Name": "GetByDomain",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "domain",
@@ -18913,7 +18913,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 11,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -18923,7 +18923,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)",
           "Name": "AddPageRoleAsync",
-          "LineNumber": 15,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "newPageRole",
@@ -18948,7 +18948,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.GetAllPageRoles()",
           "Name": "GetAllPageRoles",
-          "LineNumber": 13,
+          "LineNumber": 16,
           "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.PageRole\u003E",
           "Implements": [],
@@ -18968,7 +18968,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IPageRoleBroker.GetPageId(System.Int32,System.String)",
           "Name": "GetPageId",
-          "LineNumber": 14,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "appId",
@@ -18999,7 +18999,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Storages.IUserBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 11,
+      "LineNumber": 16,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -19009,7 +19009,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserBroker.AddUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "AddUserAsync",
-          "LineNumber": 15,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "user",
@@ -19034,7 +19034,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserBroker.DeleteAllUsersAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "DeleteAllUsersAsync",
-          "LineNumber": 18,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "items",
@@ -19059,7 +19059,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserBroker.DeleteUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "DeleteUserAsync",
-          "LineNumber": 17,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "user",
@@ -19084,7 +19084,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserBroker.GetAllUsers(System.Boolean)",
           "Name": "GetAllUsers",
-          "LineNumber": 13,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -19109,7 +19109,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserBroker.GetAppId(cCoder.Data.Models.Security.User)",
           "Name": "GetAppId",
-          "LineNumber": 19,
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "user",
@@ -19134,7 +19134,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserBroker.GetUserByEmail(System.String,System.Boolean)",
           "Name": "GetUserByEmail",
-          "LineNumber": 14,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "email",
@@ -19163,7 +19163,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserBroker.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 16,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "user",
@@ -19190,7 +19190,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 12,
+      "LineNumber": 17,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -19200,7 +19200,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker.AddUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "AddUserRoleAsync",
-          "LineNumber": 15,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "userRole",
@@ -19225,7 +19225,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker.DeleteAllUserRolesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.UserRole\u003E)",
           "Name": "DeleteAllUserRolesAsync",
-          "LineNumber": 17,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "items",
@@ -19250,7 +19250,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker.DeleteUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "DeleteUserRoleAsync",
-          "LineNumber": 16,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "userRole",
@@ -19275,7 +19275,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker.GetAllUserRoles(System.Boolean)",
           "Name": "GetAllUserRoles",
-          "LineNumber": 14,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -19300,7 +19300,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Storages.IUserRoleBroker.GetAppId(cCoder.Data.Models.Security.UserRole)",
           "Name": "GetAppId",
-          "LineNumber": 18,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "userRole",
@@ -19327,7 +19327,7 @@
     {
       "Name": "cCoder.AppSecurity.Brokers.Tokens.ITokenBroker",
       "StandardElementType": "Broker",
-      "LineNumber": 7,
+      "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -19337,7 +19337,7 @@
         {
           "Id": "cCoder.AppSecurity.Brokers.Tokens.ITokenBroker.DeleteExpiredTokensAsync(System.Threading.CancellationToken)",
           "Name": "DeleteExpiredTokensAsync",
-          "LineNumber": 9,
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -19408,7 +19408,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.IAppManager",
       "StandardElementType": "Exposure",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -19418,7 +19418,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IAppManager.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.CMS.App\u003E",
           "Implements": [],
@@ -19438,7 +19438,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IAppManager.GetByDomain(System.String)",
           "Name": "GetByDomain",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "domain",
@@ -19465,7 +19465,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.IAppSecurityAppExposure",
       "StandardElementType": "Exposure",
-      "LineNumber": 11,
+      "LineNumber": 10,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -19475,7 +19475,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IAppSecurityAppExposure.AddAsync(cCoder.Data.Models.CMS.App)",
           "Name": "AddAsync",
-          "LineNumber": 13,
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "app",
@@ -19500,7 +19500,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IAppSecurityAppExposure.DeleteAsync(System.Int32)",
           "Name": "DeleteAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "appId",
@@ -19525,7 +19525,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IAppSecurityAppExposure.UpdateAsync(cCoder.Data.Models.CMS.App)",
           "Name": "UpdateAsync",
-          "LineNumber": 14,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "app",
@@ -19622,7 +19622,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.IPrivilegeManager",
       "StandardElementType": "Exposure",
-      "LineNumber": 9,
+      "LineNumber": 13,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -19632,7 +19632,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IPrivilegeManager.AddPrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "AddPrivilegeAsync",
-          "LineNumber": 13,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "entity",
@@ -19657,7 +19657,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IPrivilegeManager.DeleteAllPrivilegeAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "DeleteAllPrivilegeAsync",
-          "LineNumber": 16,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "items",
@@ -19682,7 +19682,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IPrivilegeManager.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 15,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "id",
@@ -19707,7 +19707,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IPrivilegeManager.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 11,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "id",
@@ -19732,7 +19732,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IPrivilegeManager.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 12,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -19757,7 +19757,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IPrivilegeManager.UpdatePrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "UpdatePrivilegeAsync",
-          "LineNumber": 14,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "entity",
@@ -19784,7 +19784,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.IRoleManager",
       "StandardElementType": "Exposure",
-      "LineNumber": 9,
+      "LineNumber": 14,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -19794,7 +19794,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IRoleManager.AddRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddRoleAsync",
-          "LineNumber": 13,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "entity",
@@ -19819,7 +19819,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IRoleManager.AddValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddValidatedRoleAsync",
-          "LineNumber": 14,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "entity",
@@ -19844,7 +19844,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IRoleManager.DeleteAllRoleAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "DeleteAllRoleAsync",
-          "LineNumber": 20,
+          "LineNumber": 25,
           "Inputs": [
             {
               "Name": "items",
@@ -19869,7 +19869,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IRoleManager.DeleteAsync(System.Guid)",
           "Name": "DeleteAsync",
-          "LineNumber": 17,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "id",
@@ -19894,7 +19894,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IRoleManager.DeleteValidatedAsync(System.Guid)",
           "Name": "DeleteValidatedAsync",
-          "LineNumber": 18,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "id",
@@ -19919,7 +19919,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IRoleManager.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 11,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "id",
@@ -19944,7 +19944,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IRoleManager.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 12,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -19969,7 +19969,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IRoleManager.ImportRoleAsync(System.Int32,System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "ImportRoleAsync",
-          "LineNumber": 19,
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "appId",
@@ -19998,7 +19998,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IRoleManager.UpdateRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateRoleAsync",
-          "LineNumber": 15,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "entity",
@@ -20023,7 +20023,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IRoleManager.UpdateValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateValidatedRoleAsync",
-          "LineNumber": 16,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "entity",
@@ -20050,7 +20050,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.IUserManager",
       "StandardElementType": "Exposure",
-      "LineNumber": 9,
+      "LineNumber": 13,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -20060,7 +20060,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserManager.AddUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "AddUserAsync",
-          "LineNumber": 14,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "entity",
@@ -20085,7 +20085,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserManager.DeleteAllUserAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "DeleteAllUserAsync",
-          "LineNumber": 17,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "items",
@@ -20110,7 +20110,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserManager.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 16,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "id",
@@ -20135,7 +20135,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserManager.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 11,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "id",
@@ -20160,7 +20160,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserManager.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 13,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -20185,7 +20185,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserManager.GetByEmail(System.String,System.Boolean)",
           "Name": "GetByEmail",
-          "LineNumber": 12,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "email",
@@ -20214,7 +20214,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserManager.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 15,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "entity",
@@ -20241,7 +20241,7 @@
     {
       "Name": "cCoder.AppSecurity.Exposures.IUserRoleManager",
       "StandardElementType": "Exposure",
-      "LineNumber": 9,
+      "LineNumber": 13,
       "IsPublic": true,
       "Kind": "Interface",
       "BaseType": null,
@@ -20251,7 +20251,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserRoleManager.AddUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "AddUserRoleAsync",
-          "LineNumber": 12,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "entity",
@@ -20276,7 +20276,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserRoleManager.DeleteAllUserRoleAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.UserRole\u003E)",
           "Name": "DeleteAllUserRoleAsync",
-          "LineNumber": 14,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "items",
@@ -20301,7 +20301,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserRoleManager.DeleteUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "DeleteUserRoleAsync",
-          "LineNumber": 13,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "entity",
@@ -20326,7 +20326,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserRoleManager.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 11,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -20351,7 +20351,7 @@
         {
           "Id": "cCoder.AppSecurity.Exposures.IUserRoleManager.SaveUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "SaveUserRoleAsync",
-          "LineNumber": 15,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "entity",
@@ -20378,7 +20378,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService",
       "StandardElementType": "AggregationService",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -20388,7 +20388,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService.AddAppAsync(cCoder.Data.Models.CMS.App)",
           "Name": "AddAppAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "newApp",
@@ -20413,7 +20413,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService.DeleteAppAsync(cCoder.Data.Models.CMS.App)",
           "Name": "DeleteAppAsync",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "deletedApp",
@@ -20438,7 +20438,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Aggregations.IAppRelationshipAggregationService.UpdateAppAsync(cCoder.Data.Models.CMS.App)",
           "Name": "UpdateAppAsync",
-          "LineNumber": 12,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "updatedApp",
@@ -20535,7 +20535,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.Events.IPrivilegeEventService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 12,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -20545,7 +20545,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IPrivilegeEventService.RaisePrivilegeAddEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeAddEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "privilege",
@@ -20570,7 +20570,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IPrivilegeEventService.RaisePrivilegeDeleteEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeDeleteEventAsync",
-          "LineNumber": 16,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "privilege",
@@ -20595,7 +20595,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IPrivilegeEventService.RaisePrivilegeUpdateEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeUpdateEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "privilege",
@@ -20622,7 +20622,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.Events.IRoleEventService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 12,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -20632,7 +20632,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IRoleEventService.RaiseRoleAddEventAsync(cCoder.Data.Models.Security.Role)",
           "Name": "RaiseRoleAddEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "role",
@@ -20657,7 +20657,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IRoleEventService.RaiseRoleDeleteEventAsync(cCoder.Data.Models.Security.Role)",
           "Name": "RaiseRoleDeleteEventAsync",
-          "LineNumber": 16,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "role",
@@ -20682,7 +20682,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IRoleEventService.RaiseRoleUpdateEventAsync(cCoder.Data.Models.Security.Role)",
           "Name": "RaiseRoleUpdateEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "role",
@@ -20709,7 +20709,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.Events.IUserEventService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 12,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -20719,7 +20719,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IUserEventService.RaiseUserAddEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "RaiseUserAddEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "user",
@@ -20744,7 +20744,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IUserEventService.RaiseUserDeleteEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "RaiseUserDeleteEventAsync",
-          "LineNumber": 16,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "user",
@@ -20769,7 +20769,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IUserEventService.RaiseUserUpdateEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "RaiseUserUpdateEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "user",
@@ -20796,7 +20796,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.Events.IUserRoleEventService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 12,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -20806,7 +20806,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IUserRoleEventService.RaiseUserRoleAddEventAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "RaiseUserRoleAddEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "userRole",
@@ -20831,7 +20831,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.Events.IUserRoleEventService.RaiseUserRoleDeleteEventAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "RaiseUserRoleDeleteEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "userRole",
@@ -20858,7 +20858,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.IAccountRoleAssignmentService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -20868,7 +20868,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IAccountRoleAssignmentService.AddAccountRoleAssignmentAsync(cCoder.AppSecurity.Models.AccountRoleAssignment)",
           "Name": "AddAccountRoleAssignmentAsync",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "newAccountRoleAssignment",
@@ -20893,7 +20893,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IAccountRoleAssignmentService.GetAccountRoleAssignment(cCoder.AppSecurity.Models.AccountRoleAssignment)",
           "Name": "GetAccountRoleAssignment",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "accountRoleAssignment",
@@ -20957,7 +20957,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.IAppSecurityMetadataTypeService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -20967,7 +20967,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IAppSecurityMetadataTypeService.GetKnownMetadata()",
           "Name": "GetKnownMetadata",
-          "LineNumber": 12,
+          "LineNumber": 14,
           "Inputs": [],
           "ReturnType": "System.Collections.Generic.IEnumerable\u003CcCoder.AppSecurity.Api.OData.MetadataContainerSet\u003E",
           "Implements": [],
@@ -21105,7 +21105,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.IPageRoleService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 9,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -21115,7 +21115,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IPageRoleService.AddPageRoleAsync(cCoder.Data.Models.Security.PageRole)",
           "Name": "AddPageRoleAsync",
-          "LineNumber": 13,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "newPageRole",
@@ -21140,7 +21140,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IPageRoleService.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 11,
+          "LineNumber": 14,
           "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.Security.PageRole\u003E",
           "Implements": [],
@@ -21160,7 +21160,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IPageRoleService.GetPageId(System.Int32,System.String)",
           "Name": "GetPageId",
-          "LineNumber": 12,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "appId",
@@ -21328,7 +21328,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.IRoleService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 12,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -21338,7 +21338,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IRoleService.AddRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddRoleAsync",
-          "LineNumber": 16,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "role",
@@ -21363,7 +21363,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IRoleService.AddValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddValidatedRoleAsync",
-          "LineNumber": 17,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "role",
@@ -21388,7 +21388,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IRoleService.DeleteAsync(System.Guid)",
           "Name": "DeleteAsync",
-          "LineNumber": 20,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "id",
@@ -21413,7 +21413,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IRoleService.DeleteValidatedAsync(System.Guid)",
           "Name": "DeleteValidatedAsync",
-          "LineNumber": 21,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "id",
@@ -21438,7 +21438,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IRoleService.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 14,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "id",
@@ -21463,7 +21463,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IRoleService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 15,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -21488,7 +21488,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IRoleService.UpdateRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateRoleAsync",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "role",
@@ -21513,7 +21513,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.IRoleService.UpdateValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateValidatedRoleAsync",
-          "LineNumber": 19,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "role",
@@ -21540,7 +21540,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Foundations.ITokenCleanerService",
       "StandardElementType": "FoundationService",
-      "LineNumber": 7,
+      "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -21550,7 +21550,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Foundations.ITokenCleanerService.RunAsync(System.Threading.CancellationToken)",
           "Name": "RunAsync",
-          "LineNumber": 9,
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -22031,7 +22031,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.IAccountEventOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22041,7 +22041,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.IAccountEventOrchestrationService.ProcessSecurityAccountEventAsync(cCoder.Security.Models.Events.SecurityAccountEvent)",
           "Name": "ProcessSecurityAccountEventAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "securityAccountEvent",
@@ -22068,7 +22068,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 11,
+      "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22078,7 +22078,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService.AddAppAsync(cCoder.Data.Models.CMS.App)",
           "Name": "AddAppAsync",
-          "LineNumber": 13,
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "app",
@@ -22103,7 +22103,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService.DeleteAsync(System.Int32)",
           "Name": "DeleteAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "appId",
@@ -22128,7 +22128,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.IAppOrchestrationService.UpdateAppAsync(cCoder.Data.Models.CMS.App)",
           "Name": "UpdateAppAsync",
-          "LineNumber": 14,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "app",
@@ -22196,7 +22196,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 10,
+      "LineNumber": 9,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22206,7 +22206,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingPageRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
           "Name": "MapAppSecurityPackageMappingPageRoles",
-          "LineNumber": 13,
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "appSecurityPackageMapping",
@@ -22231,7 +22231,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.IAppSecurityPackageOrchestrationService.MapAppSecurityPackageMappingRoles(cCoder.AppSecurity.Models.AppSecurityPackageMapping)",
           "Name": "MapAppSecurityPackageMappingRoles",
-          "LineNumber": 12,
+          "LineNumber": 11,
           "Inputs": [
             {
               "Name": "appSecurityPackageMapping",
@@ -22258,7 +22258,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService",
       "StandardElementType": "OrchestrationService",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22268,7 +22268,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Orchestrations.IPageRoleOrchestrationService.AddOrUpdateAppPageRolesAsync(cCoder.Data.Models.CMS.App)",
           "Name": "AddOrUpdateAppPageRolesAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "app",
@@ -22383,7 +22383,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IAccountRoleAssignmentProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22393,7 +22393,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IAccountRoleAssignmentProcessingService.AttachUsersRoleAsync(cCoder.Data.Models.Security.User,System.Int32)",
           "Name": "AttachUsersRoleAsync",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "user",
@@ -22424,7 +22424,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IAnalysePlatformUsageProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 7,
+      "LineNumber": 10,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22434,7 +22434,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IAnalysePlatformUsageProcessingService.RunAsync(System.Threading.CancellationToken)",
           "Name": "RunAsync",
-          "LineNumber": 9,
+          "LineNumber": 12,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -22461,7 +22461,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IAppProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 9,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22471,7 +22471,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IAppProcessingService.GetAll()",
           "Name": "GetAll",
-          "LineNumber": 11,
+          "LineNumber": 13,
           "Inputs": [],
           "ReturnType": "System.Linq.IQueryable\u003CcCoder.Data.Models.CMS.App\u003E",
           "Implements": [],
@@ -22491,7 +22491,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IAppProcessingService.GetByDomain(System.String)",
           "Name": "GetByDomain",
-          "LineNumber": 13,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "domain",
@@ -22580,7 +22580,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IPageRoleProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 9,
+      "LineNumber": 12,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22590,7 +22590,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IPageRoleProcessingService.AddOrUpdatePageRolesAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "AddOrUpdatePageRolesAsync",
-          "LineNumber": 11,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "roles",
@@ -22617,7 +22617,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IPrivilegeEventProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 12,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22627,7 +22627,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IPrivilegeEventProcessingService.RaisePrivilegeAddEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeAddEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "privilege",
@@ -22652,7 +22652,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IPrivilegeEventProcessingService.RaisePrivilegeDeleteEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeDeleteEventAsync",
-          "LineNumber": 16,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "privilege",
@@ -22677,7 +22677,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IPrivilegeEventProcessingService.RaisePrivilegeUpdateEventAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "RaisePrivilegeUpdateEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "privilege",
@@ -22704,7 +22704,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IPrivilegeProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 12,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22714,7 +22714,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IPrivilegeProcessingService.AddPrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "AddPrivilegeAsync",
-          "LineNumber": 16,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "entity",
@@ -22739,7 +22739,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IPrivilegeProcessingService.DeleteAllPrivilegeAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Privilege\u003E)",
           "Name": "DeleteAllPrivilegeAsync",
-          "LineNumber": 19,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "items",
@@ -22764,7 +22764,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IPrivilegeProcessingService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "id",
@@ -22789,7 +22789,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IPrivilegeProcessingService.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 14,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "id",
@@ -22814,7 +22814,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IPrivilegeProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 15,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -22839,7 +22839,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IPrivilegeProcessingService.UpdatePrivilegeAsync(cCoder.Data.Models.Security.Privilege)",
           "Name": "UpdatePrivilegeAsync",
-          "LineNumber": 17,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "entity",
@@ -22866,7 +22866,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IRoleEventProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 12,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22876,7 +22876,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleEventProcessingService.RaiseRoleAddEventAsync(cCoder.Data.Models.Security.Role)",
           "Name": "RaiseRoleAddEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "role",
@@ -22901,7 +22901,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleEventProcessingService.RaiseRoleDeleteEventAsync(cCoder.Data.Models.Security.Role)",
           "Name": "RaiseRoleDeleteEventAsync",
-          "LineNumber": 16,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "role",
@@ -22926,7 +22926,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleEventProcessingService.RaiseRoleUpdateEventAsync(cCoder.Data.Models.Security.Role)",
           "Name": "RaiseRoleUpdateEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "role",
@@ -22953,7 +22953,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 12,
+      "LineNumber": 14,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -22963,7 +22963,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.AddRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddRoleAsync",
-          "LineNumber": 16,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "entity",
@@ -22988,7 +22988,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.AddValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "AddValidatedRoleAsync",
-          "LineNumber": 17,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "entity",
@@ -23013,7 +23013,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.DeleteAllRoleAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.Role\u003E)",
           "Name": "DeleteAllRoleAsync",
-          "LineNumber": 22,
+          "LineNumber": 24,
           "Inputs": [
             {
               "Name": "items",
@@ -23038,7 +23038,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.DeleteAsync(System.Guid)",
           "Name": "DeleteAsync",
-          "LineNumber": 20,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "id",
@@ -23063,7 +23063,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.DeleteValidatedAsync(System.Guid)",
           "Name": "DeleteValidatedAsync",
-          "LineNumber": 21,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "id",
@@ -23088,7 +23088,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.Get(System.Guid)",
           "Name": "Get",
-          "LineNumber": 14,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "id",
@@ -23113,7 +23113,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 15,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -23138,7 +23138,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.UpdateRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateRoleAsync",
-          "LineNumber": 18,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "entity",
@@ -23163,7 +23163,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IRoleProcessingService.UpdateValidatedRoleAsync(cCoder.Data.Models.Security.Role)",
           "Name": "UpdateValidatedRoleAsync",
-          "LineNumber": 19,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "entity",
@@ -23190,7 +23190,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IUserEventProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 12,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -23200,7 +23200,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserEventProcessingService.RaiseUserAddEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "RaiseUserAddEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "user",
@@ -23225,7 +23225,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserEventProcessingService.RaiseUserDeleteEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "RaiseUserDeleteEventAsync",
-          "LineNumber": 16,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "user",
@@ -23250,7 +23250,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserEventProcessingService.RaiseUserUpdateEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "RaiseUserUpdateEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "user",
@@ -23277,7 +23277,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IUserProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 12,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -23287,7 +23287,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.AddUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "AddUserAsync",
-          "LineNumber": 17,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "entity",
@@ -23312,7 +23312,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.AddUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "AddUserFromAccountEventAsync",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "entity",
@@ -23337,7 +23337,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.DeleteAllUserAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.User\u003E)",
           "Name": "DeleteAllUserAsync",
-          "LineNumber": 22,
+          "LineNumber": 23,
           "Inputs": [
             {
               "Name": "items",
@@ -23362,7 +23362,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.DeleteAsync(System.String)",
           "Name": "DeleteAsync",
-          "LineNumber": 21,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "id",
@@ -23387,7 +23387,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.Get(System.String)",
           "Name": "Get",
-          "LineNumber": 14,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "id",
@@ -23412,7 +23412,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 16,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -23437,7 +23437,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.GetByEmail(System.String,System.Boolean)",
           "Name": "GetByEmail",
-          "LineNumber": 15,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "email",
@@ -23466,7 +23466,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.UpdateUserAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserAsync",
-          "LineNumber": 19,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "entity",
@@ -23491,7 +23491,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserProcessingService.UpdateUserFromAccountEventAsync(cCoder.Data.Models.Security.User)",
           "Name": "UpdateUserFromAccountEventAsync",
-          "LineNumber": 20,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "entity",
@@ -23518,7 +23518,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IUserRoleEventProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 12,
+      "LineNumber": 11,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -23528,7 +23528,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserRoleEventProcessingService.RaiseUserRoleAddEventAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "RaiseUserRoleAddEventAsync",
-          "LineNumber": 14,
+          "LineNumber": 13,
           "Inputs": [
             {
               "Name": "userRole",
@@ -23553,7 +23553,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserRoleEventProcessingService.RaiseUserRoleDeleteEventAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "RaiseUserRoleDeleteEventAsync",
-          "LineNumber": 15,
+          "LineNumber": 14,
           "Inputs": [
             {
               "Name": "userRole",
@@ -23580,7 +23580,7 @@
     {
       "Name": "cCoder.AppSecurity.Services.Processings.IUserRoleProcessingService",
       "StandardElementType": "ProcessingService",
-      "LineNumber": 12,
+      "LineNumber": 13,
       "IsPublic": false,
       "Kind": "Interface",
       "BaseType": null,
@@ -23590,7 +23590,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserRoleProcessingService.AddUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "AddUserRoleAsync",
-          "LineNumber": 15,
+          "LineNumber": 16,
           "Inputs": [
             {
               "Name": "userRole",
@@ -23615,7 +23615,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserRoleProcessingService.DeleteAllUserRoleAsync(System.Collections.Generic.IEnumerable\u003CcCoder.Data.Models.Security.UserRole\u003E)",
           "Name": "DeleteAllUserRoleAsync",
-          "LineNumber": 17,
+          "LineNumber": 18,
           "Inputs": [
             {
               "Name": "items",
@@ -23640,7 +23640,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserRoleProcessingService.DeleteUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "DeleteUserRoleAsync",
-          "LineNumber": 16,
+          "LineNumber": 17,
           "Inputs": [
             {
               "Name": "userRole",
@@ -23665,7 +23665,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserRoleProcessingService.GetAll(System.Boolean)",
           "Name": "GetAll",
-          "LineNumber": 14,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "ignoreFilters",
@@ -23690,7 +23690,7 @@
         {
           "Id": "cCoder.AppSecurity.Services.Processings.IUserRoleProcessingService.SaveUserRoleAsync(cCoder.Data.Models.Security.UserRole)",
           "Name": "SaveUserRoleAsync",
-          "LineNumber": 18,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "userRole",
@@ -24191,63 +24191,63 @@
       "Description": "An architectural element must not depend on another element at the same layer.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.AppController",
-      "LineNumber": 21
+      "LineNumber": 18
     },
     {
       "Code": "STXE004",
       "Description": "An exposure must not communicate directly with a broker.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.AppController",
-      "LineNumber": 21
+      "LineNumber": 18
     },
     {
       "Code": "STX0004",
       "Description": "An architectural element must not depend on another element at the same layer.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 23
+      "LineNumber": 19
     },
     {
       "Code": "STXE004",
       "Description": "An exposure must not communicate directly with a broker.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.PrivilegeController",
-      "LineNumber": 23
+      "LineNumber": 19
     },
     {
       "Code": "STX0004",
       "Description": "An architectural element must not depend on another element at the same layer.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 23
+      "LineNumber": 19
     },
     {
       "Code": "STXE004",
       "Description": "An exposure must not communicate directly with a broker.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.RoleController",
-      "LineNumber": 23
+      "LineNumber": 19
     },
     {
       "Code": "STX0004",
       "Description": "An architectural element must not depend on another element at the same layer.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 24
+      "LineNumber": 20
     },
     {
       "Code": "STXD001",
       "Description": "Dependency elements and event hubs may only be consumed by brokers or other dependencies.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 24
+      "LineNumber": 20
     },
     {
       "Code": "STXE004",
       "Description": "An exposure must not communicate directly with a broker.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.Controllers.UserController",
-      "LineNumber": 24
+      "LineNumber": 20
     },
     {
       "Code": "STX0004",
@@ -24268,25 +24268,18 @@
       "Description": "An exposure must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
-      "LineNumber": 20
+      "LineNumber": 24
     },
     {
       "Code": "STXD005",
       "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.IServiceScopeFactory.CreateScope()\u0027 must be isolated behind a broker or dependency.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
-      "LineNumber": 26
+      "LineNumber": 30
     },
     {
       "Code": "STXD005",
       "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.IServiceScopeFactory.CreateScope()\u0027 must be isolated behind a broker or dependency.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
-      "LineNumber": 26
-    },
-    {
-      "Code": "STXD005",
-      "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)\u0027 must be isolated behind a broker or dependency.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
       "LineNumber": 30
@@ -24296,91 +24289,98 @@
       "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)\u0027 must be isolated behind a broker or dependency.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
-      "LineNumber": 30
+      "LineNumber": 34
+    },
+    {
+      "Code": "STXD005",
+      "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)\u0027 must be isolated behind a broker or dependency.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
+      "LineNumber": 34
     },
     {
       "Code": "STXE002",
       "Description": "An exposure must not contain loops.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.AnalysePlatformUsageHostedService",
-      "LineNumber": 37
+      "LineNumber": 41
     },
     {
       "Code": "STXE001",
       "Description": "An exposure must not contain branching logic.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
-      "LineNumber": 20
+      "LineNumber": 24
     },
     {
       "Code": "STXD005",
       "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.IServiceScopeFactory.CreateScope()\u0027 must be isolated behind a broker or dependency.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
-      "LineNumber": 26
+      "LineNumber": 30
     },
     {
       "Code": "STXD005",
       "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.IServiceScopeFactory.CreateScope()\u0027 must be isolated behind a broker or dependency.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
-      "LineNumber": 26
+      "LineNumber": 30
     },
     {
       "Code": "STXD005",
       "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)\u0027 must be isolated behind a broker or dependency.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
-      "LineNumber": 29
+      "LineNumber": 33
     },
     {
       "Code": "STXD005",
       "Description": "External API call \u0027Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(System.IServiceProvider)\u0027 must be isolated behind a broker or dependency.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
-      "LineNumber": 29
+      "LineNumber": 33
     },
     {
       "Code": "STXE002",
       "Description": "An exposure must not contain loops.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Exposures.HostedServices.TokenCleanerHostedService",
-      "LineNumber": 36
+      "LineNumber": 40
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Aggregations.AppRelationshipAggregationService",
-      "LineNumber": 10
+      "LineNumber": 12
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Foundations.AccountRoleAssignmentService",
-      "LineNumber": 12
+      "LineNumber": 16
     },
     {
       "Code": "STXF005",
       "Description": "A foundation service may depend on only one ordinary broker; utility brokers are excluded.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Foundations.AccountRoleAssignmentService",
-      "LineNumber": 12
+      "LineNumber": 16
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Foundations.AppService",
-      "LineNumber": 10
+      "LineNumber": 12
     },
     {
       "Code": "STXF005",
       "Description": "A foundation service may depend on only one ordinary broker; utility brokers are excluded.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Foundations.Events.PrivilegeEventService",
-      "LineNumber": 16
+      "LineNumber": 15
     },
     {
       "Code": "STXF005",
@@ -24401,266 +24401,266 @@
       "Description": "A foundation service may depend on only one ordinary broker; utility brokers are excluded.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Foundations.Events.UserRoleEventService",
-      "LineNumber": 18
+      "LineNumber": 17
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Foundations.PageRoleService",
-      "LineNumber": 10
+      "LineNumber": 13
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Foundations.PrivilegeService",
-      "LineNumber": 16
+      "LineNumber": 17
     },
     {
       "Code": "STXF005",
       "Description": "A foundation service may depend on only one ordinary broker; utility brokers are excluded.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Foundations.PrivilegeService",
+      "LineNumber": 17
+    },
+    {
+      "Code": "STX0012",
+      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Foundations.RoleService",
+      "LineNumber": 24
+    },
+    {
+      "Code": "STXF005",
+      "Description": "A foundation service may depend on only one ordinary broker; utility brokers are excluded.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Foundations.RoleService",
+      "LineNumber": 24
+    },
+    {
+      "Code": "STX0012",
+      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Foundations.UserRoleService",
+      "LineNumber": 19
+    },
+    {
+      "Code": "STXF005",
+      "Description": "A foundation service may depend on only one ordinary broker; utility brokers are excluded.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Foundations.UserRoleService",
+      "LineNumber": 19
+    },
+    {
+      "Code": "STX0012",
+      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Foundations.UserService",
+      "LineNumber": 19
+    },
+    {
+      "Code": "STXF005",
+      "Description": "A foundation service may depend on only one ordinary broker; utility brokers are excluded.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Foundations.UserService",
+      "LineNumber": 19
+    },
+    {
+      "Code": "STX0012",
+      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService",
+      "LineNumber": 15
+    },
+    {
+      "Code": "STX0023",
+      "Description": "Each business operation must call its operation-specific validation method.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService",
+      "LineNumber": 15
+    },
+    {
+      "Code": "STX0012",
+      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService",
+      "LineNumber": 16
+    },
+    {
+      "Code": "STX0023",
+      "Description": "Each business operation must call its operation-specific validation method.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService",
       "LineNumber": 16
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Foundations.RoleService",
-      "LineNumber": 22
-    },
-    {
-      "Code": "STXF005",
-      "Description": "A foundation service may depend on only one ordinary broker; utility brokers are excluded.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Foundations.RoleService",
-      "LineNumber": 22
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Foundations.UserRoleService",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STXF005",
-      "Description": "A foundation service may depend on only one ordinary broker; utility brokers are excluded.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Foundations.UserRoleService",
-      "LineNumber": 17
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Foundations.UserService",
-      "LineNumber": 18
-    },
-    {
-      "Code": "STXF005",
-      "Description": "A foundation service may depend on only one ordinary broker; utility brokers are excluded.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Foundations.UserService",
-      "LineNumber": 18
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STX0023",
-      "Description": "Each business operation must call its operation-specific validation method.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Orchestrations.AppOrchestrationService",
-      "LineNumber": 12
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STX0023",
-      "Description": "Each business operation must call its operation-specific validation method.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Orchestrations.PageRoleOrchestrationService",
-      "LineNumber": 11
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService",
-      "LineNumber": 13
+      "LineNumber": 14
     },
     {
       "Code": "STX0023",
       "Description": "Each business operation must call its operation-specific validation method.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Orchestrations.PrivilegeOrchestrationService",
-      "LineNumber": 13
+      "LineNumber": 14
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService",
-      "LineNumber": 13
+      "LineNumber": 15
     },
     {
       "Code": "STX0023",
       "Description": "Each business operation must call its operation-specific validation method.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Orchestrations.RoleOrchestrationService",
-      "LineNumber": 13
+      "LineNumber": 15
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService",
-      "LineNumber": 13
+      "LineNumber": 14
     },
     {
       "Code": "STX0023",
       "Description": "Each business operation must call its operation-specific validation method.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Orchestrations.UserOrchestrationService",
-      "LineNumber": 13
+      "LineNumber": 14
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService",
-      "LineNumber": 13
+      "LineNumber": 14
     },
     {
       "Code": "STX0023",
       "Description": "Each business operation must call its operation-specific validation method.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Orchestrations.UserRoleOrchestrationService",
-      "LineNumber": 13
+      "LineNumber": 14
     },
     {
       "Code": "STXP001",
       "Description": "A processing service may use only one foundation service and must not bypass its layer boundary.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Processings.AnalysePlatformUsageProcessingService",
+      "LineNumber": 18
+    },
+    {
+      "Code": "STX0012",
+      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Processings.AppProcessingService",
+      "LineNumber": 12
+    },
+    {
+      "Code": "STX0023",
+      "Description": "Each business operation must call its operation-specific validation method.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Processings.AppProcessingService",
       "LineNumber": 12
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Processings.AppProcessingService",
-      "LineNumber": 10
-    },
-    {
-      "Code": "STX0023",
-      "Description": "Each business operation must call its operation-specific validation method.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Processings.AppProcessingService",
-      "LineNumber": 10
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Processings.PageRoleProcessingService",
-      "LineNumber": 10
-    },
-    {
-      "Code": "STX0023",
-      "Description": "Each business operation must call its operation-specific validation method.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Processings.PageRoleProcessingService",
-      "LineNumber": 10
-    },
-    {
-      "Code": "STX0012",
-      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
-      "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService",
       "LineNumber": 14
     },
     {
       "Code": "STX0023",
       "Description": "Each business operation must call its operation-specific validation method.",
       "Severity": "Warning",
-      "Type": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService",
+      "Type": "cCoder.AppSecurity.Services.Processings.PageRoleProcessingService",
       "LineNumber": 14
+    },
+    {
+      "Code": "STX0012",
+      "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService",
+      "LineNumber": 16
+    },
+    {
+      "Code": "STX0023",
+      "Description": "Each business operation must call its operation-specific validation method.",
+      "Severity": "Warning",
+      "Type": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService",
+      "LineNumber": 16
     },
     {
       "Code": "STXP001",
       "Description": "A processing service may use only one foundation service and must not bypass its layer boundary.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Processings.PrivilegeProcessingService",
-      "LineNumber": 14
+      "LineNumber": 16
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Processings.RoleProcessingService",
-      "LineNumber": 13
+      "LineNumber": 15
     },
     {
       "Code": "STX0023",
       "Description": "Each business operation must call its operation-specific validation method.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Processings.RoleProcessingService",
-      "LineNumber": 13
+      "LineNumber": 15
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Processings.UserProcessingService",
-      "LineNumber": 15
+      "LineNumber": 17
     },
     {
       "Code": "STX0023",
       "Description": "Each business operation must call its operation-specific validation method.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Processings.UserProcessingService",
-      "LineNumber": 15
+      "LineNumber": 17
     },
     {
       "Code": "STXD001",
       "Description": "Dependency elements and event hubs may only be consumed by brokers or other dependencies.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Processings.UserProcessingService",
-      "LineNumber": 15
+      "LineNumber": 17
     },
     {
       "Code": "STX0012",
       "Description": "Business-operation validation methods must evaluate their rules through a validation collector.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService",
-      "LineNumber": 13
+      "LineNumber": 16
     },
     {
       "Code": "STX0023",
       "Description": "Each business operation must call its operation-specific validation method.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService",
-      "LineNumber": 13
+      "LineNumber": 16
     },
     {
       "Code": "STXP003",
       "Description": "A processing service name must identify the entity of its foundation dependency.",
       "Severity": "Warning",
       "Type": "cCoder.AppSecurity.Services.Processings.UserRoleProcessingService",
-      "LineNumber": 13
+      "LineNumber": 16
     }
   ]
 }

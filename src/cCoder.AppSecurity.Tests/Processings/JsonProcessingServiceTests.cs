@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Services.Processings;
 using FluentAssertions;

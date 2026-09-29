@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Linq;
+
 using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Processings;
 

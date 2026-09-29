@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Linq;
+
 using cCoder.AppSecurity.Brokers.Metadata;
 using cCoder.AppSecurity.Services.Foundations;
 using FluentAssertions;

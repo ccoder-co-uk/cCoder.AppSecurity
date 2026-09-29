@@ -2,9 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Models;
+using System;
+using System.Threading.Tasks;
 using cCoder.AppSecurity.Models.Exceptions;
-using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using FluentAssertions;
 using Moq;

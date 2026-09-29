@@ -2,6 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
 using cCoder.AppSecurity.Exposures;
 using cCoder.AppSecurity.Models;
 using cCoder.Data.Models.CMS;

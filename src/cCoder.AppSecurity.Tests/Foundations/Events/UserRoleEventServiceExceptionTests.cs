@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
+
 using cCoder.AppSecurity.Brokers;
 using cCoder.AppSecurity.Brokers.Events;
 using cCoder.AppSecurity.Services.Foundations.Events;

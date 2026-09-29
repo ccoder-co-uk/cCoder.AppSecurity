@@ -2,9 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using System.Security;
-using cCoder.AppSecurity.Models;
-using cCoder.Data.Models.CMS;
+using System.Threading.Tasks;
 using cCoder.Data.Models.Security;
 using Moq;
 using Xunit;
