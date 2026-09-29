@@ -49,7 +49,7 @@
     <PackageReference Include="cCoder.CodeAnalysis" Version="2026.9.29.1241" IncludeAssets="analyzers;build;buildTransitive" PrivateAssets="all" />
     <PackageReference Include="cCoder.CodeAnalysis.Contracts" Version="2026.9.29.1241" />
     <PackageReference Include="cCoder.Eventing" Version="2026.9.29.1451" Condition="'$(UseLocalEventing)' != 'true'" />
-    <PackageReference Include="cCoder.Data" Version="2026.9.27.1341" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Data" Version="2026.9.29.1916" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="cCoder.Security" Version="2026.9.29.1813" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="cCoder.Security.Data" Version="2026.9.29.1813" Condition="'$(UseLocalSecurity)' != 'true'" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.5.0" />
