@@ -2,6 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Threading.Tasks;
 using cCoder.AppSecurity.Exposures.Controllers;
 using static cCoder.AppSecurity.Tests.Exposures.Controllers.PrivilegeControllerTestSupport;
 using Moq;

@@ -3,8 +3,6 @@
 // ---------------------------------------------------------------
 
 using System.Security;
-using cCoder.AppSecurity.Models;
-using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using Moq;
 using Xunit;

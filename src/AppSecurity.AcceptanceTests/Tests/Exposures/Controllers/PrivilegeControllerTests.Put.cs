@@ -2,12 +2,13 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Threading.Tasks;
 using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Exposures.Controllers;
 using static cCoder.AppSecurity.Tests.Exposures.Controllers.PrivilegeControllerTestSupport;
-using Microsoft.AspNetCore.Mvc;
-using FluentAssertions;
 using Moq;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
 namespace cCoder.AppSecurity.Tests.Exposures.Controllers;
@@ -15,14 +16,16 @@ namespace cCoder.AppSecurity.Tests.Exposures.Controllers;
 public partial class PrivilegeControllerTests
 {
     [Fact]
-    public async Task ShouldReturnBadRequestWhenPostModelIsInvalidAsync()
+    public async Task ShouldReturnBadRequestWhenPutModelIsInvalidAsync()
     {
         // Given
         PrivilegeController controller = CreateController();
         controller.ModelState.AddModelError(key: "Id", errorMessage: "Required");
 
         // When
-        IActionResult result = await controller.Post(newPrivilege: new Privilege());
+        IActionResult result = await controller.Put(
+            key: "page_read",
+            updatedPrivilege: new Privilege());
 
         // Then
         result
@@ -31,10 +34,10 @@ public partial class PrivilegeControllerTests
     }
 
     [Fact]
-    public async Task ShouldReturnExpectedStatusCodesWhenPostFailsAsync()
+    public async Task ShouldReturnExpectedStatusCodesWhenPutFailsAsync()
     {
         // Given
-        Privilege privilege = new() { Id = "page_read" };
+        Privilege privilege = new() { Id = "original" };
         PrivilegeController controller = CreateController();
 
         // When
@@ -45,11 +48,11 @@ public partial class PrivilegeControllerTests
             privilegeManagerMock.Reset();
 
             privilegeManagerMock
-                .Setup(expression: manager => manager.AddPrivilegeAsync(
+                .Setup(expression: manager => manager.UpdatePrivilegeAsync(
                     entity: privilege))
                 .Throws(exception: exception);
 
-            return controller.Post(newPrivilege: privilege);
+            return controller.Put(key: "page_read", updatedPrivilege: privilege);
         });
     }
 }

@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Linq;
+
 namespace cCoder.AppSecurity.Dependencies;
 
 internal static class ValidationRulesEngine

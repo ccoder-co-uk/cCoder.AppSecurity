@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using cCoder.AppSecurity.Models.Exceptions;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;

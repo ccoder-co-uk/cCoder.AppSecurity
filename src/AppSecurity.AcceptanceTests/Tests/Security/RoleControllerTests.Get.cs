@@ -2,7 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Data;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using cCoder.Data.Models.Security;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;

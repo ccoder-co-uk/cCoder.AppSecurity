@@ -2,6 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
 using cCoder.Security.Data.EF.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

@@ -2,7 +2,7 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Data.Models.Security;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using Xunit;

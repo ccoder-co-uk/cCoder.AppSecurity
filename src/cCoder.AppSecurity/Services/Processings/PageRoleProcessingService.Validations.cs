@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+
 using cCoder.AppSecurity.Dependencies;
 using cCoder.Data.Models.Security;
 using cCoder.AppSecurity.Models.Exceptions;

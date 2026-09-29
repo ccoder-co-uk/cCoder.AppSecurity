@@ -2,8 +2,11 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
 using cCoder.AppSecurity.Brokers;
-using cCoder.AppSecurity.Models.Exceptions;
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.Data.Models.Security;
 using FluentAssertions;

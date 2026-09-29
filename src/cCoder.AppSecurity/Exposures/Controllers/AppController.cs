@@ -2,17 +2,14 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Api.OData;
+using System;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 using cCoder.AppSecurity.Brokers.Loggings;
-using cCoder.AppSecurity.Brokers.OData;
-using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Models.Exceptions;
-using cCoder.AppSecurity.Services.Foundations;
-using cCoder.Data.Extensions;
 using cCoder.Data.Models.CMS;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 

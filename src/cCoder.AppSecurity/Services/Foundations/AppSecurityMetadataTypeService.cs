@@ -2,6 +2,8 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Collections.Generic;
+
 using cCoder.AppSecurity.Api.OData;
 using cCoder.AppSecurity.Brokers.Metadata;
 using cCoder.Data.Models.Security;

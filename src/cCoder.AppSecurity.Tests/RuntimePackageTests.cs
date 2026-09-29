@@ -2,6 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.IO;
+using System.Linq;
+
 using FluentAssertions;
 using System.Text.Json;
 using Xunit;
@@ -34,10 +37,10 @@ public sealed partial class RuntimePackageTests
     }
 
     [Theory]
-    [InlineData("cCoder.Data", "2026.9.27.1341")]
-    [InlineData("cCoder.Eventing", "2026.9.27.1313")]
-    [InlineData("cCoder.Security", "2026.9.27.1325")]
-    [InlineData("cCoder.Security.Data", "2026.9.27.1325")]
+    [InlineData("cCoder.Data", "2026.9.29.1916")]
+    [InlineData("cCoder.Eventing", "2026.9.29.1451")]
+    [InlineData("cCoder.Security", "2026.9.29.1813")]
+    [InlineData("cCoder.Security.Data", "2026.9.29.1813")]
     public void RuntimeDependencies_WhenResolved_UseCurrentFoundationVersion(
         string packageName,
         string expectedVersion)

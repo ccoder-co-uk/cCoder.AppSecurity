@@ -2,9 +2,10 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System.Linq;
+using System.Threading.Tasks;
+
 using System.Security;
-using cCoder.AppSecurity.Models;
-using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Security;
 using DataRole = cCoder.Data.Models.Security.Role;
 using DataUser = cCoder.Data.Models.Security.User;

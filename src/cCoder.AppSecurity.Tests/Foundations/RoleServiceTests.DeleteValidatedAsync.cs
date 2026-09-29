@@ -2,7 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.Data.Models.Security;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Moq;
 using Xunit;
 using Role = cCoder.Data.Models.Security.Role;

@@ -2,7 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Models;
 using cCoder.AppSecurity.Services.Aggregations;
 using cCoder.AppSecurity.Services.Orchestrations;
 using cCoder.Data.Models.CMS;

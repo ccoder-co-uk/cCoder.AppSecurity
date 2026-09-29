@@ -9,7 +9,7 @@
     {
       "Name": "AppSecurity.Web.IServiceCollectionExtensions",
       "StandardElementType": "App",
-      "LineNumber": 13,
+      "LineNumber": 17,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -19,7 +19,7 @@
         {
           "Id": "AppSecurity.Web.IServiceCollectionExtensions.AddWeb(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action\u003CAppSecurity.Web.Models.AppConfiguration\u003E)",
           "Name": "AddWeb",
-          "LineNumber": 15,
+          "LineNumber": 19,
           "Inputs": [
             {
               "Name": "services",
@@ -125,7 +125,7 @@
     {
       "Name": "AppSecurity.Web.Program",
       "StandardElementType": "App",
-      "LineNumber": 10,
+      "LineNumber": 13,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -135,7 +135,7 @@
         {
           "Id": "AppSecurity.Web.Program.Main(System.String[])",
           "Name": "Main",
-          "LineNumber": 12,
+          "LineNumber": 15,
           "Inputs": [
             {
               "Name": "args",
@@ -212,7 +212,7 @@
     {
       "Name": "AppSecurity.Web.WebApplicationExtensions",
       "StandardElementType": "App",
-      "LineNumber": 12,
+      "LineNumber": 20,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -222,7 +222,7 @@
         {
           "Id": "AppSecurity.Web.WebApplicationExtensions.UseAppSecurityWebApplication(Microsoft.AspNetCore.Builder.WebApplication)",
           "Name": "UseAppSecurityWebApplication",
-          "LineNumber": 14,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "app",
@@ -397,7 +397,7 @@
     {
       "Name": "Apps.Shared.Hosting.NoOpSession",
       "StandardElementType": "Dependency",
-      "LineNumber": 7,
+      "LineNumber": 12,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,
@@ -435,7 +435,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.Clear()",
           "Name": "Clear",
-          "LineNumber": 25,
+          "LineNumber": 30,
           "Inputs": [],
           "ReturnType": "System.Void",
           "Implements": [
@@ -457,7 +457,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.CommitAsync(System.Threading.CancellationToken)",
           "Name": "CommitAsync",
-          "LineNumber": 16,
+          "LineNumber": 21,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -484,7 +484,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.LoadAsync(System.Threading.CancellationToken)",
           "Name": "LoadAsync",
-          "LineNumber": 15,
+          "LineNumber": 20,
           "Inputs": [
             {
               "Name": "cancellationToken",
@@ -511,7 +511,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.Remove(System.String)",
           "Name": "Remove",
-          "LineNumber": 24,
+          "LineNumber": 29,
           "Inputs": [
             {
               "Name": "key",
@@ -538,7 +538,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.Set(System.String,System.Byte[])",
           "Name": "Set",
-          "LineNumber": 23,
+          "LineNumber": 28,
           "Inputs": [
             {
               "Name": "key",
@@ -569,7 +569,7 @@
         {
           "Id": "Apps.Shared.Hosting.NoOpSession.TryGetValue(System.String,System.Byte[])",
           "Name": "TryGetValue",
-          "LineNumber": 17,
+          "LineNumber": 22,
           "Inputs": [
             {
               "Name": "key",
@@ -602,7 +602,7 @@
     {
       "Name": "Apps.Shared.Hosting.NoOpSessionFeature",
       "StandardElementType": "Dependency",
-      "LineNumber": 10,
+      "LineNumber": 12,
       "IsPublic": true,
       "Kind": "Class",
       "BaseType": null,

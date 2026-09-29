@@ -2,13 +2,16 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using cCoder.AppSecurity.Exposures.HostedServices;
 using Moq;
 using Xunit;
 
 namespace cCoder.AppSecurity.Tests.Exposures.HostedServices;
 
-public sealed partial class TokenCleanerHostedServiceTests
+public sealed partial class AnalysePlatformUsageHostedServiceTests
 {
     [Fact]
     public async Task StartAsync_DelegatesToOrchestrationService()
@@ -16,12 +19,12 @@ public sealed partial class TokenCleanerHostedServiceTests
         // Given
         TaskCompletionSource runCompleted = new();
 
-        tokenCleanerServiceMock
+        analysePlatformUsageProcessingServiceMock
             .Setup(expression: service => service.RunAsync(cancellationToken: It.IsAny<CancellationToken>()))
             .Callback(action: () => runCompleted.TrySetResult())
             .Returns(value: Task.CompletedTask);
 
-        TokenCleanerHostedService service = CreateService();
+        AnalysePlatformUsageHostedService service = CreateService();
 
         try
         {
@@ -36,7 +39,7 @@ public sealed partial class TokenCleanerHostedServiceTests
             // Then
             Assert.True(condition: runCompleted.Task.IsCompleted);
 
-            tokenCleanerServiceMock.Verify(
+            analysePlatformUsageProcessingServiceMock.Verify(
 expression: service => service.RunAsync(cancellationToken: It.IsAny<CancellationToken>()),
 times: Times.Once);
         }

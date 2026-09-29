@@ -2,6 +2,12 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
 using cCoder.AppSecurity.Services.Foundations;
 using cCoder.AppSecurity.Brokers.Security;
 using cCoder.Security.Models.Entities;

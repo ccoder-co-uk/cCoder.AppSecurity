@@ -2,7 +2,9 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using cCoder.AppSecurity.Api.OData;
+using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Brokers.Metadata;
 using cCoder.AppSecurity.Brokers.Storages;
@@ -18,14 +20,8 @@ using cCoder.Data.Models.CMS;
 using cCoder.Data.Models.Packaging;
 using cCoder.Data.Models.Security;
 using cCoder.Eventing;
-using cCoder.Eventing.Models;
 using cCoder.Security.Models.Events;
-using Microsoft.AspNetCore.OData;
-using Microsoft.AspNetCore.OData.Batch;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using Microsoft.OpenApi;
 using AuthorizationBroker = cCoder.AppSecurity.Brokers.AuthorizationBroker;
 using AuthInfoBroker = cCoder.AppSecurity.Brokers.AuthInfoBroker;
 using SecurityDbContextBroker = cCoder.AppSecurity.Brokers.Security.SecurityDbContextBroker;

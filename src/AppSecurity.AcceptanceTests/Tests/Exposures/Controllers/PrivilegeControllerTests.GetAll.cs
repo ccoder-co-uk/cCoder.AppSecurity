@@ -2,7 +2,6 @@
 // Copyright (c) Paul.Ward@ccoder.co.uk
 // ---------------------------------------------------------------
 
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 using cCoder.AppSecurity.Exposures.Controllers;
