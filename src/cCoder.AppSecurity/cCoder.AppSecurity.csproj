@@ -46,8 +46,8 @@
     <ProjectReference Include="$(LocalSecurityDataProject)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.9.30.1006" IncludeAssets="analyzers;build;buildTransitive" PrivateAssets="all" />
-    <PackageReference Include="cCoder.CodeAnalysis.Contracts" Version="2026.9.30.1006" />
+    <PackageReference Include="cCoder.CodeAnalysis" Version="2026.9.30.1047" IncludeAssets="analyzers;build;buildTransitive" PrivateAssets="all" />
+    <PackageReference Include="cCoder.CodeAnalysis.Contracts" Version="2026.9.30.1047" />
     <PackageReference Include="cCoder.Eventing" Version="2026.9.30.924" Condition="'$(UseLocalEventing)' != 'true'" />
     <PackageReference Include="cCoder.Data" Version="2026.9.30.925" Condition="'$(UseLocalData)' != 'true'" />
     <PackageReference Include="cCoder.Security" Version="2026.9.30.955" Condition="'$(UseLocalSecurity)' != 'true'" />
