@@ -15,10 +15,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="cCoder.CodeAnalysis" Version="2026.9.30.1047" IncludeAssets="analyzers;build;buildTransitive" PrivateAssets="all" />
-    <PackageReference Include="cCoder.Data" Version="2026.9.30.925" Condition="'$(UseLocalData)' != 'true'" />
-    <PackageReference Include="cCoder.Eventing" Version="2026.9.30.924" />
-    <PackageReference Include="cCoder.Security" Version="2026.9.30.955" Condition="'$(UseLocalSecurity)' != 'true'" />
-    <PackageReference Include="cCoder.Security.Data" Version="2026.9.30.955" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Data" Version="2026.9.30.1214" Condition="'$(UseLocalData)' != 'true'" />
+    <PackageReference Include="cCoder.Eventing" Version="2026.9.30.1112" />
+    <PackageReference Include="cCoder.Security" Version="2026.9.30.1202" Condition="'$(UseLocalSecurity)' != 'true'" />
+    <PackageReference Include="cCoder.Security.Data" Version="2026.9.30.1202" Condition="'$(UseLocalSecurity)' != 'true'" />
   </ItemGroup>
   <ItemGroup Condition="'$(UseLocalData)' == 'true'">
     <ProjectReference Include="$(LocalDataProject)" AdditionalProperties="UseLocalSecurity=$(UseLocalSecurity);UseLocalSecurityData=$(UseLocalSecurity)" />
