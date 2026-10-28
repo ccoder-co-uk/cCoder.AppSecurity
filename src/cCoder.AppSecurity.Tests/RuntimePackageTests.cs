@@ -37,10 +37,10 @@ public sealed partial class RuntimePackageTests
     }
 
     [Theory]
-    [InlineData("cCoder.Data", "2026.10.8.1248")]
-    [InlineData("cCoder.Eventing", "2026.10.8.1222")]
-    [InlineData("cCoder.Security", "2026.10.8.1235")]
-    [InlineData("cCoder.Security.Data", "2026.10.8.1235")]
+    [InlineData("cCoder.Data", "2026.10.14.1440")]
+    [InlineData("cCoder.Eventing", "2026.10.28.1123")]
+    [InlineData("cCoder.Security", "2026.10.14.1427")]
+    [InlineData("cCoder.Security.Data", "2026.10.14.1427")]
     public void RuntimeDependencies_WhenResolved_UseCurrentFoundationVersion(
         string packageName,
         string expectedVersion)
