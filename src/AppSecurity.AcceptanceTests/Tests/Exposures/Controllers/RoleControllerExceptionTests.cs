@@ -28,7 +28,7 @@ public sealed partial class RoleControllerExceptionTests
         // When
 
         // Then
-        AssertExceptionStatusCodes(invoke: exception =>
+        AssertExceptionStatusCodes(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             roleManagerMock.Reset();
 
@@ -50,7 +50,7 @@ public sealed partial class RoleControllerExceptionTests
         // When
 
         // Then
-        AssertExceptionStatusCodes(invoke: exception =>
+        AssertExceptionStatusCodes(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             roleManagerMock.Reset();
 
@@ -72,7 +72,7 @@ public sealed partial class RoleControllerExceptionTests
         // When
 
         // Then
-        await AssertExceptionStatusCodesAsync(invoke: exception =>
+        await AssertExceptionStatusCodesAsync(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             roleManagerMock.Reset();
 
@@ -94,7 +94,7 @@ public sealed partial class RoleControllerExceptionTests
         // When
 
         // Then
-        await AssertExceptionStatusCodesAsync(invoke: exception =>
+        await AssertExceptionStatusCodesAsync(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             roleManagerMock.Reset();
 
@@ -116,7 +116,7 @@ public sealed partial class RoleControllerExceptionTests
         // When
 
         // Then
-        await AssertExceptionStatusCodesAsync(invoke: exception =>
+        await AssertExceptionStatusCodesAsync(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             roleManagerMock.Reset();
 

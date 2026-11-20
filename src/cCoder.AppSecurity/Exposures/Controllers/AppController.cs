@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using System.Security.Authentication;
 using Microsoft.AspNetCore.Http;
 using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Models.Exceptions;
@@ -31,16 +32,32 @@ public sealed class AppController(IAppManager service, ILoggingBroker loggingBro
     {
         try
         {
-            return Ok(value: service.GetAll());
+            IQueryable<App> result = service.GetAll();
+            loggingBroker.LogInformation(message: "Controller request succeeded.");
+            return Ok(value: result);
         }
         catch (AppSecurityValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return BadRequest();
+        }
+        catch (AuthenticationException exception)
+        {
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
+            return Unauthorized(value: "Authentication failed.");
         }
         catch (AppSecurityAuthorizationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)
@@ -66,18 +83,37 @@ public sealed class AppController(IAppManager service, ILoggingBroker loggingBro
             App result = service.GetAll()
                 .FirstOrDefault(predicate: app => app.Id == key);
 
-            return result is null
-                ? NotFound()
-                : Ok(value: result);
+            if (result is null)
+            {
+                loggingBroker.LogWarning(message: "Requested app security resource was not found.");
+                return NotFound();
+            }
+
+            loggingBroker.LogInformation(message: "Controller request succeeded.");
+            return Ok(value: result);
         }
         catch (AppSecurityValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return BadRequest();
+        }
+        catch (AuthenticationException exception)
+        {
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
+            return Unauthorized(value: "Authentication failed.");
         }
         catch (AppSecurityAuthorizationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)

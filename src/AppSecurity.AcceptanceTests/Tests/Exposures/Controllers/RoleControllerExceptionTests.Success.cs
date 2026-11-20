@@ -77,6 +77,12 @@ public sealed partial class RoleControllerExceptionTests
         result
             .Should()
             .BeOfType<NotFoundResult>();
+
+        loggingBrokerMock.Verify(
+            expression: broker => broker.LogWarning(
+                It.IsAny<string>(),
+                It.IsAny<object[]>()),
+            times: Times.Once);
     }
 
     [Fact]

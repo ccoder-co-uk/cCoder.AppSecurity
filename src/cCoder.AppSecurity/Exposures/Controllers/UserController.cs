@@ -3,6 +3,8 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Linq;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using cCoder.AppSecurity.Brokers.Loggings;
@@ -31,18 +33,37 @@ public sealed partial class UserController(
         {
             User user = service.Get(id: authInfo.SSOUserId);
 
-            return user is null
-                ? NotFound()
-                : Ok(value: user);
+            if (user is null)
+            {
+                loggingBroker.LogWarning(message: "Requested app security resource was not found.");
+                return NotFound();
+            }
+
+            loggingBroker.LogInformation(message: "Controller request succeeded.");
+            return Ok(value: user);
         }
         catch (AppSecurityOrchestrationValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return BadRequest();
+        }
+        catch (AuthenticationException exception)
+        {
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
+            return Unauthorized(value: "Authentication failed.");
         }
         catch (AppSecurityAuthorizationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)
@@ -66,16 +87,32 @@ public sealed partial class UserController(
     {
         try
         {
-            return Ok(value: service.GetAll());
+            IQueryable<User> result = service.GetAll();
+            loggingBroker.LogInformation(message: "Controller request succeeded.");
+            return Ok(value: result);
         }
         catch (AppSecurityOrchestrationValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return BadRequest();
+        }
+        catch (AuthenticationException exception)
+        {
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
+            return Unauthorized(value: "Authentication failed.");
         }
         catch (AppSecurityAuthorizationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)
@@ -101,18 +138,37 @@ public sealed partial class UserController(
         {
             User result = service.Get(id: key);
 
-            return result is null
-                ? NotFound()
-                : Ok(value: result);
+            if (result is null)
+            {
+                loggingBroker.LogWarning(message: "Requested app security resource was not found.");
+                return NotFound();
+            }
+
+            loggingBroker.LogInformation(message: "Controller request succeeded.");
+            return Ok(value: result);
         }
         catch (AppSecurityOrchestrationValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return BadRequest();
+        }
+        catch (AuthenticationException exception)
+        {
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
+            return Unauthorized(value: "Authentication failed.");
         }
         catch (AppSecurityAuthorizationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)
@@ -137,21 +193,39 @@ public sealed partial class UserController(
         {
             if (!ModelState.IsValid)
             {
+                loggingBroker.LogWarning(message: "The app security request is invalid.");
                 return BadRequest(modelState: ModelState);
             }
 
+            User result = await service.AddUserAsync(entity: newUser);
+            loggingBroker.LogInformation(message: "Controller request succeeded.");
+
             return StatusCode(
                 statusCode: StatusCodes.Status201Created,
-                value: await service.AddUserAsync(entity: newUser));
+                value: result);
         }
         catch (AppSecurityOrchestrationValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return BadRequest();
+        }
+        catch (AuthenticationException exception)
+        {
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
+            return Unauthorized(value: "Authentication failed.");
         }
         catch (AppSecurityAuthorizationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)
@@ -176,21 +250,38 @@ public sealed partial class UserController(
         {
             if (!ModelState.IsValid)
             {
+                loggingBroker.LogWarning(message: "The app security request is invalid.");
                 return BadRequest(modelState: ModelState);
             }
 
             updatedUser.Id = key;
 
-            return Ok(value: await service.UpdateUserAsync(entity: updatedUser));
+            User result = await service.UpdateUserAsync(entity: updatedUser);
+            loggingBroker.LogInformation(message: "Controller request succeeded.");
+            return Ok(value: result);
         }
         catch (AppSecurityOrchestrationValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return BadRequest();
+        }
+        catch (AuthenticationException exception)
+        {
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
+            return Unauthorized(value: "Authentication failed.");
         }
         catch (AppSecurityAuthorizationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)
@@ -206,17 +297,31 @@ public sealed partial class UserController(
         try
         {
             await service.DeleteAsync(id: key);
-
+            loggingBroker.LogInformation(message: "Controller request succeeded.");
             return NoContent();
         }
         catch (AppSecurityOrchestrationValidationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return BadRequest();
+        }
+        catch (AuthenticationException exception)
+        {
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
+            return Unauthorized(value: "Authentication failed.");
         }
         catch (AppSecurityAuthorizationException exception)
         {
-            loggingBroker.LogError(exception: exception, message: "Controller request failed.");
+            loggingBroker.LogWarning(
+                exception: exception,
+                message: "Controller request was rejected.");
+
             return StatusCode(statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception exception)

@@ -32,6 +32,12 @@ public partial class PrivilegeControllerTests
         result
             .Should()
             .BeOfType<NotFoundResult>();
+
+        loggingBrokerMock.Verify(
+            expression: broker => broker.LogWarning(
+                It.IsAny<string>(),
+                It.IsAny<object[]>()),
+            times: Times.Once);
     }
 
     [Fact]
@@ -43,7 +49,7 @@ public partial class PrivilegeControllerTests
         // When
 
         // Then
-        AssertExceptionStatusCodes(invoke: exception =>
+        AssertExceptionStatusCodes(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             privilegeManagerMock.Reset();
 
