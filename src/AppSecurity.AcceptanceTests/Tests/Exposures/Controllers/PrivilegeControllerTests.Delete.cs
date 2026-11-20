@@ -44,7 +44,7 @@ public partial class PrivilegeControllerTests
         // When
 
         // Then
-        await AssertExceptionStatusCodesAsync(invoke: exception =>
+        await AssertExceptionStatusCodesAsync(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             privilegeManagerMock.Reset();
 

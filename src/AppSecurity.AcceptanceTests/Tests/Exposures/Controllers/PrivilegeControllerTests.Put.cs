@@ -16,6 +16,29 @@ namespace cCoder.AppSecurity.Tests.Exposures.Controllers;
 public partial class PrivilegeControllerTests
 {
     [Fact]
+    public async Task ShouldReturnUpdatedPrivilegeWhenPutSucceedsAsync()
+    {
+        Privilege privilege = new() { Id = "original" };
+
+        privilegeManagerMock
+            .Setup(expression: manager => manager.UpdatePrivilegeAsync(entity: privilege))
+            .ReturnsAsync(value: privilege);
+
+        IActionResult result = await CreateController().Put(
+            key: "page_read",
+            updatedPrivilege: privilege);
+
+        result.Should().BeOfType<OkObjectResult>();
+        privilege.Id.Should().Be("page_read");
+
+        loggingBrokerMock.Verify(
+            expression: broker => broker.LogInformation(
+                It.IsAny<string>(),
+                It.IsAny<object[]>()),
+            times: Times.Once);
+    }
+
+    [Fact]
     public async Task ShouldReturnBadRequestWhenPutModelIsInvalidAsync()
     {
         // Given
@@ -31,6 +54,12 @@ public partial class PrivilegeControllerTests
         result
             .Should()
             .BeOfType<BadRequestObjectResult>();
+
+        loggingBrokerMock.Verify(
+            expression: broker => broker.LogWarning(
+                It.IsAny<string>(),
+                It.IsAny<object[]>()),
+            times: Times.Once);
     }
 
     [Fact]
@@ -43,7 +72,7 @@ public partial class PrivilegeControllerTests
         // When
 
         // Then
-        await AssertExceptionStatusCodesAsync(invoke: exception =>
+        await AssertExceptionStatusCodesAsync(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             privilegeManagerMock.Reset();
 

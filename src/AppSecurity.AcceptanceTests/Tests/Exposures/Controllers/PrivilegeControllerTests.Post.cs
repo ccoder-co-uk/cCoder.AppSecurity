@@ -16,6 +16,26 @@ namespace cCoder.AppSecurity.Tests.Exposures.Controllers;
 public partial class PrivilegeControllerTests
 {
     [Fact]
+    public async Task ShouldReturnCreatedPrivilegeWhenPostSucceedsAsync()
+    {
+        Privilege privilege = new() { Id = "page_read" };
+
+        privilegeManagerMock
+            .Setup(expression: manager => manager.AddPrivilegeAsync(entity: privilege))
+            .ReturnsAsync(value: privilege);
+
+        IActionResult result = await CreateController().Post(newPrivilege: privilege);
+
+        result.Should().BeOfType<ObjectResult>().Which.StatusCode.Should().Be(201);
+
+        loggingBrokerMock.Verify(
+            expression: broker => broker.LogInformation(
+                It.IsAny<string>(),
+                It.IsAny<object[]>()),
+            times: Times.Once);
+    }
+
+    [Fact]
     public async Task ShouldReturnBadRequestWhenPostModelIsInvalidAsync()
     {
         // Given
@@ -29,6 +49,12 @@ public partial class PrivilegeControllerTests
         result
             .Should()
             .BeOfType<BadRequestObjectResult>();
+
+        loggingBrokerMock.Verify(
+            expression: broker => broker.LogWarning(
+                It.IsAny<string>(),
+                It.IsAny<object[]>()),
+            times: Times.Once);
     }
 
     [Fact]
@@ -41,7 +67,7 @@ public partial class PrivilegeControllerTests
         // When
 
         // Then
-        await AssertExceptionStatusCodesAsync(invoke: exception =>
+        await AssertExceptionStatusCodesAsync(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             privilegeManagerMock.Reset();
 

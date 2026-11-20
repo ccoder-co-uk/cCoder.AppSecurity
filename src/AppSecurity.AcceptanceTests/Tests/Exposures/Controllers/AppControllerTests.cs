@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using System.Security.Authentication;
 using cCoder.AppSecurity.Brokers.Loggings;
 using cCoder.AppSecurity.Exposures;
 using cCoder.AppSecurity.Exposures.Controllers;
@@ -114,6 +115,12 @@ public sealed partial class AppControllerTests
             result
                 .Should()
                 .BeOfType<NotFoundResult>();
+
+            loggingBrokerMock.Verify(
+                expression: broker => broker.LogWarning(
+                    It.IsAny<string>(),
+                    It.IsAny<object[]>()),
+                times: Times.Once);
         }
     }
 
@@ -121,6 +128,9 @@ public sealed partial class AppControllerTests
     {
         (Exception Exception, int StatusCode)[] expectedResults =
         [
+            (
+                new AuthenticationException(message: "Authentication failed."),
+                StatusCodes.Status401Unauthorized),
             (
                 new AppSecurityValidationException(
                     innerException: new ArgumentException()),
@@ -138,12 +148,50 @@ public sealed partial class AppControllerTests
         {
             IActionResult result = invoke(arg: exception);
 
-            result
-                .Should()
-                .BeAssignableTo<StatusCodeResult>()
-                .Which.StatusCode
-                .Should()
-                .Be(expected: statusCode);
+            int? actualStatusCode = result switch
+            {
+                ObjectResult objectResult => objectResult.StatusCode,
+                StatusCodeResult statusCodeResult => statusCodeResult.StatusCode,
+                _ => null
+            };
+
+            actualStatusCode.Should().Be(expected: statusCode);
+
+            if (statusCode == StatusCodes.Status401Unauthorized)
+            {
+                result.Should().BeOfType<UnauthorizedObjectResult>()
+                    .Which.Value.Should().Be("Authentication failed.");
+            }
+
+            Times warningTimes = statusCode < StatusCodes.Status500InternalServerError
+                ? Times.Once()
+                : Times.Never();
+
+            Times errorTimes = statusCode == StatusCodes.Status500InternalServerError
+                ? Times.Once()
+                : Times.Never();
+
+            loggingBrokerMock.Verify(
+                expression: broker => broker.LogWarning(
+                    It.IsAny<Exception>(),
+                    It.IsAny<string>(),
+                    It.IsAny<object[]>()),
+                times: warningTimes);
+
+            loggingBrokerMock.Verify(
+                expression: broker => broker.LogError(
+                    It.IsAny<Exception>(),
+                    It.IsAny<string>(),
+                    It.IsAny<object[]>()),
+                times: errorTimes);
+
+            loggingBrokerMock.Verify(
+                expression: broker => broker.LogInformation(
+                    It.IsAny<string>(),
+                    It.IsAny<object[]>()),
+                times: Times.Never);
+
+            loggingBrokerMock.Reset();
         }
     }
 

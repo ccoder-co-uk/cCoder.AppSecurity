@@ -68,6 +68,12 @@ public sealed partial class UserControllerExceptionTests
         result
             .Should()
             .BeOfType<NotFoundResult>();
+
+        loggingBrokerMock.Verify(
+            expression: broker => broker.LogWarning(
+                It.IsAny<string>(),
+                It.IsAny<object[]>()),
+            times: Times.Once);
     }
 
     [Fact]

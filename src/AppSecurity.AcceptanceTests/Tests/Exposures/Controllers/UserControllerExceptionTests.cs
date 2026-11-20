@@ -34,7 +34,7 @@ public sealed partial class UserControllerExceptionTests
         // When
 
         // Then
-        AssertExceptionStatusCodes(invoke: exception =>
+        AssertExceptionStatusCodes(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             userManagerMock.Reset();
 
@@ -55,7 +55,7 @@ public sealed partial class UserControllerExceptionTests
         // When
 
         // Then
-        AssertExceptionStatusCodes(invoke: exception =>
+        AssertExceptionStatusCodes(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             userManagerMock.Reset();
 
@@ -76,7 +76,7 @@ public sealed partial class UserControllerExceptionTests
         // When
 
         // Then
-        AssertExceptionStatusCodes(invoke: exception =>
+        AssertExceptionStatusCodes(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             userManagerMock.Reset();
 
@@ -98,7 +98,7 @@ public sealed partial class UserControllerExceptionTests
         // When
 
         // Then
-        await AssertExceptionStatusCodesAsync(invoke: exception =>
+        await AssertExceptionStatusCodesAsync(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             userManagerMock.Reset();
 
@@ -120,7 +120,7 @@ public sealed partial class UserControllerExceptionTests
         // When
 
         // Then
-        await AssertExceptionStatusCodesAsync(invoke: exception =>
+        await AssertExceptionStatusCodesAsync(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             userManagerMock.Reset();
 
@@ -141,7 +141,7 @@ public sealed partial class UserControllerExceptionTests
         // When
 
         // Then
-        await AssertExceptionStatusCodesAsync(invoke: exception =>
+        await AssertExceptionStatusCodesAsync(loggingBrokerMock: loggingBrokerMock, invoke: exception =>
         {
             userManagerMock.Reset();
 
